@@ -406,31 +406,32 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
               <p className="text-gray-600">Where will customers interact with your assistant?</p>
             </div>
 
-            <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
               {[
-                { id: 'phone', icon: Phone, label: 'Phone calls', description: 'Purchase a phone number for your assistant' },
-                { id: 'sms', icon: MessageSquare, label: 'SMS messages', description: 'Respond to text messages automatically' },
-                { id: 'website', icon: Globe, label: 'Website chat', description: 'Add a chat widget to your website' },
-                { id: 'whatsapp', icon: Smartphone, label: 'WhatsApp', description: 'Connect your WhatsApp Business account' }
+                { id: 'phone', icon: Phone, label: 'Phone calls', description: 'Purchase a phone number for your assistant', emoji: '📞' },
+                { id: 'sms', icon: MessageSquare, label: 'SMS messages', description: 'Respond to text messages automatically', emoji: '💬' },
+                { id: 'website', icon: Globe, label: 'Website chat', description: 'Add a chat widget to your website', emoji: '🌐' },
+                { id: 'whatsapp', icon: Smartphone, label: 'WhatsApp', description: 'Connect your WhatsApp Business account', emoji: '💚' }
               ].map((channel) => (
                 <div
                   key={channel.id}
                   onClick={() => handleChannelToggle(channel.id)}
-                  className="flex items-center gap-4 p-4 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50"
-                >
-                  <div className={`w-5 h-5 border-2 rounded ${
+                  className={`p-4 border rounded-lg cursor-pointer transition-all text-center ${
                     formData.channels[channel.id as keyof typeof formData.channels]
-                      ? 'border-gray-800 bg-gray-800'
-                      : 'border-gray-300'
-                  }`}>
+                      ? 'border-blue-500 bg-blue-50'
+                      : 'border-gray-300 hover:border-blue-500'
+                  }`}
+                  style={{ height: '120px' }}
+                >
+                  <div className="flex flex-col items-center justify-center h-full">
+                    <div className="text-2xl mb-2">{channel.emoji}</div>
+                    <div className="text-sm font-medium text-center leading-tight mb-1">{channel.label}</div>
+                    <div className="text-xs text-gray-500 text-center leading-tight">{channel.description}</div>
                     {formData.channels[channel.id as keyof typeof formData.channels] && (
-                      <div className="text-white text-xs flex items-center justify-center h-full">✓</div>
+                      <div className="w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center mt-2">
+                        <div className="text-white text-xs">✓</div>
+                      </div>
                     )}
-                  </div>
-                  <channel.icon className="w-5 h-5 text-gray-600" />
-                  <div>
-                    <div className="font-medium">{channel.label}</div>
-                    <div className="text-sm text-gray-500">{channel.description}</div>
                   </div>
                 </div>
               ))}
