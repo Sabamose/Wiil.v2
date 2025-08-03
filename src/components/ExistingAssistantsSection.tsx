@@ -1,4 +1,4 @@
-import { MoreHorizontal, TestTube, Settings, Copy, Link, Trash2 } from "lucide-react";
+import { MoreHorizontal, TestTube, Settings, Copy, Link, Trash2, Mic, MessageCircle, Repeat, Phone, Globe, MessageSquare, Smartphone } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,8 +10,8 @@ import {
 interface Assistant {
   id: string;
   name: string;
-  type: string;
-  channels: { name: string; connected: boolean; icon: string }[];
+  type: "Voice" | "Chat" | "Unified";
+  channels: { name: string; connected: boolean; type: "phone" | "website" | "sms" | "whatsapp" }[];
   status: "live" | "setup" | "error";
 }
 
@@ -22,9 +22,9 @@ const ExistingAssistantsSection = () => {
       name: "Customer Support",
       type: "Voice",
       channels: [
-        { name: "Phone", connected: true, icon: "📞" },
-        { name: "Website", connected: true, icon: "🌐" },
-        { name: "SMS", connected: false, icon: "💬" }
+        { name: "Phone", connected: true, type: "phone" },
+        { name: "Website", connected: true, type: "website" },
+        { name: "SMS", connected: false, type: "sms" }
       ],
       status: "live"
     },
@@ -33,9 +33,9 @@ const ExistingAssistantsSection = () => {
       name: "Sales Assistant",
       type: "Chat",
       channels: [
-        { name: "Phone", connected: false, icon: "📞" },
-        { name: "Website", connected: true, icon: "🌐" },
-        { name: "WhatsApp", connected: true, icon: "📱" }
+        { name: "Phone", connected: false, type: "phone" },
+        { name: "Website", connected: true, type: "website" },
+        { name: "WhatsApp", connected: true, type: "whatsapp" }
       ],
       status: "live"
     },
@@ -44,13 +44,32 @@ const ExistingAssistantsSection = () => {
       name: "Technical Support",
       type: "Unified",
       channels: [
-        { name: "Phone", connected: true, icon: "📞" },
-        { name: "Website", connected: true, icon: "🌐" },
-        { name: "SMS", connected: true, icon: "💬" }
+        { name: "Phone", connected: true, type: "phone" },
+        { name: "Website", connected: true, type: "website" },
+        { name: "SMS", connected: true, type: "sms" }
       ],
       status: "setup"
     }
   ];
+
+  const getChannelIcon = (type: string) => {
+    switch (type) {
+      case "phone": return Phone;
+      case "website": return Globe;
+      case "sms": return MessageSquare;
+      case "whatsapp": return Smartphone;
+      default: return MessageCircle;
+    }
+  };
+
+  const getTypeIcon = (type: string) => {
+    switch (type) {
+      case "Voice": return Mic;
+      case "Chat": return MessageCircle;
+      case "Unified": return Repeat;
+      default: return MessageCircle;
+    }
+  };
 
   const handleTestAssistant = (assistantName: string) => {
     alert(`🧪 Testing ${assistantName}...\n\nThis would open the test interface.`);
@@ -113,32 +132,39 @@ const ExistingAssistantsSection = () => {
               <td className="px-6 py-5">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 text-gray-700 rounded-xl text-xs font-medium">
-                    🎤 {assistant.type}
+                    {(() => {
+                      const TypeIcon = getTypeIcon(assistant.type);
+                      return <TypeIcon className="w-3 h-3" />;
+                    })()}
+                    {assistant.type}
                   </span>
                 </div>
                 <div className="flex gap-1">
-                  {assistant.channels.map((channel, idx) => (
-                    <span
-                      key={idx}
-                      className={`w-7 h-7 rounded flex items-center justify-center text-sm ${
-                        channel.connected 
-                          ? 'bg-green-100 text-green-700' 
-                          : 'bg-gray-100 text-gray-400'
-                      }`}
-                      title={`${channel.name} ${channel.connected ? 'Connected' : 'Not Connected'}`}
-                    >
-                      {channel.icon}
-                    </span>
-                  ))}
+                  {assistant.channels.map((channel, idx) => {
+                    const ChannelIcon = getChannelIcon(channel.type);
+                    return (
+                      <span
+                        key={idx}
+                        className={`w-7 h-7 rounded flex items-center justify-center ${
+                          channel.connected 
+                            ? 'bg-gray-200 text-gray-700' 
+                            : 'bg-gray-100 text-gray-400'
+                        }`}
+                        title={`${channel.name} ${channel.connected ? 'Connected' : 'Not Connected'}`}
+                      >
+                        <ChannelIcon className="w-4 h-4" />
+                      </span>
+                    );
+                  })}
                 </div>
               </td>
               <td className="px-6 py-5">
                 <div className="flex items-center gap-2 font-medium">
                   <span className={`w-2 h-2 rounded-full ${
-                    assistant.status === 'live' ? 'bg-green-500' :
-                    assistant.status === 'setup' ? 'bg-yellow-500' : 'bg-red-500'
+                    assistant.status === 'live' ? 'bg-gray-800' :
+                    assistant.status === 'setup' ? 'bg-gray-500' : 'bg-gray-400'
                   }`}></span>
-                  <span className="capitalize">{assistant.status}</span>
+                  <span className="capitalize text-gray-800">{assistant.status}</span>
                 </div>
               </td>
               <td className="px-6 py-5">

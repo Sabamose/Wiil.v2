@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, Mic, MessageCircle, Repeat, Phone, MessageSquare, Globe, Smartphone, Upload, Link, Settings, TestTube, Rocket, Save } from "lucide-react";
 
 interface AssistantCreationFlowProps {
   isOpen: boolean;
@@ -108,7 +108,7 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   placeholder="e.g., Customer Support"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent"
                 />
               </div>
 
@@ -127,14 +127,14 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
                       onClick={() => handleTypeSelect(type.id)}
                       className={`p-4 border rounded-lg cursor-pointer transition-all ${
                         formData.type === type.id
-                          ? 'border-blue-500 bg-blue-50'
+                          ? 'border-gray-800 bg-gray-100'
                           : 'border-gray-300 hover:border-gray-400'
                       }`}
                     >
                       <div className="flex items-center gap-3">
                         <div className={`w-4 h-4 rounded-full border-2 ${
                           formData.type === type.id
-                            ? 'border-blue-500 bg-blue-500'
+                            ? 'border-gray-800 bg-gray-800'
                             : 'border-gray-300'
                         }`}>
                           {formData.type === type.id && (
@@ -172,7 +172,7 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
                   onChange={(e) => setFormData({ ...formData, firstMessage: e.target.value })}
                   placeholder="What should your assistant say when customers first contact you?"
                   rows={3}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent"
                 />
               </div>
 
@@ -185,7 +185,7 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
                   onChange={(e) => setFormData({ ...formData, systemPrompt: e.target.value })}
                   placeholder="Tell your assistant how to behave and what role to play..."
                   rows={6}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent"
                 />
               </div>
 
@@ -194,21 +194,24 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
                 <div className="flex gap-2 flex-wrap">
                   <button
                     onClick={() => handleTemplateSelect('customer-support')}
-                    className="px-3 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50"
+                    className="px-3 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50 flex items-center gap-2"
                   >
-                    📞 Customer Support
+                    <Phone className="w-4 h-4" />
+                    Customer Support
                   </button>
                   <button
                     onClick={() => handleTemplateSelect('sales')}
-                    className="px-3 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50"
+                    className="px-3 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50 flex items-center gap-2"
                   >
-                    💼 Sales Assistant
+                    <Settings className="w-4 h-4" />
+                    Sales Assistant
                   </button>
                   <button
                     onClick={() => handleTemplateSelect('technical')}
-                    className="px-3 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50"
+                    className="px-3 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50 flex items-center gap-2"
                   >
-                    🔧 Technical Support
+                    <Settings className="w-4 h-4" />
+                    Technical Support
                   </button>
                 </div>
               </div>
@@ -226,10 +229,10 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
 
             <div className="space-y-4">
               {[
-                { id: 'phone', icon: '📞', label: 'Phone calls', description: 'Customers can call and speak with your assistant' },
-                { id: 'sms', icon: '💬', label: 'SMS messages', description: 'Respond to text messages automatically' },
-                { id: 'website', icon: '🌐', label: 'Website chat', description: 'Add a chat widget to your website' },
-                { id: 'whatsapp', icon: '📱', label: 'WhatsApp', description: 'Connect your WhatsApp Business account' }
+                { id: 'phone', icon: Phone, label: 'Phone calls', description: 'Customers can call and speak with your assistant' },
+                { id: 'sms', icon: MessageSquare, label: 'SMS messages', description: 'Respond to text messages automatically' },
+                { id: 'website', icon: Globe, label: 'Website chat', description: 'Add a chat widget to your website' },
+                { id: 'whatsapp', icon: Smartphone, label: 'WhatsApp', description: 'Connect your WhatsApp Business account' }
               ].map((channel) => (
                 <div
                   key={channel.id}
@@ -238,14 +241,14 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
                 >
                   <div className={`w-5 h-5 border-2 rounded ${
                     formData.channels[channel.id as keyof typeof formData.channels]
-                      ? 'border-blue-500 bg-blue-500'
+                      ? 'border-gray-800 bg-gray-800'
                       : 'border-gray-300'
                   }`}>
                     {formData.channels[channel.id as keyof typeof formData.channels] && (
                       <div className="text-white text-xs flex items-center justify-center h-full">✓</div>
                     )}
                   </div>
-                  <div className="text-2xl">{channel.icon}</div>
+                  <channel.icon className="w-5 h-5 text-gray-600" />
                   <div>
                     <div className="font-medium">{channel.label}</div>
                     <div className="text-sm text-gray-500">{channel.description}</div>
@@ -266,31 +269,31 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
 
             <div className="space-y-4">
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-                <div className="text-4xl mb-4">📁</div>
+                <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                 <div className="font-medium mb-2">Upload documents</div>
                 <div className="text-sm text-gray-500 mb-4">
                   PDFs, Word docs, or text files with your business information
                 </div>
-                <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                <button className="px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-900">
                   Choose Files
                 </button>
               </div>
 
               <div className="border border-gray-300 rounded-lg p-4">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="text-xl">🔗</div>
+                  <Link className="w-5 h-5 text-gray-600" />
                   <div className="font-medium">Add website URLs</div>
                 </div>
                 <input
                   type="url"
                   placeholder="https://yourwebsite.com"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-gray-500 focus:border-transparent"
                 />
               </div>
 
               <div className="border border-gray-300 rounded-lg p-4">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="text-xl">🌐</div>
+                  <Globe className="w-5 h-5 text-gray-600" />
                   <div className="font-medium">Crawl website content</div>
                 </div>
                 <div className="text-sm text-gray-500 mb-2">
@@ -314,13 +317,14 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
 
             <div className="border border-gray-300 rounded-lg p-6 bg-gray-50">
               <div className="text-center py-8">
-                <div className="text-4xl mb-4">🧪</div>
+                <TestTube className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                 <div className="font-medium mb-2">Test Interface</div>
                 <div className="text-sm text-gray-500 mb-4">
                   This would show an embedded chat or phone testing interface
                 </div>
-                <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
-                  🧪 Start Test
+                <button className="px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-900 flex items-center gap-2 mx-auto">
+                  <TestTube className="w-4 h-4" />
+                  Start Test
                 </button>
               </div>
             </div>
@@ -330,15 +334,17 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
               <div className="flex gap-3">
                 <button
                   onClick={handleDeploy}
-                  className="px-6 py-3 bg-black text-white rounded-md hover:bg-gray-800 font-medium"
+                  className="px-6 py-3 bg-black text-white rounded-md hover:bg-gray-800 font-medium flex items-center gap-2"
                 >
-                  🚀 Deploy Assistant
+                  <Rocket className="w-4 h-4" />
+                  Deploy Assistant
                 </button>
                 <button
                   onClick={handleSaveDraft}
-                  className="px-6 py-3 border border-gray-300 rounded-md hover:bg-gray-50 font-medium"
+                  className="px-6 py-3 border border-gray-300 rounded-md hover:bg-gray-50 font-medium flex items-center gap-2"
                 >
-                  💾 Save as Draft
+                  <Save className="w-4 h-4" />
+                  Save as Draft
                 </button>
               </div>
             </div>
@@ -379,7 +385,7 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
         {/* Progress Bar */}
         <div className="h-1 bg-gray-200">
           <div
-            className="h-full bg-blue-500 transition-all duration-300"
+            className="h-full bg-gray-800 transition-all duration-300"
             style={{ width: `${(currentStep / totalSteps) * 100}%` }}
           />
         </div>
