@@ -497,6 +497,26 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
           {renderStep()}
         </div>
 
+        {/* Footer */}
+        {currentStep >= 4 && currentStep < totalSteps && (
+          <div className="flex justify-between p-6 border-t border-gray-200">
+            <button
+              onClick={handlePrevious}
+              className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 flex items-center gap-2"
+            >
+              <ChevronLeft className="w-4 h-4" />
+              Back
+            </button>
+            <button
+              onClick={handleNext}
+              className="px-6 py-2 bg-black text-white rounded-md hover:bg-gray-800 flex items-center gap-2"
+            >
+              Continue
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        )}
+
       </div>
     </div>
   );
