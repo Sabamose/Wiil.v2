@@ -18,15 +18,16 @@ const ExistingAssistantsSection = ({ assistants }: ExistingAssistantsSectionProp
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
   const [selectedAssistant, setSelectedAssistant] = useState<BaseAssistant | null>(null);
 
-  // Convert assistants to include channel data
-  const assistantsWithChannels: AssistantWithChannels[] = assistants.map(assistant => ({
+  // Convert assistants to include channel data with different statuses
+  const assistantsWithChannels: AssistantWithChannels[] = assistants.map((assistant, index) => ({
     ...assistant,
     channels: [
       { name: "Phone", connected: true, type: "phone" },
       { name: "Website", connected: true, type: "website" },
       { name: "SMS", connected: false, type: "sms" }
     ],
-    status: "live" as const
+    // Set different statuses: first assistant as live, second as draft, rest as live
+    status: index === 1 ? "draft" as const : "live" as const
   }));
 
   const getChannelIcon = (type: string) => {
@@ -152,7 +153,7 @@ const ExistingAssistantsSection = ({ assistants }: ExistingAssistantsSectionProp
                 <div className="flex items-center gap-2 font-medium">
                   <span className={`w-2 h-2 rounded-full ${
                     assistant.status === 'live' ? 'bg-gray-800' :
-                    assistant.status === 'setup' ? 'bg-gray-500' : 'bg-gray-400'
+                    assistant.status === 'draft' ? 'bg-gray-500' : 'bg-gray-400'
                   }`}></span>
                   <span className="capitalize text-gray-800">{assistant.status}</span>
                 </div>
