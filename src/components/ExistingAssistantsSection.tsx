@@ -108,7 +108,7 @@ const ExistingAssistantsSection = ({ assistants }: ExistingAssistantsSectionProp
           {assistantsWithChannels.map((assistant, index) => (
             <tr 
               key={assistant.id} 
-              className={`border-b border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer ${index === assistantsWithChannels.length - 1 ? 'border-b-0' : ''}`}
+              className={`border-b border-gray-100 hover:bg-gray-50 transition-all duration-200 cursor-pointer group hover-scale ${index === assistantsWithChannels.length - 1 ? 'border-b-0' : ''}`}
               onClick={() => {
                 const event = new CustomEvent('view-assistant-settings', {
                   detail: { assistantId: assistant.id }
@@ -117,7 +117,7 @@ const ExistingAssistantsSection = ({ assistants }: ExistingAssistantsSectionProp
               }}
             >
               <td className="px-6 py-5">
-                <div className="font-semibold">{assistant.name}</div>
+                <div className="font-semibold group-hover:text-gray-900 transition-colors">{assistant.name}</div>
               </td>
               <td className="px-6 py-5">
                 <div className="flex items-center gap-2 mb-2">
