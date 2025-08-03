@@ -58,7 +58,9 @@ const ExistingAssistantsSection = () => {
   };
 
   const handleCreate = () => {
-    alert('🎯 Opening assistant creation...\n\nThis would navigate to template selection or creation flow.');
+    // This will be handled by the parent component
+    const event = new CustomEvent('create-assistant');
+    window.dispatchEvent(event);
   };
 
   return (
