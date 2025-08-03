@@ -1,6 +1,19 @@
 import { Home, MessageCircle, Bot, BookOpen, Phone, Globe } from "lucide-react";
+import { useLocation } from "react-router-dom";
 
 const Navigation = () => {
+  const location = useLocation();
+  const currentPath = location.pathname;
+
+  const getNavItemClass = (path: string) => {
+    const isActive = currentPath === path;
+    return `flex items-center gap-3 px-6 py-3 transition-all ${
+      isActive 
+        ? "text-gray-900 bg-gray-100 border-l-3 border-gray-900 font-medium"
+        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+    }`;
+  };
+
   return (
     <>
       {/* Header */}
@@ -21,19 +34,19 @@ const Navigation = () => {
 
       {/* Sidebar Navigation */}
       <nav className="fixed left-0 top-16 w-60 h-[calc(100vh-4rem)] bg-white border-r border-gray-200 py-6 overflow-y-auto">
-        <a href="#" className="flex items-center gap-3 px-6 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all">
+        <a href="#" className={getNavItemClass("/home")}>
           <Home className="w-5 h-5" />
           Home
         </a>
-        <a href="#" className="flex items-center gap-3 px-6 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all">
+        <a href="#" className={getNavItemClass("/conversations")}>
           <MessageCircle className="w-5 h-5" />
           Conversations
         </a>
-        <a href="#" className="flex items-center gap-3 px-6 py-3 text-gray-900 bg-gray-100 border-l-3 border-gray-900 font-medium">
+        <a href="/" className={getNavItemClass("/")}>
           <Bot className="w-5 h-5" />
           My Assistants
         </a>
-        <a href="#" className="flex items-center gap-3 px-6 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all">
+        <a href="#" className={getNavItemClass("/knowledge-base")}>
           <BookOpen className="w-5 h-5" />
           Knowledge Base
         </a>
@@ -41,11 +54,11 @@ const Navigation = () => {
         {/* Separator */}
         <div className="border-t border-gray-200 my-4 mx-6"></div>
         
-        <a href="/phone-numbers" className="flex items-center gap-3 px-6 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all">
+        <a href="/phone-numbers" className={getNavItemClass("/phone-numbers")}>
           <Phone className="w-5 h-5" />
           Phone Numbers
         </a>
-        <a href="/website" className="flex items-center gap-3 px-6 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all">
+        <a href="/website" className={getNavItemClass("/website")}>
           <Globe className="w-5 h-5" />
           Website
         </a>
