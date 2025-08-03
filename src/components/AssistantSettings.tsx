@@ -1,14 +1,17 @@
 import { useState } from "react";
-import { ArrowLeft, TestTube, Copy, MoreHorizontal } from "lucide-react";
-import { BaseAssistant } from "@/types/assistant";
+import { ArrowLeft, TestTube, Copy, MoreHorizontal, Phone, Plus } from "lucide-react";
+import { BaseAssistant, AssistantWithChannels } from "@/types/assistant";
+import { PhonePurchaseModal } from "./PhonePurchaseModal";
 
 interface AssistantSettingsProps {
-  assistant: BaseAssistant;
+  assistant: AssistantWithChannels;
   onBack: () => void;
 }
 
 const AssistantSettings = ({ assistant, onBack }: AssistantSettingsProps) => {
   const [activeTab, setActiveTab] = useState("Agent");
+  const [isPhonePurchaseOpen, setIsPhonePurchaseOpen] = useState(false);
+  const [assistantData, setAssistantData] = useState(assistant);
   const [formData, setFormData] = useState({
     type: assistant.type,
     industry: assistant.industry,
@@ -66,6 +69,15 @@ const AssistantSettings = ({ assistant, onBack }: AssistantSettingsProps) => {
   const handleCopyLink = () => {
     navigator.clipboard.writeText(`https://app.example.com/assistant/${assistant.id}`);
     alert(`📋 Link copied to clipboard!`);
+  };
+
+  const handlePhonePurchaseComplete = (phoneNumber: string) => {
+    setAssistantData({
+      ...assistantData,
+      phoneNumber,
+      phoneIntegrationStatus: 'purchased',
+      status: 'live'
+    });
   };
 
   const renderAgentTab = () => (
@@ -132,7 +144,53 @@ const AssistantSettings = ({ assistant, onBack }: AssistantSettingsProps) => {
       case "Role":
         return <div className="text-gray-500">Role tab content will be implemented here</div>;
       case "Integration":
-        return <div className="text-gray-500">Integration tab content will be implemented here</div>;
+        return (
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg font-semibold mb-2">Phone Integration</h3>
+              <p className="text-gray-600 mb-4">Manage your phone number and call routing</p>
+            </div>
+            
+            {!assistantData.phoneNumber ? (
+              <div className="border border-gray-300 rounded-lg p-6">
+                <div className="text-center py-8">
+                  <Phone className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                  <div className="font-medium mb-2">Phone number required to purchase</div>
+                  <div className="text-sm text-gray-500 mb-4">
+                    Purchase a phone number to enable voice calls for your assistant
+                  </div>
+                  <button 
+                    onClick={() => setIsPhonePurchaseOpen(true)}
+                    className="px-6 py-3 bg-black text-white rounded-md hover:bg-gray-800 font-medium flex items-center gap-2 mx-auto"
+                  >
+                    <Plus className="w-4 h-4" />
+                    Purchase Phone Number
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="border border-green-200 rounded-lg p-6 bg-green-50">
+                <div className="flex items-center gap-3 mb-4">
+                  <Phone className="w-6 h-6 text-green-600" />
+                  <div>
+                    <div className="font-medium text-green-800">Phone Integration Active</div>
+                    <div className="text-sm text-green-600">
+                      Assistant successfully deployed to phone number
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <div className="text-sm">
+                    <span className="font-medium">Phone Number:</span> {assistantData.phoneNumber}
+                  </div>
+                  <div className="text-sm">
+                    <span className="font-medium">Status:</span> {assistantData.status === 'live' ? 'Live' : 'Setup Required'}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        );
       case "Knowledge Base":
         return <div className="text-gray-500">Knowledge Base tab content will be implemented here</div>;
       default:
@@ -212,6 +270,12 @@ const AssistantSettings = ({ assistant, onBack }: AssistantSettingsProps) => {
       <div className="px-8 py-8">
         {renderTabContent()}
       </div>
+
+      <PhonePurchaseModal
+        isOpen={isPhonePurchaseOpen}
+        onClose={() => setIsPhonePurchaseOpen(false)}
+        onPurchaseComplete={handlePhonePurchaseComplete}
+      />
     </div>
   );
 };

@@ -1,37 +1,53 @@
 import { useState, useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import ExistingAssistantsSection from "@/components/ExistingAssistantsSection";
-import AssistantCreationFlow from "@/components/AssistantCreationFlow";
+import { AssistantCreationFlow } from "@/components/AssistantCreationFlow";
 import AssistantSettings from "@/components/AssistantSettings";
-import { BaseAssistant } from "@/types/assistant";
+import { AssistantWithChannels } from "@/types/assistant";
 
 const Index = () => {
   const [isCreationFlowOpen, setIsCreationFlowOpen] = useState(false);
-  const [selectedAssistant, setSelectedAssistant] = useState<BaseAssistant | null>(null);
+  const [selectedAssistant, setSelectedAssistant] = useState<AssistantWithChannels | null>(null);
   const [currentView, setCurrentView] = useState<"list" | "settings">("list");
 
   // Sample assistant data with industry and use case
-  const assistants: BaseAssistant[] = [
+  const assistants: AssistantWithChannels[] = [
     {
       id: "1",
-      name: "CustomerSupport",
+      name: "Customer Support Bot",
       type: "Unified",
       industry: "retail",
-      useCase: "customer-support"
+      useCase: "customer-support",
+      channels: [
+        { name: 'Phone calls', connected: true, type: 'phone' },
+        { name: 'Website chat', connected: false, type: 'website' }
+      ],
+      status: 'live',
+      phoneNumber: '+1 (555) 123-4567',
+      phoneIntegrationStatus: 'purchased'
     },
     {
       id: "2", 
       name: "Sales Assistant",
       type: "Chat",
       industry: "technology",
-      useCase: "outbound-sales"
+      useCase: "outbound-sales",
+      channels: [
+        { name: 'Website chat', connected: true, type: 'website' }
+      ],
+      status: 'setup'
     },
     {
       id: "3",
       name: "Technical Support",
       type: "Voice",
       industry: "technology",
-      useCase: "customer-support"
+      useCase: "customer-support",
+      channels: [
+        { name: 'Phone calls', connected: false, type: 'phone' },
+        { name: 'WhatsApp', connected: true, type: 'whatsapp' }
+      ],
+      status: 'setup'
     }
   ];
 
