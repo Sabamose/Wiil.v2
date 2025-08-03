@@ -1,4 +1,11 @@
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, TestTube, Settings, Copy, Link, Trash2 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 
 interface Assistant {
   id: string;
@@ -45,16 +52,26 @@ const ExistingAssistantsSection = () => {
     }
   ];
 
-  const handleEdit = (assistantName: string) => {
-    alert(`✏️ Opening settings for ${assistantName}...\n\nThis would navigate to the tab-based configuration page.`);
+  const handleTestAssistant = (assistantName: string) => {
+    alert(`🧪 Testing ${assistantName}...\n\nThis would open the test interface.`);
   };
 
-  const handleClone = (assistantName: string) => {
-    alert(`📋 Cloning ${assistantName}...\n\nThis would create a duplicate assistant with the same configuration.`);
+  const handleEditSettings = (assistantName: string) => {
+    alert(`⚙️ Opening settings for ${assistantName}...\n\nThis would navigate to the tab-based configuration page.`);
   };
 
-  const handleMenu = (assistantName: string) => {
-    alert(`⋮ Options for ${assistantName}:\n\n• View Details\n• Configure Deployment\n• View Analytics\n• Delete Assistant`);
+  const handleDuplicate = (assistantName: string) => {
+    alert(`📋 Duplicating ${assistantName}...\n\nThis would create a duplicate assistant with the same configuration.`);
+  };
+
+  const handleIntegrateChannels = (assistantName: string) => {
+    alert(`🔗 Integrating channels for ${assistantName}...\n\nThis would open the channel integration settings.`);
+  };
+
+  const handleDelete = (assistantName: string) => {
+    if (confirm(`Are you sure you want to delete ${assistantName}? This action cannot be undone.`)) {
+      alert(`🗑️ Deleting ${assistantName}...`);
+    }
   };
 
   const handleCreate = () => {
@@ -125,25 +142,42 @@ const ExistingAssistantsSection = () => {
                 </div>
               </td>
               <td className="px-6 py-5">
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => handleEdit(assistant.name)}
-                    className="px-3 py-1.5 bg-gray-100 text-gray-600 rounded text-sm font-medium hover:bg-gray-200 transition-colors"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleClone(assistant.name)}
-                    className="px-3 py-1.5 bg-gray-100 text-gray-600 rounded text-sm font-medium hover:bg-gray-200 transition-colors"
-                  >
-                    Clone
-                  </button>
-                  <button
-                    onClick={() => handleMenu(assistant.name)}
-                    className="p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 rounded transition-colors"
-                  >
-                    <MoreHorizontal className="w-4 h-4" />
-                  </button>
+                <div className="flex items-center justify-end">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <button
+                        className="p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 rounded transition-colors"
+                      >
+                        <MoreHorizontal className="w-4 h-4" />
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-48">
+                      <DropdownMenuItem onClick={() => handleTestAssistant(assistant.name)}>
+                        <TestTube className="w-4 h-4 mr-2" />
+                        Test Assistant
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleEditSettings(assistant.name)}>
+                        <Settings className="w-4 h-4 mr-2" />
+                        Edit Settings
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleDuplicate(assistant.name)}>
+                        <Copy className="w-4 h-4 mr-2" />
+                        Duplicate
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleIntegrateChannels(assistant.name)}>
+                        <Link className="w-4 h-4 mr-2" />
+                        Integrate Channels
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem 
+                        onClick={() => handleDelete(assistant.name)}
+                        className="text-red-600 focus:text-red-600"
+                      >
+                        <Trash2 className="w-4 h-4 mr-2" />
+                        Delete
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
               </td>
             </tr>
