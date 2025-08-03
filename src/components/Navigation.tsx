@@ -1,4 +1,4 @@
-import { Home, MessageCircle, Bot, BookOpen, Phone, BarChart3, Zap, Users, FileText, Globe, CreditCard } from "lucide-react";
+import { Home, MessageCircle, Bot, BookOpen, Phone } from "lucide-react";
 
 const Navigation = () => {
   return (
@@ -21,90 +21,26 @@ const Navigation = () => {
 
       {/* Sidebar Navigation */}
       <nav className="fixed left-0 top-16 w-60 h-[calc(100vh-4rem)] bg-white border-r border-gray-200 py-6 overflow-y-auto">
-        {/* HOME Section */}
-        <div className="mb-6">
-          <div className="px-6 mb-2">
-            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">HOME</h3>
-          </div>
-          <a href="#" className="flex items-center gap-3 px-6 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all">
-            <BarChart3 className="w-5 h-5" />
-            Dashboard
-          </a>
-          <a href="#" className="flex items-center gap-3 px-6 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all">
-            <BarChart3 className="w-5 h-5" />
-            Analytics
-          </a>
-          <a href="#" className="flex items-center gap-3 px-6 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all">
-            <MessageCircle className="w-5 h-5" />
-            Conversations
-          </a>
-        </div>
-
-        {/* ASSISTANTS Section */}
-        <div className="mb-6">
-          <div className="px-6 mb-2">
-            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">ASSISTANTS</h3>
-          </div>
-          <a href="#" className="flex items-center gap-3 px-6 py-2 text-emerald-600 hover:bg-gray-50 transition-all">
-            <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-            <Zap className="w-5 h-5" />
-            Quick Setup
-            <div className="w-2 h-2 bg-emerald-500 rounded-full ml-auto"></div>
-          </a>
-          <a href="#" className="flex items-center justify-between px-6 py-2 text-gray-900 bg-gray-100 border-l-3 border-gray-900 font-medium">
-            <div className="flex items-center gap-3">
-              <Bot className="w-5 h-5" />
-              My Assistants
-            </div>
-            <span className="text-sm text-gray-500">5</span>
-          </a>
-          <a href="#" className="flex items-center justify-between px-6 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all">
-            <div className="flex items-center gap-3">
-              <Users className="w-5 h-5" />
-              Assistant Roles
-            </div>
-            <span className="text-sm text-gray-500">4</span>
-          </a>
-          <a href="#" className="flex items-center justify-between px-6 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all">
-            <div className="flex items-center gap-3">
-              <BookOpen className="w-5 h-5" />
-              Knowledge Base
-            </div>
-            <span className="text-sm text-gray-500">3</span>
-          </a>
-        </div>
-
-        {/* COMMUNICATION CHANNELS Section */}
-        <div className="mb-6">
-          <div className="px-6 mb-2">
-            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">COMMUNICATION CHANNELS</h3>
-          </div>
-          <a href="/phone-numbers" className="flex items-center justify-between px-6 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all">
-            <div className="flex items-center gap-3">
-              <Phone className="w-5 h-5" />
-              Phone Numbers
-            </div>
-            <span className="text-sm text-gray-500">8</span>
-          </a>
-          <a href="#" className="flex items-center justify-between px-6 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all">
-            <div className="flex items-center gap-3">
-              <Globe className="w-5 h-5" />
-              Website
-            </div>
-            <span className="text-sm text-gray-500">1</span>
-          </a>
-        </div>
-
-        {/* BILLING Section */}
-        <div>
-          <div className="px-6 mb-2">
-            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">BILLING</h3>
-          </div>
-          <a href="#" className="flex items-center gap-3 px-6 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all">
-            <CreditCard className="w-5 h-5" />
-            Billing
-          </a>
-        </div>
+        <a href="#" className="flex items-center gap-3 px-6 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all">
+          <Home className="w-5 h-5" />
+          Home
+        </a>
+        <a href="#" className="flex items-center gap-3 px-6 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all">
+          <MessageCircle className="w-5 h-5" />
+          Conversations
+        </a>
+        <a href="#" className="flex items-center gap-3 px-6 py-3 text-gray-900 bg-gray-100 border-l-3 border-gray-900 font-medium">
+          <Bot className="w-5 h-5" />
+          My Assistants
+        </a>
+        <a href="/phone-numbers" className="flex items-center gap-3 px-6 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all">
+          <Phone className="w-5 h-5" />
+          Phone Numbers
+        </a>
+        <a href="#" className="flex items-center gap-3 px-6 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all">
+          <BookOpen className="w-5 h-5" />
+          Knowledge Base
+        </a>
       </nav>
     </>
   );
