@@ -376,6 +376,41 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
         return (
           <div className="space-y-6">
             <div>
+              <h2 className="text-2xl font-semibold mb-2">Test Your Assistant</h2>
+              <p className="text-gray-600">Try out your assistant before going live</p>
+            </div>
+
+            <div className="border border-gray-300 rounded-lg p-6 bg-gray-50">
+              <div className="text-center py-8">
+                <TestTube className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                <div className="font-medium mb-2">Test Interface</div>
+                <div className="text-sm text-gray-500 mb-4">
+                  This would show an embedded chat or phone testing interface
+                </div>
+                <button className="px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-900 flex items-center gap-2 mx-auto">
+                  <TestTube className="w-4 h-4" />
+                  Start Test
+                </button>
+              </div>
+            </div>
+
+            <div className="border-t pt-6">
+              <div className="flex gap-3 justify-center">
+                <button
+                  onClick={handleNext}
+                  className="px-6 py-3 border border-gray-300 rounded-md hover:bg-gray-50 font-medium flex items-center gap-2"
+                >
+                  Skip for Now
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 7:
+        return (
+          <div className="space-y-6">
+            <div>
               <h2 className="text-2xl font-semibold mb-2">Connect Channels</h2>
               <p className="text-gray-600">Where will customers interact with your assistant?</p>
             </div>
@@ -408,30 +443,6 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
                   </div>
                 </div>
               ))}
-            </div>
-          </div>
-        );
-
-      case 7:
-        return (
-          <div className="space-y-6">
-            <div>
-              <h2 className="text-2xl font-semibold mb-2">Test Your Assistant</h2>
-              <p className="text-gray-600">Try out your assistant before going live</p>
-            </div>
-
-            <div className="border border-gray-300 rounded-lg p-6 bg-gray-50">
-              <div className="text-center py-8">
-                <TestTube className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                <div className="font-medium mb-2">Test Interface</div>
-                <div className="text-sm text-gray-500 mb-4">
-                  This would show an embedded chat or phone testing interface
-                </div>
-                <button className="px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-900 flex items-center gap-2 mx-auto">
-                  <TestTube className="w-4 h-4" />
-                  Start Test
-                </button>
-              </div>
             </div>
 
             <div className="border-t pt-6">
