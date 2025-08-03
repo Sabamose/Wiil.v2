@@ -18,8 +18,7 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
     channels: {
       phone: false,
       sms: false,
-      website: false,
-      whatsapp: false
+      website: false
     },
     knowledge: []
   });
@@ -90,7 +89,7 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
   };
 
   const handleDeploy = () => {
-    alert(`🚀 Deploying ${formData.name}...\n\nAssistant created successfully!\nChannels: ${Object.entries(formData.channels).filter(([_, enabled]) => enabled).map(([channel]) => channel).join(', ')}`);
+    alert(`🚀 Creating ${formData.name}...\n\nAssistant created successfully!\nChannels: ${Object.entries(formData.channels).filter(([_, enabled]) => enabled).map(([channel]) => channel).join(', ')}`);
     onClose();
   };
 
@@ -388,6 +387,13 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
             <div className="border-t pt-6">
               <div className="flex gap-3 justify-center">
                 <button
+                  onClick={handleSaveDraft}
+                  className="px-6 py-3 bg-gray-800 text-white rounded-md hover:bg-gray-900 font-medium flex items-center gap-2"
+                >
+                  <Save className="w-4 h-4" />
+                  Save as Draft
+                </button>
+                <button
                   onClick={handleNext}
                   className="px-6 py-3 border border-gray-300 rounded-md hover:bg-gray-50 font-medium flex items-center gap-2"
                 >
@@ -410,8 +416,7 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
               {[
                 { id: 'phone', icon: Phone, label: 'Phone calls', description: 'Purchase a phone number for your assistant', emoji: '📞' },
                 { id: 'sms', icon: MessageSquare, label: 'SMS messages', description: 'Respond to text messages automatically', emoji: '💬' },
-                { id: 'website', icon: Globe, label: 'Website chat', description: 'Add a chat widget to your website', emoji: '🌐' },
-                { id: 'whatsapp', icon: Smartphone, label: 'WhatsApp', description: 'Connect your WhatsApp Business account', emoji: '💚' }
+                { id: 'website', icon: Globe, label: 'Website chat', description: 'Add a chat widget to your website', emoji: '🌐' }
               ].map((channel) => (
                 <div
                   key={channel.id}
@@ -445,7 +450,7 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
                   className="px-6 py-3 bg-black text-white rounded-md hover:bg-gray-800 font-medium flex items-center gap-2"
                 >
                   <Rocket className="w-4 h-4" />
-                  Deploy Assistant
+                  Create Assistant
                 </button>
                 <button
                   onClick={handleSaveDraft}
