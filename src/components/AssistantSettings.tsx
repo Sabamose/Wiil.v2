@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ArrowLeft, TestTube, Copy, MoreHorizontal, Phone, MessageCircle, Globe, FileText, Plus, Settings2 } from "lucide-react";
 import { BaseAssistant } from "@/types/assistant";
-import TestAssistantModal from "./TestAssistantModal";
+import LocalizedTestEnvironment from "./LocalizedTestEnvironment";
 
 interface AssistantSettingsProps {
   assistant: BaseAssistant;
@@ -429,8 +429,8 @@ const AssistantSettings = ({ assistant, onBack }: AssistantSettingsProps) => {
         {renderTabContent()}
       </div>
 
-      {/* Test Assistant Modal */}
-      <TestAssistantModal
+      {/* Localized Test Environment */}
+      <LocalizedTestEnvironment
         isOpen={isTestModalOpen}
         onClose={() => setIsTestModalOpen(false)}
         assistant={assistant}
