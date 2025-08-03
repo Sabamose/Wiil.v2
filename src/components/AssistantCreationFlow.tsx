@@ -2,6 +2,7 @@ import { useState } from "react";
 import { X, ChevronLeft, ChevronRight, Mic, MessageCircle, Repeat, Phone, MessageSquare, Globe, Smartphone, Upload, Link, Settings, TestTube, Rocket, Save } from "lucide-react";
 import PhoneNumberPurchaseModal from "./PhoneNumberPurchaseModal";
 import { PhoneNumber } from "@/types/phoneNumber";
+import { useToast } from "@/hooks/use-toast";
 
 interface AssistantCreationFlowProps {
   isOpen: boolean;
@@ -9,6 +10,7 @@ interface AssistantCreationFlowProps {
 }
 
 const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) => {
+  const { toast } = useToast();
   const [currentStep, setCurrentStep] = useState(1);
   const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
   const [purchasedPhoneNumber, setPurchasedPhoneNumber] = useState<PhoneNumber | null>(null);
@@ -83,6 +85,12 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
       }
     });
     setIsPurchaseModalOpen(false);
+    
+    toast({
+      title: "Phone Channel Connected!",
+      description: `${phoneNumber.number} is now connected to your assistant and ready to receive calls.`,
+      duration: 5000,
+    });
   };
 
   const handleTemplateSelect = (template: string) => {

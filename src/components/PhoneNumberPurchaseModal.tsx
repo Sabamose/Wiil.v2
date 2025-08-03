@@ -2,6 +2,7 @@ import { useState } from "react";
 import { X, Check } from "lucide-react";
 import { PhoneNumber, PurchasePhoneNumberRequest } from "@/types/phoneNumber";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import {
   Select,
   SelectContent,
@@ -17,6 +18,7 @@ interface PhoneNumberPurchaseModalProps {
 }
 
 const PhoneNumberPurchaseModal = ({ isOpen, onClose, onPurchaseComplete }: PhoneNumberPurchaseModalProps) => {
+  const { toast } = useToast();
   const [provider, setProvider] = useState<"SignalWire" | "Twilio">("SignalWire");
   const [country, setCountry] = useState("US");
   const [numberType, setNumberType] = useState<"local" | "toll-free">("local");
@@ -55,6 +57,12 @@ const PhoneNumberPurchaseModal = ({ isOpen, onClose, onPurchaseComplete }: Phone
           country: "United States",
           type: numberType
         };
+        
+        toast({
+          title: "Phone Number Purchased!",
+          description: `${selectedNumber} has been successfully purchased and connected to your assistant.`,
+          duration: 5000,
+        });
         
         onPurchaseComplete(newPhoneNumber);
       }
