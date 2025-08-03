@@ -109,13 +109,6 @@ const ExistingAssistantsSection = () => {
         <h2 className="text-lg font-semibold">Your Assistants</h2>
         <div className="flex gap-3">
           <button 
-            onClick={handleTryDemo}
-            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-md text-sm font-medium hover:bg-gray-200 transition-colors flex items-center gap-2"
-          >
-            <TestTube className="w-4 h-4" />
-            Try Assistant
-          </button>
-          <button 
             onClick={handleCreate}
             className="px-4 py-2 bg-gray-900 text-white rounded-md text-sm font-medium hover:bg-gray-800 transition-colors"
           >

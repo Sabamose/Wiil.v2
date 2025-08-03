@@ -497,32 +497,6 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
           {renderStep()}
         </div>
 
-        {/* Footer */}
-        {currentStep < totalSteps && (
-          <div className="flex justify-between p-6 border-t border-gray-200">
-            {currentStep > 1 && (
-              <button
-                onClick={handlePrevious}
-                className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 flex items-center gap-2"
-              >
-                <ChevronLeft className="w-4 h-4" />
-                Back
-              </button>
-            )}
-            <button
-              onClick={handleNext}
-              disabled={
-                (currentStep === 1 && !formData.industry) ||
-                (currentStep === 2 && !formData.useCase) ||
-                (currentStep === 3 && (!formData.name || !formData.type))
-              }
-              className={`px-6 py-2 bg-black text-white rounded-md hover:bg-gray-800 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center gap-2 ${currentStep === 1 ? 'ml-auto' : ''}`}
-            >
-              Continue
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );
