@@ -2,6 +2,7 @@ import { useState } from "react";
 import { MoreHorizontal, Plus } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import PhoneNumberPurchaseModal from "@/components/PhoneNumberPurchaseModal";
+import AssignAssistantModal from "@/components/AssignAssistantModal";
 import { PhoneNumber } from "@/types/phoneNumber";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,6 +22,8 @@ import {
 
 const PhoneNumbers = () => {
   const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
+  const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
+  const [selectedPhoneNumber, setSelectedPhoneNumber] = useState<PhoneNumber | null>(null);
   const [phoneNumbers, setPhoneNumbers] = useState<PhoneNumber[]>([
     {
       id: "1",
@@ -69,6 +72,21 @@ const PhoneNumbers = () => {
     ));
   };
 
+  const handlePhoneNumberClick = (phoneNumber: PhoneNumber) => {
+    setSelectedPhoneNumber(phoneNumber);
+    setIsAssignModalOpen(true);
+  };
+
+  const handleAssignComplete = (phoneNumberId: string, assistantId: string, assistantName: string) => {
+    setPhoneNumbers(phoneNumbers.map(num => 
+      num.id === phoneNumberId 
+        ? { ...num, assignedAssistant: { id: assistantId, name: assistantName } }
+        : num
+    ));
+    setIsAssignModalOpen(false);
+    setSelectedPhoneNumber(null);
+  };
+
   return (
     <>
       <Navigation />
@@ -102,14 +120,27 @@ const PhoneNumbers = () => {
               </TableHeader>
               <TableBody>
                 {phoneNumbers.map((phoneNumber) => (
-                  <TableRow key={phoneNumber.id}>
-                    <TableCell className="font-medium">{phoneNumber.number}</TableCell>
+                  <TableRow 
+                    key={phoneNumber.id}
+                    className="cursor-pointer hover:bg-gray-50 transition-colors duration-200"
+                    onClick={() => handlePhoneNumberClick(phoneNumber)}
+                  >
+                    <TableCell className="font-medium">
+                      <div className="flex items-center gap-2">
+                        <span className="hover:text-blue-600 transition-colors duration-200">
+                          {phoneNumber.number}
+                        </span>
+                        <div className="w-2 h-2 rounded-full bg-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                      </div>
+                    </TableCell>
                     <TableCell>{phoneNumber.provider}</TableCell>
                     <TableCell>
                       {phoneNumber.assignedAssistant ? (
                         <span className="text-gray-900">{phoneNumber.assignedAssistant.name}</span>
                       ) : (
-                        <span className="text-gray-400">Unassigned</span>
+                        <span className="text-gray-400 hover:text-blue-500 transition-colors duration-200">
+                          Click to assign assistant
+                        </span>
                       )}
                     </TableCell>
                     <TableCell>
@@ -125,20 +156,33 @@ const PhoneNumbers = () => {
                     <TableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="sm">
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            onClick={(e) => e.stopPropagation()}
+                          >
                             <MoreHorizontal className="w-4 h-4" />
                           </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => handleToggleStatus(phoneNumber.id)}>
+                        <DropdownMenuContent align="end" className="bg-white border shadow-lg z-50">
+                          <DropdownMenuItem onClick={(e) => {
+                            e.stopPropagation();
+                            handleToggleStatus(phoneNumber.id);
+                          }}>
                             {phoneNumber.status === "active" ? "Deactivate" : "Activate"}
                           </DropdownMenuItem>
                           {phoneNumber.assignedAssistant && (
-                            <DropdownMenuItem onClick={() => handleUnassign(phoneNumber.id)}>
+                            <DropdownMenuItem onClick={(e) => {
+                              e.stopPropagation();
+                              handleUnassign(phoneNumber.id);
+                            }}>
                               Unassign Assistant
                             </DropdownMenuItem>
                           )}
-                          <DropdownMenuItem className="text-red-600">
+                          <DropdownMenuItem 
+                            className="text-red-600"
+                            onClick={(e) => e.stopPropagation()}
+                          >
                             Delete Number
                           </DropdownMenuItem>
                         </DropdownMenuContent>
@@ -156,6 +200,13 @@ const PhoneNumbers = () => {
         isOpen={isPurchaseModalOpen}
         onClose={() => setIsPurchaseModalOpen(false)}
         onPurchaseComplete={handlePurchaseComplete}
+      />
+
+      <AssignAssistantModal
+        isOpen={isAssignModalOpen}
+        onClose={() => setIsAssignModalOpen(false)}
+        phoneNumber={selectedPhoneNumber}
+        onAssignComplete={handleAssignComplete}
       />
     </>
   );
