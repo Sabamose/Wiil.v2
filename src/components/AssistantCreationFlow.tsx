@@ -40,14 +40,17 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
 
   const handleIndustrySelect = (industry: string) => {
     setFormData({ ...formData, industry });
+    setTimeout(() => setCurrentStep(2), 200);
   };
 
   const handleUseCaseSelect = (useCase: string) => {
     setFormData({ ...formData, useCase });
+    setTimeout(() => setCurrentStep(3), 200);
   };
 
   const handleTypeSelect = (type: string) => {
     setFormData({ ...formData, type });
+    setTimeout(() => setCurrentStep(4), 200);
   };
 
   const handleChannelToggle = (channel: string) => {
@@ -472,9 +475,6 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
                 <ChevronLeft className="w-5 h-5" />
               </button>
             )}
-            <div className="text-sm text-gray-500">
-              Step {currentStep} of {totalSteps}
-            </div>
           </div>
           <button
             onClick={onClose}
