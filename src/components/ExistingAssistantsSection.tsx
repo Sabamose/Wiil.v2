@@ -75,8 +75,8 @@ const ExistingAssistantsSection = () => {
     alert(`🎙️ Starting voice test for ${assistantName}...\n\nThis would connect to ElevenLabs API for voice testing.`);
   };
 
-  const handleTryCall = (assistantName: string) => {
-    alert(`📞 Connecting to ${assistantName}...\n\nThis would initiate a live voice call test with the assistant.`);
+  const handleTryDemo = () => {
+    alert(`🎯 Try our demo assistants!\n\n• Customer Support Demo\n• Sales Assistant Demo\n• Technical Support Demo\n\nThis would open a demo interface to test different assistant templates.`);
   };
 
   const handleEditSettings = (assistantName: string) => {
@@ -107,12 +107,21 @@ const ExistingAssistantsSection = () => {
     <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
       <div className="px-6 py-5 border-b border-gray-200 flex justify-between items-center">
         <h2 className="text-lg font-semibold">Your Assistants</h2>
-        <button 
-          onClick={handleCreate}
-          className="px-4 py-2 bg-gray-900 text-white rounded-md text-sm font-medium hover:bg-gray-800 transition-colors"
-        >
-          + Create Assistant
-        </button>
+        <div className="flex gap-3">
+          <button 
+            onClick={handleTryDemo}
+            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-md text-sm font-medium hover:bg-gray-200 transition-colors flex items-center gap-2"
+          >
+            <TestTube className="w-4 h-4" />
+            Try Assistant
+          </button>
+          <button 
+            onClick={handleCreate}
+            className="px-4 py-2 bg-gray-900 text-white rounded-md text-sm font-medium hover:bg-gray-800 transition-colors"
+          >
+            + Create Assistant
+          </button>
+        </div>
       </div>
 
       <table className="w-full">
@@ -172,14 +181,7 @@ const ExistingAssistantsSection = () => {
                 </div>
               </td>
               <td className="px-6 py-5">
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => handleTryCall(assistant.name)}
-                    className="px-4 py-2 bg-gray-800 text-white rounded-md text-sm font-medium hover:bg-gray-900 transition-colors flex items-center gap-2"
-                  >
-                    <Phone className="w-4 h-4" />
-                    Try Assistant
-                  </button>
+                <div className="flex items-center justify-end">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <button
