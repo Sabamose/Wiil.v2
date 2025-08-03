@@ -9,6 +9,8 @@ interface AssistantCreationFlowProps {
 const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
+    industry: "",
+    useCase: "",
     name: "",
     type: "",
     firstMessage: "",
@@ -22,7 +24,7 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
     knowledge: []
   });
 
-  const totalSteps = 5;
+  const totalSteps = 7;
 
   const handleNext = () => {
     if (currentStep < totalSteps) {
@@ -34,6 +36,14 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
     }
+  };
+
+  const handleIndustrySelect = (industry: string) => {
+    setFormData({ ...formData, industry });
+  };
+
+  const handleUseCaseSelect = (useCase: string) => {
+    setFormData({ ...formData, useCase });
   };
 
   const handleTypeSelect = (type: string) => {
@@ -94,8 +104,100 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
         return (
           <div className="space-y-6">
             <div>
-              <h2 className="text-2xl font-semibold mb-2">Create New Assistant</h2>
-              <p className="text-gray-600">Let's start with the basics</p>
+              <h2 className="text-2xl font-semibold mb-2">What industry is your business in?</h2>
+              <p className="text-gray-600">Select the industry that best describes your business</p>
+            </div>
+
+            <div className="grid grid-cols-3 gap-4">
+              {[
+                { id: 'retail', label: 'Retail & E-commerce', emoji: '🛍️' },
+                { id: 'healthcare', label: 'Healthcare & Medical', emoji: '⚕️' },
+                { id: 'finance', label: 'Finance & Banking', emoji: '🏦' },
+                { id: 'real-estate', label: 'Real Estate', emoji: '🏠' },
+                { id: 'education', label: 'Education & Training', emoji: '🎓' },
+                { id: 'hospitality', label: 'Hospitality & Travel', emoji: '✈️' },
+                { id: 'automotive', label: 'Automotive', emoji: '🚗' },
+                { id: 'professional', label: 'Professional Services', emoji: '💼' },
+                { id: 'technology', label: 'Technology & Software', emoji: '💻' },
+                { id: 'government', label: 'Government & Public', emoji: '🏛️' },
+                { id: 'food', label: 'Food & Beverage', emoji: '🍕' },
+                { id: 'manufacturing', label: 'Manufacturing', emoji: '🏭' },
+                { id: 'fitness', label: 'Fitness & Wellness', emoji: '💪' },
+                { id: 'legal', label: 'Legal Services', emoji: '⚖️' },
+                { id: 'nonprofit', label: 'Non-Profit', emoji: '❤️' },
+                { id: 'media', label: 'Media & Entertainment', emoji: '🎬' },
+                { id: 'other', label: 'Other', emoji: '❓' }
+              ].map((industry) => (
+                <div
+                  key={industry.id}
+                  onClick={() => handleIndustrySelect(industry.id)}
+                  className={`p-4 border rounded-lg cursor-pointer transition-all text-center ${
+                    formData.industry === industry.id
+                      ? 'border-blue-500 bg-blue-50'
+                      : 'border-gray-300 hover:border-blue-500'
+                  }`}
+                  style={{ height: '120px', width: '150px' }}
+                >
+                  <div className="flex flex-col items-center justify-center h-full">
+                    <div className="text-2xl mb-2">{industry.emoji}</div>
+                    <div className="text-sm font-medium text-center leading-tight">{industry.label}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+
+      case 2:
+        return (
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-2xl font-semibold mb-2">Use case</h2>
+              <p className="text-gray-600">What will your assistant help with?</p>
+            </div>
+
+            <div className="grid grid-cols-3 gap-4">
+              {[
+                { id: 'customer-support', label: 'Customer Support', emoji: '🎧' },
+                { id: 'outbound-sales', label: 'Outbound Sales', emoji: '📈' },
+                { id: 'learning', label: 'Learning and Development', emoji: '📚' },
+                { id: 'scheduling', label: 'Scheduling', emoji: '📅' },
+                { id: 'lead-qualification', label: 'Lead Qualification', emoji: '👥' },
+                { id: 'answering-service', label: 'Answering Service', emoji: '📞' },
+                { id: 'consultation', label: 'Consultation Scheduling', emoji: '📋' },
+                { id: 'case-intake', label: 'Case Intake', emoji: '📝' },
+                { id: 'legal-resources', label: 'Legal Resources', emoji: '📖' },
+                { id: 'billing', label: 'Billing Inquiries', emoji: '💳' },
+                { id: 'document-prep', label: 'Document Preparation', emoji: '📄' },
+                { id: 'case-updates', label: 'Case Updates', emoji: '🔄' },
+                { id: 'other', label: 'Other', emoji: '❓' }
+              ].map((useCase) => (
+                <div
+                  key={useCase.id}
+                  onClick={() => handleUseCaseSelect(useCase.id)}
+                  className={`p-4 border rounded-lg cursor-pointer transition-all text-center ${
+                    formData.useCase === useCase.id
+                      ? 'border-blue-500 bg-blue-50'
+                      : 'border-gray-300 hover:border-blue-500'
+                  }`}
+                  style={{ height: '120px', width: '150px' }}
+                >
+                  <div className="flex flex-col items-center justify-center h-full">
+                    <div className="text-2xl mb-2">{useCase.emoji}</div>
+                    <div className="text-sm font-medium text-center leading-tight">{useCase.label}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+
+      case 3:
+        return (
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-2xl font-semibold mb-2">Assistant Details</h2>
+              <p className="text-gray-600">Let's name your assistant and choose its type</p>
             </div>
 
             <div className="space-y-4">
@@ -154,7 +256,7 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
           </div>
         );
 
-      case 2:
+      case 4:
         return (
           <div className="space-y-6">
             <div>
@@ -219,7 +321,7 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
           </div>
         );
 
-      case 3:
+      case 5:
         return (
           <div className="space-y-6">
             <div>
@@ -259,7 +361,7 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
           </div>
         );
 
-      case 4:
+      case 6:
         return (
           <div className="space-y-6">
             <div>
@@ -307,7 +409,7 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
           </div>
         );
 
-      case 5:
+      case 7:
         return (
           <div className="space-y-6">
             <div>
@@ -397,11 +499,24 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
 
         {/* Footer */}
         {currentStep < totalSteps && (
-          <div className="flex justify-end p-6 border-t border-gray-200">
+          <div className="flex justify-between p-6 border-t border-gray-200">
+            {currentStep > 1 && (
+              <button
+                onClick={handlePrevious}
+                className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 flex items-center gap-2"
+              >
+                <ChevronLeft className="w-4 h-4" />
+                Back
+              </button>
+            )}
             <button
               onClick={handleNext}
-              disabled={currentStep === 1 && (!formData.name || !formData.type)}
-              className="px-6 py-2 bg-black text-white rounded-md hover:bg-gray-800 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center gap-2"
+              disabled={
+                (currentStep === 1 && !formData.industry) ||
+                (currentStep === 2 && !formData.useCase) ||
+                (currentStep === 3 && (!formData.name || !formData.type))
+              }
+              className={`px-6 py-2 bg-black text-white rounded-md hover:bg-gray-800 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center gap-2 ${currentStep === 1 ? 'ml-auto' : ''}`}
             >
               Continue
               <ChevronRight className="w-4 h-4" />
