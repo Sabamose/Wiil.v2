@@ -328,46 +328,6 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
         return (
           <div className="space-y-6">
             <div>
-              <h2 className="text-2xl font-semibold mb-2">Connect Channels</h2>
-              <p className="text-gray-600">Where will customers interact with your assistant?</p>
-            </div>
-
-            <div className="space-y-4">
-              {[
-                { id: 'phone', icon: Phone, label: 'Phone calls', description: 'Customers can call and speak with your assistant' },
-                { id: 'sms', icon: MessageSquare, label: 'SMS messages', description: 'Respond to text messages automatically' },
-                { id: 'website', icon: Globe, label: 'Website chat', description: 'Add a chat widget to your website' },
-                { id: 'whatsapp', icon: Smartphone, label: 'WhatsApp', description: 'Connect your WhatsApp Business account' }
-              ].map((channel) => (
-                <div
-                  key={channel.id}
-                  onClick={() => handleChannelToggle(channel.id)}
-                  className="flex items-center gap-4 p-4 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50"
-                >
-                  <div className={`w-5 h-5 border-2 rounded ${
-                    formData.channels[channel.id as keyof typeof formData.channels]
-                      ? 'border-gray-800 bg-gray-800'
-                      : 'border-gray-300'
-                  }`}>
-                    {formData.channels[channel.id as keyof typeof formData.channels] && (
-                      <div className="text-white text-xs flex items-center justify-center h-full">✓</div>
-                    )}
-                  </div>
-                  <channel.icon className="w-5 h-5 text-gray-600" />
-                  <div>
-                    <div className="font-medium">{channel.label}</div>
-                    <div className="text-sm text-gray-500">{channel.description}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        );
-
-      case 6:
-        return (
-          <div className="space-y-6">
-            <div>
               <h2 className="text-2xl font-semibold mb-2">Add Knowledge</h2>
               <p className="text-gray-600">Help your assistant answer questions about your business</p>
             </div>
@@ -408,6 +368,46 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
                   Start Crawling
                 </button>
               </div>
+            </div>
+          </div>
+        );
+
+      case 6:
+        return (
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-2xl font-semibold mb-2">Connect Channels</h2>
+              <p className="text-gray-600">Where will customers interact with your assistant?</p>
+            </div>
+
+            <div className="space-y-4">
+              {[
+                { id: 'phone', icon: Phone, label: 'Phone calls', description: 'Purchase a phone number for your assistant' },
+                { id: 'sms', icon: MessageSquare, label: 'SMS messages', description: 'Respond to text messages automatically' },
+                { id: 'website', icon: Globe, label: 'Website chat', description: 'Add a chat widget to your website' },
+                { id: 'whatsapp', icon: Smartphone, label: 'WhatsApp', description: 'Connect your WhatsApp Business account' }
+              ].map((channel) => (
+                <div
+                  key={channel.id}
+                  onClick={() => handleChannelToggle(channel.id)}
+                  className="flex items-center gap-4 p-4 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50"
+                >
+                  <div className={`w-5 h-5 border-2 rounded ${
+                    formData.channels[channel.id as keyof typeof formData.channels]
+                      ? 'border-gray-800 bg-gray-800'
+                      : 'border-gray-300'
+                  }`}>
+                    {formData.channels[channel.id as keyof typeof formData.channels] && (
+                      <div className="text-white text-xs flex items-center justify-center h-full">✓</div>
+                    )}
+                  </div>
+                  <channel.icon className="w-5 h-5 text-gray-600" />
+                  <div>
+                    <div className="font-medium">{channel.label}</div>
+                    <div className="text-sm text-gray-500">{channel.description}</div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         );
