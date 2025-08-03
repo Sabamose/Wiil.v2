@@ -6,51 +6,23 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { BaseAssistant, AssistantWithChannels } from "@/types/assistant";
 
-interface Assistant {
-  id: string;
-  name: string;
-  type: "Voice" | "Chat" | "Unified";
-  channels: { name: string; connected: boolean; type: "phone" | "website" | "sms" | "whatsapp" }[];
-  status: "live" | "setup" | "error";
+interface ExistingAssistantsSectionProps {
+  assistants: BaseAssistant[];
 }
 
-const ExistingAssistantsSection = () => {
-  const assistants: Assistant[] = [
-    {
-      id: "1",
-      name: "Customer Support",
-      type: "Voice",
-      channels: [
-        { name: "Phone", connected: true, type: "phone" },
-        { name: "Website", connected: true, type: "website" },
-        { name: "SMS", connected: false, type: "sms" }
-      ],
-      status: "live"
-    },
-    {
-      id: "2", 
-      name: "Sales Assistant",
-      type: "Chat",
-      channels: [
-        { name: "Phone", connected: false, type: "phone" },
-        { name: "Website", connected: true, type: "website" },
-        { name: "WhatsApp", connected: true, type: "whatsapp" }
-      ],
-      status: "live"
-    },
-    {
-      id: "3",
-      name: "Technical Support",
-      type: "Unified",
-      channels: [
-        { name: "Phone", connected: true, type: "phone" },
-        { name: "Website", connected: true, type: "website" },
-        { name: "SMS", connected: true, type: "sms" }
-      ],
-      status: "setup"
-    }
-  ];
+const ExistingAssistantsSection = ({ assistants }: ExistingAssistantsSectionProps) => {
+  // Convert assistants to include channel data
+  const assistantsWithChannels: AssistantWithChannels[] = assistants.map(assistant => ({
+    ...assistant,
+    channels: [
+      { name: "Phone", connected: true, type: "phone" },
+      { name: "Website", connected: true, type: "website" },
+      { name: "SMS", connected: false, type: "sms" }
+    ],
+    status: "live" as const
+  }));
 
   const getChannelIcon = (type: string) => {
     switch (type) {
@@ -127,10 +99,16 @@ const ExistingAssistantsSection = () => {
           </tr>
         </thead>
         <tbody>
-          {assistants.map((assistant, index) => (
+          {assistantsWithChannels.map((assistant, index) => (
             <tr 
               key={assistant.id} 
-              className={`border-b border-gray-100 hover:bg-gray-50 transition-colors ${index === assistants.length - 1 ? 'border-b-0' : ''}`}
+              className={`border-b border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer ${index === assistantsWithChannels.length - 1 ? 'border-b-0' : ''}`}
+              onClick={() => {
+                const event = new CustomEvent('view-assistant-settings', {
+                  detail: { assistantId: assistant.id }
+                });
+                window.dispatchEvent(event);
+              }}
             >
               <td className="px-6 py-5">
                 <div className="font-semibold">{assistant.name}</div>
@@ -179,6 +157,7 @@ const ExistingAssistantsSection = () => {
                     <DropdownMenuTrigger asChild>
                       <button
                         className="p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 rounded transition-colors"
+                        onClick={(e) => e.stopPropagation()}
                       >
                         <MoreHorizontal className="w-4 h-4" />
                       </button>
