@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { X, ChevronLeft, ChevronRight, Mic, MessageCircle, Repeat, Phone, MessageSquare, Globe, Smartphone, Upload, Link, Settings, TestTube, Rocket, Save } from "lucide-react";
 import PhoneNumberPurchaseModal from "./PhoneNumberPurchaseModal";
-import TestAssistantModal from "./TestAssistantModal";
+import BrowserVoiceTest from "./BrowserVoiceTest";
 import { PhoneNumber } from "@/types/phoneNumber";
 import { useToast } from "@/hooks/use-toast";
 import { BaseAssistant } from "@/types/assistant";
@@ -410,14 +410,17 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
 
             <div className="border border-gray-300 rounded-lg p-6 bg-gray-50">
               <div className="text-center py-8">
-                <TestTube className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                <div className="font-medium mb-2">Test Interface</div>
-                <div className="text-sm text-gray-500 mb-4">
-                  This would show an embedded chat or phone testing interface
+                <Mic className="w-12 h-12 text-primary mx-auto mb-4" />
+                <div className="font-medium mb-2 text-foreground">Browser Voice Testing</div>
+                <div className="text-sm text-muted-foreground mb-4">
+                  Test your assistant with voice conversations directly in your browser
                 </div>
-                <button className="px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-900 flex items-center gap-2 mx-auto">
-                  <TestTube className="w-4 h-4" />
-                  Start Test
+                <button 
+                  onClick={handleTestAssistant}
+                  className="px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 flex items-center gap-2 mx-auto transition-colors"
+                >
+                  <TestTube className="w-5 h-5" />
+                  Start Voice Test
                 </button>
               </div>
             </div>
@@ -589,7 +592,7 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
       />
 
       {/* Create a mock assistant for testing during creation flow */}
-      <TestAssistantModal
+      <BrowserVoiceTest
         isOpen={isTestModalOpen}
         onClose={() => setIsTestModalOpen(false)}
         assistant={{
