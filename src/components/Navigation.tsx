@@ -1,4 +1,4 @@
-import { Home, MessageCircle, Bot, BookOpen } from "lucide-react";
+import { Home, MessageCircle, Bot, BookOpen, Phone } from "lucide-react";
 
 const Navigation = () => {
   return (
@@ -32,6 +32,10 @@ const Navigation = () => {
         <a href="#" className="flex items-center gap-3 px-6 py-3 text-gray-900 bg-gray-100 border-l-3 border-gray-900 font-medium">
           <Bot className="w-5 h-5" />
           My Assistants
+        </a>
+        <a href="/phone-numbers" className="flex items-center gap-3 px-6 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all">
+          <Phone className="w-5 h-5" />
+          Phone Numbers
         </a>
         <a href="#" className="flex items-center gap-3 px-6 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all">
           <BookOpen className="w-5 h-5" />
