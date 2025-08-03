@@ -350,13 +350,13 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
               <div className="border border-gray-300 rounded-lg p-4">
                 <div className="flex items-center gap-3 mb-3">
                   <Globe className="w-5 h-5 text-gray-600" />
-                  <div className="font-medium">Crawl website content</div>
+                  <div className="font-medium">Add Text</div>
                 </div>
                 <div className="text-sm text-gray-500 mb-2">
-                  Automatically extract information from your website
+                  Create a knowledge source from text content like FAQs, policies, or documentation
                 </div>
                 <button className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50">
-                  Start Crawling
+                  Create Text Corpus
                 </button>
               </div>
             </div>
