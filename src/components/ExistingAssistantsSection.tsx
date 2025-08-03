@@ -72,7 +72,11 @@ const ExistingAssistantsSection = () => {
   };
 
   const handleTestAssistant = (assistantName: string) => {
-    alert(`🧪 Testing ${assistantName}...\n\nThis would open the test interface.`);
+    alert(`🎙️ Starting voice test for ${assistantName}...\n\nThis would connect to ElevenLabs API for voice testing.`);
+  };
+
+  const handleTryCall = (assistantName: string) => {
+    alert(`📞 Connecting to ${assistantName}...\n\nThis would initiate a live voice call test with the assistant.`);
   };
 
   const handleEditSettings = (assistantName: string) => {
