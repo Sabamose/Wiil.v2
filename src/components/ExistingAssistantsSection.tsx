@@ -172,7 +172,14 @@ const ExistingAssistantsSection = () => {
                 </div>
               </td>
               <td className="px-6 py-5">
-                <div className="flex items-center justify-end">
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => handleTryCall(assistant.name)}
+                    className="px-4 py-2 bg-gray-800 text-white rounded-md text-sm font-medium hover:bg-gray-900 transition-colors flex items-center gap-2"
+                  >
+                    <Phone className="w-4 h-4" />
+                    Try Assistant
+                  </button>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <button
