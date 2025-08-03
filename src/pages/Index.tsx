@@ -1,53 +1,37 @@
 import { useState, useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import ExistingAssistantsSection from "@/components/ExistingAssistantsSection";
-import { AssistantCreationFlow } from "@/components/AssistantCreationFlow";
+import AssistantCreationFlow from "@/components/AssistantCreationFlow";
 import AssistantSettings from "@/components/AssistantSettings";
-import { AssistantWithChannels } from "@/types/assistant";
+import { BaseAssistant } from "@/types/assistant";
 
 const Index = () => {
   const [isCreationFlowOpen, setIsCreationFlowOpen] = useState(false);
-  const [selectedAssistant, setSelectedAssistant] = useState<AssistantWithChannels | null>(null);
+  const [selectedAssistant, setSelectedAssistant] = useState<BaseAssistant | null>(null);
   const [currentView, setCurrentView] = useState<"list" | "settings">("list");
 
   // Sample assistant data with industry and use case
-  const assistants: AssistantWithChannels[] = [
+  const assistants: BaseAssistant[] = [
     {
       id: "1",
-      name: "Customer Support Bot",
+      name: "CustomerSupport",
       type: "Unified",
       industry: "retail",
-      useCase: "customer-support",
-      channels: [
-        { name: 'Phone calls', connected: true, type: 'phone' },
-        { name: 'Website chat', connected: false, type: 'website' }
-      ],
-      status: 'live',
-      phoneNumber: '+1 (555) 123-4567',
-      phoneIntegrationStatus: 'purchased'
+      useCase: "customer-support"
     },
     {
       id: "2", 
       name: "Sales Assistant",
       type: "Chat",
       industry: "technology",
-      useCase: "outbound-sales",
-      channels: [
-        { name: 'Website chat', connected: true, type: 'website' }
-      ],
-      status: 'setup'
+      useCase: "outbound-sales"
     },
     {
       id: "3",
       name: "Technical Support",
       type: "Voice",
       industry: "technology",
-      useCase: "customer-support",
-      channels: [
-        { name: 'Phone calls', connected: false, type: 'phone' },
-        { name: 'WhatsApp', connected: true, type: 'whatsapp' }
-      ],
-      status: 'setup'
+      useCase: "customer-support"
     }
   ];
 

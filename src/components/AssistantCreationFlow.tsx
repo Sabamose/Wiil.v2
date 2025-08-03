@@ -1,29 +1,28 @@
-import React, { useState } from 'react';
-import { X, ChevronLeft, User, Building, Target, MessageSquare, TestTube, Rocket, Save, Phone, Globe, Smartphone, Upload, Brain, FileText } from 'lucide-react';
+import { useState } from "react";
+import { X, ChevronLeft, ChevronRight, Mic, MessageCircle, Repeat, Phone, MessageSquare, Globe, Smartphone, Upload, Link, Settings, TestTube, Rocket, Save } from "lucide-react";
 
 interface AssistantCreationFlowProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export const AssistantCreationFlow: React.FC<AssistantCreationFlowProps> = ({ isOpen, onClose }) => {
+const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
-    industry: '',
-    useCase: '',
-    name: '',
-    type: 'Voice',
+    industry: "",
+    useCase: "",
+    name: "",
+    type: "",
+    firstMessage: "",
+    systemPrompt: "",
     channels: {
       phone: false,
-      website: false,
       sms: false,
+      website: false,
       whatsapp: false
     },
-    behavior: '',
     knowledge: []
   });
-
-  if (!isOpen) return null;
 
   const totalSteps = 7;
 
@@ -41,17 +40,17 @@ export const AssistantCreationFlow: React.FC<AssistantCreationFlowProps> = ({ is
 
   const handleIndustrySelect = (industry: string) => {
     setFormData({ ...formData, industry });
-    handleNext();
+    setTimeout(() => setCurrentStep(2), 200);
   };
 
   const handleUseCaseSelect = (useCase: string) => {
     setFormData({ ...formData, useCase });
-    handleNext();
+    setTimeout(() => setCurrentStep(3), 200);
   };
 
-  const handleAssistantTypeSelect = (type: string) => {
+  const handleTypeSelect = (type: string) => {
     setFormData({ ...formData, type });
-    handleNext();
+    setTimeout(() => setCurrentStep(4), 200);
   };
 
   const handleChannelToggle = (channel: string) => {
@@ -64,26 +63,43 @@ export const AssistantCreationFlow: React.FC<AssistantCreationFlowProps> = ({ is
     });
   };
 
+  const handleTemplateSelect = (template: string) => {
+    const templates = {
+      'customer-support': {
+        firstMessage: "Hello! I'm here to help you with any questions or issues you might have. How can I assist you today?",
+        systemPrompt: "You are a helpful customer support assistant. Be friendly, professional, and solution-oriented. Always try to resolve customer issues efficiently while maintaining a positive tone."
+      },
+      'sales': {
+        firstMessage: "Hi there! I'd love to learn more about your needs and see how we can help. What brings you here today?",
+        systemPrompt: "You are a sales assistant focused on understanding customer needs and qualifying leads. Be consultative, ask relevant questions, and guide prospects toward solutions."
+      },
+      'technical': {
+        firstMessage: "Hello! I'm here to help you troubleshoot technical issues. Please describe the problem you're experiencing.",
+        systemPrompt: "You are a technical support specialist. Be methodical in your approach, ask clarifying questions, and provide step-by-step solutions."
+      }
+    };
+
+    const selectedTemplate = templates[template as keyof typeof templates];
+    if (selectedTemplate) {
+      setFormData({
+        ...formData,
+        firstMessage: selectedTemplate.firstMessage,
+        systemPrompt: selectedTemplate.systemPrompt
+      });
+    }
+  };
+
   const handleDeploy = () => {
-    // Handle deployment logic
-    console.log('Deploying assistant:', formData);
+    alert(`🚀 Deploying ${formData.name}...\n\nAssistant created successfully!\nChannels: ${Object.entries(formData.channels).filter(([_, enabled]) => enabled).map(([channel]) => channel).join(', ')}`);
     onClose();
   };
 
   const handleSaveDraft = () => {
-    // Handle save draft logic
-    console.log('Saving draft:', formData);
+    alert(`💾 Saving ${formData.name} as draft...\n\nYou can continue configuring this assistant later.`);
     onClose();
   };
 
-  const applyTemplate = (template: any) => {
-    setFormData({
-      ...formData,
-      name: template.name,
-      behavior: template.behavior
-    });
-    handleNext();
-  };
+  if (!isOpen) return null;
 
   const renderStep = () => {
     switch (currentStep) {
@@ -91,33 +107,45 @@ export const AssistantCreationFlow: React.FC<AssistantCreationFlowProps> = ({ is
         return (
           <div className="space-y-6">
             <div>
-              <h2 className="text-2xl font-semibold mb-2">Select Industry</h2>
-              <p className="text-gray-600">What industry will your assistant serve?</p>
+              <h2 className="text-2xl font-semibold mb-2">What industry is your business in?</h2>
+              <p className="text-gray-600">Select the industry that best describes your business</p>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-3 gap-4">
               {[
-                { id: 'retail', name: 'Retail & E-commerce', icon: '🛍️' },
-                { id: 'healthcare', name: 'Healthcare & Medical', icon: '🏥' },
-                { id: 'finance', name: 'Finance & Banking', icon: '💰' },
-                { id: 'real-estate', name: 'Real Estate', icon: '🏠' },
-                { id: 'education', name: 'Education & Training', icon: '🎓' },
-                { id: 'hospitality', name: 'Hospitality & Travel', icon: '🏨' },
-                { id: 'automotive', name: 'Automotive', icon: '🚗' },
-                { id: 'professional', name: 'Professional Services', icon: '💼' },
-                { id: 'technology', name: 'Technology & Software', icon: '💻' },
-                { id: 'government', name: 'Government & Public', icon: '🏛️' },
-                { id: 'food', name: 'Food & Beverage', icon: '🍽️' },
-                { id: 'other', name: 'Other', icon: '📋' }
+                { id: 'retail', label: 'Retail & E-commerce', emoji: '🛍️' },
+                { id: 'healthcare', label: 'Healthcare & Medical', emoji: '⚕️' },
+                { id: 'finance', label: 'Finance & Banking', emoji: '🏦' },
+                { id: 'real-estate', label: 'Real Estate', emoji: '🏠' },
+                { id: 'education', label: 'Education & Training', emoji: '🎓' },
+                { id: 'hospitality', label: 'Hospitality & Travel', emoji: '✈️' },
+                { id: 'automotive', label: 'Automotive', emoji: '🚗' },
+                { id: 'professional', label: 'Professional Services', emoji: '💼' },
+                { id: 'technology', label: 'Technology & Software', emoji: '💻' },
+                { id: 'government', label: 'Government & Public', emoji: '🏛️' },
+                { id: 'food', label: 'Food & Beverage', emoji: '🍕' },
+                { id: 'manufacturing', label: 'Manufacturing', emoji: '🏭' },
+                { id: 'fitness', label: 'Fitness & Wellness', emoji: '💪' },
+                { id: 'legal', label: 'Legal Services', emoji: '⚖️' },
+                { id: 'nonprofit', label: 'Non-Profit', emoji: '❤️' },
+                { id: 'media', label: 'Media & Entertainment', emoji: '🎬' },
+                { id: 'other', label: 'Other', emoji: '❓' }
               ].map((industry) => (
-                <button
+                <div
                   key={industry.id}
                   onClick={() => handleIndustrySelect(industry.id)}
-                  className="p-4 border border-gray-300 rounded-lg hover:border-gray-400 hover:bg-gray-50 text-left"
+                  className={`p-4 border rounded-lg cursor-pointer transition-all text-center ${
+                    formData.industry === industry.id
+                      ? 'border-blue-500 bg-blue-50'
+                      : 'border-gray-300 hover:border-blue-500'
+                  }`}
+                  style={{ height: '120px', width: '150px' }}
                 >
-                  <div className="text-2xl mb-2">{industry.icon}</div>
-                  <div className="font-medium">{industry.name}</div>
-                </button>
+                  <div className="flex flex-col items-center justify-center h-full">
+                    <div className="text-2xl mb-2">{industry.emoji}</div>
+                    <div className="text-sm font-medium text-center leading-tight">{industry.label}</div>
+                  </div>
+                </div>
               ))}
             </div>
           </div>
@@ -127,28 +155,41 @@ export const AssistantCreationFlow: React.FC<AssistantCreationFlowProps> = ({ is
         return (
           <div className="space-y-6">
             <div>
-              <h2 className="text-2xl font-semibold mb-2">Primary Use Case</h2>
-              <p className="text-gray-600">What will your assistant primarily help with?</p>
+              <h2 className="text-2xl font-semibold mb-2">Use case</h2>
+              <p className="text-gray-600">What will your assistant help with?</p>
             </div>
 
-            <div className="grid grid-cols-1 gap-3">
+            <div className="grid grid-cols-3 gap-4">
               {[
-                { id: 'customer-support', name: 'Customer Support', description: 'Handle inquiries, complaints, and support tickets' },
-                { id: 'outbound-sales', name: 'Outbound Sales', description: 'Make sales calls and follow up with prospects' },
-                { id: 'learning', name: 'Learning and Development', description: 'Training and educational assistance' },
-                { id: 'scheduling', name: 'Scheduling', description: 'Appointment booking and calendar management' },
-                { id: 'lead-qualification', name: 'Lead Qualification', description: 'Qualify and route potential customers' },
-                { id: 'answering-service', name: 'Answering Service', description: 'Professional call answering and message taking' },
-                { id: 'other', name: 'Other', description: 'Custom use case' }
+                { id: 'customer-support', label: 'Customer Support', emoji: '🎧' },
+                { id: 'outbound-sales', label: 'Outbound Sales', emoji: '📈' },
+                { id: 'learning', label: 'Learning and Development', emoji: '📚' },
+                { id: 'scheduling', label: 'Scheduling', emoji: '📅' },
+                { id: 'lead-qualification', label: 'Lead Qualification', emoji: '👥' },
+                { id: 'answering-service', label: 'Answering Service', emoji: '📞' },
+                { id: 'consultation', label: 'Consultation Scheduling', emoji: '📋' },
+                { id: 'case-intake', label: 'Case Intake', emoji: '📝' },
+                { id: 'legal-resources', label: 'Legal Resources', emoji: '📖' },
+                { id: 'billing', label: 'Billing Inquiries', emoji: '💳' },
+                { id: 'document-prep', label: 'Document Preparation', emoji: '📄' },
+                { id: 'case-updates', label: 'Case Updates', emoji: '🔄' },
+                { id: 'other', label: 'Other', emoji: '❓' }
               ].map((useCase) => (
-                <button
+                <div
                   key={useCase.id}
                   onClick={() => handleUseCaseSelect(useCase.id)}
-                  className="p-4 border border-gray-300 rounded-lg hover:border-gray-400 hover:bg-gray-50 text-left"
+                  className={`p-4 border rounded-lg cursor-pointer transition-all text-center ${
+                    formData.useCase === useCase.id
+                      ? 'border-blue-500 bg-blue-50'
+                      : 'border-gray-300 hover:border-blue-500'
+                  }`}
+                  style={{ height: '120px', width: '150px' }}
                 >
-                  <div className="font-medium mb-1">{useCase.name}</div>
-                  <div className="text-sm text-gray-500">{useCase.description}</div>
-                </button>
+                  <div className="flex flex-col items-center justify-center h-full">
+                    <div className="text-2xl mb-2">{useCase.emoji}</div>
+                    <div className="text-sm font-medium text-center leading-tight">{useCase.label}</div>
+                  </div>
+                </div>
               ))}
             </div>
           </div>
@@ -159,59 +200,61 @@ export const AssistantCreationFlow: React.FC<AssistantCreationFlowProps> = ({ is
           <div className="space-y-6">
             <div>
               <h2 className="text-2xl font-semibold mb-2">Assistant Details</h2>
-              <p className="text-gray-600">Provide basic information about your assistant</p>
+              <p className="text-gray-600">Let's name your assistant and choose its type</p>
             </div>
 
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Assistant Name
+                  Name your assistant
                 </label>
                 <input
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="e.g., Customer Support Bot"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+                  placeholder="e.g., Customer Support"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Assistant Type
+                <label className="block text-sm font-medium text-gray-700 mb-3">
+                  Choose assistant type
                 </label>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 gap-3">
                   {[
-                    { id: 'Voice', name: 'Voice Only', description: 'Phone calls only', icon: Phone },
-                    { id: 'Chat', name: 'Chat Only', description: 'Text-based only', icon: MessageSquare },
-                    { id: 'Unified', name: 'Unified', description: 'Voice + chat combined', icon: Globe }
+                    { id: 'voice', label: 'Voice Assistant', description: 'Handles phone calls and voice interactions' },
+                    { id: 'chat', label: 'Chat Assistant', description: 'Responds to text messages and website chat' },
+                    { id: 'unified', label: 'Unified Assistant', description: 'Handles both voice and text across all channels' }
                   ].map((type) => (
-                    <button
+                    <div
                       key={type.id}
-                      onClick={() => handleAssistantTypeSelect(type.id)}
-                      className={`p-4 border rounded-lg text-center ${
+                      onClick={() => handleTypeSelect(type.id)}
+                      className={`p-4 border rounded-lg cursor-pointer transition-all ${
                         formData.type === type.id
-                          ? 'border-black bg-gray-50'
+                          ? 'border-gray-800 bg-gray-100'
                           : 'border-gray-300 hover:border-gray-400'
                       }`}
                     >
-                      <type.icon className="w-6 h-6 mx-auto mb-2 text-gray-600" />
-                      <div className="font-medium text-sm">{type.name}</div>
-                      <div className="text-xs text-gray-500">{type.description}</div>
-                    </button>
+                      <div className="flex items-center gap-3">
+                        <div className={`w-4 h-4 rounded-full border-2 ${
+                          formData.type === type.id
+                            ? 'border-gray-800 bg-gray-800'
+                            : 'border-gray-300'
+                        }`}>
+                          {formData.type === type.id && (
+                            <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
+                          )}
+                        </div>
+                        <div>
+                          <div className="font-medium">{type.label}</div>
+                          <div className="text-sm text-gray-500">{type.description}</div>
+                        </div>
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>
-            </div>
-
-            <div className="border-t pt-6">
-              <button
-                onClick={handleNext}
-                disabled={!formData.name}
-                className="px-6 py-3 bg-black text-white rounded-md hover:bg-gray-800 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Continue
-              </button>
             </div>
           </div>
         );
@@ -220,39 +263,63 @@ export const AssistantCreationFlow: React.FC<AssistantCreationFlowProps> = ({ is
         return (
           <div className="space-y-6">
             <div>
-              <h2 className="text-2xl font-semibold mb-2">Choose Template</h2>
-              <p className="text-gray-600">Start with a pre-built template or create from scratch</p>
+              <h2 className="text-2xl font-semibold mb-2">Configure Behavior</h2>
+              <p className="text-gray-600">Define how your assistant should interact</p>
             </div>
 
             <div className="space-y-4">
-              <button
-                onClick={() => handleNext()}
-                className="w-full p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-gray-400 text-center"
-              >
-                <div className="text-gray-600 mb-2">✨</div>
-                <div className="font-medium">Start from Scratch</div>
-                <div className="text-sm text-gray-500">Build your assistant completely custom</div>
-              </button>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  First message (optional)
+                </label>
+                <textarea
+                  value={formData.firstMessage}
+                  onChange={(e) => setFormData({ ...formData, firstMessage: e.target.value })}
+                  placeholder="What should your assistant say when customers first contact you?"
+                  rows={3}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent"
+                />
+              </div>
 
-              {[
-                { id: 1, name: 'Customer Support Agent', behavior: 'Friendly and helpful customer service agent', category: 'Support' },
-                { id: 2, name: 'Sales Development Rep', behavior: 'Professional sales representative', category: 'Sales' },
-                { id: 3, name: 'Appointment Scheduler', behavior: 'Efficient scheduling assistant', category: 'Scheduling' }
-              ].map((template) => (
-                <button
-                  key={template.id}
-                  onClick={() => applyTemplate(template)}
-                  className="w-full p-4 border border-gray-300 rounded-lg hover:border-gray-400 text-left"
-                >
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <div className="font-medium">{template.name}</div>
-                      <div className="text-sm text-gray-500 mt-1">{template.behavior}</div>
-                    </div>
-                    <span className="px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded">{template.category}</span>
-                  </div>
-                </button>
-              ))}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  System prompt
+                </label>
+                <textarea
+                  value={formData.systemPrompt}
+                  onChange={(e) => setFormData({ ...formData, systemPrompt: e.target.value })}
+                  placeholder="Tell your assistant how to behave and what role to play..."
+                  rows={6}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent"
+                />
+              </div>
+
+              <div>
+                <p className="text-sm font-medium text-gray-700 mb-3">Quick start with a template:</p>
+                <div className="flex gap-2 flex-wrap">
+                  <button
+                    onClick={() => handleTemplateSelect('customer-support')}
+                    className="px-3 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50 flex items-center gap-2"
+                  >
+                    <Phone className="w-4 h-4" />
+                    Customer Support
+                  </button>
+                  <button
+                    onClick={() => handleTemplateSelect('sales')}
+                    className="px-3 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50 flex items-center gap-2"
+                  >
+                    <Settings className="w-4 h-4" />
+                    Sales Assistant
+                  </button>
+                  <button
+                    onClick={() => handleTemplateSelect('technical')}
+                    className="px-3 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50 flex items-center gap-2"
+                  >
+                    <Settings className="w-4 h-4" />
+                    Technical Support
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         );
@@ -261,57 +328,46 @@ export const AssistantCreationFlow: React.FC<AssistantCreationFlowProps> = ({ is
         return (
           <div className="space-y-6">
             <div>
-              <h2 className="text-2xl font-semibold mb-2">Define Behavior</h2>
-              <p className="text-gray-600">Describe how your assistant should behave and respond</p>
+              <h2 className="text-2xl font-semibold mb-2">Add Knowledge</h2>
+              <p className="text-gray-600">Help your assistant answer questions about your business</p>
             </div>
 
             <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Behavior Description
-                </label>
-                <textarea
-                  value={formData.behavior}
-                  onChange={(e) => setFormData({ ...formData, behavior: e.target.value })}
-                  placeholder="Describe how your assistant should behave, its personality, tone, and approach to conversations..."
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black h-32 resize-none"
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+                <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                <div className="font-medium mb-2">Upload documents</div>
+                <div className="text-sm text-gray-500 mb-4">
+                  PDFs, Word docs, or text files with your business information
+                </div>
+                <button className="px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-900">
+                  Choose Files
+                </button>
+              </div>
+
+              <div className="border border-gray-300 rounded-lg p-4">
+                <div className="flex items-center gap-3 mb-3">
+                  <Link className="w-5 h-5 text-gray-600" />
+                  <div className="font-medium">Add website URLs</div>
+                </div>
+                <input
+                  type="url"
+                  placeholder="https://yourwebsite.com"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-gray-500 focus:border-transparent"
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 border border-gray-300 rounded-lg">
-                  <div className="font-medium mb-2">Personality Traits</div>
-                  <div className="space-y-2">
-                    {['Friendly', 'Professional', 'Helpful', 'Patient'].map((trait) => (
-                      <label key={trait} className="flex items-center">
-                        <input type="checkbox" className="mr-2" />
-                        <span className="text-sm">{trait}</span>
-                      </label>
-                    ))}
-                  </div>
+              <div className="border border-gray-300 rounded-lg p-4">
+                <div className="flex items-center gap-3 mb-3">
+                  <Globe className="w-5 h-5 text-gray-600" />
+                  <div className="font-medium">Crawl website content</div>
                 </div>
-
-                <div className="p-4 border border-gray-300 rounded-lg">
-                  <div className="font-medium mb-2">Communication Style</div>
-                  <div className="space-y-2">
-                    {['Formal', 'Casual', 'Empathetic', 'Direct'].map((style) => (
-                      <label key={style} className="flex items-center">
-                        <input type="checkbox" className="mr-2" />
-                        <span className="text-sm">{style}</span>
-                      </label>
-                    ))}
-                  </div>
+                <div className="text-sm text-gray-500 mb-2">
+                  Automatically extract information from your website
                 </div>
+                <button className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50">
+                  Start Crawling
+                </button>
               </div>
-            </div>
-
-            <div className="border-t pt-6">
-              <button
-                onClick={handleNext}
-                className="px-6 py-3 bg-black text-white rounded-md hover:bg-gray-800 font-medium"
-              >
-                Continue
-              </button>
             </div>
           </div>
         );
@@ -366,46 +422,38 @@ export const AssistantCreationFlow: React.FC<AssistantCreationFlowProps> = ({ is
                 { id: 'website', icon: Globe, label: 'Website chat', description: 'Add a chat widget to your website' },
                 { id: 'whatsapp', icon: Smartphone, label: 'WhatsApp', description: 'Connect your WhatsApp Business account' }
               ].map((channel) => (
-                <div key={channel.id}>
-                  <div
-                    onClick={() => handleChannelToggle(channel.id)}
-                    className="flex items-center gap-4 p-4 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50"
-                  >
-                    <div className={`w-5 h-5 border-2 rounded ${
-                      formData.channels[channel.id as keyof typeof formData.channels]
-                        ? 'border-gray-800 bg-gray-800'
-                        : 'border-gray-300'
-                    }`}>
-                      {formData.channels[channel.id as keyof typeof formData.channels] && (
-                        <div className="text-white text-xs flex items-center justify-center h-full">✓</div>
-                      )}
-                    </div>
-                    <channel.icon className="w-5 h-5 text-gray-600" />
-                    <div>
-                      <div className="font-medium">{channel.label}</div>
-                      <div className="text-sm text-gray-500">{channel.description}</div>
-                    </div>
+                <div
+                  key={channel.id}
+                  onClick={() => handleChannelToggle(channel.id)}
+                  className="flex items-center gap-4 p-4 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50"
+                >
+                  <div className={`w-5 h-5 border-2 rounded ${
+                    formData.channels[channel.id as keyof typeof formData.channels]
+                      ? 'border-gray-800 bg-gray-800'
+                      : 'border-gray-300'
+                  }`}>
+                    {formData.channels[channel.id as keyof typeof formData.channels] && (
+                      <div className="text-white text-xs flex items-center justify-center h-full">✓</div>
+                    )}
                   </div>
-                  {channel.id === 'phone' && formData.channels.phone && (
-                    <div className="mt-2 p-3 bg-blue-50 border border-blue-200 rounded-md">
-                      <div className="text-sm text-blue-800">
-                        💡 Phone number can be purchased after assistant creation
-                      </div>
-                    </div>
-                  )}
+                  <channel.icon className="w-5 h-5 text-gray-600" />
+                  <div>
+                    <div className="font-medium">{channel.label}</div>
+                    <div className="text-sm text-gray-500">{channel.description}</div>
+                  </div>
                 </div>
               ))}
             </div>
 
             <div className="border-t pt-6">
-              <div className="font-medium mb-4">Ready to create your assistant?</div>
+              <div className="font-medium mb-4">Ready to deploy?</div>
               <div className="flex gap-3">
                 <button
                   onClick={handleDeploy}
                   className="px-6 py-3 bg-black text-white rounded-md hover:bg-gray-800 font-medium flex items-center gap-2"
                 >
                   <Rocket className="w-4 h-4" />
-                  Create Assistant
+                  Deploy Assistant
                 </button>
                 <button
                   onClick={handleSaveDraft}
@@ -450,7 +498,7 @@ export const AssistantCreationFlow: React.FC<AssistantCreationFlowProps> = ({ is
         {/* Progress Bar */}
         <div className="h-1 bg-gray-200">
           <div
-            className="h-full bg-black transition-all duration-300"
+            className="h-full bg-gray-800 transition-all duration-300"
             style={{ width: `${(currentStep / totalSteps) * 100}%` }}
           />
         </div>
@@ -459,7 +507,30 @@ export const AssistantCreationFlow: React.FC<AssistantCreationFlowProps> = ({ is
         <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
           {renderStep()}
         </div>
+
+        {/* Footer */}
+        {currentStep >= 4 && currentStep < totalSteps && (
+          <div className="flex justify-between p-6 border-t border-gray-200">
+            <button
+              onClick={handlePrevious}
+              className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 flex items-center gap-2"
+            >
+              <ChevronLeft className="w-4 h-4" />
+              Back
+            </button>
+            <button
+              onClick={handleNext}
+              className="px-6 py-2 bg-black text-white rounded-md hover:bg-gray-800 flex items-center gap-2"
+            >
+              Continue
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        )}
+
       </div>
     </div>
   );
 };
+
+export default AssistantCreationFlow;
