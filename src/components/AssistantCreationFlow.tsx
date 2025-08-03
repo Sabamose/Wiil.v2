@@ -221,35 +221,26 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
                 <label className="block text-sm font-medium text-gray-700 mb-3">
                   Choose assistant type
                 </label>
-                <div className="grid grid-cols-1 gap-3">
+                <div className="grid grid-cols-3 gap-4">
                   {[
-                    { id: 'voice', label: 'Voice Assistant', description: 'Handles phone calls and voice interactions' },
-                    { id: 'chat', label: 'Chat Assistant', description: 'Responds to text messages and website chat' },
-                    { id: 'unified', label: 'Unified Assistant', description: 'Handles both voice and text across all channels' }
+                    { id: 'voice', label: 'Voice Assistant', description: 'Handles phone calls and voice interactions', emoji: '🎙️' },
+                    { id: 'chat', label: 'Chat Assistant', description: 'Responds to text messages and website chat', emoji: '💬' },
+                    { id: 'unified', label: 'Unified Assistant', description: 'Handles both voice and text across all channels', emoji: '🔄' }
                   ].map((type) => (
                     <div
                       key={type.id}
                       onClick={() => handleTypeSelect(type.id)}
-                      className={`p-4 border rounded-lg cursor-pointer transition-all ${
+                      className={`p-4 border rounded-lg cursor-pointer transition-all text-center ${
                         formData.type === type.id
-                          ? 'border-gray-800 bg-gray-100'
-                          : 'border-gray-300 hover:border-gray-400'
+                          ? 'border-blue-500 bg-blue-50'
+                          : 'border-gray-300 hover:border-blue-500'
                       }`}
+                      style={{ height: '120px' }}
                     >
-                      <div className="flex items-center gap-3">
-                        <div className={`w-4 h-4 rounded-full border-2 ${
-                          formData.type === type.id
-                            ? 'border-gray-800 bg-gray-800'
-                            : 'border-gray-300'
-                        }`}>
-                          {formData.type === type.id && (
-                            <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
-                          )}
-                        </div>
-                        <div>
-                          <div className="font-medium">{type.label}</div>
-                          <div className="text-sm text-gray-500">{type.description}</div>
-                        </div>
+                      <div className="flex flex-col items-center justify-center h-full">
+                        <div className="text-2xl mb-2">{type.emoji}</div>
+                        <div className="text-sm font-medium text-center leading-tight mb-1">{type.label}</div>
+                        <div className="text-xs text-gray-500 text-center leading-tight">{type.description}</div>
                       </div>
                     </div>
                   ))}
