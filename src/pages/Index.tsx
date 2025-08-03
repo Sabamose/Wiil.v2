@@ -1,55 +1,41 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import Navigation from "@/components/Navigation";
-import HeroSection from "@/components/HeroSection";
 import ExistingAssistantsSection from "@/components/ExistingAssistantsSection";
 
 const Index = () => {
-  const [hasExistingAssistants, setHasExistingAssistants] = useState(false); // Demo toggle
+  const handleCreateAssistant = () => {
+    alert('🎯 Opening assistant creation...\n\nThis would navigate to template selection or creation flow.');
+  };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen" style={{ backgroundColor: '#fafafa' }}>
       <Navigation />
       
-      {/* Demo Toggle */}
-      <div className="max-w-7xl mx-auto px-6 pt-4">
-        <div className="flex justify-center">
-          <div className="flex bg-accent rounded-lg p-1">
-            <Button 
-              variant={!hasExistingAssistants ? "default" : "ghost"} 
-              size="sm"
-              onClick={() => setHasExistingAssistants(false)}
+      {/* Main Content */}
+      <main className="ml-60 mt-16 p-8">
+        {/* Page Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-semibold mb-2 flex items-center gap-3">
+            Saba Moseshvili 
+            <span className="bg-green-100 text-green-800 px-2 py-1 rounded-xl text-xs font-medium">
+              ✓ Live
+            </span>
+          </h1>
+          <p className="text-lg text-gray-600 mb-2">Welcome back, Saba! 👋</p>
+          <p className="text-sm text-gray-600 mb-4">Manage your existing AI assistants and their configurations</p>
+          
+          <div className="flex gap-3">
+            <button 
+              onClick={handleCreateAssistant}
+              className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-md text-sm font-medium hover:bg-gray-800 transition-colors"
             >
-              New User Experience
-            </Button>
-            <Button 
-              variant={hasExistingAssistants ? "default" : "ghost"} 
-              size="sm"
-              onClick={() => setHasExistingAssistants(true)}
-            >
-              Existing User Dashboard
-            </Button>
+              <span>+</span>
+              Create Assistant
+            </button>
           </div>
         </div>
-      </div>
 
-      {/* Main Content */}
-      <main>
-        {!hasExistingAssistants ? (
-          // New users see the hero section with demo templates
-          <HeroSection />
-        ) : (
-          // Existing users see their assistants with template inspiration
-          <ExistingAssistantsSection />
-        )}
+        <ExistingAssistantsSection />
       </main>
-      
-      {/* Footer */}
-      <footer className="border-t border-border bg-background py-8 mt-16">
-        <div className="max-w-7xl mx-auto px-6 text-center text-sm text-muted-foreground">
-          <p>© 2024 Wiil AI. Experience working assistants in 10 seconds, create custom assistants in 5 minutes.</p>
-        </div>
-      </footer>
     </div>
   );
 };

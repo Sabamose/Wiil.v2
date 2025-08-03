@@ -1,41 +1,48 @@
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Home, BarChart3, MessageCircle, Bot, BookOpen } from "lucide-react";
 
 const Navigation = () => {
   return (
-    <nav className="border-b border-border bg-background">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <div className="flex items-center space-x-8">
-            <div className="text-xl font-bold text-foreground">Wiil AI</div>
-            
-            {/* Primary Navigation */}
-            <div className="hidden md:flex items-center space-x-1">
-              <Button variant="ghost" className="text-foreground">
-                <Home className="w-4 h-4" />
-                Home
-              </Button>
-              <Button variant="ghost" className="text-muted-foreground">
-                <BarChart3 className="w-4 h-4" />
-                Analytics
-              </Button>
-              <Button variant="ghost" className="text-muted-foreground">
-                <MessageCircle className="w-4 h-4" />
-                Conversations
-              </Button>
-            </div>
+    <>
+      {/* Header */}
+      <div className="fixed top-0 left-0 right-0 z-100 bg-white border-b border-gray-200 px-6 h-16 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center text-white font-bold">
+            W
           </div>
-          
-          {/* User Actions */}
-          <div className="flex items-center space-x-4">
-            <Button variant="outline" size="sm">Sign In</Button>
-            <Button variant="default" size="sm">Get Started</Button>
-          </div>
+          <span className="text-lg font-semibold">Wiil</span>
+          <span className="text-xs text-gray-500 font-normal">Preview Version</span>
+        </div>
+        <div className="flex items-center gap-4 text-sm text-gray-600">
+          <span>🌙</span>
+          <span>Current balance: $3.00</span>
+          <span>SM</span>
         </div>
       </div>
-    </nav>
+
+      {/* Sidebar Navigation */}
+      <nav className="fixed left-0 top-16 w-60 h-[calc(100vh-4rem)] bg-white border-r border-gray-200 py-6 overflow-y-auto">
+        <a href="#" className="flex items-center gap-3 px-6 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all">
+          <span className="w-5 h-5 flex items-center justify-center">🏠</span>
+          Home
+        </a>
+        <a href="#" className="flex items-center gap-3 px-6 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all">
+          <span className="w-5 h-5 flex items-center justify-center">📊</span>
+          Analytics
+        </a>
+        <a href="#" className="flex items-center gap-3 px-6 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all">
+          <span className="w-5 h-5 flex items-center justify-center">💬</span>
+          Conversations
+        </a>
+        <a href="#" className="flex items-center gap-3 px-6 py-3 text-blue-500 bg-blue-50 border-l-3 border-blue-500 font-medium">
+          <span className="w-5 h-5 flex items-center justify-center">🤖</span>
+          My Assistants
+        </a>
+        <a href="#" className="flex items-center gap-3 px-6 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all">
+          <span className="w-5 h-5 flex items-center justify-center">📚</span>
+          Knowledge Base
+        </a>
+      </nav>
+    </>
   );
 };
 

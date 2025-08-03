@@ -1,170 +1,153 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { MoreHorizontal, Phone, MessageCircle, Globe, Smartphone, Play } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 
 interface Assistant {
   id: string;
   name: string;
   type: string;
-  channels: string[];
-  status: "live" | "setup" | "inactive";
-  lastActivity: string;
+  channels: { name: string; connected: boolean; icon: string }[];
+  status: "live" | "setup" | "error";
 }
 
 const ExistingAssistantsSection = () => {
-  // Mock data - in real app this would come from API
   const assistants: Assistant[] = [
     {
       id: "1",
       name: "Customer Support",
-      type: "Support",
-      channels: ["voice", "web", "phone"],
-      status: "live",
-      lastActivity: "2 min ago"
+      type: "Voice",
+      channels: [
+        { name: "Phone", connected: true, icon: "📞" },
+        { name: "Website", connected: true, icon: "🌐" },
+        { name: "SMS", connected: false, icon: "💬" }
+      ],
+      status: "live"
     },
     {
       id: "2", 
       name: "Sales Assistant",
-      type: "Sales",
-      channels: ["chat", "web", "mobile"],
-      status: "live",
-      lastActivity: "5 min ago"
+      type: "Chat",
+      channels: [
+        { name: "Phone", connected: false, icon: "📞" },
+        { name: "Website", connected: true, icon: "🌐" },
+        { name: "WhatsApp", connected: true, icon: "📱" }
+      ],
+      status: "live"
     },
     {
       id: "3",
-      name: "Tech Support",
-      type: "Technical",
-      channels: ["voice", "chat", "phone"],
-      status: "setup",
-      lastActivity: "1 hour ago"
+      name: "Technical Support",
+      type: "Unified",
+      channels: [
+        { name: "Phone", connected: true, icon: "📞" },
+        { name: "Website", connected: true, icon: "🌐" },
+        { name: "SMS", connected: true, icon: "💬" }
+      ],
+      status: "setup"
     }
   ];
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "live": return "bg-success";
-      case "setup": return "bg-yellow-500";
-      case "inactive": return "bg-gray-400";
-      default: return "bg-gray-400";
-    }
+  const handleEdit = (assistantName: string) => {
+    alert(`✏️ Opening settings for ${assistantName}...\n\nThis would navigate to the tab-based configuration page.`);
   };
 
-  const getChannelIcon = (channel: string) => {
-    switch (channel) {
-      case "voice": return <Phone className="w-3 h-3" />;
-      case "chat": return <MessageCircle className="w-3 h-3" />;
-      case "web": return <Globe className="w-3 h-3" />;
-      case "mobile": return <Smartphone className="w-3 h-3" />;
-      case "phone": return <Phone className="w-3 h-3" />;
-      default: return <MessageCircle className="w-3 h-3" />;
-    }
+  const handleClone = (assistantName: string) => {
+    alert(`📋 Cloning ${assistantName}...\n\nThis would create a duplicate assistant with the same configuration.`);
   };
 
-  const handleTryAssistant = (assistantId: string) => {
-    alert(`Testing assistant ${assistantId} - this would open the test interface`);
+  const handleMenu = (assistantName: string) => {
+    alert(`⋮ Options for ${assistantName}:\n\n• View Details\n• Configure Deployment\n• View Analytics\n• Delete Assistant`);
+  };
+
+  const handleCreate = () => {
+    alert('🎯 Opening assistant creation...\n\nThis would navigate to template selection or creation flow.');
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-8">
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-xl font-semibold">Your Assistants</CardTitle>
-            <div className="flex space-x-2">
-              <Button variant="test-action" size="sm">
-                <Play className="w-4 h-4" />
-                🧪 Try Any
-              </Button>
-              <Button variant="default" size="sm">
-                + Create
-              </Button>
-            </div>
-          </div>
-        </CardHeader>
-        
-        <CardContent>
-          {/* Table Header */}
-          <div className="grid grid-cols-12 gap-4 pb-3 border-b border-border text-sm font-medium text-muted-foreground">
-            <div className="col-span-3">Assistant Name</div>
-            <div className="col-span-3">Type & Channels</div>
-            <div className="col-span-2">Status</div>
-            <div className="col-span-2">Last Activity</div>
-            <div className="col-span-2">Actions</div>
-          </div>
-          
-          {/* Assistant Rows */}
-          <div className="space-y-0">
-            {assistants.map((assistant) => (
-              <div key={assistant.id} className="grid grid-cols-12 gap-4 py-4 border-b border-border last:border-b-0 items-center">
-                {/* Name */}
-                <div className="col-span-3">
-                  <div className="font-medium text-foreground">{assistant.name}</div>
+    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+      <div className="px-6 py-5 border-b border-gray-200 flex justify-between items-center">
+        <h2 className="text-lg font-semibold">Your Assistants</h2>
+        <button 
+          onClick={handleCreate}
+          className="px-4 py-2 bg-gray-900 text-white rounded-md text-sm font-medium hover:bg-gray-800 transition-colors"
+        >
+          + Create Assistant
+        </button>
+      </div>
+
+      <table className="w-full">
+        <thead className="bg-gray-50">
+          <tr>
+            <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Assistant Name</th>
+            <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Type & Channels</th>
+            <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Status</th>
+            <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {assistants.map((assistant, index) => (
+            <tr 
+              key={assistant.id} 
+              className={`border-b border-gray-100 hover:bg-gray-50 transition-colors ${index === assistants.length - 1 ? 'border-b-0' : ''}`}
+            >
+              <td className="px-6 py-5">
+                <div className="font-semibold">{assistant.name}</div>
+              </td>
+              <td className="px-6 py-5">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 text-gray-700 rounded-xl text-xs font-medium">
+                    🎤 {assistant.type}
+                  </span>
                 </div>
-                
-                {/* Type & Channels */}
-                <div className="col-span-3">
-                  <div className="flex items-center space-x-2">
-                    <span className="text-sm text-muted-foreground">{assistant.type}</span>
-                    <div className="flex space-x-1">
-                      {assistant.channels.map((channel, index) => (
-                        <div key={index} className="p-1 bg-accent rounded">
-                          {getChannelIcon(channel)}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Status */}
-                <div className="col-span-2">
-                  <div className="flex items-center space-x-2">
-                    <div className={`w-2 h-2 rounded-full ${getStatusColor(assistant.status)}`} />
-                    <span className="text-sm capitalize text-foreground">{assistant.status}</span>
-                  </div>
-                </div>
-                
-                {/* Last Activity */}
-                <div className="col-span-2">
-                  <span className="text-sm text-muted-foreground">{assistant.lastActivity}</span>
-                </div>
-                
-                {/* Actions */}
-                <div className="col-span-2">
-                  <div className="flex items-center space-x-1">
-                    <Button 
-                      variant="test-action" 
-                      size="sm"
-                      onClick={() => handleTryAssistant(assistant.id)}
+                <div className="flex gap-1">
+                  {assistant.channels.map((channel, idx) => (
+                    <span
+                      key={idx}
+                      className={`w-7 h-7 rounded flex items-center justify-center text-sm ${
+                        channel.connected 
+                          ? 'bg-green-100 text-green-700' 
+                          : 'bg-gray-100 text-gray-400'
+                      }`}
+                      title={`${channel.name} ${channel.connected ? 'Connected' : 'Not Connected'}`}
                     >
-                      🧪 Try
-                    </Button>
-                    <Button variant="outline" size="sm">
-                      Edit
-                    </Button>
-                    <Button variant="ghost" size="sm">
-                      <MoreHorizontal className="w-4 h-4" />
-                    </Button>
-                  </div>
+                      {channel.icon}
+                    </span>
+                  ))}
                 </div>
-              </div>
-            ))}
-          </div>
-          
-          {/* Template Inspiration */}
-          <div className="mt-8 pt-6 border-t border-border">
-            <p className="text-sm text-muted-foreground mb-4">
-              Need inspiration? Try our templates:
-            </p>
-            <div className="flex flex-wrap gap-2">
-              <Button variant="outline" size="sm">📞 Customer Support</Button>
-              <Button variant="outline" size="sm">💼 Sales</Button>
-              <Button variant="outline" size="sm">🔧 Technical</Button>
-              <Button variant="outline" size="sm">+ View All</Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+              </td>
+              <td className="px-6 py-5">
+                <div className="flex items-center gap-2 font-medium">
+                  <span className={`w-2 h-2 rounded-full ${
+                    assistant.status === 'live' ? 'bg-green-500' :
+                    assistant.status === 'setup' ? 'bg-yellow-500' : 'bg-red-500'
+                  }`}></span>
+                  <span className="capitalize">{assistant.status}</span>
+                </div>
+              </td>
+              <td className="px-6 py-5">
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => handleEdit(assistant.name)}
+                    className="px-3 py-1.5 bg-gray-100 text-gray-600 rounded text-sm font-medium hover:bg-gray-200 transition-colors"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleClone(assistant.name)}
+                    className="px-3 py-1.5 bg-gray-100 text-gray-600 rounded text-sm font-medium hover:bg-gray-200 transition-colors"
+                  >
+                    Clone
+                  </button>
+                  <button
+                    onClick={() => handleMenu(assistant.name)}
+                    className="p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 rounded transition-colors"
+                  >
+                    <MoreHorizontal className="w-4 h-4" />
+                  </button>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
