@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { X, ChevronLeft, ChevronRight, Mic, MessageCircle, Repeat, Phone, MessageSquare, Globe, Smartphone, Upload, Link, Settings, TestTube, Rocket, Save } from "lucide-react";
+import PhoneNumberPurchaseModal from "./PhoneNumberPurchaseModal";
+import { PhoneNumber } from "@/types/phoneNumber";
 
 interface AssistantCreationFlowProps {
   isOpen: boolean;
@@ -8,6 +10,8 @@ interface AssistantCreationFlowProps {
 
 const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) => {
   const [currentStep, setCurrentStep] = useState(1);
+  const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
+  const [purchasedPhoneNumber, setPurchasedPhoneNumber] = useState<PhoneNumber | null>(null);
   const [formData, setFormData] = useState({
     industry: "",
     useCase: "",
@@ -20,7 +24,8 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
       sms: false,
       website: false
     },
-    knowledge: []
+    knowledge: [],
+    phoneNumber: null as PhoneNumber | null
   });
 
   const totalSteps = 7;
@@ -53,13 +58,31 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
   };
 
   const handleChannelToggle = (channel: string) => {
+    if (channel === 'phone') {
+      // Open phone number purchase modal instead of just toggling
+      setIsPurchaseModalOpen(true);
+    } else {
+      setFormData({
+        ...formData,
+        channels: {
+          ...formData.channels,
+          [channel]: !formData.channels[channel as keyof typeof formData.channels]
+        }
+      });
+    }
+  };
+
+  const handlePhoneNumberPurchase = (phoneNumber: PhoneNumber) => {
+    setPurchasedPhoneNumber(phoneNumber);
     setFormData({
       ...formData,
+      phoneNumber,
       channels: {
         ...formData.channels,
-        [channel]: !formData.channels[channel as keyof typeof formData.channels]
+        phone: true
       }
     });
+    setIsPurchaseModalOpen(false);
   };
 
   const handleTemplateSelect = (template: string) => {
@@ -397,7 +420,7 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
 
             <div className="grid grid-cols-2 gap-4">
               {[
-                { id: 'phone', icon: Phone, label: 'Phone calls', description: 'Purchase a phone number for your assistant', emoji: '📞' },
+                { id: 'phone', icon: Phone, label: 'Phone calls', description: formData.phoneNumber ? `Assigned: ${formData.phoneNumber.number}` : 'Purchase a phone number for your assistant', emoji: '📞' },
                 { id: 'sms', icon: MessageSquare, label: 'SMS messages', description: 'Respond to text messages automatically', emoji: '💬' },
                 { id: 'website', icon: Globe, label: 'Website chat', description: 'Add a chat widget to your website', emoji: '🌐' }
               ].map((channel) => (
@@ -509,6 +532,12 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
         )}
 
       </div>
+
+      <PhoneNumberPurchaseModal
+        isOpen={isPurchaseModalOpen}
+        onClose={() => setIsPurchaseModalOpen(false)}
+        onPurchaseComplete={handlePhoneNumberPurchase}
+      />
     </div>
   );
 };
