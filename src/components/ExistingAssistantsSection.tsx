@@ -7,12 +7,17 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { BaseAssistant, AssistantWithChannels } from "@/types/assistant";
+import TestAssistantModal from "./TestAssistantModal";
+import { useState } from "react";
 
 interface ExistingAssistantsSectionProps {
   assistants: BaseAssistant[];
 }
 
 const ExistingAssistantsSection = ({ assistants }: ExistingAssistantsSectionProps) => {
+  const [isTestModalOpen, setIsTestModalOpen] = useState(false);
+  const [selectedAssistant, setSelectedAssistant] = useState<BaseAssistant | null>(null);
+
   // Convert assistants to include channel data
   const assistantsWithChannels: AssistantWithChannels[] = assistants.map(assistant => ({
     ...assistant,
@@ -43,8 +48,9 @@ const ExistingAssistantsSection = ({ assistants }: ExistingAssistantsSectionProp
     }
   };
 
-  const handleTestAssistant = (assistantName: string) => {
-    alert(`🎙️ Starting voice test for ${assistantName}...\n\nThis would connect to ElevenLabs API for voice testing.`);
+  const handleTestAssistant = (assistant: BaseAssistant) => {
+    setSelectedAssistant(assistant);
+    setIsTestModalOpen(true);
   };
 
   const handleTryDemo = () => {
@@ -163,7 +169,10 @@ const ExistingAssistantsSection = ({ assistants }: ExistingAssistantsSectionProp
                       </button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-48">
-                      <DropdownMenuItem onClick={() => handleTestAssistant(assistant.name)}>
+                      <DropdownMenuItem onClick={(e) => {
+                        e.stopPropagation();
+                        handleTestAssistant(assistant);
+                      }}>
                         <TestTube className="w-4 h-4 mr-2" />
                         Test Assistant
                       </DropdownMenuItem>
@@ -195,6 +204,17 @@ const ExistingAssistantsSection = ({ assistants }: ExistingAssistantsSectionProp
           ))}
         </tbody>
       </table>
+
+      {selectedAssistant && (
+        <TestAssistantModal
+          isOpen={isTestModalOpen}
+          onClose={() => {
+            setIsTestModalOpen(false);
+            setSelectedAssistant(null);
+          }}
+          assistant={selectedAssistant}
+        />
+      )}
     </div>
   );
 };

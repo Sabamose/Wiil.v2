@@ -457,23 +457,57 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
             </div>
 
             <div className="border-t pt-6">
-              <div className="font-medium mb-4">Ready to deploy?</div>
-              <div className="flex gap-3">
-                <button
-                  onClick={handleDeploy}
-                  className="px-6 py-3 bg-black text-white rounded-md hover:bg-gray-800 font-medium flex items-center gap-2"
-                >
-                  <Rocket className="w-4 h-4" />
-                  Create Assistant
-                </button>
-                <button
-                  onClick={handleSaveDraft}
-                  className="px-6 py-3 border border-gray-300 rounded-md hover:bg-gray-50 font-medium flex items-center gap-2"
-                >
-                  <Save className="w-4 h-4" />
-                  Save as Draft
-                </button>
-              </div>
+              {/* Check if any communication channels are connected */}
+              {(formData.channels.phone || formData.channels.sms || formData.channels.website) ? (
+                <>
+                  <div className="font-medium mb-4">Assistant Ready for Testing & Deployment</div>
+                  <div className="flex justify-between gap-3">
+                    <button
+                      onClick={handleSaveDraft}
+                      className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 flex items-center gap-2 text-sm"
+                    >
+                      <Save className="w-4 h-4" />
+                      Save as Draft
+                    </button>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => alert("Test interface would open here")}
+                        className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 flex items-center gap-2"
+                      >
+                        <TestTube className="w-4 h-4" />
+                        Test Assistant
+                      </button>
+                      <button
+                        onClick={handleDeploy}
+                        className="px-6 py-3 bg-black text-white rounded-md hover:bg-gray-800 font-medium flex items-center gap-2"
+                      >
+                        <Rocket className="w-4 h-4" />
+                        Deploy & Go Live
+                      </button>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="font-medium mb-4">Ready to deploy?</div>
+                  <div className="flex gap-3">
+                    <button
+                      onClick={handleDeploy}
+                      className="px-6 py-3 bg-black text-white rounded-md hover:bg-gray-800 font-medium flex items-center gap-2"
+                    >
+                      <Rocket className="w-4 h-4" />
+                      Create Assistant
+                    </button>
+                    <button
+                      onClick={handleSaveDraft}
+                      className="px-6 py-3 border border-gray-300 rounded-md hover:bg-gray-50 font-medium flex items-center gap-2"
+                    >
+                      <Save className="w-4 h-4" />
+                      Save as Draft
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         );
