@@ -387,13 +387,6 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
             <div className="border-t pt-6">
               <div className="flex gap-3 justify-center">
                 <button
-                  onClick={handleSaveDraft}
-                  className="px-6 py-3 bg-gray-800 text-white rounded-md hover:bg-gray-900 font-medium flex items-center gap-2"
-                >
-                  <Save className="w-4 h-4" />
-                  Save as Draft
-                </button>
-                <button
                   onClick={handleNext}
                   className="px-6 py-3 border border-gray-300 rounded-md hover:bg-gray-50 font-medium flex items-center gap-2"
                 >
