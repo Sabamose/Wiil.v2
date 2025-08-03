@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { X, ChevronLeft, ChevronRight, Mic, MessageCircle, Repeat, Phone, MessageSquare, Globe, Smartphone, Upload, Link, Settings, TestTube, Rocket, Save } from "lucide-react";
 import PhoneNumberPurchaseModal from "./PhoneNumberPurchaseModal";
+import TestAssistantModal from "./TestAssistantModal";
 import { PhoneNumber } from "@/types/phoneNumber";
 import { useToast } from "@/hooks/use-toast";
+import { BaseAssistant } from "@/types/assistant";
 
 interface AssistantCreationFlowProps {
   isOpen: boolean;
@@ -13,6 +15,7 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
   const { toast } = useToast();
   const [currentStep, setCurrentStep] = useState(1);
   const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
+  const [isTestModalOpen, setIsTestModalOpen] = useState(false);
   const [purchasedPhoneNumber, setPurchasedPhoneNumber] = useState<PhoneNumber | null>(null);
   const [formData, setFormData] = useState({
     industry: "",
@@ -122,6 +125,10 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
   const handleDeploy = () => {
     alert(`🚀 Creating ${formData.name}...\n\nAssistant created successfully!\nChannels: ${Object.entries(formData.channels).filter(([_, enabled]) => enabled).map(([channel]) => channel).join(', ')}`);
     onClose();
+  };
+
+  const handleTestAssistant = () => {
+    setIsTestModalOpen(true);
   };
 
   const handleSaveDraft = () => {
@@ -471,7 +478,7 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
                     </button>
                     <div className="flex gap-2">
                       <button
-                        onClick={() => alert("Test interface would open here")}
+                        onClick={handleTestAssistant}
                         className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 flex items-center gap-2"
                       >
                         <TestTube className="w-4 h-4" />
@@ -579,6 +586,19 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
         isOpen={isPurchaseModalOpen}
         onClose={() => setIsPurchaseModalOpen(false)}
         onPurchaseComplete={handlePhoneNumberPurchase}
+      />
+
+      {/* Create a mock assistant for testing during creation flow */}
+      <TestAssistantModal
+        isOpen={isTestModalOpen}
+        onClose={() => setIsTestModalOpen(false)}
+        assistant={{
+          id: "draft",
+          name: formData.name || "Draft Assistant",
+          type: formData.type || "Unified",
+          industry: formData.industry || "technology",
+          useCase: formData.useCase || "customer-support"
+        } as BaseAssistant}
       />
     </div>
   );
