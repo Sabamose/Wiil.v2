@@ -384,16 +384,6 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
               </div>
             </div>
 
-            <div className="border-t pt-6">
-              <div className="flex gap-3 justify-center">
-                <button
-                  onClick={handleNext}
-                  className="px-6 py-3 border border-gray-300 rounded-md hover:bg-gray-50 font-medium flex items-center gap-2"
-                >
-                  Skip for Now
-                </button>
-              </div>
-            </div>
           </div>
         );
 
