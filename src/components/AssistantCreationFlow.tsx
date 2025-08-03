@@ -40,18 +40,10 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
 
   const handleIndustrySelect = (industry: string) => {
     setFormData({ ...formData, industry });
-    // Auto-advance to next step
-    setTimeout(() => {
-      setCurrentStep(2);
-    }, 200);
   };
 
   const handleUseCaseSelect = (useCase: string) => {
     setFormData({ ...formData, useCase });
-    // Auto-advance to next step
-    setTimeout(() => {
-      setCurrentStep(3);
-    }, 200);
   };
 
   const handleTypeSelect = (type: string) => {
