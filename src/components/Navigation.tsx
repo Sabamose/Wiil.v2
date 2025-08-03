@@ -1,4 +1,4 @@
-import { Home, BarChart3, MessageCircle, Bot, BookOpen } from "lucide-react";
+import { Home, MessageCircle, Bot, BookOpen } from "lucide-react";
 
 const Navigation = () => {
   return (
@@ -24,10 +24,6 @@ const Navigation = () => {
         <a href="#" className="flex items-center gap-3 px-6 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all">
           <Home className="w-5 h-5" />
           Home
-        </a>
-        <a href="#" className="flex items-center gap-3 px-6 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all">
-          <BarChart3 className="w-5 h-5" />
-          Analytics
         </a>
         <a href="#" className="flex items-center gap-3 px-6 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all">
           <MessageCircle className="w-5 h-5" />
