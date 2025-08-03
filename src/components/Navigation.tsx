@@ -37,6 +37,10 @@ const Navigation = () => {
           <BookOpen className="w-5 h-5" />
           Knowledge Base
         </a>
+        
+        {/* Separator */}
+        <div className="border-t border-gray-200 my-4 mx-6"></div>
+        
         <a href="/phone-numbers" className="flex items-center gap-3 px-6 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all">
           <Phone className="w-5 h-5" />
           Phone Numbers
