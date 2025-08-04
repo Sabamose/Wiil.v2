@@ -45,9 +45,6 @@ const CampaignDetails = ({ campaign, onBack, onRecipientClick }: CampaignDetails
           </div>
           <div className="flex items-center gap-4">
             <h1 className="text-2xl font-bold">{campaign.name}</h1>
-            <Badge variant="outline" className="text-sm">
-              👤 {campaign.agent}
-            </Badge>
           </div>
         </div>
         <div className="flex items-center gap-2">
