@@ -116,73 +116,56 @@ const OutboundCallDetails = ({ call, onBack }: OutboundCallDetailsProps) => {
           <TabsTrigger value="batch-call">Batch call</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="overview" className="space-y-6">
+        <TabsContent value="overview" className="space-y-6 mt-6">
           {/* Summary */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Summary</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-700">{call.summary}</p>
-            </CardContent>
-          </Card>
+          <div className="space-y-2">
+            <h2 className="text-xl font-bold">Summary</h2>
+            <p className="text-gray-700">{call.summary}</p>
+          </div>
 
           {/* Call Status & Metrics */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium">Call status</span>
-                  {getStatusBadge(call.status)}
-                </div>
-              </CardContent>
-            </Card>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="space-y-1">
+              <h3 className="text-sm font-medium text-gray-600">Call status</h3>
+              {getStatusBadge(call.status)}
+            </div>
 
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium">User ID</span>
-                  <span className="text-sm text-gray-500">No user ID</span>
-                </div>
-              </CardContent>
-            </Card>
+            <div className="space-y-1">
+              <h3 className="text-sm font-medium text-gray-600">User ID</h3>
+              <span className="text-sm text-gray-500">No user ID</span>
+            </div>
 
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium">Criteria evaluation</span>
-                  <span className="text-sm font-medium">{successfulCriteria} of {totalCriteria} successful</span>
-                </div>
-              </CardContent>
-            </Card>
+            <div className="space-y-1">
+              <h3 className="text-sm font-medium text-gray-600">Criteria evaluation</h3>
+              <span className="text-sm font-medium">{successfulCriteria} of {totalCriteria} successful</span>
+            </div>
           </div>
 
           {/* Criteria Details */}
-          <div className="space-y-4">
+          <div className="space-y-3">
             {call.criteria.map((criterion, index) => (
-              <Card key={index}>
-                <CardContent className="p-4">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex items-center gap-2">
-                      {getStatusIcon(criterion.status)}
-                      <span className="font-medium">{criterion.name}</span>
-                    </div>
-                    <Badge variant={criterion.status === 'failure' ? 'destructive' : criterion.status === 'success' ? 'default' : 'secondary'}>
-                      {criterion.status === 'failure' ? 'Failure' : criterion.status === 'success' ? 'Success' : 'Unknown'}
-                    </Badge>
+              <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                <div className="flex items-center gap-3">
+                  {getStatusIcon(criterion.status)}
+                  <div>
+                    <span className="font-medium">{criterion.name}</span>
+                    <p className="text-sm text-gray-600 mt-1">{criterion.description}</p>
                   </div>
-                  <p className="text-sm text-gray-600 mt-2">{criterion.description}</p>
-                </CardContent>
-              </Card>
+                </div>
+                <Badge 
+                  variant={criterion.status === 'success' ? 'default' : 'destructive'}
+                  className={criterion.status === 'success' ? 'bg-black text-white' : ''}
+                >
+                  {criterion.status === 'success' ? 'Success' : 'Failure'}
+                </Badge>
+              </div>
             ))}
           </div>
 
           {/* Data Collection */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Data collection</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+          <div className="space-y-4">
+            <h2 className="text-xl font-bold">Data collection</h2>
+            <div className="space-y-3">
               {Object.entries(call.dataCollected).map(([key, value]) => (
                 <div key={key} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                   <div className="flex items-center gap-2">
@@ -195,88 +178,74 @@ const OutboundCallDetails = ({ call, onBack }: OutboundCallDetailsProps) => {
                   </span>
                 </div>
               ))}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </TabsContent>
 
         <TabsContent value="transcription">
-          <Card>
-            <CardHeader>
-              <CardTitle>Call Transcription</CardTitle>
-            </CardHeader>
-            <CardContent>
+          <div className="space-y-4">
+            <h2 className="text-xl font-bold">Call Transcription</h2>
+            <div className="p-4 bg-gray-50 rounded-lg">
               <p className="text-gray-700 whitespace-pre-wrap">
                 {call.transcript || "Transcription not available for this call."}
               </p>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </TabsContent>
 
         <TabsContent value="client-data">
-          <Card>
-            <CardHeader>
-              <CardTitle>Client Information</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Phone Number</label>
-                  <div className="flex items-center gap-2 p-2 bg-gray-50 rounded">
-                    <Phone className="h-4 w-4 text-gray-500" />
-                    <span>{call.phoneNumber}</span>
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Call Duration</label>
-                  <div className="flex items-center gap-2 p-2 bg-gray-50 rounded">
-                    <Clock className="h-4 w-4 text-gray-500" />
-                    <span>{call.duration}</span>
-                  </div>
+          <div className="space-y-4">
+            <h2 className="text-xl font-bold">Client Information</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Phone Number</label>
+                <div className="flex items-center gap-2 p-3 bg-gray-50 rounded">
+                  <Phone className="h-4 w-4 text-gray-500" />
+                  <span>{call.phoneNumber}</span>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Call Duration</label>
+                <div className="flex items-center gap-2 p-3 bg-gray-50 rounded">
+                  <Clock className="h-4 w-4 text-gray-500" />
+                  <span>{call.duration}</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </TabsContent>
 
         <TabsContent value="phone-call">
-          <Card>
-            <CardHeader>
-              <CardTitle>Phone Call Details</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-sm font-medium text-gray-600">Call Status</label>
-                    <p className="font-medium">{call.status}</p>
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium text-gray-600">Duration</label>
-                    <p className="font-medium">{call.duration}</p>
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium text-gray-600">Timestamp</label>
-                    <p className="font-medium">{call.timestamp.toLocaleString()}</p>
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium text-gray-600">Phone Number</label>
-                    <p className="font-medium">{call.phoneNumber}</p>
-                  </div>
-                </div>
+          <div className="space-y-4">
+            <h2 className="text-xl font-bold">Phone Call Details</h2>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="p-3 bg-gray-50 rounded">
+                <label className="text-sm font-medium text-gray-600">Call Status</label>
+                <p className="font-medium">{call.status}</p>
               </div>
-            </CardContent>
-          </Card>
+              <div className="p-3 bg-gray-50 rounded">
+                <label className="text-sm font-medium text-gray-600">Duration</label>
+                <p className="font-medium">{call.duration}</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded">
+                <label className="text-sm font-medium text-gray-600">Timestamp</label>
+                <p className="font-medium">{call.timestamp.toLocaleString()}</p>
+              </div>
+              <div className="p-3 bg-gray-50 rounded">
+                <label className="text-sm font-medium text-gray-600">Phone Number</label>
+                <p className="font-medium">{call.phoneNumber}</p>
+              </div>
+            </div>
+          </div>
         </TabsContent>
 
         <TabsContent value="batch-call">
-          <Card>
-            <CardHeader>
-              <CardTitle>Batch Call Information</CardTitle>
-            </CardHeader>
-            <CardContent>
+          <div className="space-y-4">
+            <h2 className="text-xl font-bold">Batch Call Information</h2>
+            <div className="p-4 bg-gray-50 rounded-lg">
               <p className="text-gray-600">This call was part of an outbound batch calling campaign.</p>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </TabsContent>
       </Tabs>
     </div>
