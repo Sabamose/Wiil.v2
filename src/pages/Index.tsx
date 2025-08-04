@@ -36,8 +36,8 @@ const Index = () => {
       type: "Voice",
       industry: "technology",
       useCase: "customer-support",
-      assistantType: "inbound",
-      phoneNumber: "+1 (555) 345-6789"
+      assistantType: "inbound"
+      // phoneNumber field intentionally omitted to show "not assigned" state
     }
   ];
 

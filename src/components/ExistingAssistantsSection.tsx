@@ -135,12 +135,12 @@ const ExistingAssistantsSection = ({ assistants }: ExistingAssistantsSectionProp
                   </div>
                   
                   {/* Phone Number */}
-                  {assistant.phoneNumber && (
-                    <div className="flex items-center gap-2">
-                      <Phone className="w-4 h-4 text-gray-600" />
-                      <span className="text-sm text-gray-600">{assistant.phoneNumber}</span>
-                    </div>
-                  )}
+                  <div className="flex items-center gap-2">
+                    <Phone className="w-4 h-4 text-gray-600" />
+                    <span className="text-sm text-gray-600">
+                      {assistant.phoneNumber || "Phone number not assigned"}
+                    </span>
+                  </div>
                 </div>
               </td>
               <td className="px-6 py-5">
