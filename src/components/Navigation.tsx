@@ -38,7 +38,7 @@ const Navigation = () => {
           <Home className="w-5 h-5" />
           Home
         </a>
-        <a href="#" className={getNavItemClass("/conversations")}>
+        <a href="/conversations" className={getNavItemClass("/conversations")}>
           <MessageCircle className="w-5 h-5" />
           Conversations
         </a>
