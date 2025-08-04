@@ -62,52 +62,6 @@ const CampaignDetails = ({ campaign, onBack, onRecipientClick }: CampaignDetails
         </div>
       </div>
 
-      {/* Status Overview Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card>
-          <CardContent className="p-4">
-            <div className="space-y-2">
-              <h3 className="text-sm font-medium text-gray-600">Status</h3>
-              <Badge className="bg-green-100 text-green-800">
-                ✓ Completed
-              </Badge>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-4">
-            <div className="space-y-2">
-              <h3 className="text-sm font-medium text-gray-600">Total recipients</h3>
-              <p className="text-2xl font-bold">{campaign.recipients}</p>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-4">
-            <div className="space-y-2">
-              <h3 className="text-sm font-medium text-gray-600">Started</h3>
-              <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4 text-gray-500" />
-                <span className="text-sm">3 weeks ago</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-4">
-            <div className="space-y-2">
-              <h3 className="text-sm font-medium text-gray-600">Progress</h3>
-              <div className="flex items-center gap-2">
-                <TrendingUp className="h-4 w-4 text-gray-500" />
-                <span className="text-sm font-bold">100%</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
 
       {/* Call Recipients Table */}
       <div className="space-y-4">
