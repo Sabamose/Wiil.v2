@@ -169,28 +169,6 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
         </Card>
       </div>
 
-      {/* Data Collection Variables */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Data Collection Configuration</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {dataVariables.map((variable) => (
-              <div key={variable.id} className="border rounded-lg p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-medium">{variable.name}</h4>
-                  <Badge variant={variable.required ? "default" : "secondary"}>
-                    {variable.required ? "Required" : "Optional"}
-                  </Badge>
-                </div>
-                <p className="text-sm text-gray-600 mb-1">{variable.description}</p>
-                <p className="text-xs text-gray-500 capitalize">Type: {variable.type}</p>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 };
