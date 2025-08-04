@@ -108,12 +108,11 @@ const OutboundCallDetails = ({ call, onBack }: OutboundCallDetailsProps) => {
 
       {/* Tabs */}
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="transcription">Transcription</TabsTrigger>
           <TabsTrigger value="client-data">Client data</TabsTrigger>
           <TabsTrigger value="phone-call">Phone call</TabsTrigger>
-          <TabsTrigger value="batch-call">Batch call</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6 mt-6">
@@ -239,14 +238,6 @@ const OutboundCallDetails = ({ call, onBack }: OutboundCallDetailsProps) => {
           </div>
         </TabsContent>
 
-        <TabsContent value="batch-call">
-          <div className="space-y-4">
-            <h2 className="text-xl font-bold">Batch Call Information</h2>
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <p className="text-gray-600">This call was part of an outbound batch calling campaign.</p>
-            </div>
-          </div>
-        </TabsContent>
       </Tabs>
     </div>
   );
