@@ -1,82 +1,46 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Navigation from "@/components/Navigation";
-import ExistingAssistantsSection from "@/components/ExistingAssistantsSection";
+import CallsDashboard from "@/components/CallsDashboard";
+import CallDetails from "@/components/CallDetails";
 import AssistantCreationFlow from "@/components/AssistantCreationFlow";
-import AssistantSettings from "@/components/AssistantSettings";
-import { BaseAssistant } from "@/types/assistant";
+import { InboundCall } from "@/types/call";
 
 const Index = () => {
   const [isCreationFlowOpen, setIsCreationFlowOpen] = useState(false);
-  const [selectedAssistant, setSelectedAssistant] = useState<BaseAssistant | null>(null);
-  const [currentView, setCurrentView] = useState<"list" | "settings">("list");
+  const [selectedCall, setSelectedCall] = useState<InboundCall | null>(null);
+  const [currentView, setCurrentView] = useState<"dashboard" | "call-details">("dashboard");
 
-  // Sample assistant data with industry and use case
-  const assistants: BaseAssistant[] = [
-    {
-      id: "1",
-      name: "CustomerSupport",
-      type: "Unified",
-      industry: "retail",
-      useCase: "customer-support"
-    },
-    {
-      id: "2", 
-      name: "Sales Assistant",
-      type: "Chat",
-      industry: "technology",
-      useCase: "outbound-sales"
-    },
-    {
-      id: "3",
-      name: "Technical Support",
-      type: "Voice",
-      industry: "technology",
-      useCase: "customer-support"
-    }
-  ];
-
-  useEffect(() => {
-    const handleCreateAssistant = () => {
-      setIsCreationFlowOpen(true);
-    };
-
-    const handleViewAssistantSettings = (event: CustomEvent) => {
-      const assistantId = event.detail.assistantId;
-      const assistant = assistants.find(a => a.id === assistantId);
-      if (assistant) {
-        setSelectedAssistant(assistant);
-        setCurrentView("settings");
-      }
-    };
-
-    window.addEventListener('create-assistant', handleCreateAssistant);
-    window.addEventListener('view-assistant-settings', handleViewAssistantSettings as EventListener);
-    
-    return () => {
-      window.removeEventListener('create-assistant', handleCreateAssistant);
-      window.removeEventListener('view-assistant-settings', handleViewAssistantSettings as EventListener);
-    };
-  }, [assistants]);
-
-  const handleBackToList = () => {
-    setCurrentView("list");
-    setSelectedAssistant(null);
+  const handleCallSelect = (call: InboundCall) => {
+    setSelectedCall(call);
+    setCurrentView("call-details");
   };
+
+  const handleBackToDashboard = () => {
+    setCurrentView("dashboard");
+    setSelectedCall(null);
+  };
+
+  const handleCreateAssistant = () => {
+    setIsCreationFlowOpen(true);
+  };
+
+  // Listen for create assistant events
+  window.addEventListener('create-assistant', handleCreateAssistant);
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#fafafa' }}>
-      {currentView === "list" && <Navigation />}
+      {currentView === "dashboard" && <Navigation />}
       
       {/* Main Content */}
-      {currentView === "list" ? (
+      {currentView === "dashboard" ? (
         <main className="ml-60 mt-16 p-8">
-          <ExistingAssistantsSection assistants={assistants} />
+          <CallsDashboard onCallSelect={handleCallSelect} />
         </main>
       ) : (
-        selectedAssistant && (
-          <AssistantSettings 
-            assistant={selectedAssistant}
-            onBack={handleBackToList}
+        selectedCall && (
+          <CallDetails 
+            call={selectedCall}
+            onBack={handleBackToDashboard}
           />
         )
       )}
