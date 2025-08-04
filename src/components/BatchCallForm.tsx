@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Upload, Download, ArrowLeft, Users } from "lucide-react";
+import TestOutboundCallModal from "./TestOutboundCallModal";
 
 interface BatchCallFormProps {
   onBack: () => void;
@@ -25,6 +26,7 @@ const BatchCallForm = ({ onBack, onSubmit }: BatchCallFormProps) => {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [csvData, setCsvData] = useState<any[]>([]);
   const [timing, setTiming] = useState<'immediate' | 'scheduled'>('immediate');
+  const [testModalOpen, setTestModalOpen] = useState(false);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -207,10 +209,16 @@ const BatchCallForm = ({ onBack, onSubmit }: BatchCallFormProps) => {
 
           {/* Action Buttons */}
           <div className="flex gap-4 pt-4">
-            <Button variant="outline">Test call</Button>
+            <Button variant="outline" onClick={() => setTestModalOpen(true)}>Test call</Button>
           </div>
         </CardContent>
       </Card>
+
+      {/* Test Call Modal */}
+      <TestOutboundCallModal 
+        open={testModalOpen} 
+        onOpenChange={setTestModalOpen} 
+      />
     </div>
   );
 };
