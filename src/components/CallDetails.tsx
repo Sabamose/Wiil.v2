@@ -244,16 +244,6 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
               </div>
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex items-center gap-2 pt-2">
-              <Button variant="outline" size="sm" className="flex items-center gap-2">
-                <Download className="h-4 w-4" />
-                Download Recording
-              </Button>
-              <Button variant="outline" size="sm">
-                Share Link
-              </Button>
-            </div>
           </div>
         </CardContent>
       </Card>
