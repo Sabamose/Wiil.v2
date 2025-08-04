@@ -29,9 +29,9 @@ const CampaignList = ({ campaigns, onCampaignClick, onCreateCampaign, onBack }: 
             <ArrowLeft className="h-4 w-4" />
             Back
           </Button>
-          <h1 className="text-2xl font-bold">Batch Calling</h1>
+          <h1 className="text-2xl font-bold">Outgoing Calls</h1>
         </div>
-        <Button onClick={onCreateCampaign}>Create a batch call</Button>
+        <Button onClick={onCreateCampaign}>Create Campaigns</Button>
       </div>
 
       <div className="relative">
