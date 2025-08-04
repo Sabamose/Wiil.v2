@@ -2,7 +2,7 @@ import { Campaign } from "@/types/campaign";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
 import { Search, Clock, ArrowLeft, Users } from "lucide-react";
 import { useState } from "react";
 
@@ -44,68 +44,51 @@ const CampaignList = ({ campaigns, onCampaignClick, onCreateCampaign, onBack }: 
         />
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Users className="h-5 w-5" />
-            Campaign List
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Campaign Name</TableHead>
-                <TableHead>Recipients</TableHead>
-                <TableHead>Agent</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Duration</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredCampaigns.map((campaign) => (
-                <TableRow 
-                  key={campaign.id}
-                  className="cursor-pointer hover:bg-gray-50"
-                  onClick={() => onCampaignClick(campaign)}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {filteredCampaigns.map((campaign) => (
+          <Card 
+            key={campaign.id} 
+            className="cursor-pointer hover:shadow-md transition-shadow"
+            onClick={() => onCampaignClick(campaign)}
+          >
+            <CardContent className="p-4 space-y-3">
+              <div>
+                <h3 className="font-semibold text-lg">{campaign.name}</h3>
+                <p className="text-sm text-gray-600">{campaign.recipients} recipients</p>
+                <p className="text-sm text-gray-600">{campaign.agent}</p>
+              </div>
+              
+              <div className="space-y-2">
+                <Badge 
+                  variant="default"
+                  className="bg-green-100 text-green-800"
                 >
-                  <TableCell className="font-medium">{campaign.name}</TableCell>
-                  <TableCell>{campaign.recipients} recipients</TableCell>
-                  <TableCell>{campaign.agent}</TableCell>
-                  <TableCell>
-                    <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs bg-green-100 text-green-800">
-                      ✓ Completed
-                    </span>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-1">
-                      <Clock className="h-3 w-3" />
-                      {campaign.duration}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <Button variant="outline" size="sm">
-                      View Details
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+                  ✓ Completed
+                </Badge>
+                
+                <div className="flex items-center justify-between text-sm">
+                  <div className="flex items-center gap-1">
+                    <span>📊 100%</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Clock className="h-3 w-3" />
+                    <span>{campaign.duration}</span>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
 
       {filteredCampaigns.length === 0 && (
-        <Card>
-          <CardContent className="text-center py-12">
-            <Users className="h-12 w-12 mx-auto mb-4 text-gray-300" />
-            <p className="text-gray-500 mb-4">No campaigns found</p>
-            <Button onClick={onCreateCampaign}>
-              Create your first campaign
-            </Button>
-          </CardContent>
-        </Card>
+        <div className="text-center py-12">
+          <Users className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+          <p className="text-gray-500 mb-4">No campaigns found</p>
+          <Button onClick={onCreateCampaign}>
+            Create your first campaign
+          </Button>
+        </div>
       )}
     </div>
   );
