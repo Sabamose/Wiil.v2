@@ -184,10 +184,89 @@ const OutboundCallDetails = ({ call, onBack }: OutboundCallDetailsProps) => {
         <TabsContent value="transcription">
           <div className="space-y-4">
             <h2 className="text-xl font-bold">Call Transcription</h2>
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <p className="text-gray-700 whitespace-pre-wrap">
-                {call.transcript || "Transcription not available for this call."}
-              </p>
+            <div className="bg-gray-50 rounded-lg p-4 max-h-96 overflow-y-auto">
+              {call.transcript ? (
+                <div className="space-y-4">
+                  {/* Agent Message */}
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                      A
+                    </div>
+                    <div className="flex-1">
+                      <div className="bg-white rounded-lg p-3 shadow-sm border">
+                        <div className="text-xs text-gray-500 mb-1">Agent</div>
+                        <p className="text-gray-800">Hello, this is calling from Armstrong Transport. May I speak with someone regarding your logistics needs?</p>
+                      </div>
+                      <div className="text-xs text-gray-400 mt-1">00:05</div>
+                    </div>
+                  </div>
+
+                  {/* Contact Message */}
+                  <div className="flex items-start gap-3 flex-row-reverse">
+                    <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                      C
+                    </div>
+                    <div className="flex-1">
+                      <div className="bg-green-50 rounded-lg p-3 shadow-sm border border-green-200">
+                        <div className="text-xs text-gray-500 mb-1 text-right">Contact</div>
+                        <p className="text-gray-800">Yes, this is speaking. What can you help me with?</p>
+                      </div>
+                      <div className="text-xs text-gray-400 mt-1 text-right">00:12</div>
+                    </div>
+                  </div>
+
+                  {/* Agent Message */}
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                      A
+                    </div>
+                    <div className="flex-1">
+                      <div className="bg-white rounded-lg p-3 shadow-sm border">
+                        <div className="text-xs text-gray-500 mb-1">Agent</div>
+                        <p className="text-gray-800">Great! I wanted to discuss our freight solutions that might benefit your business. We specialize in logistics and transportation services for companies like yours.</p>
+                      </div>
+                      <div className="text-xs text-gray-400 mt-1">00:18</div>
+                    </div>
+                  </div>
+
+                  {/* Contact Message */}
+                  <div className="flex items-start gap-3 flex-row-reverse">
+                    <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                      C
+                    </div>
+                    <div className="flex-1">
+                      <div className="bg-green-50 rounded-lg p-3 shadow-sm border border-green-200">
+                        <div className="text-xs text-gray-500 mb-1 text-right">Contact</div>
+                        <p className="text-gray-800">We might be interested. Can you send me some information via email?</p>
+                      </div>
+                      <div className="text-xs text-gray-400 mt-1 text-right">00:35</div>
+                    </div>
+                  </div>
+
+                  {/* Agent Message */}
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                      A
+                    </div>
+                    <div className="flex-1">
+                      <div className="bg-white rounded-lg p-3 shadow-sm border">
+                        <div className="text-xs text-gray-500 mb-1">Agent</div>
+                        <p className="text-gray-800">Absolutely! I'd be happy to send you detailed information. Could I get your email address?</p>
+                      </div>
+                      <div className="text-xs text-gray-400 mt-1">00:42</div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center py-8">
+                  <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                    </svg>
+                  </div>
+                  <p className="text-gray-500">Transcription not available for this call.</p>
+                </div>
+              )}
             </div>
           </div>
         </TabsContent>
