@@ -580,7 +580,7 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
 
         {/* Footer */}
         {currentStep >= 4 && currentStep < totalSteps && (
-          <div className="flex justify-between p-6 border-t border-gray-200">
+          <div className="flex justify-between p-6 border-t border-gray-200 bg-white relative z-10">
             <button
               onClick={handlePrevious}
               className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 flex items-center gap-2"
