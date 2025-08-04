@@ -138,7 +138,7 @@ const ExistingAssistantsSection = ({ assistants }: ExistingAssistantsSectionProp
                   <div className="flex items-center gap-2">
                     <Phone className="w-4 h-4 text-gray-600" />
                     <span className="text-sm text-gray-600">
-                      {assistant.phoneNumber || "Phone number not assigned"}
+                      {assistant.phoneNumber || "Phone number not connected"}
                     </span>
                   </div>
                 </div>
