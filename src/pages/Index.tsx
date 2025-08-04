@@ -17,21 +17,27 @@ const Index = () => {
       name: "CustomerSupport",
       type: "Unified",
       industry: "retail",
-      useCase: "customer-support"
+      useCase: "customer-support",
+      assistantType: "inbound",
+      phoneNumber: "+1 (555) 123-4567"
     },
     {
       id: "2", 
       name: "Sales Assistant",
       type: "Chat",
       industry: "technology",
-      useCase: "outbound-sales"
+      useCase: "outbound-sales",
+      assistantType: "outbound",
+      phoneNumber: "+1 (555) 234-5678"
     },
     {
       id: "3",
       name: "Technical Support",
       type: "Voice",
       industry: "technology",
-      useCase: "customer-support"
+      useCase: "customer-support",
+      assistantType: "inbound",
+      phoneNumber: "+1 (555) 345-6789"
     }
   ];
 

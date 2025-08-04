@@ -4,6 +4,8 @@ export interface BaseAssistant {
   type: "Voice" | "Chat" | "Unified";
   industry: string;
   useCase: string;
+  assistantType?: "inbound" | "outbound"; // New field for call direction
+  phoneNumber?: string; // New field for assigned phone number
 }
 
 export interface AssistantWithChannels extends BaseAssistant {

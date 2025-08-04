@@ -1,4 +1,4 @@
-import { MoreHorizontal, TestTube, Settings, Copy, Link, Trash2, Mic, MessageCircle, Repeat, Phone, Globe, MessageSquare, Smartphone } from "lucide-react";
+import { MoreHorizontal, TestTube, Settings, Copy, Link, Trash2, Mic, MessageCircle, Repeat, Phone, Globe, MessageSquare, Smartphone, PhoneIncoming, PhoneOutgoing } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -121,32 +121,26 @@ const ExistingAssistantsSection = ({ assistants }: ExistingAssistantsSectionProp
                 <div className="font-semibold group-hover:text-gray-900 transition-colors">{assistant.name}</div>
               </td>
               <td className="px-6 py-5">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 text-gray-700 rounded-xl text-xs font-medium">
-                    {(() => {
-                      const TypeIcon = getTypeIcon(assistant.type);
-                      return <TypeIcon className="w-3 h-3" />;
-                    })()}
-                    {assistant.type}
-                  </span>
-                </div>
-                <div className="flex gap-1">
-                  {assistant.channels.map((channel, idx) => {
-                    const ChannelIcon = getChannelIcon(channel.type);
-                    return (
-                      <span
-                        key={idx}
-                        className={`w-7 h-7 rounded flex items-center justify-center ${
-                          channel.connected 
-                            ? 'bg-gray-200 text-gray-700' 
-                            : 'bg-gray-100 text-gray-400'
-                        }`}
-                        title={`${channel.name} ${channel.connected ? 'Connected' : 'Not Connected'}`}
-                      >
-                        <ChannelIcon className="w-4 h-4" />
-                      </span>
-                    );
-                  })}
+                <div className="space-y-2">
+                  {/* Assistant Type */}
+                  <div className="flex items-center gap-2">
+                    {assistant.assistantType === 'inbound' ? (
+                      <PhoneIncoming className="w-4 h-4 text-gray-600" />
+                    ) : (
+                      <PhoneOutgoing className="w-4 h-4 text-gray-600" />
+                    )}
+                    <span className="text-sm font-medium text-gray-800">
+                      {assistant.assistantType === 'inbound' ? 'Incoming Calls' : 'Outgoing Calls'}
+                    </span>
+                  </div>
+                  
+                  {/* Phone Number */}
+                  {assistant.phoneNumber && (
+                    <div className="flex items-center gap-2">
+                      <Phone className="w-4 h-4 text-gray-600" />
+                      <span className="text-sm text-gray-600">{assistant.phoneNumber}</span>
+                    </div>
+                  )}
                 </div>
               </td>
               <td className="px-6 py-5">
