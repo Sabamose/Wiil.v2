@@ -148,9 +148,6 @@ const TestOutboundCallModal = ({ open, onOpenChange }: TestOutboundCallModalProp
           <Card className="bg-blue-50 border-blue-200">
             <CardContent className="p-4">
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
-                  ℹ️
-                </div>
                 <div className="space-y-1">
                   <h4 className="text-sm font-medium text-blue-900">Test Call Information</h4>
                   <p className="text-xs text-blue-700">
