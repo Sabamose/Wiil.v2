@@ -58,7 +58,7 @@ const BatchCallForm = ({ onBack, onSubmit }: BatchCallFormProps) => {
             <Button variant="ghost" onClick={onBack} className="p-0">
               <ArrowLeft className="h-5 w-5" />
             </Button>
-            Create a batch call
+            Call Campaigns
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
