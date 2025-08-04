@@ -66,10 +66,7 @@ const CampaignList = ({ campaigns, onCampaignClick, onCreateCampaign, onBack }: 
                   ✓ Completed
                 </Badge>
                 
-                <div className="flex items-center justify-between text-sm">
-                  <div className="flex items-center gap-1">
-                    <span>📊 100%</span>
-                  </div>
+                <div className="flex items-center justify-end text-sm">
                   <div className="flex items-center gap-1">
                     <Clock className="h-3 w-3" />
                     <span>{campaign.duration}</span>
