@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ArrowLeft, Phone } from "lucide-react";
+import { ArrowLeft, Phone, Calendar, TrendingUp, RotateCcw, X } from "lucide-react";
 
 interface CampaignDetailsProps {
   campaign: Campaign;
@@ -32,68 +32,142 @@ const CampaignDetails = ({ campaign, onBack, onRecipientClick }: CampaignDetails
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-4">
-        <Button variant="ghost" onClick={onBack} className="flex items-center gap-2">
-          <ArrowLeft className="h-4 w-4" />
-          Back
-        </Button>
-        <h1 className="text-2xl font-bold">Call Recipients</h1>
+      {/* Breadcrumb and Header */}
+      <div className="flex items-center justify-between">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2 text-sm text-gray-500">
+            <Button variant="ghost" onClick={onBack} className="flex items-center gap-2 p-0 h-auto">
+              <ArrowLeft className="h-4 w-4" />
+              Outgoing Calls
+            </Button>
+            <span>/</span>
+            <span>{campaign.name}</span>
+          </div>
+          <div className="flex items-center gap-4">
+            <h1 className="text-2xl font-bold">{campaign.name}</h1>
+            <Badge variant="outline" className="text-sm">
+              👤 {campaign.agent}
+            </Badge>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" className="flex items-center gap-2">
+            <X className="h-4 w-4" />
+            Cancel
+          </Button>
+          <Button variant="outline" className="flex items-center gap-2">
+            <RotateCcw className="h-4 w-4" />
+            Retry
+          </Button>
+        </div>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center justify-between">
-            <span>{campaign.name}</span>
-            <div className="flex items-center gap-4 text-sm text-gray-600">
-              <span>{campaign.recipients} recipients</span>
-              <span>{campaign.agent}</span>
-              <Badge className="bg-green-100 text-green-800">✓ Completed</Badge>
+      {/* Status Overview Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Card>
+          <CardContent className="p-4">
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-gray-600">Status</h3>
+              <Badge className="bg-green-100 text-green-800">
+                ✓ Completed
+              </Badge>
             </div>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="flex items-center gap-2">
-                  <Phone className="h-4 w-4" />
-                  Phone
-                </TableHead>
-                {dynamicKeys.map((key) => (
-                  <TableHead key={key} className="flex items-center gap-2">
-                    <span>{ }</span>
-                    Dynamic Variable
-                    <div className="text-xs text-gray-500 block">{key}</div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-4">
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-gray-600">Total recipients</h3>
+              <p className="text-2xl font-bold">{campaign.recipients}</p>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-4">
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-gray-600">Started</h3>
+              <div className="flex items-center gap-2">
+                <Calendar className="h-4 w-4 text-gray-500" />
+                <span className="text-sm">3 weeks ago</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-4">
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-gray-600">Progress</h3>
+              <div className="flex items-center gap-2">
+                <TrendingUp className="h-4 w-4 text-gray-500" />
+                <span className="text-sm font-bold">100%</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Call Recipients Table */}
+      <div className="space-y-4">
+        <h2 className="text-lg font-semibold">Call Recipients</h2>
+        
+        <Card>
+          <CardContent className="p-0">
+            <Table>
+              <TableHeader>
+                <TableRow className="border-b">
+                  <TableHead className="px-4 py-3">
+                    <div className="flex items-center gap-2">
+                      <Phone className="h-4 w-4" />
+                      Phone
+                    </div>
+                    <div className="text-xs text-gray-500">phone_number</div>
                   </TableHead>
-                ))}
-                <TableHead className="flex items-center gap-2">
-                  <span>📊</span>
-                  Status
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {campaign.csvData.map((recipient) => (
-                <TableRow 
-                  key={recipient.id}
-                  className="cursor-pointer hover:bg-gray-50"
-                  onClick={() => onRecipientClick(recipient)}
-                >
-                  <TableCell>{recipient.phone_number}</TableCell>
                   {dynamicKeys.map((key) => (
-                    <TableCell key={key}>
-                      {recipient[key] || '--'}
-                    </TableCell>
+                    <TableHead key={key} className="px-4 py-3">
+                      <div className="flex items-center gap-2">
+                        <span>{ }</span>
+                        Dynamic Variable
+                      </div>
+                      <div className="text-xs text-gray-500">{key}</div>
+                    </TableHead>
                   ))}
-                  <TableCell>
-                    {getStatusBadge(recipient.status)}
-                  </TableCell>
+                  <TableHead className="px-4 py-3">
+                    <div className="flex items-center gap-2">
+                      <span>📊</span>
+                      Status
+                    </div>
+                    <div className="text-xs text-gray-500">status</div>
+                  </TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+              </TableHeader>
+              <TableBody>
+                {campaign.csvData.map((recipient) => (
+                  <TableRow 
+                    key={recipient.id}
+                    className="cursor-pointer hover:bg-gray-50 border-b"
+                    onClick={() => onRecipientClick(recipient)}
+                  >
+                    <TableCell className="px-4 py-3 font-medium">
+                      {recipient.phone_number}
+                    </TableCell>
+                    {dynamicKeys.map((key) => (
+                      <TableCell key={key} className="px-4 py-3">
+                        {recipient[key] || '--'}
+                      </TableCell>
+                    ))}
+                    <TableCell className="px-4 py-3">
+                      {getStatusBadge(recipient.status)}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
