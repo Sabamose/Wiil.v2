@@ -339,32 +339,6 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
                 />
               </div>
 
-              <div>
-                <p className="text-sm font-medium text-gray-700 mb-3">Quick start with a template:</p>
-                <div className="flex gap-2 flex-wrap">
-                  <button
-                    onClick={() => handleTemplateSelect('customer-support')}
-                    className="px-3 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50 flex items-center gap-2"
-                  >
-                    <Phone className="w-4 h-4" />
-                    Customer Support
-                  </button>
-                  <button
-                    onClick={() => handleTemplateSelect('sales')}
-                    className="px-3 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50 flex items-center gap-2"
-                  >
-                    <Settings className="w-4 h-4" />
-                    Sales Assistant
-                  </button>
-                  <button
-                    onClick={() => handleTemplateSelect('technical')}
-                    className="px-3 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50 flex items-center gap-2"
-                  >
-                    <Settings className="w-4 h-4" />
-                    Technical Support
-                  </button>
-                </div>
-              </div>
             </div>
           </div>
         );
