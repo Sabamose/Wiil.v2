@@ -196,6 +196,7 @@ const CallsDashboard = () => {
         campaigns={campaigns}
         onCampaignClick={handleCampaignClick}
         onCreateCampaign={() => setView('create-campaign')}
+        onBack={() => setView('incoming')}
       />
     );
   }

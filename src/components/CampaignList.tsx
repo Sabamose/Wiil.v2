@@ -3,16 +3,17 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Clock } from "lucide-react";
+import { Search, Clock, ArrowLeft } from "lucide-react";
 import { useState } from "react";
 
 interface CampaignListProps {
   campaigns: Campaign[];
   onCampaignClick: (campaign: Campaign) => void;
   onCreateCampaign: () => void;
+  onBack: () => void;
 }
 
-const CampaignList = ({ campaigns, onCampaignClick, onCreateCampaign }: CampaignListProps) => {
+const CampaignList = ({ campaigns, onCampaignClick, onCreateCampaign, onBack }: CampaignListProps) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredCampaigns = campaigns.filter(campaign =>
@@ -23,7 +24,13 @@ const CampaignList = ({ campaigns, onCampaignClick, onCreateCampaign }: Campaign
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Batch Calling</h1>
+        <div className="flex items-center gap-4">
+          <Button variant="ghost" onClick={onBack} className="flex items-center gap-2">
+            <ArrowLeft className="h-4 w-4" />
+            Back
+          </Button>
+          <h1 className="text-2xl font-bold">Batch Calling</h1>
+        </div>
         <Button onClick={onCreateCampaign}>Create a batch call</Button>
       </div>
 
