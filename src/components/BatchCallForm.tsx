@@ -208,7 +208,6 @@ const BatchCallForm = ({ onBack, onSubmit }: BatchCallFormProps) => {
           {/* Action Buttons */}
           <div className="flex gap-4 pt-4">
             <Button variant="outline">Test call</Button>
-            <Button className="flex-1" onClick={handleSubmit}>Submit a Batch Call</Button>
           </div>
         </CardContent>
       </Card>
