@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { X, ChevronLeft, ChevronRight, Phone, Upload, Link, Settings, TestTube, Rocket, Save, PhoneCall, PhoneIncoming, PhoneOutgoing, AlertTriangle } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, Phone, Upload, Link, Settings, TestTube, Rocket, Save, PhoneCall, PhoneIncoming, PhoneOutgoing, AlertTriangle, FileText, Plus } from "lucide-react";
 import PhoneNumberPurchaseModal from "./PhoneNumberPurchaseModal";
 import TestAssistantModal from "./TestAssistantModal";
 import { PhoneNumber } from "@/types/phoneNumber";
@@ -16,6 +16,11 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
   const [currentStep, setCurrentStep] = useState(1);
   const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
+  const [isCreateTextModalOpen, setIsCreateTextModalOpen] = useState(false);
+  const [textFormData, setTextFormData] = useState({
+    name: "",
+    content: ""
+  });
   const [formData, setFormData] = useState({
     industry: "",
     assistantType: "", // "inbound" or "outbound"
@@ -24,7 +29,7 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
     description: "",
     firstMessage: "",
     systemPrompt: "",
-    knowledge: [],
+    knowledge: [] as Array<{id: string, name: string, type: 'document' | 'url' | 'text', content?: string}>,
     phoneNumber: null as PhoneNumber | null,
     hasPhoneNumber: false
   });
@@ -128,6 +133,38 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
   const handleSaveDraft = () => {
     alert(`💾 Saving ${formData.name} as draft...\n\nYou can continue configuring this assistant later.`);
     onClose();
+  };
+
+  const handleCreateText = () => {
+    if (textFormData.name.trim() && textFormData.content.trim()) {
+      const newTextKnowledge = {
+        id: Date.now().toString(),
+        name: textFormData.name,
+        type: 'text' as const,
+        content: textFormData.content
+      };
+      
+      setFormData({
+        ...formData,
+        knowledge: [...formData.knowledge, newTextKnowledge]
+      });
+      
+      setTextFormData({ name: "", content: "" });
+      setIsCreateTextModalOpen(false);
+      
+      toast({
+        title: "Text Knowledge Added!",
+        description: `"${textFormData.name}" has been added to your knowledge base.`,
+        duration: 3000,
+      });
+    }
+  };
+
+  const handleRemoveKnowledge = (id: string) => {
+    setFormData({
+      ...formData,
+      knowledge: formData.knowledge.filter(item => item.id !== id)
+    });
   };
 
   // Get role options based on industry and assistant type
@@ -374,6 +411,49 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-gray-500 focus:border-transparent"
                 />
               </div>
+
+              <div className="border border-gray-300 rounded-lg p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-3">
+                    <FileText className="w-5 h-5 text-gray-600" />
+                    <div className="font-medium">Create Text Knowledge</div>
+                  </div>
+                  <button
+                    onClick={() => setIsCreateTextModalOpen(true)}
+                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 flex items-center gap-2"
+                  >
+                    <Plus className="w-4 h-4" />
+                    Add Text
+                  </button>
+                </div>
+                <div className="text-sm text-gray-500">
+                  Create knowledge sources from text content like FAQs, policies, or documentation
+                </div>
+              </div>
+
+              {/* Display added knowledge items */}
+              {formData.knowledge.length > 0 && (
+                <div className="space-y-2">
+                  <div className="font-medium text-gray-700">Added Knowledge:</div>
+                  {formData.knowledge.map((item) => (
+                    <div key={item.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <FileText className="w-4 h-4 text-gray-600" />
+                        <div>
+                          <div className="font-medium text-sm">{item.name}</div>
+                          <div className="text-xs text-gray-500">Text knowledge</div>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => handleRemoveKnowledge(item.id)}
+                        className="text-red-500 hover:text-red-700"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         );
@@ -579,6 +659,67 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
           useCase: formData.role || "customer-support"
         } as BaseAssistant}
       />
+
+      {/* Create Text Knowledge Modal */}
+      {isCreateTextModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-lg font-semibold">Create Text</h3>
+              <button
+                onClick={() => setIsCreateTextModalOpen(false)}
+                className="p-2 hover:bg-gray-100 rounded-md"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Text Name
+                </label>
+                <input
+                  type="text"
+                  value={textFormData.name}
+                  onChange={(e) => setTextFormData({ ...textFormData, name: e.target.value })}
+                  placeholder="Enter a name for your text"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Text Content
+                </label>
+                <textarea
+                  value={textFormData.content}
+                  onChange={(e) => setTextFormData({ ...textFormData, content: e.target.value })}
+                  placeholder="Enter your text content here"
+                  rows={6}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                />
+              </div>
+
+              <div className="flex gap-3 pt-4">
+                <button
+                  onClick={() => setIsCreateTextModalOpen(false)}
+                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleCreateText}
+                  disabled={!textFormData.name.trim() || !textFormData.content.trim()}
+                  className="flex-1 px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                >
+                  Create Text
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
