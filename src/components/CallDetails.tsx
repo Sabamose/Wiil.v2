@@ -232,17 +232,6 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
               </div>
             </div>
 
-            {/* Recording Information */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="space-y-1">
-                <label className="text-sm font-medium text-gray-500">File Size</label>
-                <p className="text-sm">2.3 MB</p>
-              </div>
-              <div className="space-y-1">
-                <label className="text-sm font-medium text-gray-500">Format</label>
-                <p className="text-sm">MP3</p>
-              </div>
-            </div>
 
           </div>
         </CardContent>
