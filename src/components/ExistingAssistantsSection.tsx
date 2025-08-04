@@ -130,7 +130,7 @@ const ExistingAssistantsSection = ({ assistants }: ExistingAssistantsSectionProp
                       <PhoneOutgoing className="w-4 h-4 text-gray-600" />
                     )}
                     <span className="text-sm font-medium text-gray-800">
-                      {assistant.assistantType === 'inbound' ? 'Incoming Calls' : 'Outgoing Calls'}
+                      {assistant.assistantType === 'inbound' ? 'Incoming Call Assistant' : 'Outgoing Call Assistant'}
                     </span>
                   </div>
                   
