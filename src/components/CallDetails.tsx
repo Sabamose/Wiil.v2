@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { ArrowLeft, Phone, Clock, User, Building } from "lucide-react";
+import { ArrowLeft, Phone, Clock, User, Building, Play, Pause, RotateCcw, RotateCw, Volume2, Download } from "lucide-react";
+import { useState } from "react";
 
 interface CallDetailsProps {
   call: InboundCall;
@@ -12,6 +13,9 @@ interface CallDetailsProps {
 }
 
 const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState("0:00");
+  const [playbackSpeed, setPlaybackSpeed] = useState("1.0x");
   const formatDuration = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -168,6 +172,95 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Audio Recording */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Volume2 className="h-5 w-5" />
+            Call Recording
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {/* Audio Player Controls */}
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <div className="flex items-center gap-4 mb-4">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setIsPlaying(!isPlaying)}
+                  className="flex items-center gap-2"
+                >
+                  {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                  {playbackSpeed}
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  onClick={() => setPlaybackSpeed(playbackSpeed === "1.0x" ? "1.5x" : playbackSpeed === "1.5x" ? "2.0x" : "1.0x")}
+                >
+                  <RotateCcw className="h-4 w-4" />
+                </Button>
+                <Button variant="ghost" size="sm">
+                  <RotateCw className="h-4 w-4" />
+                </Button>
+                <div className="flex-1 bg-gray-200 h-2 rounded-full relative">
+                  <div className="bg-black h-2 rounded-full w-1/4"></div>
+                </div>
+                <span className="text-sm text-gray-600">{currentTime} / {formatDuration(call.duration)}</span>
+                <Button variant="ghost" size="sm">
+                  <Download className="h-4 w-4" />
+                </Button>
+              </div>
+              
+              {/* Waveform Visualization (Mock) */}
+              <div className="flex items-center justify-center h-16 bg-white rounded border">
+                <div className="flex items-end gap-1 h-12">
+                  {Array.from({ length: 60 }, (_, i) => (
+                    <div
+                      key={i}
+                      className={`w-1 bg-gray-300 rounded-sm ${
+                        i < 15 ? 'bg-black' : 'bg-gray-300'
+                      }`}
+                      style={{
+                        height: `${Math.random() * 40 + 8}px`,
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Recording Information */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="space-y-1">
+                <label className="text-sm font-medium text-gray-500">Quality</label>
+                <p className="text-sm">HD Audio (44.1 kHz)</p>
+              </div>
+              <div className="space-y-1">
+                <label className="text-sm font-medium text-gray-500">File Size</label>
+                <p className="text-sm">2.3 MB</p>
+              </div>
+              <div className="space-y-1">
+                <label className="text-sm font-medium text-gray-500">Format</label>
+                <p className="text-sm">MP3</p>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex items-center gap-2 pt-2">
+              <Button variant="outline" size="sm" className="flex items-center gap-2">
+                <Download className="h-4 w-4" />
+                Download Recording
+              </Button>
+              <Button variant="outline" size="sm">
+                Share Link
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
     </div>
   );
