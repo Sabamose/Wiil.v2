@@ -488,7 +488,7 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
                     onClick={() => setIsPurchaseModalOpen(true)}
                     className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-medium"
                   >
-                    Purchase Phone Number
+                    Assign Phone Number
                   </button>
                 </div>
 
