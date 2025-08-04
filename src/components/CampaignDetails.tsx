@@ -8,9 +8,10 @@ import { ArrowLeft, Phone } from "lucide-react";
 interface CampaignDetailsProps {
   campaign: Campaign;
   onBack: () => void;
+  onRecipientClick: (recipient: any) => void;
 }
 
-const CampaignDetails = ({ campaign, onBack }: CampaignDetailsProps) => {
+const CampaignDetails = ({ campaign, onBack, onRecipientClick }: CampaignDetailsProps) => {
   // Get all dynamic variable keys from the first recipient
   const dynamicKeys = campaign.csvData.length > 0 
     ? Object.keys(campaign.csvData[0]).filter(key => 
@@ -73,7 +74,11 @@ const CampaignDetails = ({ campaign, onBack }: CampaignDetailsProps) => {
             </TableHeader>
             <TableBody>
               {campaign.csvData.map((recipient) => (
-                <TableRow key={recipient.id}>
+                <TableRow 
+                  key={recipient.id}
+                  className="cursor-pointer hover:bg-gray-50"
+                  onClick={() => onRecipientClick(recipient)}
+                >
                   <TableCell>{recipient.phone_number}</TableCell>
                   {dynamicKeys.map((key) => (
                     <TableCell key={key}>

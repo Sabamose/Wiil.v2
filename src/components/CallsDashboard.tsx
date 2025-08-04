@@ -10,6 +10,7 @@ import CallDetails from "./CallDetails";
 import CampaignList from "./CampaignList";
 import CampaignDetails from "./CampaignDetails";
 import BatchCallForm from "./BatchCallForm";
+import OutboundCallDetails from "./OutboundCallDetails";
 
 // Mock customers data
 const mockCustomers: Customer[] = [
@@ -117,13 +118,14 @@ const mockCampaigns: Campaign[] = [
   }
 ];
 
-type ViewType = 'incoming' | 'campaigns' | 'create-campaign' | 'campaign-details';
+type ViewType = 'incoming' | 'campaigns' | 'create-campaign' | 'campaign-details' | 'outbound-call-details';
 
 const CallsDashboard = () => {
   const [view, setView] = useState<ViewType>('incoming');
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCall, setSelectedCall] = useState<InboundCall | null>(null);
   const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(null);
+  const [selectedOutboundCall, setSelectedOutboundCall] = useState<any>(null);
   const [campaigns, setCampaigns] = useState<Campaign[]>(mockCampaigns);
 
   const handleCustomerClick = (customer: Customer) => {
@@ -173,6 +175,45 @@ const CallsDashboard = () => {
     setView('campaigns');
   };
 
+  const handleRecipientClick = (recipient: any) => {
+    // Create mock call data based on recipient
+    const mockOutboundCall = {
+      id: recipient.id,
+      recipientName: recipient.company_name || "Contact",
+      phoneNumber: recipient.phone_number,
+      duration: "0:45",
+      status: recipient.status as 'completed' | 'failed' | 'no-answer',
+      timestamp: new Date(),
+      summary: `Outbound call to ${recipient.company_name || recipient.phone_number}. Agent attempted to discuss logistics and freight solutions.`,
+      criteria: [
+        {
+          name: "Get info",
+          status: recipient.status === 'completed' ? 'success' : 'failure' as 'success' | 'failure',
+          description: recipient.status === 'completed' 
+            ? "Successfully obtained contact information and company details."
+            : "The agent was unable to gather required contact information during the conversation."
+        },
+        {
+          name: "Interest",
+          status: recipient.status === 'completed' ? 'success' : 'unknown' as 'success' | 'unknown',
+          description: recipient.status === 'completed'
+            ? "Contact showed interest in our logistics solutions."
+            : "Could not determine level of interest due to call completion issues."
+        }
+      ],
+      dataCollected: {
+        phoneNumber: recipient.phone_number,
+        website: recipient.website || null,
+        address: recipient.address || null,
+        companyName: recipient.company_name || null
+      },
+      transcript: `Agent: Hello, this is calling from Armstrong Transport. May I speak with someone regarding your logistics needs?\n\nContact: Yes, this is [Contact Name].\n\nAgent: Great! I wanted to discuss our freight solutions that might benefit your business...\n\n[Call continues...]`
+    };
+    
+    setSelectedOutboundCall(mockOutboundCall);
+    setView('outbound-call-details');
+  };
+
   const filteredCustomers = mockCustomers.filter(customer =>
     customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     customer.phoneNumber.includes(searchTerm) ||
@@ -210,10 +251,23 @@ const CallsDashboard = () => {
     );
   }
 
+  if (view === 'outbound-call-details' && selectedOutboundCall) {
+    return (
+      <OutboundCallDetails 
+        call={selectedOutboundCall}
+        onBack={() => {
+          setSelectedOutboundCall(null);
+          setView('campaign-details');
+        }}
+      />
+    );
+  }
+
   if (view === 'campaign-details' && selectedCampaign) {
     return (
       <CampaignDetails 
         campaign={selectedCampaign}
+        onRecipientClick={handleRecipientClick}
         onBack={() => {
           setSelectedCampaign(null);
           setView('campaigns');
