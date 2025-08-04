@@ -99,7 +99,7 @@ const OutboundCallDetails = ({ call, onBack }: OutboundCallDetailsProps) => {
               <RotateCw className="h-4 w-4" />
             </Button>
             <div className="flex-1 bg-gray-200 h-2 rounded-full relative">
-              <div className="bg-blue-500 h-2 rounded-full w-1/4"></div>
+              <div className="bg-black h-2 rounded-full w-1/4"></div>
             </div>
             <span className="text-sm text-gray-600">{currentTime} / {call.duration}</span>
           </div>
