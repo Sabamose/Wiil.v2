@@ -235,10 +235,6 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
             {/* Recording Information */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-1">
-                <label className="text-sm font-medium text-gray-500">Quality</label>
-                <p className="text-sm">HD Audio (44.1 kHz)</p>
-              </div>
-              <div className="space-y-1">
                 <label className="text-sm font-medium text-gray-500">File Size</label>
                 <p className="text-sm">2.3 MB</p>
               </div>
