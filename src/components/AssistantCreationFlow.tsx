@@ -219,17 +219,11 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
                 }`}
               >
                 <div className="text-center">
-                  <PhoneIncoming className="w-12 h-12 mx-auto mb-4 text-blue-600" />
-                  <h3 className="text-lg font-semibold mb-2">Incoming Call Assistant</h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Handles calls from customers who contact your business. Perfect for customer support, inquiries, and service requests.
+                  <PhoneIncoming className="w-16 h-16 mx-auto mb-3 text-gray-800" />
+                  <h3 className="text-lg font-semibold mb-2">Incoming Calls</h3>
+                  <p className="text-sm text-gray-600">
+                    Handles customer calls to your business
                   </p>
-                  <div className="text-xs text-gray-500">
-                    <div className="font-medium mb-1">Use cases:</div>
-                    <div>• Customer support</div>
-                    <div>• Order inquiries</div>
-                    <div>• Appointment scheduling</div>
-                  </div>
                 </div>
               </div>
 
@@ -242,17 +236,11 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
                 }`}
               >
                 <div className="text-center">
-                  <PhoneOutgoing className="w-12 h-12 mx-auto mb-4 text-green-600" />
-                  <h3 className="text-lg font-semibold mb-2">Outgoing Call Assistant</h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Makes calls to prospects and customers on your behalf. Ideal for sales, lead qualification, and follow-ups.
+                  <PhoneOutgoing className="w-16 h-16 mx-auto mb-3 text-gray-800" />
+                  <h3 className="text-lg font-semibold mb-2">Outgoing Calls</h3>
+                  <p className="text-sm text-gray-600">
+                    Makes calls to prospects and customers
                   </p>
-                  <div className="text-xs text-gray-500">
-                    <div className="font-medium mb-1">Use cases:</div>
-                    <div>• Sales outreach</div>
-                    <div>• Lead qualification</div>
-                    <div>• Appointment setting</div>
-                  </div>
                 </div>
               </div>
             </div>
