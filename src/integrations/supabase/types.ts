@@ -371,6 +371,22 @@ export type Database = {
         Args: { "": string } | { "": unknown } | { "": unknown }
         Returns: string
       }
+      search_knowledge_chunks: {
+        Args: {
+          assistant_id: string
+          query_embedding: string
+          match_threshold?: number
+          match_count?: number
+        }
+        Returns: {
+          id: string
+          content: string
+          chunk_index: number
+          similarity: number
+          knowledge_source_name: string
+          knowledge_source_type: string
+        }[]
+      }
       sparsevec_out: {
         Args: { "": unknown }
         Returns: unknown

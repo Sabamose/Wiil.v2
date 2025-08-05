@@ -10,8 +10,9 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Loader2, Play, ArrowLeft, ArrowRight, Volume2, PhoneIncoming, PhoneOutgoing, User, MessageSquare, Brain, Upload, Phone, TestTube, Zap, Save, AlertTriangle } from 'lucide-react';
-import { useElevenLabsLibrary } from '@/hooks/useElevenLabsLibrary';
+import { KnowledgeUpload } from './KnowledgeUpload';
 import { useAssistants, CreateAssistantData } from '@/hooks/useAssistants';
+import { useElevenLabsLibrary } from '@/hooks/useElevenLabsLibrary';
 import { useToast } from '@/hooks/use-toast';
 interface RefinedAssistantCreationFlowProps {
   isOpen: boolean;
