@@ -548,40 +548,26 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                   <Phone className="h-5 w-5" />
                   What type of assistant do you need?
                 </CardTitle>
-                <p className="text-muted-foreground">
-            </p>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div onClick={() => handleAssistantTypeSelect('inbound')} className={`p-6 border-2 rounded-lg cursor-pointer transition-all hover:shadow-md ${formData.assistantType === 'inbound' ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'}`}>
-                    <div className="text-center">
-                      <PhoneIncoming className="w-16 h-16 mx-auto mb-4 text-primary" />
-                      <h3 className="text-xl font-semibold mb-2">Incoming Call Assistant</h3>
-                      <p className="text-muted-foreground mb-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div onClick={() => handleAssistantTypeSelect('inbound')} className={`p-8 rounded-xl cursor-pointer transition-all hover:scale-105 hover:shadow-lg ${formData.assistantType === 'inbound' ? 'bg-primary/10 ring-2 ring-primary' : 'bg-muted/30 hover:bg-muted/50'}`}>
+                    <div className="text-center space-y-4">
+                      <PhoneIncoming className="w-20 h-20 mx-auto text-primary" />
+                      <h3 className="text-xl font-semibold">Incoming Calls</h3>
+                      <p className="text-muted-foreground">
                         Handles customer calls to your business
                       </p>
-                      <div className="text-sm text-left space-y-1">
-                        <div>• Answer customer inquiries</div>
-                        <div>• Provide support and information</div>
-                        <div>• Schedule appointments</div>
-                        <div>• Route calls to the right person</div>
-                      </div>
                     </div>
                   </div>
 
-                  <div onClick={() => handleAssistantTypeSelect('outbound')} className={`p-6 border-2 rounded-lg cursor-pointer transition-all hover:shadow-md ${formData.assistantType === 'outbound' ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'}`}>
-                    <div className="text-center">
-                      <PhoneOutgoing className="w-16 h-16 mx-auto mb-4 text-primary" />
-                      <h3 className="text-xl font-semibold mb-2">Outgoing Call Assistant</h3>
-                      <p className="text-muted-foreground mb-4">
+                  <div onClick={() => handleAssistantTypeSelect('outbound')} className={`p-8 rounded-xl cursor-pointer transition-all hover:scale-105 hover:shadow-lg ${formData.assistantType === 'outbound' ? 'bg-primary/10 ring-2 ring-primary' : 'bg-muted/30 hover:bg-muted/50'}`}>
+                    <div className="text-center space-y-4">
+                      <PhoneOutgoing className="w-20 h-20 mx-auto text-primary" />
+                      <h3 className="text-xl font-semibold">Outgoing Calls</h3>
+                      <p className="text-muted-foreground">
                         Makes calls to prospects and customers
                       </p>
-                      <div className="text-sm text-left space-y-1">
-                        <div>• Qualify potential leads</div>
-                        <div>• Conduct sales outreach</div>
-                        <div>• Schedule appointments</div>
-                        <div>• Follow up with customers</div>
-                      </div>
                     </div>
                   </div>
                 </div>
