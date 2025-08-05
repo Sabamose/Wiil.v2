@@ -29,7 +29,7 @@ serve(async (req) => {
     // Prepare form data for ElevenLabs
     const formData = new FormData();
     const blob = new Blob([bytes], { type: 'audio/webm' });
-    formData.append('audio', blob, 'audio.webm');
+    formData.append('file', blob, 'audio.webm'); // Changed from 'audio' to 'file'
     formData.append('model_id', 'eleven_multilingual_v2');
 
     // Send to ElevenLabs STT API
