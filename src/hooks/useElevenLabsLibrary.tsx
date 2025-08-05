@@ -22,24 +22,20 @@ export const useElevenLabsLibrary = () => {
     try {
       setLoading(true);
 
-      // Fetch voices
-      const voicesResponse = await supabase.functions.invoke('elevenlabs-library', {
-        body: {},
-        method: 'GET'
-      });
+      // Fetch voices and languages in parallel
+      const [voicesResponse, languagesResponse] = await Promise.all([
+        fetch(`https://zyaosogliekotdebnzpr.supabase.co/functions/v1/elevenlabs-library?action=voices`),
+        fetch(`https://zyaosogliekotdebnzpr.supabase.co/functions/v1/elevenlabs-library?action=languages`)
+      ]);
 
-      if (voicesResponse.data?.voices) {
-        setVoices(voicesResponse.data.voices);
+      if (voicesResponse.ok) {
+        const voicesData = await voicesResponse.json();
+        setVoices(voicesData.voices || {});
       }
 
-      // Fetch languages
-      const languagesResponse = await supabase.functions.invoke('elevenlabs-library', {
-        body: {},
-        method: 'GET'
-      });
-
-      if (languagesResponse.data?.languages) {
-        setLanguages(languagesResponse.data.languages);
+      if (languagesResponse.ok) {
+        const languagesData = await languagesResponse.json();
+        setLanguages(languagesData.languages || {});
       }
 
     } catch (error) {

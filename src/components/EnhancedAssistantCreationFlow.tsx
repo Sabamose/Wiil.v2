@@ -184,18 +184,15 @@ const EnhancedAssistantCreationFlow: React.FC<EnhancedAssistantCreationFlowProps
                 <div>
                   <Label htmlFor="type">Assistant Type</Label>
                   <Select
-                    value={formData.type}
-                    onValueChange={(value: 'Voice' | 'Chat' | 'Unified') =>
-                      setFormData({ ...formData, type: value })
-                    }
+                    value="Voice"
+                    onValueChange={() => {}} // Voice only, no changes allowed
+                    disabled
                   >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="Voice">Voice Only</SelectItem>
-                      <SelectItem value="Chat">Chat Only</SelectItem>
-                      <SelectItem value="Unified">Voice + Chat</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
