@@ -81,13 +81,19 @@ export const KnowledgeUpload: React.FC<KnowledgeUploadProps> = ({
         const fileContent = await file.text();
         
         // Process the knowledge
-        await supabase.functions.invoke('process-knowledge', {
+        const processResponse = await supabase.functions.invoke('process-knowledge', {
           body: {
             knowledgeSourceId: knowledgeSource.id,
             content: fileContent,
-            type: 'file'
+            type: 'file',
+            filePath: uploadData.path
           }
         });
+
+        if (processResponse.error) {
+          console.error('Processing error:', processResponse.error);
+          // Don't throw here, just log the error
+        }
 
         const newKnowledge = knowledgeSource as KnowledgeSource;
         setKnowledgeSources(prev => [...prev, newKnowledge]);
