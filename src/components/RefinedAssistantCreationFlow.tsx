@@ -501,7 +501,6 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto" aria-describedby="assistant-creation-description">
         <DialogHeader>
           <div className="flex items-center justify-between">
-            <DialogTitle>Create New Assistant</DialogTitle>
             {step > 1 && (
               <Button variant="ghost" size="sm" onClick={handlePrevious} className="h-8 w-8 p-0">
                 <ArrowLeft className="h-4 w-4" />
