@@ -212,74 +212,107 @@ const AssistantSettings = ({ assistant, onBack }: AssistantSettingsProps) => {
   );
 
   const renderIntegrationTab = () => (
-    <div className="max-w-lg space-y-6">
-      <div>
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Connected Channels</h3>
+    <div className="max-w-4xl space-y-6">
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <h3 className="text-lg font-medium text-gray-900">Phone Number Management</h3>
+          <p className="text-sm text-gray-600 mt-1">
+            Manage phone numbers assigned to this assistant
+          </p>
+        </div>
+        <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2">
+          <Plus className="w-4 h-4" />
+          Buy Phone Number
+        </button>
+      </div>
+
+      {/* Connected Phone Numbers */}
+      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
+          <h4 className="font-medium text-gray-900">Connected Phone Numbers</h4>
+        </div>
         
-        {/* Phone Channel */}
-        <div className="border border-gray-200 rounded-lg p-4 mb-4">
+        {/* Phone Number Entry */}
+        <div className="p-6 border-b border-gray-200">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-                <Phone className="w-4 h-4 text-blue-600" />
+            <div className="flex items-center gap-4">
+              <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                <Phone className="w-5 h-5 text-blue-600" />
               </div>
               <div>
-                <h4 className="font-medium text-gray-900">Phone</h4>
-                <p className="text-sm text-gray-600">Connected and active</p>
+                <h5 className="font-medium text-gray-900">+1 (555) 123-4567</h5>
+                <div className="flex items-center gap-4 text-sm text-gray-600 mt-1">
+                  <span>Provider: SignalWire</span>
+                  <span>Monthly Cost: $15.00</span>
+                  <span>Type: Local</span>
+                </div>
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded font-medium">
+            <div className="flex items-center gap-3">
+              <span className="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full font-medium">
                 Active
               </span>
-              <button className="p-1 text-gray-400 hover:text-gray-600">
-                <Settings2 className="w-4 h-4" />
+              <button className="p-2 text-gray-400 hover:text-gray-600">
+                <MoreHorizontal className="w-4 h-4" />
               </button>
             </div>
           </div>
-        </div>
-
-        {/* Chat Channel */}
-        <div className="border border-gray-200 rounded-lg p-4 mb-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-                <MessageCircle className="w-4 h-4 text-blue-600" />
-              </div>
-              <div>
-                <h4 className="font-medium text-gray-900">Chat</h4>
-                <p className="text-sm text-gray-600">Connected and active</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded font-medium">
-                Active
-              </span>
-              <button className="p-1 text-gray-400 hover:text-gray-600">
-                <Settings2 className="w-4 h-4" />
-              </button>
-            </div>
+          
+          {/* Actions */}
+          <div className="flex gap-2 mt-4">
+            <button className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50">
+              Deactivate
+            </button>
+            <button className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50">
+              Unassign
+            </button>
+            <button className="px-3 py-1 text-sm text-red-600 border border-red-300 rounded-md hover:bg-red-50">
+              Delete
+            </button>
           </div>
         </div>
 
-        {/* Web Channel */}
-        <div className="border border-gray-200 rounded-lg p-4 mb-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-                <Globe className="w-4 h-4 text-blue-600" />
+        {/* No Phone Numbers State */}
+        <div className="p-6 text-center text-gray-500">
+          <Phone className="w-8 h-8 mx-auto mb-2 text-gray-400" />
+          <p>No additional phone numbers connected</p>
+          <p className="text-sm mt-1">Purchase a phone number to get started</p>
+        </div>
+      </div>
+
+      {/* Available Numbers Section */}
+      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
+          <h4 className="font-medium text-gray-900">Available Numbers</h4>
+          <p className="text-sm text-gray-600 mt-1">Phone numbers that can be assigned to this assistant</p>
+        </div>
+        
+        <div className="p-6">
+          <div className="space-y-4">
+            {/* Available Number Entry */}
+            <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+              <div className="flex items-center gap-4">
+                <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
+                  <Phone className="w-4 h-4 text-gray-600" />
+                </div>
+                <div>
+                  <h6 className="font-medium text-gray-900">+1 (800) 555-9876</h6>
+                  <div className="flex items-center gap-4 text-sm text-gray-600 mt-1">
+                    <span>Provider: Twilio</span>
+                    <span>Type: Toll-free</span>
+                    <span className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded">Unassigned</span>
+                  </div>
+                </div>
               </div>
-              <div>
-                <h4 className="font-medium text-gray-900">Web</h4>
-                <p className="text-sm text-gray-600">Connected and active</p>
-              </div>
+              <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">
+                Connect
+              </button>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded font-medium">
-                Active
-              </span>
-              <button className="p-1 text-gray-400 hover:text-gray-600">
-                <Settings2 className="w-4 h-4" />
+
+            <div className="text-center py-4 text-gray-500">
+              <p className="text-sm">No more available numbers</p>
+              <button className="text-blue-600 text-sm hover:underline mt-1">
+                Buy more phone numbers
               </button>
             </div>
           </div>
