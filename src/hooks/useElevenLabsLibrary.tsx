@@ -47,16 +47,20 @@ export const useElevenLabsLibrary = () => {
 
   const testVoice = async (voiceId: string, text?: string): Promise<string | null> => {
     try {
-      const response = await supabase.functions.invoke('elevenlabs-library', {
-        body: { voiceId, text },
-        method: 'POST'
+      const response = await fetch(`https://zyaosogliekotdebnzpr.supabase.co/functions/v1/elevenlabs-library`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ voiceId, text })
       });
 
-      if (response.error) {
-        throw new Error(response.error.message);
+      if (!response.ok) {
+        throw new Error('Failed to test voice');
       }
 
-      return response.data?.audioContent || null;
+      const data = await response.json();
+      return data?.audioContent || null;
     } catch (error) {
       console.error('Error testing voice:', error);
       return null;

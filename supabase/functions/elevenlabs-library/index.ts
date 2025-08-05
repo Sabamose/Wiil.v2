@@ -61,28 +61,13 @@ serve(async (req) => {
     const url = new URL(req.url);
     const action = url.searchParams.get('action');
 
-    if (action === 'voices' || !action) {
-      // Return available voices
-      return new Response(JSON.stringify({ voices: VOICES }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-      });
-    }
-
-    if (action === 'languages') {
-      // Return supported languages
-      return new Response(JSON.stringify({ languages: LANGUAGES }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-      });
-    }
-
-    if (action === 'test-voice') {
-      // Test a specific voice with sample text
-      const { voiceId, text = "Hello! This is a test of my voice. How do I sound?", language = 'en' } = await req.json();
+    // Handle POST requests for voice testing
+    if (req.method === 'POST') {
+      const { voiceId, text = "Hello! This is a test of my voice. How do I sound?" } = await req.json();
       
       if (!voiceId || !VOICES[voiceId]) {
         throw new Error('Invalid voice ID');
       }
-
       const voice = VOICES[voiceId];
       console.log(`Testing voice: ${voice.name} (${voice.id})`);
 
@@ -118,6 +103,19 @@ serve(async (req) => {
         audioContent: base64Audio,
         voice: voice
       }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
+    }
+
+    // Handle GET requests for voices/languages
+    if (action === 'voices' || !action) {
+      return new Response(JSON.stringify({ voices: VOICES }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
+    }
+
+    if (action === 'languages') {
+      return new Response(JSON.stringify({ languages: LANGUAGES }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       });
     }
