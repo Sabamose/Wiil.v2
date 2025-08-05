@@ -123,10 +123,11 @@ export const useAssistantVoiceConversation = (assistant?: StoredAssistant | null
 
       // Step 2: Get AI response with assistant configuration
       console.log('Getting AI response for assistant:', assistant.id);
+      const currentMessages = messages.slice(-10); // Capture current messages to avoid dependency issues
       const chatResponse = await supabase.functions.invoke('openai-chat', {
         body: { 
           message: userText,
-          context: messages.slice(-10), // Last 10 messages for context
+          context: currentMessages, // Use captured messages instead of dependency
           assistantId: assistant.id // Pass assistant ID to use its configuration
         }
       });

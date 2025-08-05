@@ -29,8 +29,8 @@ serve(async (req) => {
     // Prepare form data for ElevenLabs
     const formData = new FormData();
     const blob = new Blob([bytes], { type: 'audio/webm' });
-    formData.append('file', blob, 'audio.webm'); // Changed from 'audio' to 'file'
-    formData.append('model_id', 'eleven_multilingual_v2');
+    formData.append('file', blob, 'audio.webm');
+    formData.append('model_id', 'scribe_v1'); // Fixed: Use correct model ID
 
     // Send to ElevenLabs STT API
     const response = await fetch('https://api.elevenlabs.io/v1/speech-to-text', {
