@@ -4,7 +4,9 @@ import Navigation from "@/components/Navigation";
 import ExistingAssistantsSection from "@/components/ExistingAssistantsSection";
 import AssistantCreationFlow from "@/components/AssistantCreationFlow";
 import AssistantSettings from "@/components/AssistantSettings";
+import VoiceConversationInterface from "@/components/VoiceConversationInterface";
 import { BaseAssistant } from "@/types/assistant";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Index = () => {
   const [isCreationFlowOpen, setIsCreationFlowOpen] = useState(false);
@@ -78,7 +80,20 @@ const Index = () => {
         {/* Main Content */}
         {currentView === "list" ? (
           <main className="ml-60 mt-16 p-8">
-            <ExistingAssistantsSection assistants={assistants} />
+            <Tabs defaultValue="assistants" className="w-full">
+              <TabsList className="grid w-full grid-cols-2 mb-8">
+                <TabsTrigger value="assistants">Assistants</TabsTrigger>
+                <TabsTrigger value="voice-chat">Voice Chat</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="assistants">
+                <ExistingAssistantsSection assistants={assistants} />
+              </TabsContent>
+              
+              <TabsContent value="voice-chat">
+                <VoiceConversationInterface />
+              </TabsContent>
+            </Tabs>
           </main>
         ) : (
           selectedAssistant && (

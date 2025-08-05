@@ -1,1 +1,21 @@
 project_id = "zyaosogliekotdebnzpr"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[auth]
+enabled = true
+port = 54324
+
+[functions.elevenlabs-stt]
+verify_jwt = false
+
+[functions.openai-chat]
+verify_jwt = false
+
+[functions.elevenlabs-tts]
+verify_jwt = false
