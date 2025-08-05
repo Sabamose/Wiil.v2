@@ -286,6 +286,33 @@ const getRolesByType = (assistantType: string, industry: string) => {
   };
   return assistantType === 'inbound' ? inboundRoles.filter(roleFilter) : outboundRoles.filter(roleFilter);
 };
+
+const getLanguageDisplay = (code: string, name: string) => {
+  const flagMap: Record<string, string> = {
+    'en': '🇺🇸',
+    'es': '🇪🇸', 
+    'fr': '🇫🇷',
+    'de': '🇩🇪',
+    'it': '🇮🇹',
+    'pt': '🇵🇹',
+    'pl': '🇵🇱',
+    'tr': '🇹🇷',
+    'ru': '🇷🇺',
+    'nl': '🇳🇱',
+    'cs': '🇨🇿',
+    'ar': '🇸🇦',
+    'zh': '🇨🇳',
+    'ja': '🇯🇵',
+    'hi': '🇮🇳',
+    'ko': '🇰🇷',
+    'sv': '🇸🇪',
+    'da': '🇩🇰',
+    'no': '🇳🇴',
+    'fi': '🇫🇮',
+  };
+  const flag = flagMap[code] || '🌍';
+  return `${flag} ${name}`;
+};
 const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> = ({
   isOpen,
   onClose,
@@ -588,13 +615,13 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               }}>
                     <SelectTrigger className="mt-2">
                       <SelectValue placeholder="Select language">
-                        {formData.language_name || "Select language"}
+                        {getLanguageDisplay(formData.language, formData.language_name) || "Select language"}
                       </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
                       {Object.keys(languages).length > 0 ? Object.entries(languages).map(([code, lang]) => <SelectItem key={code} value={code}>
-                            {lang.name}
-                          </SelectItem>) : <SelectItem value="en">English (Loading...)</SelectItem>}
+                            {getLanguageDisplay(code, lang.name)}
+                          </SelectItem>) : <SelectItem value="en">🇺🇸 English (Loading...)</SelectItem>}
                     </SelectContent>
                   </Select>
                 </div>
