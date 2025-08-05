@@ -511,14 +511,6 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
         </p>
         </DialogHeader>
 
-        {/* Progress Bar */}
-        <div className="flex mb-6">
-          {Array.from({
-          length: totalSteps
-        }, (_, i) => i + 1).map(stepNum => <div key={stepNum} className="flex-1 flex items-center justify-center">
-              <div className={`w-3 h-3 rounded-full ${step >= stepNum ? 'bg-primary' : 'bg-muted'}`} />
-            </div>)}
-        </div>
 
         <div className="space-y-6">
           {/* Step 1: Industry Selection */}
