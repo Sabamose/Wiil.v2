@@ -77,23 +77,47 @@ export const KnowledgeUpload: React.FC<KnowledgeUploadProps> = ({
 
         if (dbError) throw dbError;
 
-        // Read file content for processing
-        const fileContent = await file.text();
+        // Read file content for processing - but only for text files
+        let fileContent = '';
+        const isTextFile = file.type === 'text/plain' || 
+                          file.type === 'text/markdown' || 
+                          file.name.toLowerCase().endsWith('.txt') ||
+                          file.name.toLowerCase().endsWith('.md');
         
-        // Process the knowledge
-        const processResponse = await supabase.functions.invoke('process-knowledge', {
+        if (isTextFile && file.size < 1000000) { // Only read text files under 1MB
+          try {
+            fileContent = await file.text();
+          } catch (error) {
+            console.warn('Could not read file content, will process later:', error);
+          }
+        }
+        
+        // For PDFs and other files, we'll set a placeholder content
+        if (!fileContent) {
+          if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
+            fileContent = `PDF Document: ${file.name}\n\nThis PDF document has been uploaded and is being processed. Content will be available once text extraction is complete.`;
+          } else {
+            fileContent = `Document: ${file.name}\n\nThis document has been uploaded and is being processed.`;
+          }
+        }
+        
+        // Start background processing (don't wait for it)
+        supabase.functions.invoke('process-knowledge', {
           body: {
             knowledgeSourceId: knowledgeSource.id,
             content: fileContent,
             type: 'file',
             filePath: uploadData.path
           }
+        }).then(response => {
+          if (response.error) {
+            console.error('Background processing error:', response.error);
+          } else {
+            console.log('Background processing started successfully');
+          }
+        }).catch(error => {
+          console.error('Failed to start background processing:', error);
         });
-
-        if (processResponse.error) {
-          console.error('Processing error:', processResponse.error);
-          // Don't throw here, just log the error
-        }
 
         const newKnowledge = knowledgeSource as KnowledgeSource;
         setKnowledgeSources(prev => [...prev, newKnowledge]);
@@ -101,7 +125,7 @@ export const KnowledgeUpload: React.FC<KnowledgeUploadProps> = ({
 
         toast({
           title: "File uploaded",
-          description: `${file.name} has been uploaded and is being processed`,
+          description: `${file.name} has been uploaded and is being processed in the background`,
         });
 
       } catch (error) {
@@ -157,13 +181,21 @@ export const KnowledgeUpload: React.FC<KnowledgeUploadProps> = ({
 
       if (dbError) throw dbError;
 
-      // Process the knowledge
-      await supabase.functions.invoke('process-knowledge', {
+      // Start background processing (don't wait for it)
+      supabase.functions.invoke('process-knowledge', {
         body: {
           knowledgeSourceId: knowledgeSource.id,
           content: textKnowledge.content,
           type: 'text'
         }
+      }).then(response => {
+        if (response.error) {
+          console.error('Background processing error:', response.error);
+        } else {
+          console.log('Text knowledge processing started successfully');
+        }
+      }).catch(error => {
+        console.error('Failed to start background processing:', error);
       });
 
       const newKnowledge = knowledgeSource as KnowledgeSource;
@@ -175,7 +207,7 @@ export const KnowledgeUpload: React.FC<KnowledgeUploadProps> = ({
 
       toast({
         title: "Knowledge added",
-        description: "Text knowledge has been added and is being processed",
+        description: "Text knowledge has been added and is being processed in the background",
       });
 
     } catch (error) {

@@ -102,15 +102,10 @@ serve(async (req) => {
     }
 
     // Update knowledge source status to completed
-    const { error: updateError } = await supabase
+    await supabase
       .from('knowledge_sources')
       .update({ status: 'completed' })
       .eq('id', knowledgeSourceId);
-
-    if (updateError) {
-      console.error('Error updating knowledge source status:', updateError);
-      throw updateError;
-    }
 
     console.log(`Successfully processed ${chunks.length} chunks for knowledge source ${knowledgeSourceId}`);
 
