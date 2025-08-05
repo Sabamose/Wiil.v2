@@ -3,7 +3,7 @@ import AuthGuard from "@/components/AuthGuard";
 import Navigation from "@/components/Navigation";
 import ExistingAssistantsSection from "@/components/ExistingAssistantsSection";
 import AssistantCreationFlow from "@/components/AssistantCreationFlow";
-import EnhancedAssistantCreationFlow from "@/components/EnhancedAssistantCreationFlow";
+import RefinedAssistantCreationFlow from "@/components/RefinedAssistantCreationFlow";
 import AssistantSettings from "@/components/AssistantSettings";
 import VoiceConversationInterface from "@/components/VoiceConversationInterface";
 import { BaseAssistant } from "@/types/assistant";
@@ -76,15 +76,12 @@ const Index = () => {
           )
         )}
 
-        <EnhancedAssistantCreationFlow 
+        <RefinedAssistantCreationFlow 
           isOpen={isCreationFlowOpen}
           onClose={() => setIsCreationFlowOpen(false)}
           onComplete={(assistantId) => {
-            const newAssistant = assistants.find(a => a.id === assistantId);
-            if (newAssistant) {
-              setSelectedAssistant(newAssistant);
-              setCurrentView("settings");
-            }
+            console.log('Assistant created with ID:', assistantId);
+            // The useAssistants hook should automatically update the list
           }}
         />
       </div>

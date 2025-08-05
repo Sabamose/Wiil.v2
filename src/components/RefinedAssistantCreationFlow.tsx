@@ -322,6 +322,8 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
         max_tokens: formData.max_tokens
       };
 
+      console.log('Creating assistant with data:', assistantData);
+
       const newAssistant = await createAssistant(assistantData);
       if (newAssistant) {
         toast({
@@ -436,9 +438,12 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto" aria-describedby="assistant-creation-description">
         <DialogHeader>
           <DialogTitle>Create New Assistant - Step {step} of {totalSteps}</DialogTitle>
+          <p id="assistant-creation-description" className="text-sm text-muted-foreground">
+            Follow the steps to create your AI assistant
+          </p>
         </DialogHeader>
 
         {/* Progress Bar */}
