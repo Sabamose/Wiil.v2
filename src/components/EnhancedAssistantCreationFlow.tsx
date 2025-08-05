@@ -61,7 +61,7 @@ const EnhancedAssistantCreationFlow: React.FC<EnhancedAssistantCreationFlowProps
     
     setIsTestingVoice(true);
     try {
-      const audioContent = await testVoice(formData.voice_id, formData.initial_message);
+      const audioContent = await testVoice(formData.voice_id, formData.initial_message, formData.language);
       if (audioContent) {
         const audio = new Audio(`data:audio/mpeg;base64,${audioContent}`);
         await audio.play();
@@ -322,7 +322,7 @@ const EnhancedAssistantCreationFlow: React.FC<EnhancedAssistantCreationFlowProps
                       <span className="font-medium">Voice Preview</span>
                     </div>
                     <p className="text-sm text-muted-foreground mb-3">
-                      Test how your assistant will sound with the selected voice
+                      Test how your assistant will sound in {formData.language_name} with the selected voice
                     </p>
                     <Button onClick={handleTestVoice} disabled={isTestingVoice} variant="outline">
                       {isTestingVoice ? (

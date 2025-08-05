@@ -47,14 +47,14 @@ export const useElevenLabsLibrary = () => {
     }
   };
 
-  const testVoice = async (voiceId: string, text?: string): Promise<string | null> => {
+  const testVoice = async (voiceId: string, text?: string, language: string = 'en'): Promise<string | null> => {
     try {
       const response = await fetch(`https://zyaosogliekotdebnzpr.supabase.co/functions/v1/elevenlabs-library`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ voiceId, text })
+        body: JSON.stringify({ voiceId, text, language })
       });
 
       if (!response.ok) {

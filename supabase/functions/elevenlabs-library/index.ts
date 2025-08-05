@@ -52,6 +52,26 @@ const LANGUAGES = {
   'ko': { name: 'Korean', code: 'ko' }
 };
 
+// Test phrases in different languages
+const TEST_PHRASES = {
+  'en': 'Hello! This is a test of my voice. How do I sound?',
+  'es': '¡Hola! Esta es una prueba de mi voz. ¿Cómo sueno?',
+  'fr': 'Bonjour! Ceci est un test de ma voix. Comment est-ce que je sonne?',
+  'de': 'Hallo! Das ist ein Test meiner Stimme. Wie klinge ich?',
+  'it': 'Ciao! Questo è un test della mia voce. Come suono?',
+  'pt': 'Olá! Este é um teste da minha voz. Como eu soou?',
+  'pl': 'Cześć! To jest test mojego głosu. Jak brzmię?',
+  'tr': 'Merhaba! Bu sesimin bir testidir. Nasıl ses çıkarıyorum?',
+  'ru': 'Привет! Это тест моего голоса. Как я звучу?',
+  'nl': 'Hallo! Dit is een test van mijn stem. Hoe klink ik?',
+  'cs': 'Ahoj! Toto je test mého hlasu. Jak zním?',
+  'ar': 'مرحبا! هذا اختبار لصوتي. كيف أبدو؟',
+  'zh': '你好！这是我声音的测试。我听起来怎么样？',
+  'ja': 'こんにちは！これは私の声のテストです。どのように聞こえますか？',
+  'hi': 'नमस्ते! यह मेरी आवाज़ का परीक्षण है। मैं कैसी लग रही हूँ?',
+  'ko': '안녕하세요! 이것은 제 목소리 테스트입니다. 어떻게 들리나요?'
+};
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders });
@@ -63,13 +83,18 @@ serve(async (req) => {
 
     // Handle POST requests for voice testing
     if (req.method === 'POST') {
-      const { voiceId, text = "Hello! This is a test of my voice. How do I sound?" } = await req.json();
+      const { voiceId, text, language = 'en' } = await req.json();
       
       if (!voiceId || !VOICES[voiceId]) {
         throw new Error('Invalid voice ID');
       }
+
       const voice = VOICES[voiceId];
-      console.log(`Testing voice: ${voice.name} (${voice.id})`);
+      // Use language-specific test phrase if no custom text provided
+      const testText = text || TEST_PHRASES[language] || TEST_PHRASES['en'];
+      
+      console.log(`Testing voice: ${voice.name} (${voice.id}) in ${language}`);
+      console.log(`Test text: ${testText}`);
 
       const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voice.id}`, {
         method: 'POST',
@@ -79,14 +104,16 @@ serve(async (req) => {
           'xi-api-key': Deno.env.get('ELEVENLABS_API_KEY')!,
         },
         body: JSON.stringify({
-          text,
+          text: testText,
           model_id: 'eleven_multilingual_v2',
           voice_settings: {
             stability: 0.5,
             similarity_boost: 0.75,
             style: 0.0,
             use_speaker_boost: true
-          }
+          },
+          // Add language-specific settings
+          ...(language !== 'en' && { language_code: language })
         }),
       });
 
