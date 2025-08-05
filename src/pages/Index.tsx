@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import AuthGuard from "@/components/AuthGuard";
 import Navigation from "@/components/Navigation";
 import ExistingAssistantsSection from "@/components/ExistingAssistantsSection";
 import AssistantCreationFlow from "@/components/AssistantCreationFlow";
@@ -70,28 +71,30 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#fafafa' }}>
-      {currentView === "list" && <Navigation />}
-      
-      {/* Main Content */}
-      {currentView === "list" ? (
-        <main className="ml-60 mt-16 p-8">
-          <ExistingAssistantsSection assistants={assistants} />
-        </main>
-      ) : (
-        selectedAssistant && (
-          <AssistantSettings 
-            assistant={selectedAssistant}
-            onBack={handleBackToList}
-          />
-        )
-      )}
+    <AuthGuard>
+      <div className="min-h-screen" style={{ backgroundColor: '#fafafa' }}>
+        {currentView === "list" && <Navigation />}
+        
+        {/* Main Content */}
+        {currentView === "list" ? (
+          <main className="ml-60 mt-16 p-8">
+            <ExistingAssistantsSection assistants={assistants} />
+          </main>
+        ) : (
+          selectedAssistant && (
+            <AssistantSettings 
+              assistant={selectedAssistant}
+              onBack={handleBackToList}
+            />
+          )
+        )}
 
-      <AssistantCreationFlow 
-        isOpen={isCreationFlowOpen}
-        onClose={() => setIsCreationFlowOpen(false)}
-      />
-    </div>
+        <AssistantCreationFlow 
+          isOpen={isCreationFlowOpen}
+          onClose={() => setIsCreationFlowOpen(false)}
+        />
+      </div>
+    </AuthGuard>
   );
 };
 

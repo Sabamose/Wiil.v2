@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { MoreHorizontal, Plus } from "lucide-react";
+import AuthGuard from "@/components/AuthGuard";
 import Navigation from "@/components/Navigation";
 import PhoneNumberPurchaseModal from "@/components/PhoneNumberPurchaseModal";
 import AssignAssistantModal from "@/components/AssignAssistantModal";
@@ -88,7 +89,7 @@ const PhoneNumbers = () => {
   };
 
   return (
-    <>
+    <AuthGuard>
       <Navigation />
       <div className="ml-60 pt-16 min-h-screen bg-gray-50">
         <div className="p-8">
@@ -208,7 +209,7 @@ const PhoneNumbers = () => {
         phoneNumber={selectedPhoneNumber}
         onAssignComplete={handleAssignComplete}
       />
-    </>
+    </AuthGuard>
   );
 };
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Copy, Code, Globe, CheckCircle } from "lucide-react";
+import AuthGuard from "@/components/AuthGuard";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -78,7 +79,7 @@ const Website = () => {
   };
 
   return (
-    <>
+    <AuthGuard>
       <Navigation />
       <div className="ml-60 pt-16 min-h-screen bg-gray-50">
         <div className="p-8">
@@ -214,7 +215,7 @@ const Website = () => {
           </div>
         </div>
       </div>
-    </>
+    </AuthGuard>
   );
 };
 
