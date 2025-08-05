@@ -111,7 +111,7 @@ const EnhancedAssistantCreationFlow: React.FC<EnhancedAssistantCreationFlowProps
   const canGoNext = () => {
     switch (step) {
       case 1:
-        return formData.name && formData.type && formData.industry && formData.use_case;
+        return formData.name && formData.industry && formData.use_case;
       case 2:
         return formData.voice_id && formData.language;
       case 3:
@@ -181,21 +181,7 @@ const EnhancedAssistantCreationFlow: React.FC<EnhancedAssistantCreationFlowProps
                   />
                 </div>
 
-                <div>
-                  <Label htmlFor="type">Assistant Type</Label>
-                  <Select
-                    value="Voice"
-                    onValueChange={() => {}} // Voice only, no changes allowed
-                    disabled
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Voice">Voice Only</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+                {/* Assistant Type field removed - hardcoded to Voice */}
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
