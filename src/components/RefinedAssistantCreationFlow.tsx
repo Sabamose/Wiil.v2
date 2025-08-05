@@ -440,7 +440,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto" aria-describedby="assistant-creation-description">
         <DialogHeader>
-          <DialogTitle>Create New Assistant - Step {step} of {totalSteps}</DialogTitle>
+          <DialogTitle>Create New Assistant</DialogTitle>
           <p id="assistant-creation-description" className="text-sm text-muted-foreground">
             Follow the steps to create your AI assistant
           </p>
