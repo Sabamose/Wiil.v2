@@ -1172,14 +1172,14 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
 
         {/* Navigation Buttons */}
         <div className="flex justify-end pt-6">
-          {step > 2 && step < 5 && (
+          {step > 2 && step < 6 && (
             <Button onClick={handleNext} disabled={!canGoNext()}>
               Next
               <ArrowRight className="h-4 w-4 ml-2" />
             </Button>
           )}
           
-          {step === 5 && (
+          {step === 6 && (
             <Button onClick={handleCreateAssistant} disabled={!canGoNext() || isCreating}>
               {isCreating ? (
                 <>
