@@ -297,14 +297,20 @@ const EnhancedAssistantCreationFlow: React.FC<EnhancedAssistantCreationFlowProps
                     }}
                   >
                     <SelectTrigger>
-                      <SelectValue />
+                      <SelectValue placeholder="Select language">
+                        {formData.language_name || "Select language"}
+                      </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
-                      {Object.entries(languages).map(([code, lang]) => (
-                        <SelectItem key={code} value={code}>
-                          {lang.name}
-                        </SelectItem>
-                      ))}
+                      {Object.keys(languages).length > 0 ? (
+                        Object.entries(languages).map(([code, lang]) => (
+                          <SelectItem key={code} value={code}>
+                            {lang.name}
+                          </SelectItem>
+                        ))
+                      ) : (
+                        <SelectItem value="en">English (Loading...)</SelectItem>
+                      )}
                     </SelectContent>
                   </Select>
                 </div>

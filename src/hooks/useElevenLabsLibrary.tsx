@@ -30,11 +30,13 @@ export const useElevenLabsLibrary = () => {
 
       if (voicesResponse.ok) {
         const voicesData = await voicesResponse.json();
+        console.log('Voices loaded:', Object.keys(voicesData.voices || {}).length);
         setVoices(voicesData.voices || {});
       }
 
       if (languagesResponse.ok) {
         const languagesData = await languagesResponse.json();
+        console.log('Languages loaded:', Object.keys(languagesData.languages || {}).length);
         setLanguages(languagesData.languages || {});
       }
 
