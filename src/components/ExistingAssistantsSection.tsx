@@ -118,8 +118,8 @@ const ExistingAssistantsSection = ({ assistants, loading = false }: ExistingAssi
         <thead className="bg-gray-50">
           <tr>
             <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Assistant Name</th>
-            <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Type & Channels</th>
-            <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Status</th>
+            <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Type</th>
+            <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Phone Number</th>
             <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Actions</th>
           </tr>
         </thead>
@@ -142,43 +142,23 @@ const ExistingAssistantsSection = ({ assistants, loading = false }: ExistingAssi
                 </div>
               </td>
               <td className="px-6 py-5">
-                <div className="space-y-2">
-                  {/* Assistant Type */}
-                  <div className="flex items-center gap-2">
-                    {(assistant.assistant_type || assistant.assistantType) === 'inbound' ? (
-                      <PhoneIncoming className="w-4 h-4 text-gray-600" />
-                    ) : (
-                      <PhoneOutgoing className="w-4 h-4 text-gray-600" />
-                    )}
-                    <span className="text-sm font-medium text-gray-800">
-                      {(assistant.assistant_type || assistant.assistantType) === 'inbound' ? 'Incoming Call Assistant' : 'Outgoing Call Assistant'}
-                    </span>
-                  </div>
-                  
-                  {/* Voice Settings */}
-                  <div className="flex items-center gap-2">
-                    <Mic className="w-4 h-4 text-gray-600" />
-                    <span className="text-sm text-gray-600">
-                      {assistant.voice_name || 'Aria (Female)'} • {assistant.language_name || 'English'}
-                    </span>
-                  </div>
-                  
-                  {/* Phone Number */}
-                  <div className="flex items-center gap-2">
-                    <Phone className="w-4 h-4 text-gray-600" />
-                    <span className="text-sm text-gray-600">
-                      {assistant.phone_number || assistant.phoneNumber || "Phone number not connected"}
-                    </span>
-                  </div>
+                <div className="flex items-center gap-2">
+                  {(assistant.assistant_type || assistant.assistantType) === 'inbound' ? (
+                    <PhoneIncoming className="w-4 h-4 text-gray-600" />
+                  ) : (
+                    <PhoneOutgoing className="w-4 h-4 text-gray-600" />
+                  )}
+                  <span className="text-sm font-medium text-gray-800">
+                    {(assistant.assistant_type || assistant.assistantType) === 'inbound' ? 'Incoming Calls' : 'Outgoing Calls'}
+                  </span>
                 </div>
               </td>
               <td className="px-6 py-5">
-                <div className="flex items-center gap-2 font-medium">
-                  <span className={`w-2 h-2 rounded-full ${
-                    assistant.status === 'live' ? 'bg-gray-800' :
-                    assistant.status === 'draft' ? 'bg-gray-500' : 'bg-gray-400'
-                  }`}></span>
-                  <span className="capitalize text-gray-800">{assistant.status}</span>
+                <div className="flex items-center gap-2">
+                  <Phone className="w-4 h-4 text-gray-600" />
+                  <span className="text-sm text-gray-600">
+                    {assistant.phone_number || assistant.phoneNumber || "Not connected"}
+                  </span>
                 </div>
               </td>
               <td className="px-6 py-5">
