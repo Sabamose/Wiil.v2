@@ -553,7 +553,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div onClick={() => handleAssistantTypeSelect('inbound')} className={`p-8 rounded-xl cursor-pointer transition-all hover:scale-105 hover:shadow-lg ${formData.assistantType === 'inbound' ? 'bg-primary/10 ring-2 ring-primary' : 'bg-muted/30 hover:bg-muted/50'}`}>
                     <div className="text-center space-y-4">
-                      <PhoneIncoming className="w-20 h-20 mx-auto text-primary" />
+                      <PhoneIncoming className="w-16 h-16 mx-auto text-primary" />
                       <h3 className="text-xl font-semibold">Incoming Calls</h3>
                       <p className="text-muted-foreground">
                         Handles customer calls to your business
@@ -563,7 +563,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
 
                   <div onClick={() => handleAssistantTypeSelect('outbound')} className={`p-8 rounded-xl cursor-pointer transition-all hover:scale-105 hover:shadow-lg ${formData.assistantType === 'outbound' ? 'bg-primary/10 ring-2 ring-primary' : 'bg-muted/30 hover:bg-muted/50'}`}>
                     <div className="text-center space-y-4">
-                      <PhoneOutgoing className="w-20 h-20 mx-auto text-primary" />
+                      <PhoneOutgoing className="w-16 h-16 mx-auto text-primary" />
                       <h3 className="text-xl font-semibold">Outgoing Calls</h3>
                       <p className="text-muted-foreground">
                         Makes calls to prospects and customers
