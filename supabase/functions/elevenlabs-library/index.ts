@@ -111,9 +111,9 @@ serve(async (req) => {
             similarity_boost: 0.75,
             style: 0.0,
             use_speaker_boost: true
-          },
-          // Add language-specific settings
-          ...(language !== 'en' && { language_code: language })
+          }
+          // Note: eleven_multilingual_v2 auto-detects language from text content
+          // No need to send language_code parameter
         }),
       });
 
