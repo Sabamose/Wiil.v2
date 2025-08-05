@@ -122,6 +122,9 @@ const EnhancedAssistantCreationFlow: React.FC<EnhancedAssistantCreationFlowProps
   };
 
   if (libraryLoading) {
+    console.log('Loading ElevenLabs library...');
+    console.log('Voices loaded:', Object.keys(voices).length);
+    console.log('Languages loaded:', Object.keys(languages).length);
     return (
       <Dialog open={isOpen} onOpenChange={onClose}>
         <DialogContent className="max-w-2xl">
