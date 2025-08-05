@@ -1179,21 +1179,6 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
             </Button>
           )}
           
-          {step === 6 && (
-            <Button onClick={handleCreateAssistant} disabled={!canGoNext() || isCreating}>
-              {isCreating ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                  Creating...
-                </>
-              ) : (
-                <>
-                  <Save className="h-4 w-4 mr-2" />
-                  Create Assistant
-                </>
-              )}
-            </Button>
-          )}
 
           {step > 5 && step < totalSteps && (
             <Button onClick={handleNext} disabled={!canGoNext()}>
