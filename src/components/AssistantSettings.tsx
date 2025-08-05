@@ -435,7 +435,7 @@ const AssistantSettings = ({ assistant, onBack }: AssistantSettingsProps) => {
       </div>
 
       {/* Tab Content */}
-      <div className="px-8 py-8">
+      <div className="px-6 py-6">
         {renderTabContent()}
       </div>
 
