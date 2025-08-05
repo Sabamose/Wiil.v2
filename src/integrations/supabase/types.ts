@@ -14,6 +14,142 @@ export type Database = {
   }
   public: {
     Tables: {
+      assistants: {
+        Row: {
+          assistant_type: string | null
+          created_at: string
+          id: string
+          industry: string
+          initial_message: string | null
+          language: string
+          language_name: string
+          max_tokens: number | null
+          name: string
+          phone_number: string | null
+          status: string
+          system_prompt: string | null
+          temperature: number | null
+          type: string
+          updated_at: string
+          use_case: string
+          user_id: string
+          voice_id: string
+          voice_name: string
+        }
+        Insert: {
+          assistant_type?: string | null
+          created_at?: string
+          id?: string
+          industry: string
+          initial_message?: string | null
+          language?: string
+          language_name?: string
+          max_tokens?: number | null
+          name: string
+          phone_number?: string | null
+          status?: string
+          system_prompt?: string | null
+          temperature?: number | null
+          type: string
+          updated_at?: string
+          use_case: string
+          user_id: string
+          voice_id?: string
+          voice_name?: string
+        }
+        Update: {
+          assistant_type?: string | null
+          created_at?: string
+          id?: string
+          industry?: string
+          initial_message?: string | null
+          language?: string
+          language_name?: string
+          max_tokens?: number | null
+          name?: string
+          phone_number?: string | null
+          status?: string
+          system_prompt?: string | null
+          temperature?: number | null
+          type?: string
+          updated_at?: string
+          use_case?: string
+          user_id?: string
+          voice_id?: string
+          voice_name?: string
+        }
+        Relationships: []
+      }
+      conversations: {
+        Row: {
+          assistant_id: string
+          created_at: string
+          id: string
+          title: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          assistant_id: string
+          created_at?: string
+          id?: string
+          title?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          assistant_id?: string
+          created_at?: string
+          id?: string
+          title?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversations_assistant_id_fkey"
+            columns: ["assistant_id"]
+            isOneToOne: false
+            referencedRelation: "assistants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      messages: {
+        Row: {
+          audio_url: string | null
+          content: string
+          conversation_id: string
+          created_at: string
+          id: string
+          role: string
+        }
+        Insert: {
+          audio_url?: string | null
+          content: string
+          conversation_id: string
+          created_at?: string
+          id?: string
+          role: string
+        }
+        Update: {
+          audio_url?: string | null
+          content?: string
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          role?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null

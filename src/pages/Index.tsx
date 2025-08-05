@@ -3,46 +3,18 @@ import AuthGuard from "@/components/AuthGuard";
 import Navigation from "@/components/Navigation";
 import ExistingAssistantsSection from "@/components/ExistingAssistantsSection";
 import AssistantCreationFlow from "@/components/AssistantCreationFlow";
+import EnhancedAssistantCreationFlow from "@/components/EnhancedAssistantCreationFlow";
 import AssistantSettings from "@/components/AssistantSettings";
 import VoiceConversationInterface from "@/components/VoiceConversationInterface";
 import { BaseAssistant } from "@/types/assistant";
+import { useAssistants, StoredAssistant } from "@/hooks/useAssistants";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Index = () => {
   const [isCreationFlowOpen, setIsCreationFlowOpen] = useState(false);
-  const [selectedAssistant, setSelectedAssistant] = useState<BaseAssistant | null>(null);
+  const [selectedAssistant, setSelectedAssistant] = useState<any>(null);
   const [currentView, setCurrentView] = useState<"list" | "settings">("list");
-
-  // Sample assistant data with industry and use case
-  const assistants: BaseAssistant[] = [
-    {
-      id: "1",
-      name: "CustomerSupport",
-      type: "Unified",
-      industry: "retail",
-      useCase: "customer-support",
-      assistantType: "inbound",
-      phoneNumber: "+1 (555) 123-4567"
-    },
-    {
-      id: "2", 
-      name: "Sales Assistant",
-      type: "Chat",
-      industry: "technology",
-      useCase: "outbound-sales",
-      assistantType: "outbound",
-      phoneNumber: "+1 (555) 234-5678"
-    },
-    {
-      id: "3",
-      name: "Technical Support",
-      type: "Voice",
-      industry: "technology",
-      useCase: "customer-support",
-      assistantType: "inbound"
-      // phoneNumber field intentionally omitted to show "not assigned" state
-    }
-  ];
+  const { assistants, loading } = useAssistants();
 
   useEffect(() => {
     const handleCreateAssistant = () => {
@@ -87,7 +59,7 @@ const Index = () => {
               </TabsList>
               
               <TabsContent value="assistants">
-                <ExistingAssistantsSection assistants={assistants} />
+                <ExistingAssistantsSection assistants={assistants} loading={loading} />
               </TabsContent>
               
               <TabsContent value="voice-chat">
@@ -104,9 +76,16 @@ const Index = () => {
           )
         )}
 
-        <AssistantCreationFlow 
+        <EnhancedAssistantCreationFlow 
           isOpen={isCreationFlowOpen}
           onClose={() => setIsCreationFlowOpen(false)}
+          onComplete={(assistantId) => {
+            const newAssistant = assistants.find(a => a.id === assistantId);
+            if (newAssistant) {
+              setSelectedAssistant(newAssistant);
+              setCurrentView("settings");
+            }
+          }}
         />
       </div>
     </AuthGuard>

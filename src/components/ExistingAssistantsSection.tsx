@@ -11,23 +11,24 @@ import TestAssistantModal from "./TestAssistantModal";
 import { useState } from "react";
 
 interface ExistingAssistantsSectionProps {
-  assistants: BaseAssistant[];
+  assistants: any[];
+  loading?: boolean;
 }
 
-const ExistingAssistantsSection = ({ assistants }: ExistingAssistantsSectionProps) => {
+const ExistingAssistantsSection = ({ assistants, loading = false }: ExistingAssistantsSectionProps) => {
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
-  const [selectedAssistant, setSelectedAssistant] = useState<BaseAssistant | null>(null);
+  const [selectedAssistant, setSelectedAssistant] = useState<any>(null);
 
   // Convert assistants to include channel data with different statuses
-  const assistantsWithChannels: AssistantWithChannels[] = assistants.map((assistant, index) => ({
+  const assistantsWithChannels = assistants.map((assistant, index) => ({
     ...assistant,
     channels: [
       { name: "Phone", connected: true, type: "phone" },
       { name: "Website", connected: true, type: "website" },
       { name: "SMS", connected: false, type: "sms" }
     ],
-    // Set different statuses: first assistant as live, second as draft, rest as live
-    status: index === 1 ? "draft" as const : "live" as const
+    // Use existing status or set default
+    status: assistant.status || (index === 1 ? "draft" : "live")
   }));
 
   const getChannelIcon = (type: string) => {
@@ -49,7 +50,7 @@ const ExistingAssistantsSection = ({ assistants }: ExistingAssistantsSectionProp
     }
   };
 
-  const handleTestAssistant = (assistant: BaseAssistant) => {
+  const handleTestAssistant = (assistant: any) => {
     setSelectedAssistant(assistant);
     setIsTestModalOpen(true);
   };
@@ -96,6 +97,23 @@ const ExistingAssistantsSection = ({ assistants }: ExistingAssistantsSectionProp
         </div>
       </div>
 
+      {loading ? (
+        <div className="flex items-center justify-center py-12">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+          <span className="ml-2 text-gray-600">Loading assistants...</span>
+        </div>
+      ) : assistants.length === 0 ? (
+        <div className="text-center py-12">
+          <p className="text-gray-500 mb-4">No assistants created yet</p>
+          <button 
+            onClick={handleCreate}
+            className="px-4 py-2 bg-gray-900 text-white rounded-md text-sm font-medium hover:bg-gray-800 transition-colors"
+          >
+            Create Your First Assistant
+          </button>
+        </div>
+      ) : (
+
       <table className="w-full">
         <thead className="bg-gray-50">
           <tr>
@@ -119,18 +137,29 @@ const ExistingAssistantsSection = ({ assistants }: ExistingAssistantsSectionProp
             >
               <td className="px-6 py-5">
                 <div className="font-semibold group-hover:text-gray-900 transition-colors">{assistant.name}</div>
+                <div className="text-sm text-gray-500 mt-1">
+                  {assistant.industry} • {(assistant.use_case || assistant.useCase || '').replace(/-/g, ' ')}
+                </div>
               </td>
               <td className="px-6 py-5">
                 <div className="space-y-2">
                   {/* Assistant Type */}
                   <div className="flex items-center gap-2">
-                    {assistant.assistantType === 'inbound' ? (
+                    {(assistant.assistant_type || assistant.assistantType) === 'inbound' ? (
                       <PhoneIncoming className="w-4 h-4 text-gray-600" />
                     ) : (
                       <PhoneOutgoing className="w-4 h-4 text-gray-600" />
                     )}
                     <span className="text-sm font-medium text-gray-800">
-                      {assistant.assistantType === 'inbound' ? 'Incoming Call Assistant' : 'Outgoing Call Assistant'}
+                      {(assistant.assistant_type || assistant.assistantType) === 'inbound' ? 'Incoming Call Assistant' : 'Outgoing Call Assistant'}
+                    </span>
+                  </div>
+                  
+                  {/* Voice Settings */}
+                  <div className="flex items-center gap-2">
+                    <Mic className="w-4 h-4 text-gray-600" />
+                    <span className="text-sm text-gray-600">
+                      {assistant.voice_name || 'Aria (Female)'} • {assistant.language_name || 'English'}
                     </span>
                   </div>
                   
@@ -138,7 +167,7 @@ const ExistingAssistantsSection = ({ assistants }: ExistingAssistantsSectionProp
                   <div className="flex items-center gap-2">
                     <Phone className="w-4 h-4 text-gray-600" />
                     <span className="text-sm text-gray-600">
-                      {assistant.phoneNumber || "Phone number not connected"}
+                      {assistant.phone_number || assistant.phoneNumber || "Phone number not connected"}
                     </span>
                   </div>
                 </div>
@@ -199,6 +228,7 @@ const ExistingAssistantsSection = ({ assistants }: ExistingAssistantsSectionProp
           ))}
         </tbody>
       </table>
+      )}
 
       {selectedAssistant && (
         <TestAssistantModal
