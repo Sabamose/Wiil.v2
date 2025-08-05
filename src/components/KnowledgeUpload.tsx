@@ -101,23 +101,27 @@ export const KnowledgeUpload: React.FC<KnowledgeUploadProps> = ({
           }
         }
         
-        // Start background processing (don't wait for it)
-        supabase.functions.invoke('process-knowledge', {
-          body: {
-            knowledgeSourceId: knowledgeSource.id,
-            content: fileContent,
-            type: 'file',
-            filePath: uploadData.path
-          }
-        }).then(response => {
-          if (response.error) {
-            console.error('Background processing error:', response.error);
+        // Create a processing job for the queue
+        try {
+          const { error: jobError } = await supabase
+            .from('processing_jobs')
+            .insert({
+              knowledge_source_id: knowledgeSource.id,
+              user_id: user.id,
+              status: 'pending'
+            });
+
+          if (jobError) {
+            console.error('Failed to create processing job:', jobError);
           } else {
-            console.log('Background processing started successfully');
+            // Trigger queue processing
+            supabase.functions.invoke('process-queue').catch(error => {
+              console.error('Failed to trigger queue processing:', error);
+            });
           }
-        }).catch(error => {
-          console.error('Failed to start background processing:', error);
-        });
+        } catch (error) {
+          console.error('Processing queue setup failed:', error);
+        }
 
         const newKnowledge = knowledgeSource as KnowledgeSource;
         setKnowledgeSources(prev => [...prev, newKnowledge]);
@@ -181,22 +185,27 @@ export const KnowledgeUpload: React.FC<KnowledgeUploadProps> = ({
 
       if (dbError) throw dbError;
 
-      // Start background processing (don't wait for it)
-      supabase.functions.invoke('process-knowledge', {
-        body: {
-          knowledgeSourceId: knowledgeSource.id,
-          content: textKnowledge.content,
-          type: 'text'
-        }
-      }).then(response => {
-        if (response.error) {
-          console.error('Background processing error:', response.error);
+      // Create a processing job for the queue
+      try {
+        const { error: jobError } = await supabase
+          .from('processing_jobs')
+          .insert({
+            knowledge_source_id: knowledgeSource.id,
+            user_id: user.id,
+            status: 'pending'
+          });
+
+        if (jobError) {
+          console.error('Failed to create processing job:', jobError);
         } else {
-          console.log('Text knowledge processing started successfully');
+          // Trigger queue processing
+          supabase.functions.invoke('process-queue').catch(error => {
+            console.error('Failed to trigger queue processing:', error);
+          });
         }
-      }).catch(error => {
-        console.error('Failed to start background processing:', error);
-      });
+      } catch (error) {
+        console.error('Processing queue setup failed:', error);
+      }
 
       const newKnowledge = knowledgeSource as KnowledgeSource;
       setKnowledgeSources(prev => [...prev, newKnowledge]);

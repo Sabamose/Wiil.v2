@@ -280,6 +280,45 @@ export type Database = {
           },
         ]
       }
+      processing_jobs: {
+        Row: {
+          created_at: string
+          current_chunk: number | null
+          error_message: string | null
+          id: string
+          knowledge_source_id: string
+          processed_at: string | null
+          status: string
+          total_chunks: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          current_chunk?: number | null
+          error_message?: string | null
+          id?: string
+          knowledge_source_id: string
+          processed_at?: string | null
+          status?: string
+          total_chunks?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          current_chunk?: number | null
+          error_message?: string | null
+          id?: string
+          knowledge_source_id?: string
+          processed_at?: string | null
+          status?: string
+          total_chunks?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
