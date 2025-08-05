@@ -61,7 +61,7 @@ const EnhancedAssistantCreationFlow: React.FC<EnhancedAssistantCreationFlowProps
     
     setIsTestingVoice(true);
     try {
-      const audioContent = await testVoice(formData.voice_id, formData.initial_message, formData.language);
+      const audioContent = await testVoice(formData.voice_id, undefined, formData.language); // Don't pass text, let it use language-specific phrases
       if (audioContent) {
         const audio = new Audio(`data:audio/mpeg;base64,${audioContent}`);
         await audio.play();

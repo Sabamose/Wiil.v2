@@ -91,10 +91,10 @@ serve(async (req) => {
 
       const voice = VOICES[voiceId];
       // Use language-specific test phrase if no custom text provided
-      const testText = text || TEST_PHRASES[language] || TEST_PHRASES['en'];
+      const testText = TEST_PHRASES[language] || TEST_PHRASES['en']; // Always use language-specific phrases for testing
       
       console.log(`Testing voice: ${voice.name} (${voice.id}) in ${language}`);
-      console.log(`Test text: ${testText}`);
+      console.log(`Test text (${language}): ${testText}`);
 
       const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voice.id}`, {
         method: 'POST',
