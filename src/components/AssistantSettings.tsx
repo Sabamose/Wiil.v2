@@ -21,7 +21,7 @@ const AssistantSettings = ({ assistant, onBack }: AssistantSettingsProps) => {
     systemPrompt: "Describe the desired assistant (e.g., a customer support assistant for ElevenLabs)"
   });
 
-  const tabs = ["Agent", "Settings", "Role", "Integration", "Knowledge Base"];
+  const tabs = ["Agent", "Settings", "Role", "Phone number Management", "Knowledge Base"];
 
   const industries = [
     { id: 'retail', label: 'Retail & E-commerce' },
@@ -76,23 +76,6 @@ const AssistantSettings = ({ assistant, onBack }: AssistantSettingsProps) => {
 
   const renderAgentTab = () => (
     <div className="max-w-lg space-y-6">
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Assistant Type
-        </label>
-        <select
-          value={formData.type}
-          onChange={(e) => setFormData({ ...formData, type: e.target.value as "Voice" | "Chat" | "Unified" })}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-gray-500 focus:border-transparent"
-        >
-          {assistantTypes.map((type) => (
-            <option key={type.id} value={type.id}>
-              {type.label}
-            </option>
-          ))}
-        </select>
-      </div>
-
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Industry
@@ -347,7 +330,7 @@ const AssistantSettings = ({ assistant, onBack }: AssistantSettingsProps) => {
         return renderSettingsTab();
       case "Role":
         return renderRoleTab();
-      case "Integration":
+      case "Phone number Management":
         return renderIntegrationTab();
       case "Knowledge Base":
         return renderKnowledgeBaseTab();
