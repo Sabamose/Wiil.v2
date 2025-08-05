@@ -668,12 +668,12 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
     // Step 8: Testing & Deployment
     // (handled in final step)
   });
-  const {
-    voices,
-    languages,
-    loading: libraryLoading,
-    testVoice
-  } = useElevenLabsLibrary();
+  // Initialize ElevenLabs library
+  const elevenLabsHook = useElevenLabsLibrary();
+  const voices = elevenLabsHook.voices;
+  const languages = elevenLabsHook.languages;
+  const libraryLoading = elevenLabsHook.loading;
+  const testVoice = elevenLabsHook.testVoice;
   const {
     createAssistant
   } = useAssistants();
