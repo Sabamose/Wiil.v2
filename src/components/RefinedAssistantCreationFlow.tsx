@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Loader2, Play, ArrowLeft, ArrowRight, Volume2, PhoneIncoming, PhoneOutgoing, User, MessageSquare, Brain, Upload, Phone, TestTube, ChevronDown, Zap, Save, AlertTriangle, Settings } from 'lucide-react';
+import { Loader2, Play, ArrowLeft, ArrowRight, Volume2, PhoneIncoming, PhoneOutgoing, User, MessageSquare, Brain, Upload, Phone, TestTube, Zap, Save, AlertTriangle } from 'lucide-react';
 import { useElevenLabsLibrary } from '@/hooks/useElevenLabsLibrary';
 import { useAssistants, CreateAssistantData } from '@/hooks/useAssistants';
 import { useToast } from '@/hooks/use-toast';
@@ -321,7 +321,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
   const [step, setStep] = useState(1);
   const [isTestingVoice, setIsTestingVoice] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
-  const [showAdvancedSettings, setShowAdvancedSettings] = useState(false);
+  
   const [formData, setFormData] = useState({
     // Step 1: Industry
     industry: '',
@@ -736,37 +736,6 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               })} placeholder="You are a helpful customer support assistant..." rows={8} className="resize-none" />
                 </div>
 
-                <Collapsible open={showAdvancedSettings} onOpenChange={setShowAdvancedSettings}>
-                  <CollapsibleTrigger asChild>
-                    <Button variant="outline" className="w-full">
-                      <Settings className="h-4 w-4 mr-2" />
-                      Advanced Settings
-                      <ChevronDown className={`h-4 w-4 ml-2 transition-transform ${showAdvancedSettings ? 'rotate-180' : ''}`} />
-                    </Button>
-                  </CollapsibleTrigger>
-                  <CollapsibleContent className="space-y-4 mt-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="temperature">Temperature ({formData.temperature})</Label>
-                        <input type="range" id="temperature" min="0" max="1" step="0.1" value={formData.temperature} onChange={e => setFormData({
-                      ...formData,
-                      temperature: parseFloat(e.target.value)
-                    })} className="w-full mt-2" />
-                        <p className="text-xs text-muted-foreground mt-1">
-                          Lower = more focused, Higher = more creative
-                        </p>
-                      </div>
-
-                      <div>
-                        <Label htmlFor="maxTokens">Max Response Length</Label>
-                        <Input id="maxTokens" type="number" value={formData.max_tokens} onChange={e => setFormData({
-                      ...formData,
-                      max_tokens: parseInt(e.target.value)
-                    })} min="50" max="1000" className="mt-2" />
-                      </div>
-                    </div>
-                  </CollapsibleContent>
-                </Collapsible>
               </CardContent>
             </Card>}
 
