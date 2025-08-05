@@ -633,6 +633,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
   const [step, setStep] = useState(1);
   const [isTestingVoice, setIsTestingVoice] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
+  const [currentAssistantId, setCurrentAssistantId] = useState<string | null>(null);
   
   const [formData, setFormData] = useState({
     // Step 1: Industry
@@ -721,13 +722,13 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
       console.log('Creating assistant with data:', assistantData);
       const newAssistant = await createAssistant(assistantData);
       if (newAssistant) {
+        setCurrentAssistantId(newAssistant.id);
         toast({
           title: "Assistant Created!",
-          description: `${formData.name} has been created successfully.`
+          description: `${formData.name} has been created successfully. You can now add knowledge.`
         });
-        onComplete?.(newAssistant.id);
-        onClose();
-        resetForm();
+        // Move to knowledge upload step instead of closing
+        handleNext();
       }
     } catch (error) {
       console.error('Error creating assistant:', error);
@@ -759,6 +760,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
       phoneNumber: null,
       hasPhoneNumber: false
     });
+    setCurrentAssistantId(null);
   };
   const handleNext = () => {
     if (step < totalSteps) {
@@ -1056,45 +1058,19 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Upload className="h-5 w-5" />
-                  Add Knowledge (Optional)
+                  Add Knowledge Base
                 </CardTitle>
-                <p className="text-muted-foreground">Help your assistant answer questions about your business</p>
+                <p className="text-muted-foreground">
+                  Upload files or add text content to enhance your assistant's knowledge
+                </p>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="border-2 border-dashed border-border rounded-lg p-8 text-center">
-                  <Upload className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-                  <div className="font-medium mb-2">Upload documents</div>
-                  <div className="text-sm text-muted-foreground mb-4">
-                    PDFs, Word docs, or text files with your business information
-                  </div>
-                  <Button variant="outline">
-                    Choose Files
-                  </Button>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="border rounded-lg p-4">
-                    <div className="flex items-center gap-3 mb-3">
-                      <MessageSquare className="w-5 h-5 text-muted-foreground" />
-                      <div className="font-medium">Add website URLs</div>
-                    </div>
-                    <Input type="url" placeholder="https://yourwebsite.com" />
-                  </div>
-
-                  <div className="border rounded-lg p-4">
-                    <div className="flex items-center gap-3 mb-3">
-                      <MessageSquare className="w-5 h-5 text-muted-foreground" />
-                      <div className="font-medium">Add text content</div>
-                    </div>
-                    <Button variant="outline" className="w-full">
-                      Create Text Knowledge
-                    </Button>
-                  </div>
-                </div>
-
-                <div className="text-center text-sm text-muted-foreground">
-                  You can always add knowledge later from the assistant settings
-                </div>
+              <CardContent>
+                <KnowledgeUpload 
+                  assistantId={currentAssistantId!}
+                  onKnowledgeAdded={(knowledge) => {
+                    console.log('Knowledge added:', knowledge);
+                  }}
+                />
               </CardContent>
             </Card>}
 
@@ -1196,14 +1172,14 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
 
         {/* Navigation Buttons */}
         <div className="flex justify-end pt-6">
-          {step > 2 && step < totalSteps && (
+          {step > 2 && step < 5 && (
             <Button onClick={handleNext} disabled={!canGoNext()}>
               Next
               <ArrowRight className="h-4 w-4 ml-2" />
             </Button>
           )}
           
-          {step === totalSteps && (
+          {step === 5 && (
             <Button onClick={handleCreateAssistant} disabled={!canGoNext() || isCreating}>
               {isCreating ? (
                 <>
@@ -1212,10 +1188,24 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 </>
               ) : (
                 <>
-                  <Zap className="h-4 w-4 mr-2" />
-                  Create & Deploy
+                  <Save className="h-4 w-4 mr-2" />
+                  Create Assistant
                 </>
               )}
+            </Button>
+          )}
+
+          {step > 5 && step < totalSteps && (
+            <Button onClick={handleNext} disabled={!canGoNext()}>
+              Next
+              <ArrowRight className="h-4 w-4 ml-2" />
+            </Button>
+          )}
+          
+          {step === totalSteps && (
+            <Button onClick={() => { onComplete?.(currentAssistantId!); onClose(); }} disabled={!currentAssistantId}>
+              <Zap className="h-4 w-4 mr-2" />
+              Complete Setup
             </Button>
           )}
         </div>
