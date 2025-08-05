@@ -577,6 +577,29 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               </CardHeader>
               <CardContent className="space-y-6">
                 <div>
+                  <Label htmlFor="language" className="text-base font-medium">Language</Label>
+                  <Select value={formData.language} onValueChange={value => {
+                const selectedLang = languages[value];
+                setFormData({
+                  ...formData,
+                  language: value,
+                  language_name: selectedLang?.name || 'English'
+                });
+              }}>
+                    <SelectTrigger className="mt-2">
+                      <SelectValue placeholder="Select language">
+                        {formData.language_name || "Select language"}
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                      {Object.keys(languages).length > 0 ? Object.entries(languages).map(([code, lang]) => <SelectItem key={code} value={code}>
+                            {lang.name}
+                          </SelectItem>) : <SelectItem value="en">English (Loading...)</SelectItem>}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
                   <Label className="text-base font-medium">Select Voice</Label>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
                     {Object.entries(voices).map(([id, voice]) => <div key={id} className={`p-4 border rounded-lg cursor-pointer transition-colors ${formData.voice_id === id ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'}`} onClick={() => setFormData({
@@ -601,29 +624,6 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                         </div>
                       </div>)}
                   </div>
-                </div>
-
-                <div>
-                  <Label htmlFor="language" className="text-base font-medium">Language</Label>
-                  <Select value={formData.language} onValueChange={value => {
-                const selectedLang = languages[value];
-                setFormData({
-                  ...formData,
-                  language: value,
-                  language_name: selectedLang?.name || 'English'
-                });
-              }}>
-                    <SelectTrigger className="mt-2">
-                      <SelectValue placeholder="Select language">
-                        {formData.language_name || "Select language"}
-                      </SelectValue>
-                    </SelectTrigger>
-                    <SelectContent>
-                      {Object.keys(languages).length > 0 ? Object.entries(languages).map(([code, lang]) => <SelectItem key={code} value={code}>
-                            {lang.name}
-                          </SelectItem>) : <SelectItem value="en">English (Loading...)</SelectItem>}
-                    </SelectContent>
-                  </Select>
                 </div>
 
                 {formData.voice_id && <div className="p-4 bg-muted rounded-lg">
