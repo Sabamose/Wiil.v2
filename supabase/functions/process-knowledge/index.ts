@@ -50,54 +50,50 @@ serve(async (req) => {
 
     console.log(`Content length: ${textContent.length} characters`);
 
-    // Chunk the content into smaller pieces (smaller chunks for faster processing)
-    const chunks = chunkText(textContent, 500, 50); // Smaller chunks: 500 chars with 50 char overlap
+    // Chunk the content into much smaller pieces for better resource management
+    const chunks = chunkText(textContent, 200, 20); // Much smaller chunks: 200 chars with 20 char overlap
     console.log(`Created ${chunks.length} chunks`);
 
-    // Process chunks in batches to avoid timeouts
-    const batchSize = 3; // Process 3 chunks at a time
+    // Process only first 10 chunks to avoid resource limits
+    const maxChunks = Math.min(chunks.length, 10);
+    console.log(`Processing ${maxChunks} chunks (limited for resource management)`);
     
-    for (let i = 0; i < chunks.length; i += batchSize) {
-      const batch = chunks.slice(i, i + batchSize);
-      console.log(`Processing batch ${Math.floor(i/batchSize) + 1}/${Math.ceil(chunks.length/batchSize)}`);
+    const chunksToProcess = chunks.slice(0, maxChunks);
+    
+    // Process chunks one at a time to avoid resource limits
+    for (let i = 0; i < maxChunks; i++) {
+      const chunk = chunksToProcess[i];
+      console.log(`Processing chunk ${i + 1}/${maxChunks}`);
       
-      // Process batch in parallel
-      const batchPromises = batch.map(async (chunk, batchIndex) => {
-        const chunkIndex = i + batchIndex;
+      try {
+        // Generate embedding for the chunk
+        const embedding = await generateEmbedding(chunk);
         
-        try {
-          // Generate embedding for the chunk
-          const embedding = await generateEmbedding(chunk);
-          
-          // Store the chunk with embedding
-          const { error: chunkError } = await supabase
-            .from('knowledge_chunks')
-            .insert({
-              knowledge_source_id: knowledgeSourceId,
-              content: chunk,
-              chunk_index: chunkIndex,
-              embedding: embedding,
-              metadata: { chunk_size: chunk.length, overlap: 50 }
-            });
+        // Store the chunk with embedding
+        const { error: chunkError } = await supabase
+          .from('knowledge_chunks')
+          .insert({
+            knowledge_source_id: knowledgeSourceId,
+            content: chunk,
+            chunk_index: i,
+            embedding: embedding,
+            metadata: { chunk_size: chunk.length, overlap: 20 }
+          });
 
-          if (chunkError) {
-            console.error(`Error storing chunk ${chunkIndex}:`, chunkError);
-            throw chunkError;
-          }
-          
-          console.log(`Successfully processed chunk ${chunkIndex}`);
-        } catch (error) {
-          console.error(`Failed to process chunk ${chunkIndex}:`, error);
-          throw error;
+        if (chunkError) {
+          console.error(`Error storing chunk ${i}:`, chunkError);
+          throw chunkError;
         }
-      });
-      
-      // Wait for batch to complete
-      await Promise.all(batchPromises);
-      
-      // Small delay between batches to avoid overwhelming the API
-      if (i + batchSize < chunks.length) {
-        await new Promise(resolve => setTimeout(resolve, 100));
+        
+        console.log(`Successfully processed chunk ${i}`);
+        
+        // Small delay between chunks to avoid overwhelming the API
+        if (i < maxChunks - 1) {
+          await new Promise(resolve => setTimeout(resolve, 200));
+        }
+      } catch (error) {
+        console.error(`Failed to process chunk ${i}:`, error);
+        throw error;
       }
     }
 
@@ -107,7 +103,7 @@ serve(async (req) => {
       .update({ status: 'completed' })
       .eq('id', knowledgeSourceId);
 
-    console.log(`Successfully processed ${chunks.length} chunks for knowledge source ${knowledgeSourceId}`);
+    console.log(`Successfully processed ${maxChunks} chunks for knowledge source ${knowledgeSourceId}`);
 
     return new Response(
       JSON.stringify({ 
