@@ -6,18 +6,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { BaseAssistant, AssistantWithChannels } from "@/types/assistant";
+import { StoredAssistant } from "@/hooks/useAssistants";
 import TestAssistantModal from "./TestAssistantModal";
 import { useState } from "react";
 
 interface ExistingAssistantsSectionProps {
-  assistants: any[];
+  assistants: StoredAssistant[];
   loading?: boolean;
 }
 
 const ExistingAssistantsSection = ({ assistants, loading = false }: ExistingAssistantsSectionProps) => {
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
-  const [selectedAssistant, setSelectedAssistant] = useState<any>(null);
+  const [selectedAssistant, setSelectedAssistant] = useState<StoredAssistant | null>(null);
 
   // Convert assistants to include channel data with different statuses
   const assistantsWithChannels = assistants.map((assistant, index) => ({
@@ -138,18 +138,18 @@ const ExistingAssistantsSection = ({ assistants, loading = false }: ExistingAssi
               <td className="px-6 py-5">
                 <div className="font-semibold group-hover:text-gray-900 transition-colors">{assistant.name}</div>
                 <div className="text-sm text-gray-500 mt-1">
-                  {assistant.industry} • {(assistant.use_case || assistant.useCase || '').replace(/-/g, ' ')}
+                  {assistant.industry} • {assistant.use_case.replace(/-/g, ' ')}
                 </div>
               </td>
               <td className="px-6 py-5">
                 <div className="flex items-center gap-2">
-                  {(assistant.assistant_type || assistant.assistantType) === 'inbound' ? (
+                  {assistant.assistant_type === 'inbound' ? (
                     <PhoneIncoming className="w-4 h-4 text-gray-600" />
                   ) : (
                     <PhoneOutgoing className="w-4 h-4 text-gray-600" />
                   )}
                   <span className="text-sm font-medium text-gray-800">
-                    {(assistant.assistant_type || assistant.assistantType) === 'inbound' ? 'Incoming Calls' : 'Outgoing Calls'}
+                    {assistant.assistant_type === 'inbound' ? 'Incoming Calls' : 'Outgoing Calls'}
                   </span>
                 </div>
               </td>
@@ -157,7 +157,7 @@ const ExistingAssistantsSection = ({ assistants, loading = false }: ExistingAssi
                 <div className="flex items-center gap-2">
                   <Phone className="w-4 h-4 text-gray-600" />
                   <span className="text-sm text-gray-600">
-                    {assistant.phone_number || assistant.phoneNumber || "Not connected"}
+                    {assistant.phone_number || "Not connected"}
                   </span>
                 </div>
               </td>

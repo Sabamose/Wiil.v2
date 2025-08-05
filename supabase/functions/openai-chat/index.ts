@@ -25,6 +25,21 @@ serve(async (req) => {
 
     console.log('Processing message with OpenAI GPT-4.1:', message, 'assistantId:', assistantId);
 
+    // Fetch assistant configuration if assistantId is provided
+    let assistantConfig = null;
+    if (assistantId) {
+      const { data: assistant, error: assistantError } = await supabase
+        .from('assistants')
+        .select('system_prompt, temperature, max_tokens, language, initial_message')
+        .eq('id', assistantId)
+        .single();
+
+      if (!assistantError && assistant) {
+        assistantConfig = assistant;
+        console.log('Using assistant configuration:', assistantConfig);
+      }
+    }
+
     let enhancedContext = [...context];
 
     // If assistantId is provided, search for relevant knowledge
@@ -58,10 +73,18 @@ serve(async (req) => {
       }
     }
 
+    // Use assistant's system prompt or default
+    const systemPrompt = assistantConfig?.system_prompt || 'You are a helpful AI assistant with a natural, conversational speaking style. Keep responses concise and engaging for voice interaction. If you have relevant knowledge provided, use it to enhance your responses.';
+    
+    // Add language-specific instructions if needed
+    const languageInstruction = assistantConfig?.language && assistantConfig.language !== 'en' 
+      ? `\n\nIMPORTANT: Please respond in ${assistantConfig.language} language.` 
+      : '';
+
     const messages = [
       {
         role: 'system',
-        content: 'You are a helpful AI assistant with a natural, conversational speaking style. Keep responses concise and engaging for voice interaction. If you have relevant knowledge provided, use it to enhance your responses.'
+        content: systemPrompt + languageInstruction
       },
       ...enhancedContext,
       {
@@ -79,8 +102,8 @@ serve(async (req) => {
       body: JSON.stringify({
         model: 'gpt-4.1-2025-04-14',
         messages,
-        max_tokens: 300,
-        temperature: 0.7,
+        max_tokens: assistantConfig?.max_tokens || 300,
+        temperature: assistantConfig?.temperature || 0.7,
       }),
     });
 

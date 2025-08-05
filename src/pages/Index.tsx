@@ -6,6 +6,7 @@ import AssistantCreationFlow from "@/components/AssistantCreationFlow";
 import RefinedAssistantCreationFlow from "@/components/RefinedAssistantCreationFlow";
 import AssistantSettings from "@/components/AssistantSettings";
 import VoiceConversationInterface from "@/components/VoiceConversationInterface";
+import EnhancedVoiceInterface from "@/components/EnhancedVoiceInterface";
 import { BaseAssistant } from "@/types/assistant";
 import { useAssistants, StoredAssistant } from "@/hooks/useAssistants";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -63,7 +64,7 @@ const Index = () => {
               </TabsContent>
               
               <TabsContent value="voice-chat">
-                <VoiceConversationInterface />
+                <EnhancedVoiceInterface assistants={assistants} loading={loading} />
               </TabsContent>
             </Tabs>
           </main>

@@ -653,11 +653,23 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
         onClose={() => setIsTestModalOpen(false)}
         assistant={{
           id: "draft",
+          user_id: "draft",
           name: formData.name || "Draft Assistant",
-          type: "Voice",
+          type: "Voice" as const,
           industry: formData.industry || "technology",
-          useCase: formData.role || "customer-support"
-        } as BaseAssistant}
+          use_case: formData.role || "customer-support",
+          voice_id: "aria",
+          voice_name: "Aria (Female)",
+          language: "en",
+          language_name: "English",
+          system_prompt: "You are a helpful AI assistant. Keep responses concise and engaging for voice interaction.",
+          initial_message: "Hello! How can I help you today?",
+          temperature: 0.7,
+          max_tokens: 300,
+          status: "draft" as const,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        }}
       />
 
       {/* Create Text Knowledge Modal */}
