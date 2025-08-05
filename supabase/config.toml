@@ -22,3 +22,9 @@ verify_jwt = false
 
 [functions.elevenlabs-library]
 verify_jwt = false
+
+[functions.process-knowledge]
+verify_jwt = false
+
+[functions.knowledge-search]
+verify_jwt = false
