@@ -272,12 +272,6 @@ const AssistantSettings = ({ assistant, onBack }: AssistantSettingsProps) => {
           </div>
         </div>
 
-        {/* No Phone Numbers State */}
-        <div className="p-6 text-center text-gray-500">
-          <Phone className="w-8 h-8 mx-auto mb-2 text-gray-400" />
-          <p>No additional phone numbers connected</p>
-          <p className="text-sm mt-1">Purchase a phone number to get started</p>
-        </div>
       </div>
 
       {/* Available Numbers Section */}
