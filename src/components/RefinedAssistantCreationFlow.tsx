@@ -451,12 +451,10 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
           {Array.from({ length: totalSteps }, (_, i) => i + 1).map((stepNum) => (
             <div key={stepNum} className="flex-1 flex items-center">
               <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                  step >= stepNum ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'
+                className={`w-3 h-3 rounded-full ${
+                  step >= stepNum ? 'bg-primary' : 'bg-muted'
                 }`}
-              >
-                {stepNum}
-              </div>
+              />
               {stepNum < totalSteps && (
                 <div
                   className={`flex-1 h-1 mx-2 ${
