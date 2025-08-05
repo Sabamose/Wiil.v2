@@ -500,7 +500,14 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
   return <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto" aria-describedby="assistant-creation-description">
         <DialogHeader>
-          <DialogTitle>Create New Assistant - Step {step} of {totalSteps}</DialogTitle>
+          <div className="flex items-center justify-between">
+            <DialogTitle>Create New Assistant</DialogTitle>
+            {step > 1 && (
+              <Button variant="ghost" size="sm" onClick={handlePrevious} className="h-8 w-8 p-0">
+                <ArrowLeft className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
           <p id="assistant-creation-description" className="text-sm text-muted-foreground">
         </p>
         </DialogHeader>
@@ -903,24 +910,29 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
         </div>
 
         {/* Navigation Buttons */}
-        <div className="flex justify-between pt-6">
-          <Button variant="outline" onClick={() => step > 1 ? handlePrevious() : onClose()} disabled={isCreating}>
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            {step > 1 ? 'Previous' : 'Cancel'}
-          </Button>
-
-          {step < totalSteps ? <Button onClick={handleNext} disabled={!canGoNext()}>
+        <div className="flex justify-end pt-6">
+          {step > 2 && step < totalSteps && (
+            <Button onClick={handleNext} disabled={!canGoNext()}>
               Next
               <ArrowRight className="h-4 w-4 ml-2" />
-            </Button> : <Button onClick={handleCreateAssistant} disabled={!canGoNext() || isCreating}>
-              {isCreating ? <>
+            </Button>
+          )}
+          
+          {step === totalSteps && (
+            <Button onClick={handleCreateAssistant} disabled={!canGoNext() || isCreating}>
+              {isCreating ? (
+                <>
                   <Loader2 className="h-4 w-4 animate-spin mr-2" />
                   Creating...
-                </> : <>
+                </>
+              ) : (
+                <>
                   <Zap className="h-4 w-4 mr-2" />
                   Create & Deploy
-                </>}
-            </Button>}
+                </>
+              )}
+            </Button>
+          )}
         </div>
       </DialogContent>
     </Dialog>;
