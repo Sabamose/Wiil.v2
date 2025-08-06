@@ -1208,7 +1208,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
           {step === totalSteps && (
             <Button onClick={() => { onComplete?.(currentAssistantId!); onClose(); }} disabled={!currentAssistantId}>
               <Zap className="h-4 w-4 mr-2" />
-              Complete Setup
+              Deploy Assistant
             </Button>
           )}
         </div>
