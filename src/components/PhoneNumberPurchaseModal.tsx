@@ -78,13 +78,17 @@ const PhoneNumberPurchaseModal = ({ isOpen, onClose, onPurchaseComplete }: Phone
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60]">
-      <div className="bg-background rounded-lg w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto shadow-2xl border">
-        <div className="flex items-center justify-between p-6 border-b">
-          <h2 className="text-xl font-semibold">Buy Phone Number</h2>
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999] backdrop-blur-sm">
+      <div className="bg-background rounded-lg w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto shadow-2xl border relative">
+        <div className="flex items-center justify-between p-6 border-b bg-background">
+          <h2 className="text-xl font-semibold text-foreground">Buy Phone Number</h2>
           <button
-            onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-full"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onClose();
+            }}
+            className="p-2 hover:bg-muted rounded-full text-muted-foreground hover:text-foreground"
           >
             <X className="w-5 h-5" />
           </button>
@@ -181,7 +185,12 @@ const PhoneNumberPurchaseModal = ({ isOpen, onClose, onPurchaseComplete }: Phone
               {filteredNumbers.map((number) => (
                 <button
                   key={number.number}
-                  onClick={() => setSelectedNumber(number.number)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Number selected:', number.number);
+                    setSelectedNumber(number.number);
+                  }}
                   className={`w-full p-3 border rounded-lg text-left flex justify-between items-center ${
                     selectedNumber === number.number 
                       ? "border-blue-500 bg-blue-50" 
@@ -201,11 +210,16 @@ const PhoneNumberPurchaseModal = ({ isOpen, onClose, onPurchaseComplete }: Phone
             Cancel
           </Button>
           <Button 
-            onClick={() => {
-              console.log('Buy Number button clicked');
-              handlePurchase();
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              console.log('Buy Number button clicked, selectedNumber:', selectedNumber);
+              if (selectedNumber) {
+                handlePurchase();
+              }
             }}
             disabled={!selectedNumber || isLoading}
+            className="bg-primary hover:bg-primary/90 text-primary-foreground"
           >
             {isLoading ? "Purchasing..." : "Buy Number"}
           </Button>
