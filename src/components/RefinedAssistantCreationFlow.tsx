@@ -1223,14 +1223,6 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
             </Button>
           )}
           
-
-          {step > 5 && step < totalSteps && (
-            <Button onClick={handleNext} disabled={!canGoNext()}>
-              Next
-              <ArrowRight className="h-4 w-4 ml-2" />
-            </Button>
-          )}
-          
           {step === totalSteps && (
             <div className="text-center space-y-3">
               <div className="text-sm text-muted-foreground">
