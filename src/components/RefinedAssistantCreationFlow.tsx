@@ -732,18 +732,12 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
       
       if (newAssistant) {
         setCurrentAssistantId(newAssistant.id);
-        toast({
-          title: "Assistant Created!",
-          description: `${formData.name} has been created successfully.`
-        });
+        // Don't show notification yet - save for final deployment
       } else {
         // If creation failed due to no user, create a demo assistant for the flow
         const demoAssistantId = `demo-${Date.now()}`;
         setCurrentAssistantId(demoAssistantId);
-        toast({
-          title: "Demo Assistant Created!",
-          description: `${formData.name} configuration saved. Sign in to save permanently.`
-        });
+        // Don't show notification yet - save for final deployment
       }
       
       // Move to the next step
@@ -753,11 +747,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
       // Still allow progression for demo purposes
       const demoAssistantId = `demo-${Date.now()}`;
       setCurrentAssistantId(demoAssistantId);
-      toast({
-        title: "Demo Mode",
-        description: "Assistant created in demo mode. Sign in to save permanently.",
-        variant: "default"
-      });
+      // Don't show notification yet - save for final deployment
       handleNext();
     } finally {
       setIsCreating(false);
