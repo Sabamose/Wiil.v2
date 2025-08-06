@@ -1,140 +1,127 @@
 import { MoreHorizontal, TestTube, Settings, Copy, Link, Trash2, Mic, MessageCircle, Repeat, Phone, Globe, MessageSquare, Smartphone, PhoneIncoming, PhoneOutgoing } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { StoredAssistant } from "@/hooks/useAssistants";
 import TestAssistantModal from "./TestAssistantModal";
 import { useState } from "react";
-
 interface ExistingAssistantsSectionProps {
   assistants: StoredAssistant[];
   loading?: boolean;
 }
-
-const ExistingAssistantsSection = ({ assistants, loading = false }: ExistingAssistantsSectionProps) => {
+const ExistingAssistantsSection = ({
+  assistants,
+  loading = false
+}: ExistingAssistantsSectionProps) => {
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
   const [selectedAssistant, setSelectedAssistant] = useState<StoredAssistant | null>(null);
 
   // Convert assistants to include channel data with different statuses
   const assistantsWithChannels = assistants.map((assistant, index) => ({
     ...assistant,
-    channels: [
-      { name: "Phone", connected: true, type: "phone" },
-      { name: "Website", connected: true, type: "website" },
-      { name: "SMS", connected: false, type: "sms" }
-    ],
+    channels: [{
+      name: "Phone",
+      connected: true,
+      type: "phone"
+    }, {
+      name: "Website",
+      connected: true,
+      type: "website"
+    }, {
+      name: "SMS",
+      connected: false,
+      type: "sms"
+    }],
     // Use existing status or set default
     status: assistant.status || (index === 1 ? "draft" : "live")
   }));
-
   const getChannelIcon = (type: string) => {
     switch (type) {
-      case "phone": return Phone;
-      case "website": return Globe;
-      case "sms": return MessageSquare;
-      case "whatsapp": return Smartphone;
-      default: return MessageCircle;
+      case "phone":
+        return Phone;
+      case "website":
+        return Globe;
+      case "sms":
+        return MessageSquare;
+      case "whatsapp":
+        return Smartphone;
+      default:
+        return MessageCircle;
     }
   };
-
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case "Voice": return Mic;
-      case "Chat": return MessageCircle;
-      case "Unified": return Repeat;
-      default: return MessageCircle;
+      case "Voice":
+        return Mic;
+      case "Chat":
+        return MessageCircle;
+      case "Unified":
+        return Repeat;
+      default:
+        return MessageCircle;
     }
   };
-
   const handleTestAssistant = (assistant: any) => {
     setSelectedAssistant(assistant);
     setIsTestModalOpen(true);
   };
-
   const handleTryDemo = () => {
     alert(`🎯 Try our demo assistants!\n\n• Customer Support Demo\n• Sales Assistant Demo\n• Technical Support Demo\n\nThis would open a demo interface to test different assistant templates.`);
   };
-
   const handleEditSettings = (assistantName: string) => {
     alert(`⚙️ Opening settings for ${assistantName}...\n\nThis would navigate to the tab-based configuration page.`);
   };
-
   const handleDuplicate = (assistantName: string) => {
     alert(`📋 Duplicating ${assistantName}...\n\nThis would create a duplicate assistant with the same configuration.`);
   };
-
   const handleIntegrateChannels = (assistantName: string) => {
     alert(`🔗 Integrating channels for ${assistantName}...\n\nThis would open the channel integration settings.`);
   };
-
   const handleDelete = (assistantName: string) => {
     if (confirm(`Are you sure you want to delete ${assistantName}? This action cannot be undone.`)) {
       alert(`🗑️ Deleting ${assistantName}...`);
     }
   };
-
   const handleCreate = () => {
     // This will be handled by the parent component
     const event = new CustomEvent('create-assistant');
     window.dispatchEvent(event);
   };
-
-  return (
-    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+  return <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
       <div className="px-6 py-5 border-b border-gray-200 flex justify-between items-center">
         <h2 className="text-lg font-semibold">Your Assistants</h2>
         <div className="flex gap-3">
-          <button 
-            onClick={handleCreate}
-            className="px-4 py-2 bg-gray-900 text-white rounded-md text-sm font-medium hover:bg-gray-800 transition-colors"
-          >
+          <button onClick={handleCreate} className="px-4 py-2 bg-gray-900 text-white rounded-md text-sm font-medium hover:bg-gray-800 transition-colors">
             + Create Assistant
           </button>
         </div>
       </div>
 
-      {loading ? (
-        <div className="flex items-center justify-center py-12">
+      {loading ? <div className="flex items-center justify-center py-12">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
           <span className="ml-2 text-gray-600">Loading assistants...</span>
-        </div>
-      ) : assistants.length === 0 ? (
-        <div className="text-center py-12">
+        </div> : assistants.length === 0 ? <div className="text-center py-12">
           <p className="text-gray-500 mb-4">No assistants created yet</p>
-          <button 
-            onClick={handleCreate}
-            className="px-4 py-2 bg-gray-900 text-white rounded-md text-sm font-medium hover:bg-gray-800 transition-colors"
-          >
+          <button onClick={handleCreate} className="px-4 py-2 bg-gray-900 text-white rounded-md text-sm font-medium hover:bg-gray-800 transition-colors">
             Create Your First Assistant
           </button>
-        </div>
-      ) : (
-
-      <table className="w-full">
+        </div> : <table className="w-full">
         <thead className="bg-gray-50">
           <tr>
             <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Assistant Name</th>
-            <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Type</th>
+            <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Assistant Type
+          </th>
             <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Phone Number</th>
             <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {assistantsWithChannels.map((assistant, index) => (
-            <tr 
-              key={assistant.id} 
-              className={`border-b border-gray-100 hover:bg-gray-50 transition-all duration-200 cursor-pointer group hover-scale ${index === assistantsWithChannels.length - 1 ? 'border-b-0' : ''}`}
-              onClick={() => {
-                const event = new CustomEvent('view-assistant-settings', {
-                  detail: { assistantId: assistant.id }
-                });
-                window.dispatchEvent(event);
-              }}
-            >
+          {assistantsWithChannels.map((assistant, index) => <tr key={assistant.id} className={`border-b border-gray-100 hover:bg-gray-50 transition-all duration-200 cursor-pointer group hover-scale ${index === assistantsWithChannels.length - 1 ? 'border-b-0' : ''}`} onClick={() => {
+          const event = new CustomEvent('view-assistant-settings', {
+            detail: {
+              assistantId: assistant.id
+            }
+          });
+          window.dispatchEvent(event);
+        }}>
               <td className="px-6 py-5">
                 <div className="font-semibold group-hover:text-gray-900 transition-colors">{assistant.name}</div>
                 <div className="text-sm text-gray-500 mt-1">
@@ -143,11 +130,7 @@ const ExistingAssistantsSection = ({ assistants, loading = false }: ExistingAssi
               </td>
               <td className="px-6 py-5">
                 <div className="flex items-center gap-2">
-                  {assistant.assistant_type === 'inbound' ? (
-                    <PhoneIncoming className="w-4 h-4 text-gray-600" />
-                  ) : (
-                    <PhoneOutgoing className="w-4 h-4 text-gray-600" />
-                  )}
+                  {assistant.assistant_type === 'inbound' ? <PhoneIncoming className="w-4 h-4 text-gray-600" /> : <PhoneOutgoing className="w-4 h-4 text-gray-600" />}
                   <span className="text-sm font-medium text-gray-800">
                     {assistant.assistant_type === 'inbound' ? 'Incoming Calls' : 'Outgoing Calls'}
                   </span>
@@ -165,18 +148,15 @@ const ExistingAssistantsSection = ({ assistants, loading = false }: ExistingAssi
                 <div className="flex items-center justify-end">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <button
-                        className="p-3 text-gray-600 hover:bg-gray-100 hover:text-gray-800 rounded-lg transition-colors flex items-center justify-center"
-                        onClick={(e) => e.stopPropagation()}
-                      >
+                      <button className="p-3 text-gray-600 hover:bg-gray-100 hover:text-gray-800 rounded-lg transition-colors flex items-center justify-center" onClick={e => e.stopPropagation()}>
                         <MoreHorizontal className="w-5 h-5" />
                       </button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-48">
-                      <DropdownMenuItem onClick={(e) => {
-                        e.stopPropagation();
-                        handleTestAssistant(assistant);
-                      }}>
+                      <DropdownMenuItem onClick={e => {
+                    e.stopPropagation();
+                    handleTestAssistant(assistant);
+                  }}>
                         <TestTube className="w-4 h-4 mr-2" />
                         Test Assistant
                       </DropdownMenuItem>
@@ -193,10 +173,7 @@ const ExistingAssistantsSection = ({ assistants, loading = false }: ExistingAssi
                         Integrate Channels
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem 
-                        onClick={() => handleDelete(assistant.name)}
-                        className="text-red-600 focus:text-red-600"
-                      >
+                      <DropdownMenuItem onClick={() => handleDelete(assistant.name)} className="text-red-600 focus:text-red-600">
                         <Trash2 className="w-4 h-4 mr-2" />
                         Delete
                       </DropdownMenuItem>
@@ -204,24 +181,14 @@ const ExistingAssistantsSection = ({ assistants, loading = false }: ExistingAssi
                   </DropdownMenu>
                 </div>
               </td>
-            </tr>
-          ))}
+            </tr>)}
         </tbody>
-      </table>
-      )}
+      </table>}
 
-      {selectedAssistant && (
-        <TestAssistantModal
-          isOpen={isTestModalOpen}
-          onClose={() => {
-            setIsTestModalOpen(false);
-            setSelectedAssistant(null);
-          }}
-          assistant={selectedAssistant}
-        />
-      )}
-    </div>
-  );
+      {selectedAssistant && <TestAssistantModal isOpen={isTestModalOpen} onClose={() => {
+      setIsTestModalOpen(false);
+      setSelectedAssistant(null);
+    }} assistant={selectedAssistant} />}
+    </div>;
 };
-
 export default ExistingAssistantsSection;
