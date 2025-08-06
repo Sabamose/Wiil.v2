@@ -173,7 +173,7 @@ const ExistingAssistantsSection = ({
                       </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => handleIntegrateChannels(assistant.name)}>
                         <Link className="w-4 h-4 mr-2" />
-                        Integrate Channels
+                        Manage Phone Number
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem onClick={() => handleDelete(assistant.name)} className="text-red-600 focus:text-red-600">
