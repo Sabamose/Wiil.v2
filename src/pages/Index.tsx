@@ -51,20 +51,7 @@ const Index = () => {
         {/* Main Content */}
         {currentView === "list" ? (
           <main className="ml-60 mt-16 p-8">
-            <Tabs defaultValue="assistants" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-8">
-                <TabsTrigger value="assistants">Assistants</TabsTrigger>
-                <TabsTrigger value="voice-chat">Voice Chat</TabsTrigger>
-              </TabsList>
-              
-              <TabsContent value="assistants">
-                <ExistingAssistantsSection assistants={assistants} loading={loading} />
-              </TabsContent>
-              
-              <TabsContent value="voice-chat">
-                <EnhancedVoiceInterface assistants={assistants} loading={loading} />
-              </TabsContent>
-            </Tabs>
+            <ExistingAssistantsSection assistants={assistants} loading={loading} />
           </main>
         ) : (
           selectedAssistant && (
