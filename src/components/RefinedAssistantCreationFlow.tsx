@@ -1156,30 +1156,57 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 </CardTitle>
                 <p className="text-muted-foreground">Test your assistant and deploy when ready</p>
               </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="border rounded-lg p-6 text-center">
-                    <TestTube className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-                    <div className="font-medium mb-2">Test Assistant</div>
-                    <div className="text-sm text-muted-foreground mb-4">
-                      {formData.assistantType === 'inbound' ? 'Call the assigned number to test your assistant' : 'Enter your number for the assistant to call you'}
-                    </div>
-                    <Button 
-                      variant="outline" 
-                      className="w-full"
-                      onClick={() => setIsTestModalOpen(true)}
-                    >
-                      <TestTube className="h-4 w-4 mr-2" />
-                      Start Test
-                    </Button>
+              <CardContent className="space-y-8">
+                {/* Hero Section */}
+                <div className="text-center space-y-4">
+                  <div className="w-16 h-16 mx-auto bg-gradient-to-br from-primary/20 to-accent/20 rounded-full flex items-center justify-center">
+                    <TestTube className="w-8 h-8 text-primary" />
                   </div>
-
+                  <div>
+                    <h3 className="text-xl font-semibold">Test Your Assistant</h3>
+                    <p className="text-muted-foreground">
+                      {formData.assistantType === 'inbound' 
+                        ? 'Test incoming calls to ensure your assistant responds correctly' 
+                        : 'Test outbound calls to verify your assistant\'s conversation flow'}
+                    </p>
+                  </div>
                 </div>
 
-                <Separator />
+                {/* Main Testing Card */}
+                <div className="max-w-md mx-auto">
+                  <div className="relative group">
+                    <div className="absolute -inset-1 bg-gradient-to-r from-primary to-accent rounded-xl blur opacity-20 group-hover:opacity-30 transition duration-300"></div>
+                    <div className="relative bg-background border rounded-xl p-8 text-center space-y-6">
+                      <div className="w-20 h-20 mx-auto bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-full flex items-center justify-center">
+                        <TestTube className="w-10 h-10 text-blue-600" />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <h4 className="font-semibold text-lg">Start Test Call</h4>
+                        <p className="text-sm text-muted-foreground">
+                          {formData.assistantType === 'inbound' 
+                            ? 'Call the assigned number to test your assistant' 
+                            : 'Enter your number for the assistant to call you'}
+                        </p>
+                      </div>
+                      
+                      <Button 
+                        size="lg"
+                        className="w-full relative overflow-hidden group bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 transition-all duration-300 shadow-lg hover:shadow-xl"
+                        onClick={() => setIsTestModalOpen(true)}
+                      >
+                        <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500"></div>
+                        <TestTube className="h-5 w-5 mr-2" />
+                        Start Test
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+
+                <Separator className="my-8" />
 
                 <div className="text-center">
-                  <Button variant="outline" onClick={onClose}>
+                  <Button variant="outline" onClick={onClose} className="px-8">
                     <Save className="h-4 w-4 mr-2" />
                     Save as Draft
                   </Button>
