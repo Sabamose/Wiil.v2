@@ -840,7 +840,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
       case 4:
         return formData.role;
       case 5:
-        return currentAssistantId; // Assistant must be created to proceed
+        return formData.name && formData.initial_message && formData.system_prompt; // Allow creation if form is valid
       case 6:
         return true;
       // Knowledge base is optional
