@@ -351,26 +351,35 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
                   <h3 className="text-lg font-medium text-gray-900">Industry</h3>
                 </div>
                 <p className="text-gray-600 mb-4">Choose the industry your business operates in.</p>
-                <Select value={formData.industry} onValueChange={(value) => setFormData({ ...formData, industry: value })}>
-                  <SelectTrigger className="w-full max-w-md bg-white">
-                    <SelectValue placeholder="Select industry" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
-                    {[
-                      { id: 'healthcare', label: 'Healthcare & Medical' },
-                      { id: 'retail', label: 'Retail & E-commerce' },
-                      { id: 'finance', label: 'Finance & Banking' },
-                      { id: 'real-estate', label: 'Real Estate' },
-                      { id: 'education', label: 'Education & Training' },
-                      { id: 'hospitality', label: 'Hospitality & Travel' },
-                      { id: 'other', label: 'Other' }
-                    ].map((industry) => (
-                      <SelectItem key={industry.id} value={industry.id}>
-                        {industry.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                
+                <div className="grid grid-cols-3 gap-3 mb-4">
+                  {[
+                    { id: 'healthcare', label: 'Healthcare & Medical' },
+                    { id: 'retail', label: 'Retail & E-commerce' },
+                    { id: 'finance', label: 'Finance & Banking' },
+                    { id: 'real-estate', label: 'Real Estate' },
+                    { id: 'education', label: 'Education & Training' },
+                    { id: 'hospitality', label: 'Hospitality & Travel' },
+                    { id: 'automotive', label: 'Automotive' },
+                    { id: 'professional', label: 'Professional Services' },
+                    { id: 'technology', label: 'Technology & Software' },
+                    { id: 'government', label: 'Government & Public' },
+                    { id: 'food', label: 'Food & Beverage' },
+                    { id: 'other', label: 'Other' }
+                  ].map((industry) => (
+                    <button
+                      key={industry.id}
+                      onClick={() => setFormData({ ...formData, industry: industry.id })}
+                      className={`p-3 text-left border rounded-lg transition-all hover:border-gray-400 text-sm ${
+                        formData.industry === industry.id
+                          ? 'border-blue-500 bg-blue-50 text-blue-700'
+                          : 'border-gray-200'
+                      }`}
+                    >
+                      {industry.label}
+                    </button>
+                  ))}
+                </div>
               </div>
 
               {/* Assistant Type */}
@@ -380,25 +389,42 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
                   <h3 className="text-lg font-medium text-gray-900">Call Type</h3>
                 </div>
                 <p className="text-gray-600 mb-4">Choose whether your assistant handles incoming or outgoing calls.</p>
-                <Select value={formData.assistantType} onValueChange={(value) => setFormData({ ...formData, assistantType: value })}>
-                  <SelectTrigger className="w-full max-w-md bg-white">
-                    <SelectValue placeholder="Select call type" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
-                    <SelectItem value="inbound">
-                      <div className="flex items-center gap-2">
-                        <PhoneIncoming className="w-4 h-4" />
-                        Inbound Calls
-                      </div>
-                    </SelectItem>
-                    <SelectItem value="outbound">
-                      <div className="flex items-center gap-2">
-                        <PhoneOutgoing className="w-4 h-4" />
-                        Outbound Calls
-                      </div>
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
+                
+                <div className="grid grid-cols-1 gap-3 max-w-2xl mb-4">
+                  <button
+                    onClick={() => setFormData({ ...formData, assistantType: 'inbound' })}
+                    className={`p-4 text-left border rounded-lg transition-all hover:border-gray-400 ${
+                      formData.assistantType === 'inbound'
+                        ? 'border-blue-500 bg-blue-50'
+                        : 'border-gray-200'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3 mb-2">
+                      <PhoneIncoming className="h-5 w-5 text-blue-600" />
+                      <h4 className="font-semibold">Inbound Calls</h4>
+                    </div>
+                    <p className="text-gray-600 text-sm">
+                      Customers call your business. Perfect for customer support, bookings, and inquiries.
+                    </p>
+                  </button>
+                  
+                  <button
+                    onClick={() => setFormData({ ...formData, assistantType: 'outbound' })}
+                    className={`p-4 text-left border rounded-lg transition-all hover:border-gray-400 ${
+                      formData.assistantType === 'outbound'
+                        ? 'border-blue-500 bg-blue-50'
+                        : 'border-gray-200'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3 mb-2">
+                      <PhoneOutgoing className="h-5 w-5 text-green-600" />
+                      <h4 className="font-semibold">Outbound Calls</h4>
+                    </div>
+                    <p className="text-gray-600 text-sm">
+                      Your assistant calls customers. Great for sales, follow-ups, and notifications.
+                    </p>
+                  </button>
+                </div>
               </div>
 
               {/* Use Case */}
@@ -408,24 +434,31 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
                   <h3 className="text-lg font-medium text-gray-900">Use Case</h3>
                 </div>
                 <p className="text-gray-600 mb-4">What will your assistant help with?</p>
-                <Select value={formData.role} onValueChange={(value) => setFormData({ ...formData, role: value })}>
-                  <SelectTrigger className="w-full max-w-md bg-white">
-                    <SelectValue placeholder="Select use case" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
-                    {[
-                      { id: 'customer-support', label: 'Customer Support' },
-                      { id: 'scheduling', label: 'Scheduling & Booking' },
-                      { id: 'sales', label: 'Sales & Lead Generation' },
-                      { id: 'information', label: 'Information & FAQ' },
-                      { id: 'other', label: 'Other' }
-                    ].map((useCase) => (
-                      <SelectItem key={useCase.id} value={useCase.id}>
-                        {useCase.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                
+                <div className="grid grid-cols-2 gap-3">
+                  {[
+                    { id: 'customer-support', label: 'Customer Support' },
+                    { id: 'scheduling', label: 'Scheduling & Booking' },
+                    { id: 'sales', label: 'Sales & Lead Generation' },
+                    { id: 'information', label: 'Information & FAQ' },
+                    { id: 'billing', label: 'Billing & Payments' },
+                    { id: 'technical', label: 'Technical Support' },
+                    { id: 'consultation', label: 'Consultation Booking' },
+                    { id: 'other', label: 'Other' }
+                  ].map((useCase) => (
+                    <button
+                      key={useCase.id}
+                      onClick={() => setFormData({ ...formData, role: useCase.id })}
+                      className={`p-3 text-left border rounded-lg transition-all hover:border-gray-400 text-sm ${
+                        formData.role === useCase.id
+                          ? 'border-blue-500 bg-blue-50 text-blue-700'
+                          : 'border-gray-200'
+                      }`}
+                    >
+                      {useCase.label}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </section>
@@ -445,28 +478,29 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
                   <h3 className="text-lg font-medium text-gray-900">Agent Language</h3>
                 </div>
                 <p className="text-gray-600 mb-4">Choose the default language the agent will communicate in.</p>
-                <Select value={formData.language} onValueChange={(value) => {
-                  const selectedLang = Object.values(languages).find(lang => lang.code === value);
-                  setFormData({
-                    ...formData,
-                    language: value,
-                    language_name: selectedLang?.name || value
-                  });
-                }}>
-                  <SelectTrigger className="w-full max-w-md bg-white">
-                    <SelectValue placeholder="Select language" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
-                    {Object.values(languages).map((lang) => (
-                      <SelectItem key={lang.code} value={lang.code}>
-                        <div className="flex items-center gap-2">
-                          {getCountryFlag(lang.code.toUpperCase())}
-                          {lang.name}
-                        </div>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                
+                <div className="grid grid-cols-4 gap-3 mb-6">
+                  {Object.values(languages).slice(0, 8).map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => {
+                        setFormData({
+                          ...formData,
+                          language: lang.code,
+                          language_name: lang.name
+                        });
+                      }}
+                      className={`p-3 text-center border rounded-lg transition-all hover:border-gray-400 ${
+                        formData.language === lang.code
+                          ? 'border-blue-500 bg-blue-50 text-blue-700'
+                          : 'border-gray-200'
+                      }`}
+                    >
+                      <div className="text-2xl mb-1">{getCountryFlag(lang.code.toUpperCase())}</div>
+                      <div className="text-sm font-medium">{lang.name}</div>
+                    </button>
+                  ))}
+                </div>
               </div>
 
               {/* Voice Selection */}
@@ -476,41 +510,44 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
                   <h3 className="text-lg font-medium text-gray-900">Voice</h3>
                 </div>
                 <p className="text-gray-600 mb-4">Select the voice for your assistant.</p>
-                <div className="flex items-center gap-4">
-                  <Select value={formData.voice_id} onValueChange={(value) => {
-                    const selectedVoice = Object.values(voices).find(voice => voice.id === value);
-                    setFormData({
-                      ...formData,
-                      voice_id: value,
-                      voice_name: selectedVoice?.name || value
-                    });
-                  }}>
-                    <SelectTrigger className="w-full max-w-md bg-white">
-                      <SelectValue placeholder="Select voice" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
-                      {Object.values(voices).map((voice) => (
-                        <SelectItem key={voice.id} value={voice.id}>
-                          <div className="flex items-center gap-2">
-                            <span>{voice.name}</span>
-                            <Badge variant="secondary" className="text-xs">
-                              {voice.gender || 'Unknown'}
-                            </Badge>
-                          </div>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handleTestVoice}
-                    disabled={isTestingVoice || !formData.voice_id}
-                  >
-                    <Play className="w-4 h-4 mr-2" />
-                    {isTestingVoice ? 'Testing...' : 'Test Voice'}
-                  </Button>
+                
+                <div className="grid grid-cols-2 gap-3 mb-4">
+                  {Object.values(voices).slice(0, 6).map((voice) => (
+                    <button
+                      key={voice.id}
+                      onClick={() => {
+                        setFormData({
+                          ...formData,
+                          voice_id: voice.id,
+                          voice_name: voice.name
+                        });
+                      }}
+                      className={`p-4 text-left border rounded-lg transition-all hover:border-gray-400 ${
+                        formData.voice_id === voice.id
+                          ? 'border-blue-500 bg-blue-50'
+                          : 'border-gray-200'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <h4 className="font-semibold">{voice.name}</h4>
+                        <Badge variant="secondary" className="text-xs">
+                          {voice.gender || 'Unknown'}
+                        </Badge>
+                      </div>
+                      <p className="text-gray-600 text-sm">{voice.description || 'Professional voice'}</p>
+                    </button>
+                  ))}
                 </div>
+                
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleTestVoice}
+                  disabled={isTestingVoice || !formData.voice_id}
+                >
+                  <Play className="w-4 h-4 mr-2" />
+                  {isTestingVoice ? 'Testing...' : 'Test Selected Voice'}
+                </Button>
               </div>
             </div>
           </section>
