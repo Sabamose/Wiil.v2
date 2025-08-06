@@ -165,7 +165,7 @@ const ExistingAssistantsSection = ({
                       </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => handleEditSettings(assistant.name)}>
                         <Settings className="w-4 h-4 mr-2" />
-                        Edit Settings
+                        Edit Assistant
                       </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => handleDuplicate(assistant.name)}>
                         <Copy className="w-4 h-4 mr-2" />
