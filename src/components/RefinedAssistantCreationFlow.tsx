@@ -1174,17 +1174,6 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     </Button>
                   </div>
 
-                  <div className="border rounded-lg p-6 text-center">
-                    <Zap className="w-12 h-12 text-green-600 mx-auto mb-4" />
-                    <div className="font-medium mb-2">Deploy Assistant</div>
-                    <div className="text-sm text-muted-foreground mb-4">
-                      Make your assistant live and ready to handle calls
-                    </div>
-                    <Button className="w-full">
-                      <Zap className="h-4 w-4 mr-2" />
-                      Deploy Now
-                    </Button>
-                  </div>
                 </div>
 
                 <Separator />
