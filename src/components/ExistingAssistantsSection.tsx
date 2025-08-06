@@ -111,7 +111,7 @@ const ExistingAssistantsSection = ({
           </th>
             <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Assistant Phone number:</th>
             <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Assistant Industry/Role</th>
-            <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Actions</th>
+            <th className="px-6 py-4 text-left text-sm font-medium text-gray-500"></th>
           </tr>
         </thead>
         <tbody>
