@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -209,7 +209,7 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
     try {
       await updateAssistant(assistant.id, {
         name: formData.name,
-        type: 'Voice', // Default type
+        type: 'Voice',
         industry: formData.industry,
         use_case: formData.role,
         assistant_type: formData.assistantType,
@@ -225,19 +225,30 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
       
       toast({
         title: "Assistant updated",
-        description: "Your assistant settings have been saved successfully.",
+        description: "Changes saved automatically.",
       });
     } catch (error) {
       console.error('Error updating assistant:', error);
       toast({
         title: "Update failed",
-        description: "Could not save assistant settings. Please try again.",
+        description: "Could not save changes. Please try again.",
         variant: "destructive",
       });
     } finally {
       setIsSaving(false);
     }
   };
+
+  // Auto-save when form data changes
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (formData.name && formData.industry) {
+        handleSaveAssistant();
+      }
+    }, 1000); // Save after 1 second of no changes
+
+    return () => clearTimeout(timer);
+  }, [formData]);
 
   const handleApplyTemplate = (templateKey: string) => {
     const template = SYSTEM_PROMPT_TEMPLATES[templateKey as keyof typeof SYSTEM_PROMPT_TEMPLATES];
