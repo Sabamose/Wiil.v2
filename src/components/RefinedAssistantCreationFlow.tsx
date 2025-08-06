@@ -11,9 +11,11 @@ import { Separator } from '@/components/ui/separator';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Loader2, Play, ArrowLeft, ArrowRight, Volume2, PhoneIncoming, PhoneOutgoing, User, MessageSquare, Brain, Upload, Phone, TestTube, Zap, Save, AlertTriangle } from 'lucide-react';
 import { KnowledgeUpload } from './KnowledgeUpload';
+import PhoneNumberPurchaseModal from './PhoneNumberPurchaseModal';
 import { useAssistants, CreateAssistantData } from '@/hooks/useAssistants';
 import { useElevenLabsLibrary } from '@/hooks/useElevenLabsLibrary';
 import { useToast } from '@/hooks/use-toast';
+import { PhoneNumber } from '@/types/phoneNumber';
 interface RefinedAssistantCreationFlowProps {
   isOpen: boolean;
   onClose: () => void;
@@ -634,6 +636,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
   const [isTestingVoice, setIsTestingVoice] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
   const [currentAssistantId, setCurrentAssistantId] = useState<string | null>(null);
+  const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
   
   const [formData, setFormData] = useState({
     // Step 1: Industry
@@ -804,6 +807,21 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
     setFormData(updatedFormData);
     setTimeout(() => setStep(5), 300); // Skip voice step for now, will implement later
   };
+  const handlePhoneNumberPurchase = (phoneNumber: PhoneNumber) => {
+    setFormData({
+      ...formData,
+      phoneNumber: phoneNumber.number,
+      hasPhoneNumber: true
+    });
+    setIsPurchaseModalOpen(false);
+    
+    toast({
+      title: "Phone Number Connected!",
+      description: `${phoneNumber.number} is now connected to your assistant.`,
+      duration: 5000,
+    });
+  };
+
   const canGoNext = () => {
     switch (step) {
       case 1:
@@ -1091,7 +1109,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                       <div className="text-sm text-muted-foreground mb-4">
                         Purchase a phone number to enable calling functionality
                       </div>
-                      <Button>
+                      <Button onClick={() => setIsPurchaseModalOpen(true)}>
                         Purchase Phone Number
                       </Button>
                     </div>
@@ -1195,6 +1213,13 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
           )}
         </div>
       </DialogContent>
+
+      {/* Phone Number Purchase Modal */}
+      <PhoneNumberPurchaseModal
+        isOpen={isPurchaseModalOpen}
+        onClose={() => setIsPurchaseModalOpen(false)}
+        onPurchaseComplete={handlePhoneNumberPurchase}
+      />
     </Dialog>;
 };
 export default RefinedAssistantCreationFlow;
