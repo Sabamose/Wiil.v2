@@ -1809,6 +1809,28 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
             <p className="text-muted-foreground">
               Your assistant is now live and ready to handle calls. You can start receiving or making calls immediately.
             </p>
+            
+            {/* Assistant Capabilities */}
+            {(formData.actions.realTimeBooking.enabled || 
+              formData.actions.callTransfer.enabled || 
+              formData.actions.smsAutomation.enabled) && (
+              <div className="text-left bg-muted/30 rounded-lg p-4 mt-4">
+                <p className="text-sm font-medium text-foreground mb-2">Your assistant can:</p>
+                <ul className="text-sm text-muted-foreground space-y-1">
+                  {formData.actions.realTimeBooking.enabled && (
+                    <li>• Schedule appointments in real-time</li>
+                  )}
+                  {formData.actions.callTransfer.enabled && (
+                    <li>• Transfer calls to human agents when needed</li>
+                  )}
+                  {formData.actions.smsAutomation.enabled && (
+                    <li>• Send automated SMS messages for bookings and reminders</li>
+                  )}
+                  <li>• Handle {formData.assistantType} calls with intelligent conversation</li>
+                </ul>
+              </div>
+            )}
+            
             <Button 
               onClick={() => {
                 setShowSuccessDialog(false);
