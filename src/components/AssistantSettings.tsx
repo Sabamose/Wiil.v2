@@ -144,6 +144,10 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
   const [isSaving, setIsSaving] = useState(false);
   const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  
+  // Store original data to track changes
+  const [originalData, setOriginalData] = useState<any>({});
   
   // Initialize form data with existing assistant data
   const [formData, setFormData] = useState({
@@ -170,6 +174,43 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
     phoneNumber: assistant.phone_number || null,
     hasPhoneNumber: !!assistant.phone_number
   });
+
+  // Initialize original data and track changes
+  useEffect(() => {
+    const initialData = {
+      // Step 1: Industry
+      industry: assistant?.industry || '',
+      // Step 2: Assistant Type
+      assistantType: assistant?.assistant_type || 'inbound',
+      // Step 3: Voice & Language
+      voice_id: assistant?.voice_id || 'aria',
+      voice_name: assistant?.voice_name || 'Aria (Female)',
+      language: assistant?.language || 'en',
+      language_name: assistant?.language_name || 'English',
+      // Step 4: Role & Purpose
+      role: assistant?.use_case || '',
+      // Step 5: Assistant Details
+      name: assistant?.name || '',
+      initial_message: assistant?.initial_message || 'Hello! How can I help you today?',
+      system_prompt: assistant?.system_prompt || 'You are a helpful AI assistant.',
+      temperature: assistant?.temperature || 0.7,
+      max_tokens: assistant?.max_tokens || 300,
+      // Step 6: Knowledge Base
+      knowledge: [] as Array<{ id: string; name: string; type: 'document' | 'url' | 'text'; content?: string }>,
+      // Step 7: Phone Number
+      phoneNumber: assistant?.phone_number || null,
+      hasPhoneNumber: !!assistant?.phone_number
+    };
+    
+    setOriginalData(initialData);
+    setFormData(initialData);
+  }, [assistant]);
+
+  // Track changes
+  useEffect(() => {
+    const hasChanges = JSON.stringify(formData) !== JSON.stringify(originalData);
+    setHasUnsavedChanges(hasChanges);
+  }, [formData, originalData]);
 
   // Initialize ElevenLabs library
   const elevenLabsHook = useElevenLabsLibrary();
@@ -223,15 +264,19 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
         max_tokens: formData.max_tokens,
       });
       
+      // Update original data after successful save
+      setOriginalData({ ...formData });
+      setHasUnsavedChanges(false);
+      
       toast({
-        title: "Assistant updated",
-        description: "Changes saved automatically.",
+        title: "Success",
+        description: "Assistant settings saved successfully",
       });
     } catch (error) {
       console.error('Error updating assistant:', error);
       toast({
-        title: "Update failed",
-        description: "Could not save changes. Please try again.",
+        title: "Error",
+        description: "Failed to save assistant settings",
         variant: "destructive",
       });
     } finally {
@@ -239,16 +284,11 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
     }
   };
 
-  // Auto-save when form data changes
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (formData.name && formData.industry) {
-        handleSaveAssistant();
-      }
-    }, 1000); // Save after 1 second of no changes
+  const handleDiscardChanges = () => {
+    setFormData({ ...originalData });
+    setHasUnsavedChanges(false);
+  };
 
-    return () => clearTimeout(timer);
-  }, [formData]);
 
   const handleApplyTemplate = (templateKey: string) => {
     const template = SYSTEM_PROMPT_TEMPLATES[templateKey as keyof typeof SYSTEM_PROMPT_TEMPLATES];
@@ -303,6 +343,27 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
           </div>
           
           <div className="flex items-center gap-3">
+            {hasUnsavedChanges && (
+              <>
+                <Button
+                  onClick={handleDiscardChanges}
+                  variant="outline"
+                  size="sm"
+                  className="text-gray-600"
+                >
+                  Discard Changes
+                </Button>
+                <Button
+                  onClick={handleSaveAssistant}
+                  size="sm"
+                  disabled={isSaving}
+                  className="bg-blue-600 hover:bg-blue-700"
+                >
+                  <Save className="w-4 h-4 mr-2" />
+                  {isSaving ? 'Saving...' : 'Save Changes'}
+                </Button>
+              </>
+            )}
             <Button
               onClick={() => setIsTestModalOpen(true)}
               variant="outline"
@@ -311,9 +372,11 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
               <TestTube className="w-4 h-4 mr-2" />
               Test Assistant
             </Button>
-            <div className="text-sm text-gray-500">
-              {isSaving ? 'Saving...' : 'Auto-saved'}
-            </div>
+            {hasUnsavedChanges && (
+              <div className="text-sm text-amber-600 font-medium">
+                Unsaved changes
+              </div>
+            )}
           </div>
         </div>
       </div>
