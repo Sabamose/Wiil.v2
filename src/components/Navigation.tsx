@@ -57,10 +57,6 @@ const Navigation = () => {
           <Phone className="w-5 h-5" />
           Phone Numbers
         </a>
-        <a href="/website" className={getNavItemClass("/website")}>
-          <Globe className="w-5 h-5" />
-          Website
-        </a>
       </nav>
     </>
   );
