@@ -311,180 +311,172 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
               <TestTube className="w-4 h-4 mr-2" />
               Test Assistant
             </Button>
-            <Button
-              onClick={handleSaveAssistant}
-              disabled={isSaving}
-              size="sm"
-            >
-              <Save className="w-4 h-4 mr-2" />
-              {isSaving ? 'Saving...' : 'Save Changes'}
-            </Button>
+            <div className="text-sm text-gray-500">
+              {isSaving ? 'Saving...' : 'Auto-saved'}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Progress Bar */}
-      <div className="border-b border-gray-200 px-8 py-4">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-sm font-medium text-gray-700">
-            Step {step} of {totalSteps}
-          </span>
-          <span className="text-sm text-gray-500">
-            {Math.round(getProgressPercentage())}% Complete
-          </span>
-        </div>
-        <div className="w-full bg-gray-200 rounded-full h-2">
-          <div 
-            className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-            style={{ width: `${getProgressPercentage()}%` }}
-          ></div>
+      {/* Tab Navigation */}
+      <div className="border-b border-gray-200 px-8">
+        <div className="flex space-x-8">
+          {['Agent', 'Voice', 'Role', 'Phone', 'Knowledge', 'Advanced'].map((tab) => (
+            <button
+              key={tab}
+              className="py-4 px-1 border-b-2 border-black text-black font-medium text-sm"
+            >
+              {tab}
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Step Content */}
-      <div className="px-8 py-6">
-        <div className="max-w-2xl mx-auto">
-          {/* Step 1: Industry Selection */}
-          {step === 1 && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <User className="h-5 w-5" />
-                  What industry is your business in?
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 gap-3">
-                  {[
-                    { id: 'healthcare', label: 'Healthcare & Medical' },
-                    { id: 'retail', label: 'Retail & E-commerce' },
-                    { id: 'finance', label: 'Finance & Banking' },
-                    { id: 'real-estate', label: 'Real Estate' },
-                    { id: 'education', label: 'Education & Training' },
-                    { id: 'hospitality', label: 'Hospitality & Travel' },
-                    { id: 'automotive', label: 'Automotive' },
-                    { id: 'professional', label: 'Professional Services' },
-                    { id: 'technology', label: 'Technology & Software' },
-                    { id: 'government', label: 'Government & Public' },
-                    { id: 'food', label: 'Food & Beverage' },
-                    { id: 'other', label: 'Other' }
-                  ].map((industry) => (
-                    <button
-                      key={industry.id}
-                      onClick={() => setFormData({ ...formData, industry: industry.id })}
-                      className={`p-4 text-left border rounded-lg transition-all hover:border-gray-400 ${
-                        formData.industry === industry.id
-                          ? 'border-blue-500 bg-blue-50 text-blue-700'
-                          : 'border-gray-200'
-                      }`}
-                    >
-                      {industry.label}
-                    </button>
-                  ))}
+      {/* Settings Content */}
+      <div className="px-8 py-8 max-w-4xl">
+        <div className="space-y-12">
+          
+          {/* Agent Settings */}
+          <section>
+            <div className="mb-8">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-2">Agent Configuration</h2>
+              <p className="text-gray-600">Configure your assistant's basic settings and industry.</p>
+            </div>
+            
+            <div className="space-y-8">
+              {/* Industry */}
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <User className="w-5 h-5 text-gray-400" />
+                  <h3 className="text-lg font-medium text-gray-900">Industry</h3>
                 </div>
-              </CardContent>
-            </Card>
-          )}
+                <p className="text-gray-600 mb-4">Choose the industry your business operates in.</p>
+                <Select value={formData.industry} onValueChange={(value) => setFormData({ ...formData, industry: value })}>
+                  <SelectTrigger className="w-full max-w-md bg-white">
+                    <SelectValue placeholder="Select industry" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
+                    {[
+                      { id: 'healthcare', label: 'Healthcare & Medical' },
+                      { id: 'retail', label: 'Retail & E-commerce' },
+                      { id: 'finance', label: 'Finance & Banking' },
+                      { id: 'real-estate', label: 'Real Estate' },
+                      { id: 'education', label: 'Education & Training' },
+                      { id: 'hospitality', label: 'Hospitality & Travel' },
+                      { id: 'other', label: 'Other' }
+                    ].map((industry) => (
+                      <SelectItem key={industry.id} value={industry.id}>
+                        {industry.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
 
-          {/* Step 2: Assistant Type Selection */}
-          {step === 2 && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Phone className="h-5 w-5" />
-                  What type of calls will your assistant handle?
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <button
-                    onClick={() => setFormData({ ...formData, assistantType: 'inbound' })}
-                    className={`w-full p-6 text-left border rounded-lg transition-all hover:border-gray-400 ${
-                      formData.assistantType === 'inbound'
-                        ? 'border-blue-500 bg-blue-50'
-                        : 'border-gray-200'
-                    }`}
-                  >
-                    <div className="flex items-center gap-3 mb-2">
-                      <PhoneIncoming className="h-6 w-6 text-blue-600" />
-                      <h3 className="font-semibold">Inbound Calls</h3>
-                    </div>
-                    <p className="text-gray-600">
-                      Customers call your business. Perfect for customer support, bookings, and inquiries.
-                    </p>
-                  </button>
-                  
-                  <button
-                    onClick={() => setFormData({ ...formData, assistantType: 'outbound' })}
-                    className={`w-full p-6 text-left border rounded-lg transition-all hover:border-gray-400 ${
-                      formData.assistantType === 'outbound'
-                        ? 'border-blue-500 bg-blue-50'
-                        : 'border-gray-200'
-                    }`}
-                  >
-                    <div className="flex items-center gap-3 mb-2">
-                      <PhoneOutgoing className="h-6 w-6 text-green-600" />
-                      <h3 className="font-semibold">Outbound Calls</h3>
-                    </div>
-                    <p className="text-gray-600">
-                      Your assistant calls customers. Great for sales, follow-ups, and notifications.
-                    </p>
-                  </button>
+              {/* Assistant Type */}
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <Phone className="w-5 h-5 text-gray-400" />
+                  <h3 className="text-lg font-medium text-gray-900">Call Type</h3>
                 </div>
-              </CardContent>
-            </Card>
-          )}
+                <p className="text-gray-600 mb-4">Choose whether your assistant handles incoming or outgoing calls.</p>
+                <Select value={formData.assistantType} onValueChange={(value) => setFormData({ ...formData, assistantType: value })}>
+                  <SelectTrigger className="w-full max-w-md bg-white">
+                    <SelectValue placeholder="Select call type" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
+                    <SelectItem value="inbound">
+                      <div className="flex items-center gap-2">
+                        <PhoneIncoming className="w-4 h-4" />
+                        Inbound Calls
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="outbound">
+                      <div className="flex items-center gap-2">
+                        <PhoneOutgoing className="w-4 h-4" />
+                        Outbound Calls
+                      </div>
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
 
-          {/* Step 3: Voice & Language Selection */}
-          {step === 3 && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Volume2 className="h-5 w-5" />
-                  Choose Voice & Language
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                {/* Language Selection */}
-                <div>
-                  <Label className="text-base font-medium">Language</Label>
-                  <Select value={formData.language} onValueChange={(value) => {
-                    const selectedLang = Object.values(languages).find(lang => lang.code === value);
-                    setFormData({
-                      ...formData,
-                      language: value,
-                      language_name: selectedLang?.name || value
-                    });
-                  }}>
-                    <SelectTrigger className="w-full mt-2">
-                      <SelectValue placeholder="Select language" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {Object.values(languages).map((lang) => (
-                        <SelectItem key={lang.code} value={lang.code}>
-                          {getCountryFlag(lang.code.toUpperCase())} {lang.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+              {/* Use Case */}
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <MessageSquare className="w-5 h-5 text-gray-400" />
+                  <h3 className="text-lg font-medium text-gray-900">Use Case</h3>
                 </div>
+                <p className="text-gray-600 mb-4">What will your assistant help with?</p>
+                <Select value={formData.role} onValueChange={(value) => setFormData({ ...formData, role: value })}>
+                  <SelectTrigger className="w-full max-w-md bg-white">
+                    <SelectValue placeholder="Select use case" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
+                    {[
+                      { id: 'customer-support', label: 'Customer Support' },
+                      { id: 'scheduling', label: 'Scheduling & Booking' },
+                      { id: 'sales', label: 'Sales & Lead Generation' },
+                      { id: 'information', label: 'Information & FAQ' },
+                      { id: 'other', label: 'Other' }
+                    ].map((useCase) => (
+                      <SelectItem key={useCase.id} value={useCase.id}>
+                        {useCase.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </section>
 
-                {/* Voice Selection */}
-                <div>
-                  <div className="flex items-center justify-between">
-                    <Label className="text-base font-medium">Voice</Label>
-                    {formData.voice_id && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={handleTestVoice}
-                        disabled={isTestingVoice}
-                      >
-                        <Play className="w-4 h-4 mr-2" />
-                        {isTestingVoice ? 'Testing...' : 'Test Voice'}
-                      </Button>
-                    )}
-                  </div>
+          {/* Voice & Language Settings */}
+          <section>
+            <div className="mb-8">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-2">Voice & Language</h2>
+              <p className="text-gray-600">Configure how your assistant speaks and communicates.</p>
+            </div>
+            
+            <div className="space-y-8">
+              {/* Agent Language */}
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <Globe className="w-5 h-5 text-gray-400" />
+                  <h3 className="text-lg font-medium text-gray-900">Agent Language</h3>
+                </div>
+                <p className="text-gray-600 mb-4">Choose the default language the agent will communicate in.</p>
+                <Select value={formData.language} onValueChange={(value) => {
+                  const selectedLang = Object.values(languages).find(lang => lang.code === value);
+                  setFormData({
+                    ...formData,
+                    language: value,
+                    language_name: selectedLang?.name || value
+                  });
+                }}>
+                  <SelectTrigger className="w-full max-w-md bg-white">
+                    <SelectValue placeholder="Select language" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
+                    {Object.values(languages).map((lang) => (
+                      <SelectItem key={lang.code} value={lang.code}>
+                        <div className="flex items-center gap-2">
+                          {getCountryFlag(lang.code.toUpperCase())}
+                          {lang.name}
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Voice Selection */}
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <Volume2 className="w-5 h-5 text-gray-400" />
+                  <h3 className="text-lg font-medium text-gray-900">Voice</h3>
+                </div>
+                <p className="text-gray-600 mb-4">Select the voice for your assistant.</p>
+                <div className="flex items-center gap-4">
                   <Select value={formData.voice_id} onValueChange={(value) => {
                     const selectedVoice = Object.values(voices).find(voice => voice.id === value);
                     setFormData({
@@ -493,10 +485,10 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
                       voice_name: selectedVoice?.name || value
                     });
                   }}>
-                    <SelectTrigger className="w-full mt-2">
+                    <SelectTrigger className="w-full max-w-md bg-white">
                       <SelectValue placeholder="Select voice" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
                       {Object.values(voices).map((voice) => (
                         <SelectItem key={voice.id} value={voice.id}>
                           <div className="flex items-center gap-2">
@@ -509,278 +501,104 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
                       ))}
                     </SelectContent>
                   </Select>
-                </div>
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Step 4: Role & Purpose Selection */}
-          {step === 4 && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <User className="h-5 w-5" />
-                  What will your assistant help with?
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 gap-3">
-                  {[
-                    { id: 'customer-support', label: 'Customer Support' },
-                    { id: 'scheduling', label: 'Scheduling & Booking' },
-                    { id: 'sales', label: 'Sales & Lead Generation' },
-                    { id: 'information', label: 'Information & FAQ' },
-                    { id: 'billing', label: 'Billing & Payments' },
-                    { id: 'technical', label: 'Technical Support' },
-                    { id: 'consultation', label: 'Consultation Booking' },
-                    { id: 'other', label: 'Other' }
-                  ].map((role) => (
-                    <button
-                      key={role.id}
-                      onClick={() => setFormData({ ...formData, role: role.id })}
-                      className={`p-4 text-left border rounded-lg transition-all hover:border-gray-400 ${
-                        formData.role === role.id
-                          ? 'border-blue-500 bg-blue-50 text-blue-700'
-                          : 'border-gray-200'
-                      }`}
-                    >
-                      {role.label}
-                    </button>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Step 5: Assistant Details & Behavior Configuration */}
-          {step === 5 && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Brain className="h-5 w-5" />
-                  Configure Assistant Behavior
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                {/* Assistant Name */}
-                <div>
-                  <Label htmlFor="assistant-name">Assistant Name</Label>
-                  <Input
-                    id="assistant-name"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="My Assistant"
-                    className="mt-1"
-                  />
-                </div>
-
-                {/* Template Selection */}
-                <div>
-                  <Label>Quick Templates</Label>
-                  <p className="text-sm text-gray-600 mb-3">Apply a pre-built template for your industry and use case</p>
-                  <div className="grid grid-cols-1 gap-2">
-                    {Object.entries(SYSTEM_PROMPT_TEMPLATES)
-                      .filter(([key]) => key.includes(formData.industry) && key.includes(formData.assistantType))
-                      .map(([key, template]) => (
-                        <button
-                          key={key}
-                          onClick={() => handleApplyTemplate(key)}
-                          className="p-3 text-left border border-gray-200 rounded-lg hover:border-gray-400 transition-colors"
-                        >
-                          <div className="font-medium">{template.name}</div>
-                          <div className="text-sm text-gray-600 mt-1">
-                            {template.initial_message.substring(0, 100)}...
-                          </div>
-                        </button>
-                      ))}
-                  </div>
-                </div>
-
-                {/* Initial Message */}
-                <div>
-                  <Label htmlFor="initial-message">First Message</Label>
-                  <p className="text-sm text-gray-600 mb-2">What your assistant says when answering the call</p>
-                  <Textarea
-                    id="initial-message"
-                    value={formData.initial_message}
-                    onChange={(e) => setFormData({ ...formData, initial_message: e.target.value })}
-                    placeholder="Hello! How can I help you today?"
-                    rows={3}
-                    className="mt-1"
-                  />
-                </div>
-
-                {/* System Prompt */}
-                <div>
-                  <Label htmlFor="system-prompt">System Instructions</Label>
-                  <p className="text-sm text-gray-600 mb-2">Define your assistant's personality, role, and capabilities</p>
-                  <Textarea
-                    id="system-prompt"
-                    value={formData.system_prompt}
-                    onChange={(e) => setFormData({ ...formData, system_prompt: e.target.value })}
-                    placeholder="You are a helpful customer service assistant..."
-                    rows={6}
-                    className="mt-1"
-                  />
-                </div>
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Step 6: Knowledge Base Upload (Optional) */}
-          {step === 6 && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Upload className="h-5 w-5" />
-                  Knowledge Base (Optional)
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <KnowledgeUpload
-                  assistantId={assistant.id}
-                  onKnowledgeAdded={(knowledge) => setFormData({ ...formData, knowledge })}
-                />
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Step 7: Phone Number Assignment */}
-          {step === 7 && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Phone className="h-5 w-5" />
-                  Phone Number Setup
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                {formData.assistantType === 'inbound' && (
-                  <div>
-                    <p className="text-gray-600 mb-4">
-                      For inbound calls, you need a phone number that customers can call.
-                    </p>
-                    
-                    {formData.hasPhoneNumber ? (
-                      <div className="border border-green-200 bg-green-50 rounded-lg p-4">
-                        <div className="flex items-center gap-3">
-                          <Phone className="w-5 h-5 text-green-600" />
-                          <div>
-                            <p className="font-medium text-green-800">Phone Number Connected</p>
-                            <p className="text-green-700">{formData.phoneNumber}</p>
-                          </div>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="space-y-4">
-                        <Button
-                          onClick={() => setIsPurchaseModalOpen(true)}
-                          className="w-full"
-                          size="lg"
-                        >
-                          <Phone className="w-4 h-4 mr-2" />
-                          Get Phone Number
-                        </Button>
-                        <p className="text-sm text-gray-500 text-center">
-                          Phone numbers start from $1/month
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {formData.assistantType === 'outbound' && (
-                  <div className="border border-blue-200 bg-blue-50 rounded-lg p-4">
-                    <div className="flex items-center gap-3">
-                      <PhoneOutgoing className="w-5 h-5 text-blue-600" />
-                      <div>
-                        <p className="font-medium text-blue-800">Outbound Setup Ready</p>
-                        <p className="text-blue-700">You can make calls using your existing numbers or get a new one for professional outbound calling.</p>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Step 8: Testing & Summary */}
-          {step === 8 && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <TestTube className="h-5 w-5" />
-                  Test & Deploy
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="bg-gray-50 rounded-lg p-6">
-                  <h3 className="font-semibold text-gray-900 mb-4">Assistant Summary</h3>
-                  <div className="space-y-3 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Name:</span>
-                      <span className="font-medium">{formData.name}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Industry:</span>
-                      <span className="font-medium">{formData.industry}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Type:</span>
-                      <span className="font-medium">{formData.assistantType === 'inbound' ? 'Incoming Calls' : 'Outgoing Calls'}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Voice:</span>
-                      <span className="font-medium">{formData.voice_name}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Language:</span>
-                      <span className="font-medium">{formData.language_name}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex gap-3">
                   <Button
-                    onClick={() => setIsTestModalOpen(true)}
                     variant="outline"
-                    className="flex-1"
+                    size="sm"
+                    onClick={handleTestVoice}
+                    disabled={isTestingVoice || !formData.voice_id}
                   >
-                    <TestTube className="w-4 h-4 mr-2" />
-                    Test Assistant
-                  </Button>
-                  <Button
-                    onClick={handleSaveAssistant}
-                    disabled={isSaving}
-                    className="flex-1"
-                  >
-                    <Save className="w-4 h-4 mr-2" />
-                    {isSaving ? 'Saving...' : 'Save Changes'}
+                    <Play className="w-4 h-4 mr-2" />
+                    {isTestingVoice ? 'Testing...' : 'Test Voice'}
                   </Button>
                 </div>
-              </CardContent>
-            </Card>
-          )}
+              </div>
+            </div>
+          </section>
 
-          {/* Navigation */}
-          <div className="flex justify-between mt-8">
-            <Button
-              variant="outline"
-              onClick={() => setStep(step - 1)}
-              disabled={step === 1}
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Previous
-            </Button>
+          {/* First Message */}
+          <section>
+            <div className="mb-8">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-2">First Message</h2>
+              <p className="text-gray-600">The first message the agent will say. If empty, the agent will wait for the user to start the conversation.</p>
+            </div>
+            
+            <div>
+              <Textarea
+                value={formData.initial_message}
+                onChange={(e) => setFormData({ ...formData, initial_message: e.target.value })}
+                placeholder="Thanks for calling! How can I help you today?"
+                rows={4}
+                className="w-full max-w-2xl bg-white"
+              />
+              <Button variant="outline" size="sm" className="mt-4">
+                <Plus className="w-4 h-4 mr-2" />
+                Add Variable
+              </Button>
+            </div>
+          </section>
 
-            <Button
-              onClick={() => setStep(step + 1)}
-              disabled={step === totalSteps || !canProceed()}
-            >
-              Next
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
-          </div>
+          {/* System Prompt */}
+          <section>
+            <div className="mb-8">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-2">System Prompt</h2>
+              <p className="text-gray-600">The system prompt is used to determine the persona of the agent and the context of the conversation.</p>
+              <button className="text-blue-600 text-sm hover:underline">Learn more</button>
+            </div>
+            
+            <div>
+              <Textarea
+                value={formData.system_prompt}
+                onChange={(e) => setFormData({ ...formData, system_prompt: e.target.value })}
+                placeholder="You are a helpful customer service assistant..."
+                rows={8}
+                className="w-full max-w-2xl bg-white"
+              />
+            </div>
+          </section>
+
+          {/* Phone Number Management */}
+          <section>
+            <div className="mb-8">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-2">Phone Number</h2>
+              <p className="text-gray-600">Manage phone numbers assigned to this assistant.</p>
+            </div>
+            
+            <div>
+              {formData.hasPhoneNumber ? (
+                <div className="border border-green-200 bg-green-50 rounded-lg p-4 max-w-md">
+                  <div className="flex items-center gap-3">
+                    <Phone className="w-5 h-5 text-green-600" />
+                    <div>
+                      <p className="font-medium text-green-800">Connected</p>
+                      <p className="text-green-700">{formData.phoneNumber}</p>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <Button
+                  onClick={() => setIsPurchaseModalOpen(true)}
+                  variant="outline"
+                >
+                  <Phone className="w-4 h-4 mr-2" />
+                  Get Phone Number
+                </Button>
+              )}
+            </div>
+          </section>
+
+          {/* Knowledge Base */}
+          <section>
+            <div className="mb-8">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-2">Knowledge Base</h2>
+              <p className="text-gray-600">Connect knowledge sources to help your assistant answer questions about your business.</p>
+            </div>
+            
+            <KnowledgeUpload
+              assistantId={assistant.id}
+              onKnowledgeAdded={(knowledge) => setFormData({ ...formData, knowledge })}
+            />
+          </section>
+
         </div>
       </div>
 
