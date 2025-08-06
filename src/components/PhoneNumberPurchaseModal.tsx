@@ -4,6 +4,13 @@ import { PhoneNumber, PurchasePhoneNumberRequest } from "@/types/phoneNumber";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -78,57 +85,58 @@ const PhoneNumberPurchaseModal = ({ isOpen, onClose, onPurchaseComplete }: Phone
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999] backdrop-blur-sm">
-      <div className="bg-background rounded-lg w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto shadow-2xl border relative">
-        <div className="flex items-center justify-between p-6 border-b bg-background">
-          <h2 className="text-xl font-semibold text-foreground">Buy Phone Number</h2>
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              onClose();
-            }}
-            className="p-2 hover:bg-muted rounded-full text-muted-foreground hover:text-foreground"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>Buy Phone Number</DialogTitle>
+          <DialogDescription>
+            Select a provider and phone number for your assistant. The number will be configured automatically.
+          </DialogDescription>
+        </DialogHeader>
 
-        <div className="p-6 space-y-6">
+        <div className="space-y-6">
           {/* Provider Selection */}
           <div>
             <label className="block text-sm font-medium mb-2">Provider</label>
             <div className="grid grid-cols-2 gap-3">
               <button
-                onClick={() => setProvider("SignalWire")}
-                className={`p-4 border rounded-lg text-left ${
+                type="button"
+                onClick={() => {
+                  console.log('SignalWire provider selected');
+                  setProvider("SignalWire");
+                }}
+                className={`p-4 border rounded-lg text-left transition-colors ${
                   provider === "SignalWire" 
-                    ? "border-blue-500 bg-blue-50" 
-                    : "border-gray-200 hover:border-gray-300"
+                    ? "border-primary bg-primary/10 text-primary" 
+                    : "border-border hover:border-primary/50"
                 }`}
               >
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="font-medium">SignalWire</div>
-                    <div className="text-sm text-gray-600">Recommended</div>
+                    <div className="text-sm text-muted-foreground">Recommended</div>
                   </div>
-                  {provider === "SignalWire" && <Check className="w-5 h-5 text-blue-500" />}
+                  {provider === "SignalWire" && <Check className="w-5 h-5 text-primary" />}
                 </div>
               </button>
               <button
-                onClick={() => setProvider("Twilio")}
-                className={`p-4 border rounded-lg text-left ${
+                type="button"
+                onClick={() => {
+                  console.log('Twilio provider selected');
+                  setProvider("Twilio");
+                }}
+                className={`p-4 border rounded-lg text-left transition-colors ${
                   provider === "Twilio" 
-                    ? "border-blue-500 bg-blue-50" 
-                    : "border-gray-200 hover:border-gray-300"
+                    ? "border-primary bg-primary/10 text-primary" 
+                    : "border-border hover:border-primary/50"
                 }`}
               >
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="font-medium">Twilio</div>
-                    <div className="text-sm text-gray-600">Alternative</div>
+                    <div className="text-sm text-muted-foreground">Alternative</div>
                   </div>
-                  {provider === "Twilio" && <Check className="w-5 h-5 text-blue-500" />}
+                  {provider === "Twilio" && <Check className="w-5 h-5 text-primary" />}
                 </div>
               </button>
             </div>
@@ -137,7 +145,10 @@ const PhoneNumberPurchaseModal = ({ isOpen, onClose, onPurchaseComplete }: Phone
           {/* Country Selection */}
           <div>
             <label className="block text-sm font-medium mb-2">Country</label>
-            <Select value={country} onValueChange={setCountry}>
+            <Select value={country} onValueChange={(value) => {
+              console.log('Country changed to:', value);
+              setCountry(value);
+            }}>
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
@@ -154,26 +165,34 @@ const PhoneNumberPurchaseModal = ({ isOpen, onClose, onPurchaseComplete }: Phone
             <label className="block text-sm font-medium mb-2">Number Type</label>
             <div className="grid grid-cols-2 gap-3">
               <button
-                onClick={() => setNumberType("local")}
-                className={`p-3 border rounded-lg text-center ${
+                type="button"
+                onClick={() => {
+                  console.log('Local number type selected');
+                  setNumberType("local");
+                }}
+                className={`p-3 border rounded-lg text-center transition-colors ${
                   numberType === "local" 
-                    ? "border-blue-500 bg-blue-50" 
-                    : "border-gray-200 hover:border-gray-300"
+                    ? "border-primary bg-primary/10 text-primary" 
+                    : "border-border hover:border-primary/50"
                 }`}
               >
                 <div className="font-medium">Local</div>
-                <div className="text-sm text-gray-600">$15/month</div>
+                <div className="text-sm text-muted-foreground">$15/month</div>
               </button>
               <button
-                onClick={() => setNumberType("toll-free")}
-                className={`p-3 border rounded-lg text-center ${
+                type="button"
+                onClick={() => {
+                  console.log('Toll-free number type selected');
+                  setNumberType("toll-free");
+                }}
+                className={`p-3 border rounded-lg text-center transition-colors ${
                   numberType === "toll-free" 
-                    ? "border-blue-500 bg-blue-50" 
-                    : "border-gray-200 hover:border-gray-300"
+                    ? "border-primary bg-primary/10 text-primary" 
+                    : "border-border hover:border-primary/50"
                 }`}
               >
                 <div className="font-medium">Toll-Free</div>
-                <div className="text-sm text-gray-600">$25/month</div>
+                <div className="text-sm text-muted-foreground">$25/month</div>
               </button>
             </div>
           </div>
@@ -185,47 +204,44 @@ const PhoneNumberPurchaseModal = ({ isOpen, onClose, onPurchaseComplete }: Phone
               {filteredNumbers.map((number) => (
                 <button
                   key={number.number}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
+                  type="button"
+                  onClick={() => {
                     console.log('Number selected:', number.number);
                     setSelectedNumber(number.number);
                   }}
-                  className={`w-full p-3 border rounded-lg text-left flex justify-between items-center ${
+                  className={`w-full p-3 border rounded-lg text-left flex justify-between items-center transition-colors ${
                     selectedNumber === number.number 
-                      ? "border-blue-500 bg-blue-50" 
-                      : "border-gray-200 hover:border-gray-300"
+                      ? "border-primary bg-primary/10 text-primary" 
+                      : "border-border hover:border-primary/50"
                   }`}
                 >
                   <span className="font-medium">{number.number}</span>
-                  <span className="text-sm text-gray-600">${number.cost}/month</span>
+                  <span className="text-sm text-muted-foreground">${number.cost}/month</span>
                 </button>
               ))}
             </div>
           </div>
-        </div>
 
-        <div className="p-6 border-t flex justify-end gap-3">
-          <Button variant="outline" onClick={onClose}>
-            Cancel
-          </Button>
-          <Button 
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              console.log('Buy Number button clicked, selectedNumber:', selectedNumber);
-              if (selectedNumber) {
-                handlePurchase();
-              }
-            }}
-            disabled={!selectedNumber || isLoading}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground"
-          >
-            {isLoading ? "Purchasing..." : "Buy Number"}
-          </Button>
+          {/* Action Buttons */}
+          <div className="flex justify-end gap-3 pt-4 border-t">
+            <Button variant="outline" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button 
+              onClick={() => {
+                console.log('Buy Number button clicked, selectedNumber:', selectedNumber);
+                if (selectedNumber) {
+                  handlePurchase();
+                }
+              }}
+              disabled={!selectedNumber || isLoading}
+            >
+              {isLoading ? "Purchasing..." : "Buy Number"}
+            </Button>
+          </div>
         </div>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 
