@@ -111,7 +111,6 @@ const ExistingAssistantsSection = ({
           </th>
             <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Assistant Phone number:</th>
             <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Assistant Industry/Role</th>
-            <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -145,43 +144,6 @@ const ExistingAssistantsSection = ({
               <td className="px-6 py-5">
                 <div className="text-sm text-gray-600">
                   {assistant.industry} • {assistant.use_case.replace(/-/g, ' ')}
-                </div>
-              </td>
-              <td className="px-6 py-5">
-                <div className="flex items-center justify-end">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <button className="p-3 text-gray-600 hover:bg-gray-100 hover:text-gray-800 rounded-lg transition-colors flex items-center justify-center" onClick={e => e.stopPropagation()}>
-                        <MoreHorizontal className="w-5 h-5" />
-                      </button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-48">
-                      <DropdownMenuItem onClick={e => {
-                    e.stopPropagation();
-                    handleTestAssistant(assistant);
-                  }}>
-                        <TestTube className="w-4 h-4 mr-2" />
-                        Test Assistant
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleEditSettings(assistant.name)}>
-                        <Settings className="w-4 h-4 mr-2" />
-                        Edit Settings
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleDuplicate(assistant.name)}>
-                        <Copy className="w-4 h-4 mr-2" />
-                        Duplicate
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleIntegrateChannels(assistant.name)}>
-                        <Link className="w-4 h-4 mr-2" />
-                        Integrate Channels
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={() => handleDelete(assistant.name)} className="text-red-600 focus:text-red-600">
-                        <Trash2 className="w-4 h-4 mr-2" />
-                        Delete
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
                 </div>
               </td>
             </tr>)}
