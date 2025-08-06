@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { StoredAssistant } from "@/hooks/useAssistants";
-import AssistantVoiceInterface from "./AssistantVoiceInterface";
+import CallTestingInterface from "./CallTestingInterface";
 
 interface TestAssistantModalProps {
   isOpen: boolean;
@@ -25,8 +25,10 @@ const TestAssistantModal = ({ isOpen, onClose, assistant }: TestAssistantModalPr
               <Mic className="w-4 h-4 text-primary" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold">Test Voice Assistant</h2>
-              <p className="text-sm text-muted-foreground">Have a real-time conversation with your assistant</p>
+              <h2 className="text-lg font-semibold">Test Assistant</h2>
+              <p className="text-sm text-muted-foreground">
+                {assistant.assistant_type === "inbound" ? "Test incoming calls" : "Test outbound calls"}
+              </p>
             </div>
           </div>
           <button
@@ -37,9 +39,9 @@ const TestAssistantModal = ({ isOpen, onClose, assistant }: TestAssistantModalPr
           </button>
         </div>
 
-        {/* Voice Interface Content */}
-        <div className="flex-1 p-6 overflow-hidden">
-          <AssistantVoiceInterface assistant={assistant} />
+        {/* Testing Interface Content */}
+        <div className="flex-1 overflow-hidden">
+          <CallTestingInterface assistant={assistant} />
         </div>
       </div>
     </div>

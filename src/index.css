@@ -191,3 +191,14 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Animation utilities */
+@layer utilities {
+  .animation-delay-75 {
+    animation-delay: 75ms;
+  }
+  
+  .animation-delay-150 {
+    animation-delay: 150ms;
+  }
+}
