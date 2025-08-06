@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Loader2, Play, ArrowLeft, ArrowRight, Volume2, PhoneIncoming, PhoneOutgoing, User, MessageSquare, Brain, Upload, Phone, TestTube, Zap, Save, AlertTriangle } from 'lucide-react';
-import { KnowledgeUpload } from './KnowledgeUpload';
+import KnowledgeUpload from './KnowledgeUpload';
 import PhoneNumberPurchaseModal from './PhoneNumberPurchaseModal';
 import TestAssistantModal from './TestAssistantModal';
 import { useAssistants, CreateAssistantData } from '@/hooks/useAssistants';
@@ -727,27 +727,25 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
       
       console.log('Creating assistant with data:', assistantData);
       
-      // Try to create the assistant, but handle the case where user is not authenticated
+      // Create the assistant (now works with local storage)
       const newAssistant = await createAssistant(assistantData);
       
       if (newAssistant) {
         setCurrentAssistantId(newAssistant.id);
-        // Don't show notification yet - save for final deployment
+        // Success handled by the hook's toast
       } else {
-        // If creation failed due to no user, create a demo assistant for the flow
+        // Fallback for any issues
         const demoAssistantId = `demo-${Date.now()}`;
         setCurrentAssistantId(demoAssistantId);
-        // Don't show notification yet - save for final deployment
       }
       
       // Move to the next step
       handleNext();
     } catch (error) {
       console.error('Error creating assistant:', error);
-      // Still allow progression for demo purposes
+      // Still allow progression with demo ID
       const demoAssistantId = `demo-${Date.now()}`;
       setCurrentAssistantId(demoAssistantId);
-      // Don't show notification yet - save for final deployment
       handleNext();
     } finally {
       setIsCreating(false);

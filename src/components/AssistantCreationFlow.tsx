@@ -658,6 +658,7 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
           type: "Voice" as const,
           industry: formData.industry || "technology",
           use_case: formData.role || "customer-support",
+          assistant_type: "inbound" as const,
           voice_id: "aria",
           voice_name: "Aria (Female)",
           language: "en",

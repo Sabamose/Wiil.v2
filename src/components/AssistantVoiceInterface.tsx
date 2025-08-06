@@ -59,7 +59,7 @@ const AssistantVoiceInterface: React.FC<AssistantVoiceInterfaceProps> = ({ assis
             </div>
             <div className="flex items-center gap-2">
               <Badge variant="secondary">{assistant.type}</Badge>
-              <Badge variant={assistant.status === 'live' ? 'default' : 'outline'}>
+              <Badge variant={assistant.status === 'active' ? 'default' : 'outline'}>
                 {assistant.status}
               </Badge>
             </div>
