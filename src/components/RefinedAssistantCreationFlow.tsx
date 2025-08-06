@@ -707,48 +707,33 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
     }
   };
   const handleCreateAssistant = async () => {
-    setIsCreating(true);
-    try {
-      const assistantData: CreateAssistantData = {
-        name: formData.name,
-        type: 'Voice',
-        industry: formData.industry,
-        use_case: formData.role,
-        assistant_type: formData.assistantType as 'inbound' | 'outbound',
-        voice_id: formData.voice_id,
-        voice_name: formData.voice_name,
-        language: formData.language,
-        language_name: formData.language_name,
-        system_prompt: formData.system_prompt,
-        initial_message: formData.initial_message,
-        temperature: formData.temperature,
-        max_tokens: formData.max_tokens
-      };
-      
-      console.log('Creating assistant with data:', assistantData);
-      
-      // Create the assistant (now works with local storage)
-      const newAssistant = await createAssistant(assistantData);
-      
-      if (newAssistant) {
-        setCurrentAssistantId(newAssistant.id);
-        // Success handled by the hook's toast
-      } else {
-        // Fallback for any issues
-        const demoAssistantId = `demo-${Date.now()}`;
-        setCurrentAssistantId(demoAssistantId);
-      }
-      
-      // Move to the next step
-      handleNext();
-    } catch (error) {
-      console.error('Error creating assistant:', error);
-      // Still allow progression with demo ID
+    const assistantData: CreateAssistantData = {
+      name: formData.name,
+      type: 'Voice',
+      industry: formData.industry,
+      use_case: formData.role,
+      assistant_type: formData.assistantType as 'inbound' | 'outbound',
+      voice_id: formData.voice_id,
+      voice_name: formData.voice_name,
+      language: formData.language,
+      language_name: formData.language_name,
+      system_prompt: formData.system_prompt,
+      initial_message: formData.initial_message,
+      temperature: formData.temperature,
+      max_tokens: formData.max_tokens
+    };
+    
+    console.log('Creating assistant with data:', assistantData);
+    
+    // Create the assistant (now works with local storage)
+    const newAssistant = await createAssistant(assistantData);
+    
+    if (newAssistant) {
+      setCurrentAssistantId(newAssistant.id);
+    } else {
+      // Fallback for any issues
       const demoAssistantId = `demo-${Date.now()}`;
       setCurrentAssistantId(demoAssistantId);
-      handleNext();
-    } finally {
-      setIsCreating(false);
     }
   };
   const resetForm = () => {
@@ -1190,18 +1175,9 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
         {/* Navigation Buttons */}
         <div className="flex justify-end pt-6">
           {step === 5 && (
-            <Button onClick={handleCreateAssistant} disabled={!canGoNext() || isCreating}>
-              {isCreating ? (
-                <>
-                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Creating Assistant...
-                </>
-              ) : (
-                <>
-                  Next
-                  <ArrowRight className="h-4 w-4 ml-2" />
-                </>
-              )}
+            <Button onClick={handleNext} disabled={!canGoNext()}>
+              Next
+              <ArrowRight className="h-4 w-4 ml-2" />
             </Button>
           )}
           {(step === 3 || step === 6) && (
@@ -1217,13 +1193,33 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 Your assistant is ready! Deploy to make it live and start handling calls.
               </div>
               <Button 
-                onClick={() => { onComplete?.(currentAssistantId!); onClose(); }} 
-                disabled={!currentAssistantId}
+                onClick={async () => {
+                  setIsCreating(true);
+                  try {
+                    await handleCreateAssistant();
+                    onComplete?.(currentAssistantId!);
+                    onClose();
+                  } catch (error) {
+                    console.error('Error deploying assistant:', error);
+                  } finally {
+                    setIsCreating(false);
+                  }
+                }}
+                disabled={isCreating}
                 size="lg"
                 className="px-8"
               >
-                <Zap className="h-4 w-4 mr-2" />
-                Deploy Assistant
+                {isCreating ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Creating & Deploying...
+                  </>
+                ) : (
+                  <>
+                    <Zap className="h-4 w-4 mr-2" />
+                    Deploy Assistant
+                  </>
+                )}
               </Button>
             </div>
           )}
