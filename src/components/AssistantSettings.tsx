@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+import { Switch } from '@/components/ui/switch';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { 
   ArrowLeft, 
@@ -28,7 +29,10 @@ import {
   FileText,
   Plus,
   Settings2,
-  AlertTriangle
+  AlertTriangle,
+  Calendar,
+  PhoneForwarded,
+  Settings
 } from 'lucide-react';
 import KnowledgeUpload from './KnowledgeUpload';
 import PhoneNumberPurchaseModal from './PhoneNumberPurchaseModal';
@@ -152,27 +156,50 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
   // Initialize form data with existing assistant data
   const [formData, setFormData] = useState({
     // Step 1: Industry
-    industry: assistant.industry || '',
+    industry: assistant?.industry || '',
     // Step 2: Assistant Type  
-    assistantType: assistant.assistant_type || 'inbound',
+    assistantType: assistant?.assistant_type || 'inbound',
     // Step 3: Voice & Language
-    voice_id: assistant.voice_id || 'aria',
-    voice_name: assistant.voice_name || 'Aria (Female)',
-    language: assistant.language || 'en',
-    language_name: assistant.language_name || 'English',
+    voice_id: assistant?.voice_id || 'aria',
+    voice_name: assistant?.voice_name || 'Aria (Female)',
+    language: assistant?.language || 'en',
+    language_name: assistant?.language_name || 'English',
     // Step 4: Role & Purpose
-    role: assistant.use_case || '',
-    // Step 5: Assistant Details
-    name: assistant.name || '',
-    initial_message: assistant.initial_message || 'Hello! How can I help you today?',
-    system_prompt: assistant.system_prompt || 'You are a helpful AI assistant.',
-    temperature: assistant.temperature || 0.7,
-    max_tokens: assistant.max_tokens || 300,
-    // Step 6: Knowledge Base
-    knowledge: assistant.knowledge || [],
-    // Step 7: Phone Number
-    phoneNumber: assistant.phone_number || null,
-    hasPhoneNumber: !!assistant.phone_number
+    role: assistant?.use_case || '',
+    // Step 5: Actions & Integrations
+    actions: {
+      realTimeBooking: {
+        enabled: false,
+        calendarType: 'google',
+        availableHours: '9:00 AM - 5:00 PM',
+        timeZone: 'UTC-5',
+        bufferTime: 15,
+      },
+      callTransfer: {
+        enabled: false,
+        conditions: '',
+        transferNumber: '',
+        maxWaitTime: 30,
+      },
+      smsAutomation: {
+        enabled: false,
+        bookingConfirmation: true,
+        reminders: true,
+        followUp: false,
+        customTemplates: [] as Array<{ trigger: string; message: string; }>
+      }
+    },
+    // Step 6: Assistant Details
+    name: assistant?.name || '',
+    initial_message: assistant?.initial_message || 'Hello! How can I help you today?',
+    system_prompt: assistant?.system_prompt || 'You are a helpful AI assistant.',
+    temperature: assistant?.temperature || 0.7,
+    max_tokens: assistant?.max_tokens || 300,
+    // Step 7: Knowledge Base
+    knowledge: assistant?.knowledge || [],
+    // Step 8: Phone Number
+    phoneNumber: assistant?.phone_number || null,
+    hasPhoneNumber: !!assistant?.phone_number
   });
 
   // Initialize original data and track changes
@@ -189,15 +216,38 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
       language_name: assistant?.language_name || 'English',
       // Step 4: Role & Purpose
       role: assistant?.use_case || '',
-      // Step 5: Assistant Details
+      // Step 5: Actions & Integrations
+      actions: {
+        realTimeBooking: {
+          enabled: false,
+          calendarType: 'google',
+          availableHours: '9:00 AM - 5:00 PM',
+          timeZone: 'UTC-5',
+          bufferTime: 15,
+        },
+        callTransfer: {
+          enabled: false,
+          conditions: '',
+          transferNumber: '',
+          maxWaitTime: 30,
+        },
+        smsAutomation: {
+          enabled: false,
+          bookingConfirmation: true,
+          reminders: true,
+          followUp: false,
+          customTemplates: [] as Array<{ trigger: string; message: string; }>
+        }
+      },
+      // Step 6: Assistant Details
       name: assistant?.name || '',
       initial_message: assistant?.initial_message || 'Hello! How can I help you today?',
       system_prompt: assistant?.system_prompt || 'You are a helpful AI assistant.',
       temperature: assistant?.temperature || 0.7,
       max_tokens: assistant?.max_tokens || 300,
-      // Step 6: Knowledge Base
+      // Step 7: Knowledge Base
       knowledge: [] as Array<{ id: string; name: string; type: 'document' | 'url' | 'text'; content?: string }>,
-      // Step 7: Phone Number
+      // Step 8: Phone Number
       phoneNumber: assistant?.phone_number || null,
       hasPhoneNumber: !!assistant?.phone_number
     };
@@ -222,7 +272,7 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
   const { updateAssistant } = useAssistants();
   const { toast } = useToast();
 
-  const totalSteps = 8;
+  const totalSteps = 9;
 
   const handleTestVoice = async () => {
     if (!formData.voice_id) return;
@@ -315,10 +365,11 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
       case 2: return formData.assistantType;
       case 3: return formData.voice_id && formData.language;
       case 4: return formData.role;
-      case 5: return formData.name && formData.initial_message && formData.system_prompt;
-      case 6: return true; // Knowledge base is optional
-      case 7: return true; // Phone number setup is optional
-      case 8: return true; // Final step
+      case 5: return true; // Actions are optional
+      case 6: return formData.name && formData.initial_message && formData.system_prompt;
+      case 7: return true; // Knowledge base is optional
+      case 8: return true; // Phone number setup is optional
+      case 9: return true; // Final step
       default: return false;
     }
   };
@@ -572,7 +623,320 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
             </div>
           </section>
 
-          {/* Step 5: Assistant Details & Behavior */}
+          {/* Step 5: Actions & Integrations */}
+          <section>
+            <div className="mb-8">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-2">Actions & Integrations</h2>
+              <p className="text-gray-600">Configure what your assistant can do to help your business</p>
+            </div>
+            
+            <div className="space-y-8">
+              {/* Real-Time Booking */}
+              <div className="border border-border rounded-lg p-6">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-start gap-3">
+                    <Calendar className="h-6 w-6 text-blue-600 mt-1" />
+                    <div>
+                      <h3 className="font-semibold text-lg">Real-Time Booking</h3>
+                      <p className="text-sm text-muted-foreground">Allow customers to book appointments directly through the call</p>
+                    </div>
+                  </div>
+                  <Switch 
+                    checked={formData.actions?.realTimeBooking?.enabled || false}
+                    onCheckedChange={(checked) => setFormData({
+                      ...formData,
+                      actions: {
+                        ...formData.actions,
+                        realTimeBooking: {
+                          ...formData.actions?.realTimeBooking,
+                          enabled: checked
+                        }
+                      }
+                    })}
+                  />
+                </div>
+
+                {formData.actions?.realTimeBooking?.enabled && (
+                  <div className="space-y-4 pl-9">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Label className="text-sm font-medium">Calendar Type</Label>
+                        <Select 
+                          value={formData.actions?.realTimeBooking?.calendarType || 'google'}
+                          onValueChange={(value) => setFormData({
+                            ...formData,
+                            actions: {
+                              ...formData.actions,
+                              realTimeBooking: {
+                                ...formData.actions?.realTimeBooking,
+                                calendarType: value
+                              }
+                            }
+                          })}
+                        >
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="google">Google Calendar</SelectItem>
+                            <SelectItem value="outlook">Outlook Calendar</SelectItem>
+                            <SelectItem value="calendly">Calendly</SelectItem>
+                            <SelectItem value="custom">Custom Integration</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div>
+                        <Label className="text-sm font-medium">Available Hours</Label>
+                        <Input 
+                          value={formData.actions?.realTimeBooking?.availableHours || '9:00 AM - 5:00 PM'}
+                          onChange={(e) => setFormData({
+                            ...formData,
+                            actions: {
+                              ...formData.actions,
+                              realTimeBooking: {
+                                ...formData.actions?.realTimeBooking,
+                                availableHours: e.target.value
+                              }
+                            }
+                          })}
+                          placeholder="e.g., 9:00 AM - 5:00 PM"
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-sm font-medium">Time Zone</Label>
+                        <Select 
+                          value={formData.actions?.realTimeBooking?.timeZone || 'UTC-5'}
+                          onValueChange={(value) => setFormData({
+                            ...formData,
+                            actions: {
+                              ...formData.actions,
+                              realTimeBooking: {
+                                ...formData.actions?.realTimeBooking,
+                                timeZone: value
+                              }
+                            }
+                          })}
+                        >
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="UTC-5">Eastern Time (UTC-5)</SelectItem>
+                            <SelectItem value="UTC-6">Central Time (UTC-6)</SelectItem>
+                            <SelectItem value="UTC-7">Mountain Time (UTC-7)</SelectItem>
+                            <SelectItem value="UTC-8">Pacific Time (UTC-8)</SelectItem>
+                            <SelectItem value="UTC">UTC</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div>
+                        <Label className="text-sm font-medium">Buffer Time (minutes)</Label>
+                        <Input 
+                          type="number"
+                          value={formData.actions?.realTimeBooking?.bufferTime || 15}
+                          onChange={(e) => setFormData({
+                            ...formData,
+                            actions: {
+                              ...formData.actions,
+                              realTimeBooking: {
+                                ...formData.actions?.realTimeBooking,
+                                bufferTime: parseInt(e.target.value) || 15
+                              }
+                            }
+                          })}
+                          placeholder="15"
+                          min="0"
+                          max="120"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Call Transfer */}
+              <div className="border border-border rounded-lg p-6">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-start gap-3">
+                    <PhoneForwarded className="h-6 w-6 text-green-600 mt-1" />
+                    <div>
+                      <h3 className="font-semibold text-lg">Call Transfer</h3>
+                      <p className="text-sm text-muted-foreground">Transfer calls to human agents based on specific conditions</p>
+                    </div>
+                  </div>
+                  <Switch 
+                    checked={formData.actions?.callTransfer?.enabled || false}
+                    onCheckedChange={(checked) => setFormData({
+                      ...formData,
+                      actions: {
+                        ...formData.actions,
+                        callTransfer: {
+                          ...formData.actions?.callTransfer,
+                          enabled: checked
+                        }
+                      }
+                    })}
+                  />
+                </div>
+
+                {formData.actions?.callTransfer?.enabled && (
+                  <div className="space-y-4 pl-9">
+                    <div>
+                      <Label className="text-sm font-medium">Transfer Conditions</Label>
+                      <Textarea 
+                        value={formData.actions?.callTransfer?.conditions || ''}
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          actions: {
+                            ...formData.actions,
+                            callTransfer: {
+                              ...formData.actions?.callTransfer,
+                              conditions: e.target.value
+                            }
+                          }
+                        })}
+                        placeholder="e.g., When customer asks for a manager, mentions technical issues, or requests complex information..."
+                        rows={3}
+                        className="resize-none"
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">Describe when the assistant should transfer the call to a human agent</p>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Label className="text-sm font-medium">Transfer Phone Number</Label>
+                        <Input 
+                          value={formData.actions?.callTransfer?.transferNumber || ''}
+                          onChange={(e) => setFormData({
+                            ...formData,
+                            actions: {
+                              ...formData.actions,
+                              callTransfer: {
+                                ...formData.actions?.callTransfer,
+                                transferNumber: e.target.value
+                              }
+                            }
+                          })}
+                          placeholder="+1 (555) 123-4567"
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-sm font-medium">Max Wait Time (seconds)</Label>
+                        <Input 
+                          type="number"
+                          value={formData.actions?.callTransfer?.maxWaitTime || 30}
+                          onChange={(e) => setFormData({
+                            ...formData,
+                            actions: {
+                              ...formData.actions,
+                              callTransfer: {
+                                ...formData.actions?.callTransfer,
+                                maxWaitTime: parseInt(e.target.value) || 30
+                              }
+                            }
+                          })}
+                          placeholder="30"
+                          min="10"
+                          max="300"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* SMS Automation */}
+              <div className="border border-border rounded-lg p-6">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-start gap-3">
+                    <MessageSquare className="h-6 w-6 text-purple-600 mt-1" />
+                    <div>
+                      <h3 className="font-semibold text-lg">SMS Automation</h3>
+                      <p className="text-sm text-muted-foreground">Send automated SMS messages for bookings and follow-ups</p>
+                    </div>
+                  </div>
+                  <Switch 
+                    checked={formData.actions?.smsAutomation?.enabled || false}
+                    onCheckedChange={(checked) => setFormData({
+                      ...formData,
+                      actions: {
+                        ...formData.actions,
+                        smsAutomation: {
+                          ...formData.actions?.smsAutomation,
+                          enabled: checked
+                        }
+                      }
+                    })}
+                  />
+                </div>
+
+                {formData.actions?.smsAutomation?.enabled && (
+                  <div className="space-y-4 pl-9">
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <Label className="text-sm font-medium">Booking Confirmation</Label>
+                          <p className="text-xs text-muted-foreground">Send SMS when booking is confirmed</p>
+                        </div>
+                        <Switch 
+                          checked={formData.actions?.smsAutomation?.bookingConfirmation || false}
+                          onCheckedChange={(checked) => setFormData({
+                            ...formData,
+                            actions: {
+                              ...formData.actions,
+                              smsAutomation: {
+                                ...formData.actions?.smsAutomation,
+                                bookingConfirmation: checked
+                              }
+                            }
+                          })}
+                        />
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <Label className="text-sm font-medium">Appointment Reminders</Label>
+                          <p className="text-xs text-muted-foreground">Send reminder SMS before appointments</p>
+                        </div>
+                        <Switch 
+                          checked={formData.actions?.smsAutomation?.reminders || false}
+                          onCheckedChange={(checked) => setFormData({
+                            ...formData,
+                            actions: {
+                              ...formData.actions,
+                              smsAutomation: {
+                                ...formData.actions?.smsAutomation,
+                                reminders: checked
+                              }
+                            }
+                          })}
+                        />
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <Label className="text-sm font-medium">Follow-up Messages</Label>
+                          <p className="text-xs text-muted-foreground">Send follow-up SMS after calls or appointments</p>
+                        </div>
+                        <Switch 
+                          checked={formData.actions?.smsAutomation?.followUp || false}
+                          onCheckedChange={(checked) => setFormData({
+                            ...formData,
+                            actions: {
+                              ...formData.actions,
+                              smsAutomation: {
+                                ...formData.actions?.smsAutomation,
+                                followUp: checked
+                              }
+                            }
+                          })}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </section>
+
+          {/* Step 6: Assistant Details & Behavior */}
           <section>
             <div className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-2">Assistant Details</h2>
