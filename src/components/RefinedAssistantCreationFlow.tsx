@@ -639,6 +639,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
   const [currentAssistantId, setCurrentAssistantId] = useState<string | null>(null);
   const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   
   const [formData, setFormData] = useState({
     // Step 1: Industry
@@ -1198,7 +1199,8 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                   try {
                     await handleCreateAssistant();
                     onComplete?.(currentAssistantId!);
-                    onClose();
+                    // Show success popup
+                    setShowSuccessDialog(true);
                   } catch (error) {
                     console.error('Error deploying assistant:', error);
                   } finally {
@@ -1216,8 +1218,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                   </>
                 ) : (
                   <>
-                    <Zap className="h-4 w-4 mr-2" />
-                    Deploy Assistant
+                    Create & Deploy Assistant
                   </>
                 )}
               </Button>
@@ -1261,6 +1262,29 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
           }}
         />
       )}
+
+      {/* Success Dialog */}
+      <Dialog open={showSuccessDialog} onOpenChange={setShowSuccessDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Assistant Created Successfully!</DialogTitle>
+          </DialogHeader>
+          <div className="text-center space-y-4 py-4">
+            <p className="text-muted-foreground">
+              Your assistant is now live and ready to handle calls. You can start receiving or making calls immediately.
+            </p>
+            <Button 
+              onClick={() => {
+                setShowSuccessDialog(false);
+                onClose();
+              }}
+              className="w-full"
+            >
+              Done
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </Dialog>;
 };
 export default RefinedAssistantCreationFlow;
