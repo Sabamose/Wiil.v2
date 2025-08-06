@@ -19,25 +19,6 @@ const TestAssistantModal = ({ isOpen, onClose, assistant }: TestAssistantModalPr
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[100] p-4">
       <div className="bg-background border rounded-lg shadow-2xl w-full max-w-6xl h-[90vh] flex flex-col animate-scale-in">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-              <Mic className="w-4 h-4 text-primary" />
-            </div>
-            <div>
-              <h2 className="text-lg font-semibold">Test Assistant</h2>
-              <p className="text-sm text-muted-foreground">
-                {assistant.assistant_type === "inbound" ? "Test incoming calls" : "Test outbound calls"}
-              </p>
-            </div>
-          </div>
-          <button
-            onClick={onClose}
-            className="p-2 text-muted-foreground hover:bg-muted hover:text-foreground rounded transition-colors"
-          >
-            <X className="w-4 h-4" />
-          </button>
-        </div>
 
         {/* Testing Interface Content */}
         <div className="flex-1 overflow-hidden">
