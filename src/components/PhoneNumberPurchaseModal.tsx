@@ -39,12 +39,18 @@ const PhoneNumberPurchaseModal = ({ isOpen, onClose, onPurchaseComplete }: Phone
   );
 
   const handlePurchase = async () => {
-    if (!selectedNumber) return;
+    console.log('Purchase button clicked, selectedNumber:', selectedNumber);
+    if (!selectedNumber) {
+      console.log('No number selected, returning early');
+      return;
+    }
 
     setIsLoading(true);
+    console.log('Starting purchase simulation...');
     
     // Simulate API call
     setTimeout(() => {
+      console.log('Purchase simulation completed');
       const selectedNumberData = filteredNumbers.find(n => n.number === selectedNumber);
       if (selectedNumberData) {
         const newPhoneNumber: PhoneNumber = {
@@ -195,7 +201,10 @@ const PhoneNumberPurchaseModal = ({ isOpen, onClose, onPurchaseComplete }: Phone
             Cancel
           </Button>
           <Button 
-            onClick={handlePurchase}
+            onClick={() => {
+              console.log('Buy Number button clicked');
+              handlePurchase();
+            }}
             disabled={!selectedNumber || isLoading}
           >
             {isLoading ? "Purchasing..." : "Buy Number"}
