@@ -9,7 +9,6 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import { Upload, File, Type, Link, Trash2, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
 
 interface KnowledgeSource {
   id: string;
@@ -29,7 +28,8 @@ export const KnowledgeUpload: React.FC<KnowledgeUploadProps> = ({
   assistantId, 
   onKnowledgeAdded 
 }) => {
-  const { user } = useAuth();
+  // Mock user ID since auth is removed
+  const user = { id: 'demo-user-123' };
   const { toast } = useToast();
   
   const [knowledgeSources, setKnowledgeSources] = useState<KnowledgeSource[]>([]);

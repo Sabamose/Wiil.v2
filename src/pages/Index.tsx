@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import AuthGuard from "@/components/AuthGuard";
 import Navigation from "@/components/Navigation";
 import ExistingAssistantsSection from "@/components/ExistingAssistantsSection";
 import AssistantCreationFlow from "@/components/AssistantCreationFlow";
@@ -46,8 +45,7 @@ const Index = () => {
   };
 
   return (
-    <AuthGuard>
-      <div className="min-h-screen" style={{ backgroundColor: '#fafafa' }}>
+    <div className="min-h-screen" style={{ backgroundColor: '#fafafa' }}>
         {currentView === "list" && <Navigation />}
         
         {/* Main Content */}
@@ -86,7 +84,6 @@ const Index = () => {
           }}
         />
       </div>
-    </AuthGuard>
   );
 };
 

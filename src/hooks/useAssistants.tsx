@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/components/ui/use-toast';
 
 export interface StoredAssistant {
@@ -45,7 +44,8 @@ export interface CreateAssistantData {
 export const useAssistants = () => {
   const [assistants, setAssistants] = useState<StoredAssistant[]>([]);
   const [loading, setLoading] = useState(true);
-  const { user } = useAuth();
+  // Mock user ID since auth is removed
+  const user = { id: 'demo-user-123' };
   const { toast } = useToast();
 
   const fetchAssistants = async () => {

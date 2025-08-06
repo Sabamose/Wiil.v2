@@ -1,19 +1,9 @@
-import { Home, MessageCircle, Bot, BookOpen, Phone, Globe, LogOut, User } from "lucide-react";
+import { Home, MessageCircle, Bot, BookOpen, Phone, Globe } from "lucide-react";
 import { useLocation } from "react-router-dom";
-import { useAuth } from "@/hooks/useAuth";
-import { Button } from "@/components/ui/button";
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuSeparator, 
-  DropdownMenuTrigger 
-} from "@/components/ui/dropdown-menu";
 
 const Navigation = () => {
   const location = useLocation();
   const currentPath = location.pathname;
-  const { user, signOut } = useAuth();
 
   const getNavItemClass = (path: string) => {
     const isActive = currentPath === path;
@@ -38,33 +28,6 @@ const Navigation = () => {
         <div className="flex items-center gap-4 text-sm text-gray-600">
           <span className="w-5 h-5 text-gray-600">🌙</span>
           <span>Current balance: $3.00</span>
-          
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="h-8 w-8 rounded-full">
-                <div className="w-6 h-6 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs font-medium">
-                  {user?.user_metadata?.full_name?.[0] || user?.email?.[0] || 'U'}
-                </div>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56">
-              <div className="flex items-center justify-start gap-2 p-2">
-                <div className="flex flex-col space-y-1 leading-none">
-                  <p className="font-medium text-sm">
-                    {user?.user_metadata?.full_name || 'User'}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {user?.email}
-                  </p>
-                </div>
-              </div>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={signOut}>
-                <LogOut className="mr-2 h-4 w-4" />
-                Sign out
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
         </div>
       </div>
 
