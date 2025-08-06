@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthWrapper from "./components/AuthWrapper";
 import Index from "./pages/Index";
 import PhoneNumbers from "./pages/PhoneNumbers";
+import Bookings from "./pages/Bookings";
 import Conversations from "./pages/Conversations";
 import NotFound from "./pages/NotFound";
 
@@ -20,6 +21,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/bookings" element={<Bookings />} />
             <Route path="/conversations" element={<Conversations />} />
             <Route path="/phone-numbers" element={<PhoneNumbers />} />
             

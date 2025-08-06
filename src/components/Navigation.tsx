@@ -1,4 +1,4 @@
-import { Home, MessageCircle, Bot, Phone, Globe } from "lucide-react";
+import { Home, MessageCircle, Bot, Phone, Globe, Calendar } from "lucide-react";
 import { useLocation } from "react-router-dom";
 
 const Navigation = () => {
@@ -44,6 +44,10 @@ const Navigation = () => {
         <a href="/" className={getNavItemClass("/")}>
           <Bot className="w-5 h-5" />
           My Assistants
+        </a>
+        <a href="/bookings" className={getNavItemClass("/bookings")}>
+          <Calendar className="w-5 h-5" />
+          Bookings
         </a>
         
         {/* Separator */}
