@@ -1193,7 +1193,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 </>
               ) : (
                 <>
-                  Create Assistant
+                  Next
                   <ArrowRight className="h-4 w-4 ml-2" />
                 </>
               )}
