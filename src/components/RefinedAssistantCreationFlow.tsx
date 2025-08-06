@@ -12,6 +12,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { Loader2, Play, ArrowLeft, ArrowRight, Volume2, PhoneIncoming, PhoneOutgoing, User, MessageSquare, Brain, Upload, Phone, TestTube, Zap, Save, AlertTriangle } from 'lucide-react';
 import { KnowledgeUpload } from './KnowledgeUpload';
 import PhoneNumberPurchaseModal from './PhoneNumberPurchaseModal';
+import TestAssistantModal from './TestAssistantModal';
 import { useAssistants, CreateAssistantData } from '@/hooks/useAssistants';
 import { useElevenLabsLibrary } from '@/hooks/useElevenLabsLibrary';
 import { useToast } from '@/hooks/use-toast';
@@ -637,6 +638,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
   const [isCreating, setIsCreating] = useState(false);
   const [currentAssistantId, setCurrentAssistantId] = useState<string | null>(null);
   const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
+  const [isTestModalOpen, setIsTestModalOpen] = useState(false);
   
   const [formData, setFormData] = useState({
     // Step 1: Industry
@@ -1157,7 +1159,11 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     <div className="text-sm text-muted-foreground mb-4">
                       {formData.assistantType === 'inbound' ? 'Call the assigned number to test your assistant' : 'Enter your number for the assistant to call you'}
                     </div>
-                    <Button variant="outline" className="w-full">
+                    <Button 
+                      variant="outline" 
+                      className="w-full"
+                      onClick={() => setIsTestModalOpen(true)}
+                    >
                       <TestTube className="h-4 w-4 mr-2" />
                       Start Test
                     </Button>
@@ -1219,6 +1225,33 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
         isOpen={isPurchaseModalOpen}
         onClose={() => setIsPurchaseModalOpen(false)}
         onPurchaseComplete={handlePhoneNumberPurchase}
+      />
+
+      {/* Test Assistant Modal */}
+      <TestAssistantModal
+        isOpen={isTestModalOpen}
+        onClose={() => setIsTestModalOpen(false)}
+        assistant={{
+          id: 'test-assistant',
+          user_id: 'demo-user-123',
+          name: formData.name || 'Test Assistant',
+          type: 'Voice',
+          industry: formData.industry,
+          use_case: formData.role,
+          assistant_type: formData.assistantType as 'inbound' | 'outbound',
+          phone_number: formData.phoneNumber?.number || '+1 (555) 123-4567',
+          voice_id: formData.voice_id,
+          voice_name: formData.voice_name,
+          language: formData.language,
+          language_name: formData.language_name,
+          system_prompt: formData.system_prompt,
+          initial_message: formData.initial_message,
+          temperature: formData.temperature,
+          max_tokens: formData.max_tokens,
+          status: 'testing' as const,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        }}
       />
     </Dialog>;
 };
