@@ -84,7 +84,13 @@ export const useAssistants = () => {
         updated_at: new Date().toISOString(),
       };
 
-      setAssistants(prev => [newAssistant, ...prev]);
+      setAssistants(prev => {
+        console.log('Adding new assistant to existing list:', newAssistant);
+        console.log('Previous assistants:', prev);
+        const updated = [newAssistant, ...prev];
+        console.log('Updated assistants list:', updated);
+        return updated;
+      });
       
       toast({
         title: "Success",

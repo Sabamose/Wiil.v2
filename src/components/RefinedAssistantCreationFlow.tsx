@@ -1576,9 +1576,30 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                   setIsCreating(true);
                   try {
                     await handleCreateAssistant();
-                    onComplete?.(currentAssistantId!);
-                    // Show success popup
-                    setShowSuccessDialog(true);
+                    const newAssistant = await createAssistant({
+                      name: formData.name,
+                      type: 'Voice',
+                      industry: formData.industry,
+                      use_case: formData.role,
+                      assistant_type: formData.assistantType as 'inbound' | 'outbound',
+                      voice_id: formData.voice_id,
+                      voice_name: formData.voice_name,
+                      language: formData.language,
+                      language_name: formData.language_name,
+                      system_prompt: formData.system_prompt,
+                      initial_message: formData.initial_message,
+                      temperature: formData.temperature,
+                      max_tokens: formData.max_tokens
+                    });
+                    
+                    if (newAssistant) {
+                      console.log('Successfully created assistant:', newAssistant);
+                      onComplete?.(newAssistant.id);
+                      // Show success popup
+                      setShowSuccessDialog(true);
+                    } else {
+                      throw new Error('Failed to create assistant');
+                    }
                   } catch (error) {
                     console.error('Error deploying assistant:', error);
                   } finally {

@@ -67,6 +67,8 @@ const Index = () => {
           onClose={() => setIsCreationFlowOpen(false)}
           onComplete={(assistantId) => {
             console.log('Assistant created with ID:', assistantId);
+            console.log('Current assistants:', assistants);
+            setIsCreationFlowOpen(false);
             // The useAssistants hook should automatically update the list
           }}
         />

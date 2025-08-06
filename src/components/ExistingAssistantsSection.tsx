@@ -11,6 +11,7 @@ const ExistingAssistantsSection = ({
   assistants,
   loading = false
 }: ExistingAssistantsSectionProps) => {
+  console.log('ExistingAssistantsSection - Received assistants:', assistants);
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
   const [selectedAssistant, setSelectedAssistant] = useState<StoredAssistant | null>(null);
 
