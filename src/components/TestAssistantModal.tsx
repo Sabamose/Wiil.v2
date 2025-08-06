@@ -16,8 +16,8 @@ const TestAssistantModal = ({ isOpen, onClose, assistant }: TestAssistantModalPr
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-background rounded-lg shadow-xl w-full max-w-6xl h-[90vh] flex flex-col">
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[100] p-4">
+      <div className="bg-background border rounded-lg shadow-2xl w-full max-w-6xl h-[90vh] flex flex-col animate-scale-in">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b">
           <div className="flex items-center gap-3">

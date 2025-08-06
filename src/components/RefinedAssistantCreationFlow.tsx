@@ -1233,31 +1233,33 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
       />
 
       {/* Test Assistant Modal */}
-      <TestAssistantModal
-        isOpen={isTestModalOpen}
-        onClose={() => setIsTestModalOpen(false)}
-        assistant={{
-          id: 'test-assistant',
-          user_id: 'demo-user-123',
-          name: formData.name || 'Test Assistant',
-          type: 'Voice',
-          industry: formData.industry,
-          use_case: formData.role,
-          assistant_type: formData.assistantType as 'inbound' | 'outbound',
-          phone_number: formData.phoneNumber?.number || '+1 (555) 123-4567',
-          voice_id: formData.voice_id,
-          voice_name: formData.voice_name,
-          language: formData.language,
-          language_name: formData.language_name,
-          system_prompt: formData.system_prompt,
-          initial_message: formData.initial_message,
-          temperature: formData.temperature,
-          max_tokens: formData.max_tokens,
-          status: 'testing' as const,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        }}
-      />
+      {isTestModalOpen && (
+        <TestAssistantModal
+          isOpen={isTestModalOpen}
+          onClose={() => setIsTestModalOpen(false)}
+          assistant={{
+            id: currentAssistantId || 'test-assistant',
+            user_id: 'demo-user-123',
+            name: formData.name || 'Test Assistant',
+            type: 'Voice',
+            industry: formData.industry,
+            use_case: formData.role,
+            assistant_type: formData.assistantType as 'inbound' | 'outbound',
+            phone_number: formData.phoneNumber || '+1 (555) 123-4567',
+            voice_id: formData.voice_id,
+            voice_name: formData.voice_name,
+            language: formData.language,
+            language_name: formData.language_name,
+            system_prompt: formData.system_prompt,
+            initial_message: formData.initial_message,
+            temperature: formData.temperature,
+            max_tokens: formData.max_tokens,
+            status: 'testing' as const,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          }}
+        />
+      )}
     </Dialog>;
 };
 export default RefinedAssistantCreationFlow;
