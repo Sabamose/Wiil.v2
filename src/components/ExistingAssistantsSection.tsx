@@ -111,6 +111,7 @@ const ExistingAssistantsSection = ({
           </th>
             <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Assistant Phone number:</th>
             <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Assistant Industry/Role</th>
+            <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -124,9 +125,6 @@ const ExistingAssistantsSection = ({
         }}>
               <td className="px-6 py-5">
                 <div className="font-semibold group-hover:text-gray-900 transition-colors">{assistant.name}</div>
-                <div className="text-sm text-gray-500 mt-1">
-                  {assistant.industry} • {assistant.use_case.replace(/-/g, ' ')}
-                </div>
               </td>
               <td className="px-6 py-5">
                 <div className="flex items-center gap-2">
@@ -142,6 +140,11 @@ const ExistingAssistantsSection = ({
                   <span className="text-sm text-gray-600">
                     {assistant.phone_number || "Not connected"}
                   </span>
+                </div>
+              </td>
+              <td className="px-6 py-5">
+                <div className="text-sm text-gray-600">
+                  {assistant.industry} • {assistant.use_case.replace(/-/g, ' ')}
                 </div>
               </td>
               <td className="px-6 py-5">
