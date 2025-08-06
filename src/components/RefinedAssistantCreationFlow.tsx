@@ -840,7 +840,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
       case 4:
         return formData.role;
       case 5:
-        return formData.name && formData.initial_message && formData.system_prompt;
+        return currentAssistantId; // Assistant must be created to proceed
       case 6:
         return true;
       // Knowledge base is optional
@@ -864,8 +864,9 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
       </Dialog>;
   }
   return <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto" aria-describedby="assistant-creation-description">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
+          <DialogTitle>Create New Assistant</DialogTitle>
           <div className="flex items-center justify-between">
             {step > 1 && (
               <Button variant="ghost" size="sm" onClick={handlePrevious} className="h-8 w-8 p-0">
@@ -873,8 +874,6 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               </Button>
             )}
           </div>
-          <p id="assistant-creation-description" className="text-sm text-muted-foreground">
-        </p>
         </DialogHeader>
 
 
