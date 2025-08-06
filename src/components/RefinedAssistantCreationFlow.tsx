@@ -1216,7 +1216,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               )}
             </Button>
           )}
-          {(step === 3 || step === 4 || (step > 5 && step < totalSteps)) && (
+          {(step === 3 || step === 4 || step === 6) && (
             <Button onClick={handleNext} disabled={!canGoNext()}>
               Next
               <ArrowRight className="h-4 w-4 ml-2" />
