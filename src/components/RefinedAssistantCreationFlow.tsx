@@ -1159,9 +1159,6 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               <CardContent className="space-y-8">
                 {/* Hero Section */}
                 <div className="text-center space-y-4">
-                  <div className="w-16 h-16 mx-auto bg-gradient-to-br from-primary/20 to-accent/20 rounded-full flex items-center justify-center">
-                    <TestTube className="w-8 h-8 text-primary" />
-                  </div>
                   <div>
                     <h3 className="text-xl font-semibold">Test Your Assistant</h3>
                     <p className="text-muted-foreground">
