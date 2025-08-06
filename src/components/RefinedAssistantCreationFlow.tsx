@@ -1508,129 +1508,6 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               </CardHeader>
               <CardContent className="space-y-8">
 
-                {/* Assistant Capabilities Summary */}
-                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-6">
-                  <h4 className="font-semibold text-lg mb-4 text-blue-900">
-                    🤖 Your Assistant: "{formData.name}"
-                  </h4>
-                  
-                  <div className="space-y-4">
-                    {/* Basic Info */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                      <div>
-                        <span className="font-medium text-blue-800">Industry:</span>
-                        <span className="ml-2 text-blue-700">{formData.industry}</span>
-                      </div>
-                      <div>
-                        <span className="font-medium text-blue-800">Type:</span>
-                        <span className="ml-2 text-blue-700 capitalize">{formData.assistantType} calls</span>
-                      </div>
-                      <div>
-                        <span className="font-medium text-blue-800">Voice:</span>
-                        <span className="ml-2 text-blue-700">{formData.voice_name}</span>
-                      </div>
-                      <div>
-                        <span className="font-medium text-blue-800">Language:</span>
-                        <span className="ml-2 text-blue-700">{formData.language_name}</span>
-                      </div>
-                    </div>
-
-                    {/* Actions & Capabilities */}
-                    <div className="mt-6">
-                      <h5 className="font-semibold text-blue-900 mb-3">🚀 Actions & Capabilities:</h5>
-                      
-                      {/* Check if any actions are enabled */}
-                      {!formData.actions.realTimeBooking.enabled && 
-                       !formData.actions.callTransfer.enabled && 
-                       !formData.actions.smsAutomation.enabled ? (
-                        <div className="text-sm text-blue-600 bg-blue-100 rounded-lg p-4">
-                          📝 Basic conversation handling - Your assistant will engage in natural conversations based on your system prompt and knowledge base.
-                        </div>
-                      ) : (
-                        <div className="space-y-3">
-                          {/* Real-Time Booking */}
-                          {formData.actions.realTimeBooking.enabled && (
-                            <div className="flex items-start gap-3 p-4 bg-green-50 border border-green-200 rounded-lg">
-                              <Calendar className="w-5 h-5 text-green-600 mt-0.5" />
-                              <div className="flex-1">
-                                <div className="font-medium text-green-800">📅 Real-Time Booking</div>
-                                <div className="text-sm text-green-700 mt-1">
-                                  • Calendar: {formData.actions.realTimeBooking.calendarType}
-                                  <br />
-                                  • Available: {formData.actions.realTimeBooking.availableHours} ({formData.actions.realTimeBooking.timeZone})
-                                  <br />
-                                  • Buffer time: {formData.actions.realTimeBooking.bufferTime} minutes between appointments
-                                </div>
-                              </div>
-                            </div>
-                          )}
-
-                          {/* Call Transfer */}
-                          {formData.actions.callTransfer.enabled && (
-                            <div className="flex items-start gap-3 p-4 bg-orange-50 border border-orange-200 rounded-lg">
-                              <PhoneForwarded className="w-5 h-5 text-orange-600 mt-0.5" />
-                              <div className="flex-1">
-                                <div className="font-medium text-orange-800">📞 Call Transfer</div>
-                                <div className="text-sm text-orange-700 mt-1">
-                                  • Transfer to: {formData.actions.callTransfer.transferNumber || "Not specified"}
-                                  <br />
-                                  • Max wait: {formData.actions.callTransfer.maxWaitTime} seconds
-                                  <br />
-                                  • Conditions: {formData.actions.callTransfer.conditions || "Custom conditions set"}
-                                </div>
-                              </div>
-                            </div>
-                          )}
-
-                          {/* SMS Automation */}
-                          {formData.actions.smsAutomation.enabled && (
-                            <div className="flex items-start gap-3 p-4 bg-purple-50 border border-purple-200 rounded-lg">
-                              <MessageSquare className="w-5 h-5 text-purple-600 mt-0.5" />
-                              <div className="flex-1">
-                                <div className="font-medium text-purple-800">💬 SMS Automation</div>
-                                <div className="text-sm text-purple-700 mt-1">
-                                  {formData.actions.smsAutomation.bookingConfirmation && "• Booking confirmation messages"}
-                                  {formData.actions.smsAutomation.bookingConfirmation && <br />}
-                                  {formData.actions.smsAutomation.reminders && "• Appointment reminder messages"}
-                                  {formData.actions.smsAutomation.reminders && <br />}
-                                  {formData.actions.smsAutomation.followUp && "• Follow-up messages after calls"}
-                                  {(!formData.actions.smsAutomation.bookingConfirmation && 
-                                    !formData.actions.smsAutomation.reminders && 
-                                    !formData.actions.smsAutomation.followUp) && "• Custom SMS templates configured"}
-                                </div>
-                              </div>
-                            </div>
-                          )}
-
-                          {/* Basic Conversation */}
-                          <div className="flex items-start gap-3 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                            <Brain className="w-5 h-5 text-blue-600 mt-0.5" />
-                            <div className="flex-1">
-                              <div className="font-medium text-blue-800">🧠 Intelligent Conversation</div>
-                              <div className="text-sm text-blue-700 mt-1">
-                                • Natural language processing and responses
-                                <br />
-                                • Knowledge base integration {formData.knowledge.length > 0 ? `(${formData.knowledge.length} sources)` : "(no additional sources)"}
-                                <br />
-                                • Role-specific conversation handling
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Phone Number Info */}
-                    {formData.hasPhoneNumber && (
-                      <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg">
-                        <div className="text-sm text-green-800">
-                          📱 <strong>Phone Number:</strong> {formData.phoneNumber}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
                 {/* Main Testing Card */}
                 <div className="max-w-md mx-auto">
                   <div className="relative group">
@@ -1690,44 +1567,9 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
           )}
           
           {step === totalSteps && (
-            <div className="text-center space-y-4">
-              <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg p-6">
-                <h4 className="font-semibold text-green-900 mb-3">
-                  🎉 Your Assistant is Ready for Deployment!
-                </h4>
-                <div className="text-sm text-green-800 space-y-2">
-                  <div className="font-medium">"{formData.name}" will be able to:</div>
-                  <div className="space-y-1 text-left max-w-md mx-auto">
-                    {formData.actions.realTimeBooking.enabled && (
-                      <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4 text-green-600" />
-                        <span>Schedule appointments in real-time via {formData.actions.realTimeBooking.calendarType}</span>
-                      </div>
-                    )}
-                    {formData.actions.callTransfer.enabled && (
-                      <div className="flex items-center gap-2">
-                        <PhoneForwarded className="w-4 h-4 text-green-600" />
-                        <span>Transfer calls to human agents when needed</span>
-                      </div>
-                    )}
-                    {formData.actions.smsAutomation.enabled && (
-                      <div className="flex items-center gap-2">
-                        <MessageSquare className="w-4 h-4 text-green-600" />
-                        <span>Send automated SMS for confirmations and reminders</span>
-                      </div>
-                    )}
-                    <div className="flex items-center gap-2">
-                      <Brain className="w-4 h-4 text-green-600" />
-                      <span>Handle {formData.assistantType} calls with intelligent conversation</span>
-                    </div>
-                    {formData.hasPhoneNumber && (
-                      <div className="flex items-center gap-2">
-                        <Phone className="w-4 h-4 text-green-600" />
-                        <span>Operate on phone number: {formData.phoneNumber}</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
+            <div className="text-center space-y-3">
+              <div className="text-sm text-muted-foreground">
+                Your assistant is ready! Deploy to make it live and start handling calls.
               </div>
               <Button 
                 onClick={async () => {
@@ -1745,7 +1587,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 }}
                 disabled={isCreating}
                 size="lg"
-                className="px-8 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700"
+                className="px-8"
               >
                 {isCreating ? (
                   <>
@@ -1754,7 +1596,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                   </>
                 ) : (
                   <>
-                    🚀 Create & Deploy Assistant
+                    Create & Deploy Assistant
                   </>
                 )}
               </Button>
