@@ -336,134 +336,88 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
       <div className="px-8 py-8 max-w-4xl">
         <div className="space-y-12">
           
-          {/* Agent Settings */}
+          {/* Step 1: Industry Selection */}
           <section>
             <div className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-2">Agent Configuration</h2>
-              <p className="text-gray-600">Configure your assistant's basic settings and industry.</p>
+              <h2 className="text-2xl font-semibold text-gray-900 mb-2">Industry Selection</h2>
+              <p className="text-gray-600">Choose the industry your business operates in.</p>
             </div>
             
-            <div className="space-y-8">
-              {/* Industry */}
-              <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <User className="w-5 h-5 text-gray-400" />
-                  <h3 className="text-lg font-medium text-gray-900">Industry</h3>
-                </div>
-                <p className="text-gray-600 mb-4">Choose the industry your business operates in.</p>
-                
-                <div className="grid grid-cols-3 gap-3 mb-4">
-                  {[
-                    { id: 'healthcare', label: 'Healthcare & Medical' },
-                    { id: 'retail', label: 'Retail & E-commerce' },
-                    { id: 'finance', label: 'Finance & Banking' },
-                    { id: 'real-estate', label: 'Real Estate' },
-                    { id: 'education', label: 'Education & Training' },
-                    { id: 'hospitality', label: 'Hospitality & Travel' },
-                    { id: 'automotive', label: 'Automotive' },
-                    { id: 'professional', label: 'Professional Services' },
-                    { id: 'technology', label: 'Technology & Software' },
-                    { id: 'government', label: 'Government & Public' },
-                    { id: 'food', label: 'Food & Beverage' },
-                    { id: 'other', label: 'Other' }
-                  ].map((industry) => (
-                    <button
-                      key={industry.id}
-                      onClick={() => setFormData({ ...formData, industry: industry.id })}
-                      className={`p-3 text-left border rounded-lg transition-all hover:border-gray-400 text-sm ${
-                        formData.industry === industry.id
-                          ? 'border-blue-500 bg-blue-50 text-blue-700'
-                          : 'border-gray-200'
-                      }`}
-                    >
-                      {industry.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Assistant Type */}
-              <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <Phone className="w-5 h-5 text-gray-400" />
-                  <h3 className="text-lg font-medium text-gray-900">Call Type</h3>
-                </div>
-                <p className="text-gray-600 mb-4">Choose whether your assistant handles incoming or outgoing calls.</p>
-                
-                <div className="grid grid-cols-1 gap-3 max-w-2xl mb-4">
-                  <button
-                    onClick={() => setFormData({ ...formData, assistantType: 'inbound' })}
-                    className={`p-4 text-left border rounded-lg transition-all hover:border-gray-400 ${
-                      formData.assistantType === 'inbound'
-                        ? 'border-blue-500 bg-blue-50'
-                        : 'border-gray-200'
-                    }`}
-                  >
-                    <div className="flex items-center gap-3 mb-2">
-                      <PhoneIncoming className="h-5 w-5 text-blue-600" />
-                      <h4 className="font-semibold">Inbound Calls</h4>
-                    </div>
-                    <p className="text-gray-600 text-sm">
-                      Customers call your business. Perfect for customer support, bookings, and inquiries.
-                    </p>
-                  </button>
-                  
-                  <button
-                    onClick={() => setFormData({ ...formData, assistantType: 'outbound' })}
-                    className={`p-4 text-left border rounded-lg transition-all hover:border-gray-400 ${
-                      formData.assistantType === 'outbound'
-                        ? 'border-blue-500 bg-blue-50'
-                        : 'border-gray-200'
-                    }`}
-                  >
-                    <div className="flex items-center gap-3 mb-2">
-                      <PhoneOutgoing className="h-5 w-5 text-green-600" />
-                      <h4 className="font-semibold">Outbound Calls</h4>
-                    </div>
-                    <p className="text-gray-600 text-sm">
-                      Your assistant calls customers. Great for sales, follow-ups, and notifications.
-                    </p>
-                  </button>
-                </div>
-              </div>
-
-              {/* Use Case */}
-              <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <MessageSquare className="w-5 h-5 text-gray-400" />
-                  <h3 className="text-lg font-medium text-gray-900">Use Case</h3>
-                </div>
-                <p className="text-gray-600 mb-4">What will your assistant help with?</p>
-                
-                <div className="grid grid-cols-2 gap-3">
-                  {[
-                    { id: 'customer-support', label: 'Customer Support' },
-                    { id: 'scheduling', label: 'Scheduling & Booking' },
-                    { id: 'sales', label: 'Sales & Lead Generation' },
-                    { id: 'information', label: 'Information & FAQ' },
-                    { id: 'billing', label: 'Billing & Payments' },
-                    { id: 'technical', label: 'Technical Support' },
-                    { id: 'consultation', label: 'Consultation Booking' },
-                    { id: 'other', label: 'Other' }
-                  ].map((useCase) => (
-                    <button
-                      key={useCase.id}
-                      onClick={() => setFormData({ ...formData, role: useCase.id })}
-                      className={`p-3 text-left border rounded-lg transition-all hover:border-gray-400 text-sm ${
-                        formData.role === useCase.id
-                          ? 'border-blue-500 bg-blue-50 text-blue-700'
-                          : 'border-gray-200'
-                      }`}
-                    >
-                      {useCase.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
+            <div className="grid grid-cols-3 gap-3">
+              {[
+                { id: 'healthcare', label: 'Healthcare & Medical' },
+                { id: 'retail', label: 'Retail & E-commerce' },
+                { id: 'finance', label: 'Finance & Banking' },
+                { id: 'real-estate', label: 'Real Estate' },
+                { id: 'education', label: 'Education & Training' },
+                { id: 'hospitality', label: 'Hospitality & Travel' },
+                { id: 'automotive', label: 'Automotive' },
+                { id: 'professional', label: 'Professional Services' },
+                { id: 'technology', label: 'Technology & Software' },
+                { id: 'government', label: 'Government & Public' },
+                { id: 'food', label: 'Food & Beverage' },
+                { id: 'other', label: 'Other' }
+              ].map((industry) => (
+                <button
+                  key={industry.id}
+                  onClick={() => setFormData({ ...formData, industry: industry.id })}
+                  className={`p-4 text-left border rounded-lg transition-all hover:border-gray-400 ${
+                    formData.industry === industry.id
+                      ? 'border-blue-500 bg-blue-50 text-blue-700'
+                      : 'border-gray-200'
+                  }`}
+                >
+                  {industry.label}
+                </button>
+              ))}
             </div>
           </section>
 
-          {/* Voice & Language Settings */}
+          {/* Step 2: Assistant Type Selection */}
+          <section>
+            <div className="mb-8">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-2">Assistant Type</h2>
+              <p className="text-gray-600">Choose whether your assistant handles incoming or outgoing calls.</p>
+            </div>
+            
+            <div className="grid grid-cols-1 gap-4 max-w-2xl">
+              <button
+                onClick={() => setFormData({ ...formData, assistantType: 'inbound' })}
+                className={`p-6 text-left border rounded-lg transition-all hover:border-gray-400 ${
+                  formData.assistantType === 'inbound'
+                    ? 'border-blue-500 bg-blue-50'
+                    : 'border-gray-200'
+                }`}
+              >
+                <div className="flex items-center gap-3 mb-2">
+                  <PhoneIncoming className="h-6 w-6 text-blue-600" />
+                  <h3 className="font-semibold">Inbound Calls</h3>
+                </div>
+                <p className="text-gray-600">
+                  Customers call your business. Perfect for customer support, bookings, and inquiries.
+                </p>
+              </button>
+              
+              <button
+                onClick={() => setFormData({ ...formData, assistantType: 'outbound' })}
+                className={`p-6 text-left border rounded-lg transition-all hover:border-gray-400 ${
+                  formData.assistantType === 'outbound'
+                    ? 'border-blue-500 bg-blue-50'
+                    : 'border-gray-200'
+                }`}
+              >
+                <div className="flex items-center gap-3 mb-2">
+                  <PhoneOutgoing className="h-6 w-6 text-green-600" />
+                  <h3 className="font-semibold">Outbound Calls</h3>
+                </div>
+                <p className="text-gray-600">
+                  Your assistant calls customers. Great for sales, follow-ups, and notifications.
+                </p>
+              </button>
+            </div>
+          </section>
+
+          {/* Step 3: Voice & Language Selection */}
           <section>
             <div className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-2">Voice & Language</h2>
@@ -471,15 +425,10 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
             </div>
             
             <div className="space-y-8">
-              {/* Agent Language */}
+              {/* Language Selection */}
               <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <Globe className="w-5 h-5 text-gray-400" />
-                  <h3 className="text-lg font-medium text-gray-900">Agent Language</h3>
-                </div>
-                <p className="text-gray-600 mb-4">Choose the default language the agent will communicate in.</p>
-                
-                <div className="grid grid-cols-4 gap-3 mb-6">
+                <h3 className="text-lg font-medium text-gray-900 mb-4">Language</h3>
+                <div className="grid grid-cols-4 gap-3">
                   {Object.values(languages).slice(0, 8).map((lang) => (
                     <button
                       key={lang.code}
@@ -505,13 +454,19 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
 
               {/* Voice Selection */}
               <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <Volume2 className="w-5 h-5 text-gray-400" />
+                <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg font-medium text-gray-900">Voice</h3>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleTestVoice}
+                    disabled={isTestingVoice || !formData.voice_id}
+                  >
+                    <Play className="w-4 h-4 mr-2" />
+                    {isTestingVoice ? 'Testing...' : 'Test Selected Voice'}
+                  </Button>
                 </div>
-                <p className="text-gray-600 mb-4">Select the voice for your assistant.</p>
-                
-                <div className="grid grid-cols-2 gap-3 mb-4">
+                <div className="grid grid-cols-2 gap-3">
                   {Object.values(voices).slice(0, 6).map((voice) => (
                     <button
                       key={voice.id}
@@ -538,16 +493,83 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
                     </button>
                   ))}
                 </div>
-                
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleTestVoice}
-                  disabled={isTestingVoice || !formData.voice_id}
+              </div>
+            </div>
+          </section>
+
+          {/* Step 4: Role & Purpose Selection */}
+          <section>
+            <div className="mb-8">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-2">Role & Purpose</h2>
+              <p className="text-gray-600">What will your assistant help with?</p>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                { id: 'customer-support', label: 'Customer Support' },
+                { id: 'scheduling', label: 'Scheduling & Booking' },
+                { id: 'sales', label: 'Sales & Lead Generation' },
+                { id: 'information', label: 'Information & FAQ' },
+                { id: 'billing', label: 'Billing & Payments' },
+                { id: 'technical', label: 'Technical Support' },
+                { id: 'consultation', label: 'Consultation Booking' },
+                { id: 'other', label: 'Other' }
+              ].map((role) => (
+                <button
+                  key={role.id}
+                  onClick={() => setFormData({ ...formData, role: role.id })}
+                  className={`p-4 text-left border rounded-lg transition-all hover:border-gray-400 ${
+                    formData.role === role.id
+                      ? 'border-blue-500 bg-blue-50 text-blue-700'
+                      : 'border-gray-200'
+                  }`}
                 >
-                  <Play className="w-4 h-4 mr-2" />
-                  {isTestingVoice ? 'Testing...' : 'Test Selected Voice'}
-                </Button>
+                  {role.label}
+                </button>
+              ))}
+            </div>
+          </section>
+
+          {/* Step 5: Assistant Details & Behavior */}
+          <section>
+            <div className="mb-8">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-2">Assistant Details</h2>
+              <p className="text-gray-600">Configure your assistant's name and behavior.</p>
+            </div>
+            
+            <div className="space-y-6 max-w-2xl">
+              {/* Assistant Name */}
+              <div>
+                <Label htmlFor="assistant-name" className="text-base font-medium">Assistant Name</Label>
+                <Input
+                  id="assistant-name"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  placeholder="My Assistant"
+                  className="mt-2"
+                />
+              </div>
+
+              {/* Template Selection */}
+              <div>
+                <Label className="text-base font-medium">Quick Templates</Label>
+                <p className="text-sm text-gray-600 mb-3">Apply a pre-built template for your industry and use case</p>
+                <div className="grid grid-cols-1 gap-2">
+                  {Object.entries(SYSTEM_PROMPT_TEMPLATES)
+                    .filter(([key]) => key.includes(formData.industry) && key.includes(formData.assistantType))
+                    .map(([key, template]) => (
+                      <button
+                        key={key}
+                        onClick={() => handleApplyTemplate(key)}
+                        className="p-3 text-left border border-gray-200 rounded-lg hover:border-gray-400 transition-colors"
+                      >
+                        <div className="font-medium">{template.name}</div>
+                        <div className="text-sm text-gray-600 mt-1">
+                          {template.initial_message.substring(0, 100)}...
+                        </div>
+                      </button>
+                    ))}
+                </div>
               </div>
             </div>
           </section>
