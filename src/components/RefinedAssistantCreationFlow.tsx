@@ -829,7 +829,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
     
     console.log('Updated form data:', updatedFormData);
     setFormData(updatedFormData);
-    setTimeout(() => setStep(3), 300); // Go to voice step next
+    setTimeout(() => setStep(5), 300); // Go to assistant details step next
   };
   const handlePhoneNumberPurchase = (phoneNumber: PhoneNumber) => {
     setFormData({
@@ -1216,7 +1216,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               )}
             </Button>
           )}
-          {(step === 3 || step === 4 || step === 6) && (
+          {(step === 3 || step === 6) && (
             <Button onClick={handleNext} disabled={!canGoNext()}>
               Next
               <ArrowRight className="h-4 w-4 ml-2" />
