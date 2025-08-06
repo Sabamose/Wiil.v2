@@ -991,24 +991,6 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                   </div>
                 </div>
 
-                {formData.voice_id && <div className="p-4 bg-muted rounded-lg">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Volume2 className="h-4 w-4" />
-                      <span className="font-medium">Voice Preview</span>
-                    </div>
-                    <p className="text-sm text-muted-foreground mb-3">
-                      Test how your assistant will sound in {formData.language_name}
-                    </p>
-                    <Button onClick={handleTestVoice} disabled={isTestingVoice} variant="outline">
-                      {isTestingVoice ? <>
-                          <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                          Testing Voice...
-                        </> : <>
-                          <Play className="h-4 w-4 mr-2" />
-                          Test Voice
-                        </>}
-                    </Button>
-                  </div>}
               </CardContent>
             </Card>}
 
