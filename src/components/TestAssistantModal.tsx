@@ -20,6 +20,14 @@ const TestAssistantModal = ({ isOpen, onClose, assistant }: TestAssistantModalPr
       <div className="bg-background border rounded-lg shadow-2xl w-full max-w-6xl h-[90vh] flex flex-col animate-scale-in">
         {/* Header */}
 
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 z-10 p-2 text-muted-foreground hover:bg-muted hover:text-foreground rounded transition-colors"
+        >
+          <X className="w-4 h-4" />
+        </button>
+
         {/* Testing Interface Content */}
         <div className="flex-1 overflow-hidden">
           <CallTestingInterface assistant={assistant} />
