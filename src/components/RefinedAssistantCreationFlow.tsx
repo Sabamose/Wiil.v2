@@ -1157,17 +1157,6 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 <p className="text-muted-foreground">Test your assistant and deploy when ready</p>
               </CardHeader>
               <CardContent className="space-y-8">
-                {/* Hero Section */}
-                <div className="text-center space-y-4">
-                  <div>
-                    <h3 className="text-xl font-semibold">Test Your Assistant</h3>
-                    <p className="text-muted-foreground">
-                      {formData.assistantType === 'inbound' 
-                        ? 'Test incoming calls to ensure your assistant responds correctly' 
-                        : 'Test outbound calls to verify your assistant\'s conversation flow'}
-                    </p>
-                  </div>
-                </div>
 
                 {/* Main Testing Card */}
                 <div className="max-w-md mx-auto">
