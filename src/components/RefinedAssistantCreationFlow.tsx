@@ -1203,7 +1203,23 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
 
         {/* Navigation Buttons */}
         <div className="flex justify-end pt-6">
-          {step > 2 && step < 6 && (
+          {step === 5 && (
+            <Button onClick={handleCreateAssistant} disabled={!canGoNext() || isCreating}>
+              {isCreating ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Creating Assistant...
+                </>
+              ) : (
+                <>
+                  Create Assistant
+                  <ArrowRight className="h-4 w-4 ml-2" />
+                </>
+              )}
+            </Button>
+          )}
+
+          {step > 5 && step < totalSteps && (
             <Button onClick={handleNext} disabled={!canGoNext()}>
               Next
               <ArrowRight className="h-4 w-4 ml-2" />
@@ -1219,10 +1235,20 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
           )}
           
           {step === totalSteps && (
-            <Button onClick={() => { onComplete?.(currentAssistantId!); onClose(); }} disabled={!currentAssistantId}>
-              <Zap className="h-4 w-4 mr-2" />
-              Deploy Assistant
-            </Button>
+            <div className="text-center space-y-3">
+              <div className="text-sm text-muted-foreground">
+                Your assistant is ready! Deploy to make it live and start handling calls.
+              </div>
+              <Button 
+                onClick={() => { onComplete?.(currentAssistantId!); onClose(); }} 
+                disabled={!currentAssistantId}
+                size="lg"
+                className="px-8"
+              >
+                <Zap className="h-4 w-4 mr-2" />
+                Deploy Assistant
+              </Button>
+            </div>
           )}
         </div>
       </DialogContent>
