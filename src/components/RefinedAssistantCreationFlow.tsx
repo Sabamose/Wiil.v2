@@ -656,8 +656,8 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
     role: '',
     // Step 5: Assistant Details
     name: '',
-    initial_message: '',
-    system_prompt: '',
+    initial_message: 'Hello! How can I help you today?',
+    system_prompt: 'You are a helpful AI assistant. Be friendly, professional, and concise in your responses. Always aim to be helpful and provide accurate information.',
     temperature: 0.7,
     max_tokens: 300,
     // Step 6: Knowledge Base (optional)
@@ -796,7 +796,10 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
   const handleRoleSelect = (role: string) => {
     // Auto-populate system prompt based on template
     const templateKey = `${formData.industry}-${formData.assistantType}-${role}`;
+    console.log('Template key:', templateKey);
     const template = SYSTEM_PROMPT_TEMPLATES[templateKey as keyof typeof SYSTEM_PROMPT_TEMPLATES];
+    console.log('Found template:', template);
+    
     const updatedFormData = {
       ...formData,
       role,
@@ -806,8 +809,10 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
         name: template.name
       })
     };
+    
+    console.log('Updated form data:', updatedFormData);
     setFormData(updatedFormData);
-    setTimeout(() => setStep(5), 300); // Skip voice step for now, will implement later
+    setTimeout(() => setStep(3), 300); // Go to voice step next
   };
   const handlePhoneNumberPurchase = (phoneNumber: PhoneNumber) => {
     setFormData({
