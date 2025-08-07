@@ -5,6 +5,7 @@ import PhoneNumberPurchaseModal from "@/components/PhoneNumberPurchaseModal";
 import AssignAssistantModal from "@/components/AssignAssistantModal";
 import { PhoneNumber } from "@/types/phoneNumber";
 import { Button } from "@/components/ui/button";
+import { useIsMobile } from "@/hooks/use-mobile";
 import {
   Table,
   TableBody,
@@ -24,6 +25,7 @@ const PhoneNumbers = () => {
   const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [selectedPhoneNumber, setSelectedPhoneNumber] = useState<PhoneNumber | null>(null);
+  const isMobile = useIsMobile();
   const [phoneNumbers, setPhoneNumbers] = useState<PhoneNumber[]>([
     {
       id: "1",
@@ -90,34 +92,35 @@ const PhoneNumbers = () => {
   return (
     <div>
       <Navigation />
-      <div className="ml-60 pt-16 min-h-screen bg-gray-50">
-        <div className="p-8">
-          <div className="flex justify-between items-center mb-8">
+      <div className={`${isMobile ? 'ml-0' : 'ml-60'} pt-16 min-h-screen bg-gray-50`}>
+        <div className="p-4 md:p-8">
+          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center mb-8 gap-4">
             <div>
               <h1 className="text-2xl font-semibold text-gray-900">Phone Numbers</h1>
               <p className="text-gray-600 mt-1">Manage your purchased phone numbers and assistant assignments</p>
             </div>
             <Button 
               onClick={() => setIsPurchaseModalOpen(true)}
-              className="flex items-center gap-2"
+              className="flex items-center justify-center gap-2 w-full lg:w-auto"
             >
               <Plus className="w-4 h-4" />
               Buy Phone Number
             </Button>
           </div>
 
-          <div className="bg-white rounded-lg border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Phone Number</TableHead>
-                  <TableHead>Provider</TableHead>
-                  <TableHead>Assigned Assistant</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Monthly Cost</TableHead>
-                  <TableHead className="w-12"></TableHead>
-                </TableRow>
-              </TableHeader>
+          <div className="bg-white rounded-lg border overflow-hidden">
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="min-w-[140px]">Phone Number</TableHead>
+                    <TableHead className="hidden md:table-cell">Provider</TableHead>
+                    <TableHead className="min-w-[120px]">Assistant</TableHead>
+                    <TableHead className="hidden sm:table-cell">Status</TableHead>
+                    <TableHead className="hidden lg:table-cell">Monthly Cost</TableHead>
+                    <TableHead className="w-12"></TableHead>
+                  </TableRow>
+                </TableHeader>
               <TableBody>
                 {phoneNumbers.map((phoneNumber) => (
                   <TableRow 
@@ -126,24 +129,26 @@ const PhoneNumbers = () => {
                     onClick={() => handlePhoneNumberClick(phoneNumber)}
                   >
                     <TableCell className="font-medium">
-                      <div className="flex items-center gap-2">
-                        <span className="hover:text-blue-600 transition-colors duration-200">
+                      <div className="flex flex-col gap-1">
+                        <span className="hover:text-blue-600 transition-colors duration-200 text-sm">
                           {phoneNumber.number}
                         </span>
-                        <div className="w-2 h-2 rounded-full bg-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                        <span className="md:hidden text-xs text-gray-500">
+                          {phoneNumber.provider}
+                        </span>
                       </div>
                     </TableCell>
-                    <TableCell>{phoneNumber.provider}</TableCell>
+                    <TableCell className="hidden md:table-cell">{phoneNumber.provider}</TableCell>
                     <TableCell>
                       {phoneNumber.assignedAssistant ? (
-                        <span className="text-gray-900">{phoneNumber.assignedAssistant.name}</span>
+                        <span className="text-gray-900 text-sm">{phoneNumber.assignedAssistant.name}</span>
                       ) : (
-                        <span className="text-gray-400 hover:text-blue-500 transition-colors duration-200">
-                          Click to assign assistant
+                        <span className="text-gray-400 hover:text-blue-500 transition-colors duration-200 text-sm">
+                          {isMobile ? "Assign" : "Click to assign assistant"}
                         </span>
                       )}
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="hidden sm:table-cell">
                       <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
                         phoneNumber.status === "active" 
                           ? "bg-green-100 text-green-800" 
@@ -152,7 +157,7 @@ const PhoneNumbers = () => {
                         {phoneNumber.status}
                       </span>
                     </TableCell>
-                    <TableCell>${phoneNumber.monthlyCost.toFixed(2)}</TableCell>
+                    <TableCell className="hidden lg:table-cell">${phoneNumber.monthlyCost.toFixed(2)}</TableCell>
                     <TableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -188,10 +193,11 @@ const PhoneNumbers = () => {
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
-                  </TableRow>
-                ))}
+                </TableRow>
+              ))}
               </TableBody>
             </Table>
+            </div>
           </div>
         </div>
       </div>

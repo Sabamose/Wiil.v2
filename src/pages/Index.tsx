@@ -8,6 +8,7 @@ import VoiceConversationInterface from "@/components/VoiceConversationInterface"
 import EnhancedVoiceInterface from "@/components/EnhancedVoiceInterface";
 import { BaseAssistant } from "@/types/assistant";
 import { useAssistants, StoredAssistant } from "@/hooks/useAssistants";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Index = () => {
@@ -15,6 +16,7 @@ const Index = () => {
   const [selectedAssistant, setSelectedAssistant] = useState<any>(null);
   const [currentView, setCurrentView] = useState<"list" | "settings">("list");
   const { assistants, loading } = useAssistants();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const handleCreateAssistant = () => {
@@ -50,7 +52,7 @@ const Index = () => {
         
         {/* Main Content */}
         {currentView === "list" ? (
-          <main className="ml-60 mt-16 p-8">
+          <main className={`${isMobile ? 'ml-0' : 'ml-60'} mt-16 p-4 md:p-8`}>
             <ExistingAssistantsSection assistants={assistants} loading={loading} />
           </main>
         ) : (
