@@ -150,7 +150,7 @@ const Bookings = () => {
                 <Clock className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{upcomingBookings.length}</div>
+                
                 <p className="text-xs text-muted-foreground">
                   Next 7 days
                 </p>
