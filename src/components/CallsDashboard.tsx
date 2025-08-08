@@ -333,7 +333,7 @@ const CallsDashboard = () => {
               {filteredCustomers.map((customer) => (
                 <TableRow 
                   key={customer.id}
-                  className="cursor-pointer hover:bg-gray-50"
+                  className="cursor-pointer hover:bg-blue-50 hover:shadow-sm transition-all duration-200"
                   onClick={() => handleCustomerClick(customer)}
                 >
                   <TableCell className="font-medium">{customer.name}</TableCell>
