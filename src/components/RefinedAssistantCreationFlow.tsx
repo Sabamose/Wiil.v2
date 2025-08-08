@@ -1035,9 +1035,8 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     )}
                     <div className="text-center space-y-3">
                       <PhoneIncoming className="w-16 h-16 mx-auto text-primary" />
-                      <h3 className="text-lg font-semibold flex items-center justify-center gap-2">
+                      <h3 className="text-lg font-semibold">
                         Answer incoming calls
-                        <Badge variant="secondary">Inbound</Badge>
                       </h3>
                       <p className="text-sm text-muted-foreground">Customers call your number. The assistant answers.</p>
                     </div>
@@ -1056,9 +1055,8 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     )}
                     <div className="text-center space-y-3">
                       <PhoneOutgoing className="w-16 h-16 mx-auto text-primary" />
-                      <h3 className="text-lg font-semibold flex items-center justify-center gap-2">
+                      <h3 className="text-lg font-semibold">
                         Make outgoing calls
-                        <Badge variant="secondary">Outbound</Badge>
                       </h3>
                       <p className="text-sm text-muted-foreground">The assistant calls prospects or customers for you.</p>
                     </div>
