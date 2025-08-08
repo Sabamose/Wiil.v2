@@ -1584,7 +1584,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 <Card className="p-6">
                   <div className="text-center space-y-6">
                     <h3 className="text-xl font-semibold text-[hsl(var(--brand-teal))]">What should your assistant always mention?</h3>
-                    <p className="text-muted-foreground text-sm">Choose up to 3 key things your assistant should naturally work into conversations</p>
+                    
                     
                     {/* Input section */}
                     <div className="max-w-lg mx-auto">
