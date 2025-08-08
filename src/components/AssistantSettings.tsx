@@ -149,7 +149,7 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
   const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
-  const [activeTab, setActiveTab] = useState<'Industry' | 'Type' | 'Voice' | 'Role' | 'Actions' | 'Details' | 'Knowledge' | 'Phone'>('Industry');
+  const [activeTab, setActiveTab] = useState<'Industry' | 'Type' | 'Voice' | 'Role' | 'Actions' | 'Instructions' | 'Knowledge' | 'Phone'>('Industry');
   
   // Store original data to track changes
   const [originalData, setOriginalData] = useState<any>({});
@@ -415,7 +415,7 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
       {/* Tab Navigation */}
       <div className="border-b border-gray-200 px-8">
         <div className="flex space-x-8">
-          {(['Industry', 'Type', 'Voice', 'Role', 'Actions', 'Details', 'Knowledge', 'Phone'] as const).map((tab) => (
+          {(['Industry', 'Type', 'Voice', 'Role', 'Actions', 'Instructions', 'Knowledge', 'Phone'] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -938,85 +938,137 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
             </div>
           </section>
 
-          <section className={activeTab === 'Details' ? '' : 'hidden'}>
-            <div className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-2">Assistant Details</h2>
-              <p className="text-gray-600">Configure your assistant's name and behavior.</p>
+          <section className={activeTab === 'Instructions' ? '' : 'hidden'}>
+            <div className="mb-8 text-center">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-2 flex items-center justify-center gap-2">
+                <Brain className="h-6 w-6 text-teal-600" />
+                Teach Your Assistant How to Talk to Customers
+              </h2>
+              <p className="text-gray-600">Configure how your assistant should behave and respond to customers.</p>
             </div>
             
-            <div className="space-y-6 max-w-2xl">
+            <div className="space-y-8 max-w-4xl mx-auto">
               {/* Assistant Name */}
-              <div>
-                <Label htmlFor="assistant-name" className="text-base font-medium">Assistant Name</Label>
-                <Input
-                  id="assistant-name"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="My Assistant"
-                  className="mt-2"
-                />
-              </div>
+              <Card className="p-6 border-2 border-teal-600/20 bg-teal-600/5">
+                <div className="text-center space-y-4">
+                  <h3 className="text-xl font-semibold text-teal-600">Assistant Name</h3>
+                  <Input 
+                    value={formData.name} 
+                    onChange={e => setFormData({ ...formData, name: e.target.value })} 
+                    placeholder="e.g., Sarah, Alex, Customer Care Assistant" 
+                    className="max-w-md mx-auto text-center text-lg"
+                  />
+                </div>
+              </Card>
+
+              {/* Initial Message */}
+              <Card className="p-6">
+                <div className="space-y-4">
+                  <div>
+                    <Label className="text-lg font-semibold text-teal-600">First Message</Label>
+                    <p className="text-sm text-gray-600 mt-1">What should your assistant say when answering calls?</p>
+                  </div>
+                  <Textarea
+                    value={formData.initial_message}
+                    onChange={e => setFormData({ ...formData, initial_message: e.target.value })}
+                    placeholder="Hello! Thanks for calling. How can I help you today?"
+                    className="min-h-[100px] text-base"
+                  />
+                </div>
+              </Card>
 
               {/* Template Selection */}
-              <div>
-                <Label className="text-base font-medium">Quick Templates</Label>
-                <p className="text-sm text-gray-600 mb-3">Apply a pre-built template for your industry and use case</p>
-                <div className="grid grid-cols-1 gap-2">
-                  {Object.entries(SYSTEM_PROMPT_TEMPLATES)
-                    .filter(([key]) => key.includes(formData.industry) && key.includes(formData.assistantType))
-                    .map(([key, template]) => (
-                      <button
-                        key={key}
-                        onClick={() => handleApplyTemplate(key)}
-                        className="p-3 text-left border border-gray-200 rounded-lg hover:border-gray-400 transition-colors"
-                      >
-                        <div className="font-medium">{template.name}</div>
-                        <div className="text-sm text-gray-600 mt-1">
-                          {template.initial_message.substring(0, 100)}...
-                        </div>
-                      </button>
-                    ))}
+              <Card className="p-6">
+                <div className="space-y-6">
+                  <div className="text-center">
+                    <h3 className="text-xl font-semibold text-teal-600">Quick Templates</h3>
+                    <p className="text-gray-600">Apply a pre-built template for your industry and role</p>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {Object.entries(SYSTEM_PROMPT_TEMPLATES)
+                      .filter(([key]) => key.includes(formData.industry) && key.includes(formData.assistantType))
+                      .slice(0, 4)
+                      .map(([key, template]) => (
+                        <button
+                          key={key}
+                          onClick={() => handleApplyTemplate(key)}
+                          className="p-4 border-2 border-gray-200 rounded-lg hover:border-teal-600/50 hover:bg-teal-600/5 transition-all text-left"
+                        >
+                          <div className="font-semibold text-gray-900">{template.name}</div>
+                          <div className="text-sm text-gray-600 mt-1 line-clamp-2">
+                            {template.initial_message}
+                          </div>
+                        </button>
+                      ))}
+                  </div>
                 </div>
-              </div>
-            </div>
-          </section>
+              </Card>
 
-          <section className={activeTab === 'Details' ? '' : 'hidden'}>
-            <div className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-2">First Message</h2>
-              <p className="text-gray-600">The first message the agent will say. If empty, the agent will wait for the user to start the conversation.</p>
-            </div>
-            
-            <div>
-              <Textarea
-                value={formData.initial_message}
-                onChange={(e) => setFormData({ ...formData, initial_message: e.target.value })}
-                placeholder="Thanks for calling! How can I help you today?"
-                rows={4}
-                className="w-full max-w-2xl bg-white"
-              />
-              <Button variant="outline" size="sm" className="mt-4">
-                <Plus className="w-4 h-4 mr-2" />
-                Add Variable
-              </Button>
-            </div>
-          </section>
+              {/* System Prompt */}
+              <Card className="p-6">
+                <div className="space-y-4">
+                  <div>
+                    <Label className="text-lg font-semibold text-teal-600">Assistant Instructions</Label>
+                    <p className="text-sm text-gray-600 mt-1">Detailed instructions for how your assistant should behave</p>
+                  </div>
+                  <Textarea
+                    value={formData.system_prompt}
+                    onChange={e => setFormData({ ...formData, system_prompt: e.target.value })}
+                    placeholder="You are a helpful AI assistant..."
+                    className="min-h-[200px] text-base font-mono"
+                  />
+                </div>
+              </Card>
 
-          <section className={activeTab === 'Details' ? '' : 'hidden'}>
-            <div className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-2">System Prompt</h2>
-              <p className="text-gray-600">The system prompt is used to determine the persona of the agent and the context of the conversation.</p>
-              <button className="text-blue-600 text-sm hover:underline">Learn more</button>
-            </div>
-            
-            <div>
-              <Textarea
-                value={formData.system_prompt}
-                onChange={(e) => setFormData({ ...formData, system_prompt: e.target.value })}
-                placeholder="You are a helpful customer service assistant..."
-                rows={8}
-                className="w-full max-w-2xl bg-white"
-              />
+              {/* AI Settings */}
+              <Card className="p-6">
+                <div className="space-y-6">
+                  <h3 className="text-xl font-semibold text-teal-600">AI Behavior Settings</h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label className="font-medium">Response Creativity</Label>
+                      <div className="flex items-center gap-3">
+                        <span className="text-sm text-gray-500">Conservative</span>
+                        <input
+                          type="range"
+                          min="0"
+                          max="1"
+                          step="0.1"
+                          value={formData.temperature}
+                          onChange={e => setFormData({ ...formData, temperature: parseFloat(e.target.value) })}
+                          className="flex-1"
+                        />
+                        <span className="text-sm text-gray-500">Creative</span>
+                      </div>
+                      <div className="text-center text-sm text-gray-600">
+                        Current: {formData.temperature}
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label className="font-medium">Response Length</Label>
+                      <div className="flex items-center gap-3">
+                        <span className="text-sm text-gray-500">Short</span>
+                        <input
+                          type="range"
+                          min="100"
+                          max="500"
+                          step="50"
+                          value={formData.max_tokens}
+                          onChange={e => setFormData({ ...formData, max_tokens: parseInt(e.target.value) })}
+                          className="flex-1"
+                        />
+                        <span className="text-sm text-gray-500">Long</span>
+                      </div>
+                      <div className="text-center text-sm text-gray-600">
+                        Max tokens: {formData.max_tokens}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Card>
             </div>
           </section>
 
