@@ -149,6 +149,7 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
   const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [activeTab, setActiveTab] = useState<'Agent' | 'Voice' | 'Role' | 'Phone' | 'Knowledge' | 'Advanced'>('Agent');
   
   // Store original data to track changes
   const [originalData, setOriginalData] = useState<any>({});
@@ -414,10 +415,16 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
       {/* Tab Navigation */}
       <div className="border-b border-gray-200 px-8">
         <div className="flex space-x-8">
-          {['Agent', 'Voice', 'Role', 'Phone', 'Knowledge', 'Advanced'].map((tab) => (
+          {(['Agent', 'Voice', 'Role', 'Phone', 'Knowledge', 'Advanced'] as const).map((tab) => (
             <button
               key={tab}
-              className="py-4 px-1 border-b-2 border-black text-black font-medium text-sm"
+              onClick={() => setActiveTab(tab)}
+              className={`py-4 px-1 border-b-2 text-sm font-medium ${
+                activeTab === tab
+                  ? 'border-black text-black'
+                  : 'border-transparent text-gray-500 hover:text-gray-800 hover:border-gray-300'
+              }`}
+              aria-current={activeTab === tab ? 'page' : undefined}
             >
               {tab}
             </button>
@@ -429,8 +436,7 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
       <div className="px-8 py-8 max-w-4xl">
         <div className="space-y-12">
           
-          {/* Step 1: Industry Selection */}
-          <section>
+          <section className={activeTab === 'Agent' ? '' : 'hidden'}>
             <div className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-2">Industry Selection</h2>
               <p className="text-gray-600">Choose the industry your business operates in.</p>
@@ -466,8 +472,7 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
             </div>
           </section>
 
-          {/* Step 2: Assistant Type Selection */}
-          <section>
+          <section className={activeTab === 'Agent' ? '' : 'hidden'}>
             <div className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-2">Assistant Type</h2>
               <p className="text-gray-600">Choose whether your assistant handles incoming or outgoing calls.</p>
@@ -510,8 +515,7 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
             </div>
           </section>
 
-          {/* Step 3: Voice & Language Selection */}
-          <section>
+          <section className={activeTab === 'Voice' ? '' : 'hidden'}>
             <div className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-2">Voice & Language</h2>
               <p className="text-gray-600">Configure how your assistant speaks and communicates.</p>
@@ -590,8 +594,7 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
             </div>
           </section>
 
-          {/* Step 4: Role & Purpose Selection */}
-          <section>
+          <section className={activeTab === 'Role' ? '' : 'hidden'}>
             <div className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-2">Role & Purpose</h2>
               <p className="text-gray-600">What will your assistant help with?</p>
@@ -623,8 +626,7 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
             </div>
           </section>
 
-          {/* Step 5: Actions & Integrations */}
-          <section>
+           <section className={activeTab === 'Advanced' ? '' : 'hidden'}>
             <div className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-2">Actions & Integrations</h2>
               <p className="text-gray-600">Configure what your assistant can do to help your business</p>
@@ -936,8 +938,7 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
             </div>
           </section>
 
-          {/* Step 6: Assistant Details & Behavior */}
-          <section>
+          <section className={activeTab === 'Agent' ? '' : 'hidden'}>
             <div className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-2">Assistant Details</h2>
               <p className="text-gray-600">Configure your assistant's name and behavior.</p>
@@ -980,8 +981,7 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
             </div>
           </section>
 
-          {/* First Message */}
-          <section>
+          <section className={activeTab === 'Agent' ? '' : 'hidden'}>
             <div className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-2">First Message</h2>
               <p className="text-gray-600">The first message the agent will say. If empty, the agent will wait for the user to start the conversation.</p>
@@ -1002,8 +1002,7 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
             </div>
           </section>
 
-          {/* System Prompt */}
-          <section>
+          <section className={activeTab === 'Agent' ? '' : 'hidden'}>
             <div className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-2">System Prompt</h2>
               <p className="text-gray-600">The system prompt is used to determine the persona of the agent and the context of the conversation.</p>
@@ -1021,8 +1020,7 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
             </div>
           </section>
 
-          {/* Phone Number Management */}
-          <section>
+          <section className={activeTab === 'Phone' ? '' : 'hidden'}>
             <div className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-2">Phone Number</h2>
               <p className="text-gray-600">Manage phone numbers assigned to this assistant.</p>
@@ -1051,8 +1049,7 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
             </div>
           </section>
 
-          {/* Knowledge Base */}
-          <section>
+          <section className={activeTab === 'Knowledge' ? '' : 'hidden'}>
             <div className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-2">Knowledge Base</h2>
               <p className="text-gray-600">Connect knowledge sources to help your assistant answer questions about your business.</p>
