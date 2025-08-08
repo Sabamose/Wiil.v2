@@ -47,7 +47,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#fafafa' }}>
+    <div className="min-h-screen bg-white">
         {currentView === "list" && <Navigation />}
         
         {/* Main Content */}
