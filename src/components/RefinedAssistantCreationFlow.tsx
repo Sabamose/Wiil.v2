@@ -1418,7 +1418,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
           {step === 6 && <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Brain className="h-5 w-5" />
+                  <Brain className="h-5 w-5 text-[hsl(var(--brand-teal))]" />
                   Assistant Details & Behavior
                 </CardTitle>
                 <p className="text-muted-foreground">Configure your assistant's identity and behavior</p>
@@ -1447,7 +1447,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                       <Label className="text-base font-medium">Primary Goal</Label>
                       <ToggleGroup type="single" value={formData.behavior.goal} onValueChange={(v) => v && updateBehavior({ goal: v })} className="mt-3 flex flex-wrap gap-2">
                         {['Book appointment','Qualify lead','Support','Collect info','Route call'].map(g => (
-                          <ToggleGroupItem key={g} value={g} className="data-[state=on]:bg-primary/10 data-[state=on]:text-primary">{g}</ToggleGroupItem>
+                          <ToggleGroupItem key={g} value={g} className="data-[state=on]:bg-[hsl(var(--brand-teal))]/10 data-[state=on]:text-[hsl(var(--brand-teal))] data-[state=on]:ring-1 data-[state=on]:ring-[hsl(var(--brand-teal))]">{g}</ToggleGroupItem>
                         ))}
                       </ToggleGroup>
                     </div>
@@ -1464,7 +1464,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                           <div className="text-sm text-muted-foreground mb-1">Tone</div>
                           <ToggleGroup type="single" value={formData.behavior.tone} onValueChange={(v) => v && updateBehavior({ tone: v })} className="flex flex-wrap gap-2">
                             {['Friendly','Professional','Empathetic'].map(t => (
-                              <ToggleGroupItem key={t} value={t} className="data-[state=on]:bg-primary/10 data-[state=on]:text-primary">{t}</ToggleGroupItem>
+                              <ToggleGroupItem key={t} value={t} className="data-[state=on]:bg-[hsl(var(--brand-teal))]/10 data-[state=on]:text-[hsl(var(--brand-teal))] data-[state=on]:ring-1 data-[state=on]:ring-[hsl(var(--brand-teal))]">{t}</ToggleGroupItem>
                             ))}
                           </ToggleGroup>
                         </div>
@@ -1473,7 +1473,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                             <div className="text-sm text-muted-foreground mb-1">Response length</div>
                             <ToggleGroup type="single" value={formData.behavior.responseLength} onValueChange={(v) => v && updateBehavior({ responseLength: v })} className="flex flex-wrap gap-2">
                               {['Short','Medium','Detailed'].map(o => (
-                                <ToggleGroupItem key={o} value={o} className="data-[state=on]:bg-primary/10 data-[state=on]:text-primary">{o}</ToggleGroupItem>
+                                <ToggleGroupItem key={o} value={o} className="data-[state=on]:bg-[hsl(var(--brand-teal))]/10 data-[state=on]:text-[hsl(var(--brand-teal))] data-[state=on]:ring-1 data-[state=on]:ring-[hsl(var(--brand-teal))]">{o}</ToggleGroupItem>
                               ))}
                             </ToggleGroup>
                           </div>
@@ -1481,7 +1481,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                             <div className="text-sm text-muted-foreground mb-1">Jargon level</div>
                             <ToggleGroup type="single" value={formData.behavior.jargonLevel} onValueChange={(v) => v && updateBehavior({ jargonLevel: v })} className="flex flex-wrap gap-2">
                               {['Simple','Standard'].map(o => (
-                                <ToggleGroupItem key={o} value={o} className="data-[state=on]:bg-primary/10 data-[state=on]:text-primary">{o}</ToggleGroupItem>
+                                <ToggleGroupItem key={o} value={o} className="data-[state=on]:bg-[hsl(var(--brand-teal))]/10 data-[state=on]:text-[hsl(var(--brand-teal))] data-[state=on]:ring-1 data-[state=on]:ring-[hsl(var(--brand-teal))]">{o}</ToggleGroupItem>
                               ))}
                             </ToggleGroup>
                       </div>
@@ -1497,16 +1497,16 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                           <Button type="button" variant="secondary" onClick={() => { if (doSayInput) { updateBehavior({ doSay: [...formData.behavior.doSay.slice(0,2), doSayInput] }); setDoSayInput('') } }}>Add</Button>
                         </div>
                         <div className="mt-2 text-xs text-muted-foreground flex items-center gap-2">
-                          <Lightbulb className="h-3 w-3" /> Examples: “We offer free consultations”, “Ask about project timeline”, “We’re based in Austin, TX”
+                          <Lightbulb className="h-3 w-3 text-[hsl(var(--brand-teal))]" /> Examples: “We offer free consultations”, “Ask about project timeline”, “We’re based in Austin, TX”
                         </div>
                         <div className="mt-2 flex flex-wrap gap-2">
                           {['We offer free consultations','Ask about project timeline','We\'re based in Austin, TX'].map(ex => (
-                            <Button key={ex} variant="outline" size="sm" className="h-7 text-xs" type="button" onClick={() => updateBehavior({ doSay: [...formData.behavior.doSay.slice(0,2), ex] })}>{ex}</Button>
+                            <Button key={ex} variant="outline" size="sm" className="h-7 text-xs border-[hsl(var(--brand-teal))]/30 text-[hsl(var(--brand-teal))] hover:bg-[hsl(var(--brand-teal))]/10" type="button" onClick={() => updateBehavior({ doSay: [...formData.behavior.doSay.slice(0,2), ex] })}>{ex}</Button>
                           ))}
                         </div>
                         <div className="mt-2 flex flex-wrap gap-2">
                           {formData.behavior.doSay.map((i, idx) => (
-                            <Badge key={idx} variant="secondary" className="cursor-pointer" onClick={() => updateBehavior({ doSay: formData.behavior.doSay.filter((_,i2)=>i2!==idx) })}>{i} <span className="ml-1">×</span></Badge>
+                            <Badge key={idx} variant="secondary" className="cursor-pointer bg-[hsl(var(--brand-teal))]/10 text-[hsl(var(--brand-teal))] border-[hsl(var(--brand-teal))]/30" onClick={() => updateBehavior({ doSay: formData.behavior.doSay.filter((_,i2)=>i2!==idx) })}>{i} <span className="ml-1">×</span></Badge>
                           ))}
                         </div>
                       </div>
@@ -1518,16 +1518,16 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                           <Button type="button" variant="secondary" onClick={() => { if (dontSayInput) { updateBehavior({ dontSay: [...formData.behavior.dontSay.slice(0,2), dontSayInput] }); setDontSayInput('') } }}>Add</Button>
                         </div>
                         <div className="mt-2 text-xs text-muted-foreground flex items-center gap-2">
-                          <Lightbulb className="h-3 w-3" /> Examples: “Exact pricing without context”, “Medical/legal advice”, “Internal policies”
+                          <Lightbulb className="h-3 w-3 text-[hsl(var(--brand-teal))]" /> Examples: “Exact pricing without context”, “Medical/legal advice”, “Internal policies”
                         </div>
                         <div className="mt-2 flex flex-wrap gap-2">
                           {['Exact pricing without context','Medical/legal advice','Internal policies'].map(ex => (
-                            <Button key={ex} variant="outline" size="sm" className="h-7 text-xs" type="button" onClick={() => updateBehavior({ dontSay: [...formData.behavior.dontSay.slice(0,2), ex] })}>{ex}</Button>
+                            <Button key={ex} variant="outline" size="sm" className="h-7 text-xs border-[hsl(var(--brand-teal))]/30 text-[hsl(var(--brand-teal))] hover:bg-[hsl(var(--brand-teal))]/10" type="button" onClick={() => updateBehavior({ dontSay: [...formData.behavior.dontSay.slice(0,2), ex] })}>{ex}</Button>
                           ))}
                         </div>
                         <div className="mt-2 flex flex-wrap gap-2">
                           {formData.behavior.dontSay.map((i, idx) => (
-                            <Badge key={idx} variant="secondary" className="cursor-pointer" onClick={() => updateBehavior({ dontSay: formData.behavior.dontSay.filter((_,i2)=>i2!==idx) })}>{i} <span className="ml-1">×</span></Badge>
+                            <Badge key={idx} variant="secondary" className="cursor-pointer bg-[hsl(var(--brand-teal))]/10 text-[hsl(var(--brand-teal))] border-[hsl(var(--brand-teal))]/30" onClick={() => updateBehavior({ dontSay: formData.behavior.dontSay.filter((_,i2)=>i2!==idx) })}>{i} <span className="ml-1">×</span></Badge>
                           ))}
                         </div>
                       </div>
@@ -1577,9 +1577,9 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
 
                   {/* Live Preview & Advanced */}
                   <div className="space-y-6">
-                    <Card>
+                    <Card className="border-l-4 border-[hsl(var(--brand-teal))]/50">
                       <CardHeader>
-                        <CardTitle>Live Preview</CardTitle>
+                        <CardTitle className="text-[hsl(var(--brand-teal))]">Live Preview</CardTitle>
                       </CardHeader>
                       <CardContent className="space-y-4">
                         <div>
