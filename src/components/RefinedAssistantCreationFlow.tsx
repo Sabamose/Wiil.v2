@@ -647,6 +647,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
   const [dontSayInput, setDontSayInput] = useState('');
   const [mustAskInput, setMustAskInput] = useState('');
   const [handoffWhenInput, setHandoffWhenInput] = useState('');
+  const [showAdvanced, setShowAdvanced] = useState(false);
   
   const [formData, setFormData] = useState({
     // Step 1: Industry
@@ -1594,28 +1595,31 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                       </CardContent>
                     </Card>
 
-                    <Collapsible>
-                      <CollapsibleTrigger asChild>
-                        <Button variant="outline" className="w-full justify-between">
-                          Advanced Prompt (optional)
-                          <Settings className="h-4 w-4" />
-                        </Button>
-                      </CollapsibleTrigger>
-                      <CollapsibleContent className="space-y-4 pt-4">
-                        <div className="flex items-center justify-between">
-                          <div className="text-sm text-muted-foreground">Auto-compose from answers</div>
-                          <Switch checked={formData.behavior.autoCompose} onCheckedChange={(v) => updateBehavior({ autoCompose: v })} />
-                        </div>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
                         <div>
-                          <Label htmlFor="initialMessage" className="text-base font-medium">Initial Message</Label>
-                          <Textarea id="initialMessage" disabled={formData.behavior.autoCompose} value={formData.initial_message} onChange={e => setFormData({ ...formData, initial_message: e.target.value })} rows={3} className="resize-none mt-2" />
+                          <div className="font-medium">Advanced</div>
+                          <p className="text-sm text-muted-foreground">Toggle to customize the exact prompts now. You can always edit this later in Assistant Settings.</p>
                         </div>
-                        <div>
-                          <Label htmlFor="systemPrompt" className="text-base font-medium">System Prompt</Label>
-                          <Textarea id="systemPrompt" disabled={formData.behavior.autoCompose} value={formData.system_prompt} onChange={e => setFormData({ ...formData, system_prompt: e.target.value })} rows={8} className="resize-none mt-2" />
+                        <Switch checked={showAdvanced} onCheckedChange={setShowAdvanced} />
+                      </div>
+                      {showAdvanced && (
+                        <div className="space-y-4 pt-4 border rounded-md p-4">
+                          <div className="flex items-center justify-between">
+                            <div className="text-sm text-muted-foreground">Auto-compose from answers</div>
+                            <Switch checked={formData.behavior.autoCompose} onCheckedChange={(v) => updateBehavior({ autoCompose: v })} />
+                          </div>
+                          <div>
+                            <Label htmlFor="initialMessage" className="text-base font-medium">Initial Message</Label>
+                            <Textarea id="initialMessage" disabled={formData.behavior.autoCompose} value={formData.initial_message} onChange={e => setFormData({ ...formData, initial_message: e.target.value })} rows={3} className="resize-none mt-2" />
+                          </div>
+                          <div>
+                            <Label htmlFor="systemPrompt" className="text-base font-medium">System Prompt</Label>
+                            <Textarea id="systemPrompt" disabled={formData.behavior.autoCompose} value={formData.system_prompt} onChange={e => setFormData({ ...formData, system_prompt: e.target.value })} rows={8} className="resize-none mt-2" />
+                          </div>
                         </div>
-                      </CollapsibleContent>
-                    </Collapsible>
+                      )}
+                    </div>
                   </div>
                 </div>
                 </div>
