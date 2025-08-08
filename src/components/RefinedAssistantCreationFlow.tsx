@@ -1117,11 +1117,11 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                   <Settings className="h-5 w-5" />
                   Actions & Integrations
                 </CardTitle>
-                <p className="text-muted-foreground">Configure what your assistant can do to help your business</p>
+                <p className="text-muted-foreground">Turn on the actions your assistant can do during calls.</p>
               </CardHeader>
               <CardContent className="space-y-8">
                 {/* Real-Time Booking */}
-                <div className="border border-border rounded-lg p-6">
+                <div className={`rounded-lg p-6 border transition-colors ${formData.actions.realTimeBooking.enabled ? 'border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06]' : 'border-border hover:border-[hsl(var(--brand-teal))]/50'}`}>
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-start gap-3">
                       <Calendar className="h-6 w-6 text-blue-600 mt-1" />
@@ -1131,6 +1131,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                       </div>
                     </div>
                     <Switch 
+                      className="data-[state=checked]:bg-[hsl(var(--brand-teal))]"
                       checked={formData.actions.realTimeBooking.enabled}
                       onCheckedChange={(checked) => setFormData({
                         ...formData,
@@ -1146,105 +1147,18 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                   </div>
 
                   {formData.actions.realTimeBooking.enabled && (
-                    <div className="space-y-4 pl-9">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <Label className="text-sm font-medium">Calendar Type</Label>
-                          <Select 
-                            value={formData.actions.realTimeBooking.calendarType}
-                            onValueChange={(value) => setFormData({
-                              ...formData,
-                              actions: {
-                                ...formData.actions,
-                                realTimeBooking: {
-                                  ...formData.actions.realTimeBooking,
-                                  calendarType: value
-                                }
-                              }
-                            })}
-                          >
-                            <SelectTrigger>
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="google">Google Calendar</SelectItem>
-                              <SelectItem value="outlook">Outlook Calendar</SelectItem>
-                              <SelectItem value="calendly">Calendly</SelectItem>
-                              <SelectItem value="custom">Custom Integration</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        <div>
-                          <Label className="text-sm font-medium">Available Hours</Label>
-                          <Input 
-                            value={formData.actions.realTimeBooking.availableHours}
-                            onChange={(e) => setFormData({
-                              ...formData,
-                              actions: {
-                                ...formData.actions,
-                                realTimeBooking: {
-                                  ...formData.actions.realTimeBooking,
-                                  availableHours: e.target.value
-                                }
-                              }
-                            })}
-                            placeholder="e.g., 9:00 AM - 5:00 PM"
-                          />
-                        </div>
-                        <div>
-                          <Label className="text-sm font-medium">Time Zone</Label>
-                          <Select 
-                            value={formData.actions.realTimeBooking.timeZone}
-                            onValueChange={(value) => setFormData({
-                              ...formData,
-                              actions: {
-                                ...formData.actions,
-                                realTimeBooking: {
-                                  ...formData.actions.realTimeBooking,
-                                  timeZone: value
-                                }
-                              }
-                            })}
-                          >
-                            <SelectTrigger>
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="UTC-5">Eastern Time (UTC-5)</SelectItem>
-                              <SelectItem value="UTC-6">Central Time (UTC-6)</SelectItem>
-                              <SelectItem value="UTC-7">Mountain Time (UTC-7)</SelectItem>
-                              <SelectItem value="UTC-8">Pacific Time (UTC-8)</SelectItem>
-                              <SelectItem value="UTC">UTC</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        <div>
-                          <Label className="text-sm font-medium">Buffer Time (minutes)</Label>
-                          <Input 
-                            type="number"
-                            value={formData.actions.realTimeBooking.bufferTime}
-                            onChange={(e) => setFormData({
-                              ...formData,
-                              actions: {
-                                ...formData.actions,
-                                realTimeBooking: {
-                                  ...formData.actions.realTimeBooking,
-                                  bufferTime: parseInt(e.target.value) || 15
-                                }
-                              }
-                            })}
-                            placeholder="15"
-                            min="0"
-                            max="120"
-                          />
-                        </div>
-                      </div>
+                    <div className="pl-9 mt-2 flex flex-wrap gap-2">
+                      <span className="inline-flex items-center rounded-full border px-2.5 py-1 text-xs">{({google:'Google Calendar',outlook:'Outlook Calendar',calendly:'Calendly',custom:'Custom'} as Record<string,string>)[formData.actions.realTimeBooking.calendarType]}</span>
+                      <span className="inline-flex items-center rounded-full border px-2.5 py-1 text-xs">{formData.actions.realTimeBooking.availableHours}</span>
+                      <span className="inline-flex items-center rounded-full border px-2.5 py-1 text-xs">{formData.actions.realTimeBooking.timeZone}</span>
+                      <span className="inline-flex items-center rounded-full border px-2.5 py-1 text-xs">{formData.actions.realTimeBooking.bufferTime}m buffer</span>
+                      <span className="text-xs text-muted-foreground">Defaults in use • You can change these later</span>
                     </div>
                   )}
                 </div>
 
                 {/* Call Transfer */}
-                <div className="border border-border rounded-lg p-6">
+                <div className={`rounded-lg p-6 border transition-colors ${formData.actions.callTransfer.enabled ? 'border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06]' : 'border-border hover:border-[hsl(var(--brand-teal))]/50'}`}>
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-start gap-3">
                       <PhoneForwarded className="h-6 w-6 text-green-600 mt-1" />
@@ -1254,6 +1168,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                       </div>
                     </div>
                     <Switch 
+                      className="data-[state=checked]:bg-[hsl(var(--brand-teal))]"
                       checked={formData.actions.callTransfer.enabled}
                       onCheckedChange={(checked) => setFormData({
                         ...formData,
@@ -1269,72 +1184,17 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                   </div>
 
                   {formData.actions.callTransfer.enabled && (
-                    <div className="space-y-4 pl-9">
-                      <div>
-                        <Label className="text-sm font-medium">Transfer Conditions</Label>
-                        <Textarea 
-                          value={formData.actions.callTransfer.conditions}
-                          onChange={(e) => setFormData({
-                            ...formData,
-                            actions: {
-                              ...formData.actions,
-                              callTransfer: {
-                                ...formData.actions.callTransfer,
-                                conditions: e.target.value
-                              }
-                            }
-                          })}
-                          placeholder="e.g., When customer asks for a manager, mentions technical issues, or requests complex information..."
-                          rows={3}
-                          className="resize-none"
-                        />
-                        <p className="text-xs text-muted-foreground mt-1">Describe when the assistant should transfer the call to a human agent</p>
-                      </div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <Label className="text-sm font-medium">Transfer Phone Number</Label>
-                          <Input 
-                            value={formData.actions.callTransfer.transferNumber}
-                            onChange={(e) => setFormData({
-                              ...formData,
-                              actions: {
-                                ...formData.actions,
-                                callTransfer: {
-                                  ...formData.actions.callTransfer,
-                                  transferNumber: e.target.value
-                                }
-                              }
-                            })}
-                            placeholder="+1 (555) 123-4567"
-                          />
-                        </div>
-                        <div>
-                          <Label className="text-sm font-medium">Max Wait Time (seconds)</Label>
-                          <Input 
-                            type="number"
-                            value={formData.actions.callTransfer.maxWaitTime}
-                            onChange={(e) => setFormData({
-                              ...formData,
-                              actions: {
-                                ...formData.actions,
-                                callTransfer: {
-                                  ...formData.actions.callTransfer,
-                                  maxWaitTime: parseInt(e.target.value) || 30
-                                }
-                              }
-                            })}
-                            placeholder="30"
-                            min="10"
-                            max="300"
-                          />
-                        </div>
-                      </div>
+                    <div className="pl-9 mt-2 flex flex-wrap gap-2">
+                      <span className="inline-flex items-center rounded-full border px-2.5 py-1 text-xs">{formData.actions.callTransfer.conditions ? 'Custom conditions' : 'Standard conditions'}</span>
+                      <span className="inline-flex items-center rounded-full border px-2.5 py-1 text-xs">{formData.actions.callTransfer.transferNumber || 'Default number'}</span>
+                      <span className="inline-flex items-center rounded-full border px-2.5 py-1 text-xs">{formData.actions.callTransfer.maxWaitTime}s wait</span>
+                      <span className="text-xs text-muted-foreground">Defaults in use • You can change these later</span>
                     </div>
                   )}
                 </div>
 
                 {/* SMS Automation */}
-                <div className="border border-border rounded-lg p-6">
+                <div className={`rounded-lg p-6 border transition-colors ${formData.actions.smsAutomation.enabled ? 'border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06]' : 'border-border hover:border-[hsl(var(--brand-teal))]/50'}`}>
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-start gap-3">
                       <MessageSquare className="h-6 w-6 text-purple-600 mt-1" />
@@ -1344,6 +1204,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                       </div>
                     </div>
                     <Switch 
+                      className="data-[state=checked]:bg-[hsl(var(--brand-teal))]"
                       checked={formData.actions.smsAutomation.enabled}
                       onCheckedChange={(checked) => setFormData({
                         ...formData,
@@ -1359,66 +1220,17 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                   </div>
 
                   {formData.actions.smsAutomation.enabled && (
-                    <div className="space-y-4 pl-9">
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <Label className="text-sm font-medium">Booking Confirmation</Label>
-                            <p className="text-xs text-muted-foreground">Send SMS when booking is confirmed</p>
-                          </div>
-                          <Switch 
-                            checked={formData.actions.smsAutomation.bookingConfirmation}
-                            onCheckedChange={(checked) => setFormData({
-                              ...formData,
-                              actions: {
-                                ...formData.actions,
-                                smsAutomation: {
-                                  ...formData.actions.smsAutomation,
-                                  bookingConfirmation: checked
-                                }
-                              }
-                            })}
-                          />
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <Label className="text-sm font-medium">Appointment Reminders</Label>
-                            <p className="text-xs text-muted-foreground">Send reminder SMS before appointments</p>
-                          </div>
-                          <Switch 
-                            checked={formData.actions.smsAutomation.reminders}
-                            onCheckedChange={(checked) => setFormData({
-                              ...formData,
-                              actions: {
-                                ...formData.actions,
-                                smsAutomation: {
-                                  ...formData.actions.smsAutomation,
-                                  reminders: checked
-                                }
-                              }
-                            })}
-                          />
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <Label className="text-sm font-medium">Follow-up Messages</Label>
-                            <p className="text-xs text-muted-foreground">Send follow-up SMS after calls or appointments</p>
-                          </div>
-                          <Switch 
-                            checked={formData.actions.smsAutomation.followUp}
-                            onCheckedChange={(checked) => setFormData({
-                              ...formData,
-                              actions: {
-                                ...formData.actions,
-                                smsAutomation: {
-                                  ...formData.actions.smsAutomation,
-                                  followUp: checked
-                                }
-                              }
-                            })}
-                          />
-                        </div>
-                      </div>
+                    <div className="pl-9 mt-2 flex flex-wrap gap-2">
+                      {formData.actions.smsAutomation.bookingConfirmation && (
+                        <span className="inline-flex items-center rounded-full border px-2.5 py-1 text-xs">Confirmations</span>
+                      )}
+                      {formData.actions.smsAutomation.reminders && (
+                        <span className="inline-flex items-center rounded-full border px-2.5 py-1 text-xs">Reminders</span>
+                      )}
+                      {formData.actions.smsAutomation.followUp && (
+                        <span className="inline-flex items-center rounded-full border px-2.5 py-1 text-xs">Follow-ups</span>
+                      )}
+                      <span className="text-xs text-muted-foreground">Defaults in use • You can change these later</span>
                     </div>
                   )}
                 </div>
