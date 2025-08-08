@@ -45,7 +45,7 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <Button variant="ghost" size="sm" onClick={onBack}>
+          <Button variant="ghost" size="sm" onClick={onBack} className="hover:bg-brand-teal/10 hover:text-brand-teal">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Calls
           </Button>
@@ -54,6 +54,7 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
             <p className="text-sm text-muted-foreground">conv_{call.id.slice(0, 8)}...{call.id.slice(-8)}</p>
           </div>
         </div>
+        <div className="h-2 w-2 rounded-full bg-brand-teal animate-pulse"></div>
       </div>
 
       {/* Waveform and Audio Controls */}
@@ -65,7 +66,7 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
               <div
                 key={i}
                 className={`w-1 rounded-sm transition-colors ${
-                  i < 20 ? 'bg-primary' : 'bg-border'
+                  i < 20 ? 'bg-brand-teal' : 'bg-border'
                 }`}
                 style={{
                   height: `${Math.random() * 40 + 8}px`,
@@ -158,7 +159,7 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
                 }`}>
                   <div className="flex items-center gap-2 mb-1">
                     <span className={`text-xs font-medium ${
-                      item.speaker === 'Agent' ? 'text-primary' : 'text-secondary-foreground'
+                      item.speaker === 'Agent' ? 'text-brand-teal' : 'text-secondary-foreground'
                     }`}>
                       {item.speaker === 'Agent' ? 'Agent' : 'Customer'}
                     </span>
