@@ -1911,7 +1911,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Upload className="h-5 w-5" />
-                  Add Knowledge Base
+                  Add Company Info
                 </CardTitle>
                 <p className="text-muted-foreground">Add documents or notes your assistant should know (e.g., FAQs, product info, policies).</p>
               </CardHeader>
