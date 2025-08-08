@@ -2,7 +2,7 @@ import { InboundCall, DataVariable } from "@/types/call";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
+
 import { ArrowLeft, Phone, Clock, User, Building, Play, Pause, RotateCcw, RotateCw, Volume2, Download } from "lucide-react";
 import { useState } from "react";
 
@@ -24,13 +24,16 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'active': return 'bg-green-500';
-      case 'completed': return 'bg-blue-500';
-      case 'missed': return 'bg-red-500';
-      case 'queued': return 'bg-yellow-500';
-      default: return 'bg-gray-500';
+      case 'active': return 'bg-primary';
+      case 'completed': return 'bg-secondary';
+      case 'missed': return 'bg-destructive';
+      case 'queued': return 'bg-accent';
+      default: return 'bg-border';
     }
   };
+
+  const sampleTranscript = "Agent: Hi, thanks for calling. How can I help today?\nCustomer: I'm checking on my order status.\nAgent: Sure, I'll look that up. Could I have your order number?\nCustomer: It's 12345.\nAgent: Found it. Your order ships tomorrow. Anything else I can help with?";
+  const transcriptToShow = call.transcript && call.transcript.trim().length > 0 ? call.transcript : sampleTranscript;
 
   return (
     <div className="space-y-6">
@@ -40,7 +43,7 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Calls
         </Button>
-        <h1 className="text-2xl font-bold">Call Details</h1>
+        <h1 className="text-2xl font-bold">Conversation Details</h1>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -54,12 +57,12 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <label className="text-sm font-medium text-gray-500">Name</label>
+              <label className="text-sm font-medium text-muted-foreground">Name</label>
               <p className="text-lg font-medium">{call.customer.name}</p>
             </div>
             
             <div>
-              <label className="text-sm font-medium text-gray-500">Phone Number</label>
+              <label className="text-sm font-medium text-muted-foreground">Phone Number</label>
               <p className="flex items-center gap-2">
                 <Phone className="h-4 w-4" />
                 {call.customer.phoneNumber}
@@ -68,14 +71,14 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
             
             {call.customer.email && (
               <div>
-                <label className="text-sm font-medium text-gray-500">Email</label>
+                <label className="text-sm font-medium text-muted-foreground">Email</label>
                 <p>{call.customer.email}</p>
               </div>
             )}
             
             {call.customer.company && (
               <div>
-                <label className="text-sm font-medium text-gray-500">Company</label>
+                <label className="text-sm font-medium text-muted-foreground">Company</label>
                 <p className="flex items-center gap-2">
                   <Building className="h-4 w-4" />
                   {call.customer.company}
@@ -92,7 +95,7 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-gray-500">Status</span>
+              <span className="text-sm font-medium text-muted-foreground">Status</span>
               <Badge variant="outline" className="capitalize">
                 <div className={`w-2 h-2 rounded-full ${getStatusColor(call.status)} mr-2`} />
                 {call.status}
@@ -100,7 +103,7 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
             </div>
             
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-gray-500">Duration</span>
+              <span className="text-sm font-medium text-muted-foreground">Duration</span>
               <span className="flex items-center gap-1">
                 <Clock className="h-4 w-4" />
                 {call.duration > 0 ? formatDuration(call.duration) : 'N/A'}
@@ -108,7 +111,7 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
             </div>
             
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-gray-500">Time</span>
+              <span className="text-sm font-medium text-muted-foreground">Time</span>
               <span>{call.timestamp.toLocaleString()}</span>
             </div>
           </CardContent>
@@ -124,7 +127,7 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
               <div className="space-y-3">
                 {Object.entries(call.collectedData).map(([key, value]) => (
                   <div key={key}>
-                    <label className="text-sm font-medium text-gray-500 capitalize">
+                    <label className="text-sm font-medium text-muted-foreground capitalize">
                       {key.replace(/([A-Z])/g, ' $1').trim()}
                     </label>
                     <p className="text-sm">{String(value)}</p>
@@ -132,7 +135,7 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
                 ))}
               </div>
             ) : (
-              <p className="text-sm text-gray-500">No data collected yet</p>
+              <p className="text-sm text-muted-foreground">No data collected yet</p>
             )}
           </CardContent>
         </Card>
@@ -146,13 +149,11 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
             <CardTitle>Transcript</CardTitle>
           </CardHeader>
           <CardContent>
-            {call.transcript ? (
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <p className="text-sm leading-relaxed">{call.transcript}</p>
+            {transcriptToShow ? (
+              <div className="bg-muted p-4 rounded-lg">
+                <p className="text-sm leading-relaxed whitespace-pre-line">{transcriptToShow}</p>
               </div>
-            ) : (
-              <p className="text-sm text-gray-500">No transcript available</p>
-            )}
+            ) : null}
           </CardContent>
         </Card>
 
@@ -163,11 +164,11 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
           </CardHeader>
           <CardContent>
             {call.summary ? (
-              <div className="bg-blue-50 p-4 rounded-lg">
+              <div className="bg-primary/5 p-4 rounded-lg">
                 <p className="text-sm leading-relaxed">{call.summary}</p>
               </div>
             ) : (
-              <p className="text-sm text-gray-500">No summary available</p>
+              <p className="text-sm text-muted-foreground">No summary available</p>
             )}
           </CardContent>
         </Card>
@@ -184,7 +185,7 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
         <CardContent>
           <div className="space-y-4">
             {/* Audio Player Controls */}
-            <div className="bg-gray-50 p-4 rounded-lg">
+            <div className="bg-muted p-4 rounded-lg">
               <div className="flex items-center gap-4 mb-4">
                 <Button
                   variant="outline"
@@ -205,23 +206,23 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
                 <Button variant="ghost" size="sm">
                   <RotateCw className="h-4 w-4" />
                 </Button>
-                <div className="flex-1 bg-gray-200 h-2 rounded-full relative">
-                  <div className="bg-black h-2 rounded-full w-1/4"></div>
+                <div className="flex-1 bg-muted h-2 rounded-full relative">
+                  <div className="bg-foreground h-2 rounded-full w-1/4"></div>
                 </div>
-                <span className="text-sm text-gray-600">{currentTime} / {formatDuration(call.duration)}</span>
+                <span className="text-sm text-muted-foreground">{currentTime} / {formatDuration(call.duration)}</span>
                 <Button variant="ghost" size="sm">
                   <Download className="h-4 w-4" />
                 </Button>
               </div>
               
               {/* Waveform Visualization (Mock) */}
-              <div className="flex items-center justify-center h-16 bg-white rounded border">
+              <div className="flex items-center justify-center h-16 bg-background rounded border">
                 <div className="flex items-end gap-1 h-12">
                   {Array.from({ length: 60 }, (_, i) => (
                     <div
                       key={i}
-                      className={`w-1 bg-gray-300 rounded-sm ${
-                        i < 15 ? 'bg-black' : 'bg-gray-300'
+                      className={`w-1 rounded-sm ${
+                        i < 15 ? 'bg-foreground' : 'bg-border'
                       }`}
                       style={{
                         height: `${Math.random() * 40 + 8}px`,
