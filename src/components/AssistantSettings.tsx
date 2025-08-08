@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -215,6 +216,7 @@ const getRolesByType = (assistantType: string, industry: string) => {
 };
 
 const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack }) => {
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [isTestingVoice, setIsTestingVoice] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -599,6 +601,33 @@ IMPORTANT GUIDELINES:
               <TestTube className="w-4 h-4 mr-2" />
               Test Assistant
             </Button>
+            
+            {/* Deploy Button with Phone Number Check */}
+            {!formData.hasPhoneNumber ? (
+              <Button
+                onClick={() => {
+                  navigate('/phone-numbers');
+                }}
+                variant="default"
+                size="sm"
+                className="bg-teal-600 hover:bg-teal-700"
+              >
+                <Phone className="w-4 h-4 mr-2" />
+                Connect Phone Number
+              </Button>
+            ) : (
+              <Button
+                onClick={handleSaveAssistant}
+                disabled={isSaving}
+                variant="default"
+                size="sm"
+                className="bg-green-600 hover:bg-green-700"
+              >
+                <Save className="w-4 h-4 mr-2" />
+                Deploy Assistant
+              </Button>
+            )}
+            
             {hasUnsavedChanges && (
               <div className="text-sm text-amber-600 font-medium">
                 Unsaved changes
@@ -627,6 +656,22 @@ IMPORTANT GUIDELINES:
           ))}
         </div>
       </div>
+
+      {/* Phone Number Warning */}
+      {!formData.hasPhoneNumber && (
+        <div className="mx-8 mb-4 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+          <div className="flex items-center gap-2">
+            <AlertTriangle className="w-5 h-5 text-amber-600" />
+            <p className="text-amber-800 font-medium">
+              Phone Number Required for Deployment
+            </p>
+          </div>
+          <p className="text-amber-700 text-sm mt-1">
+            To deploy your assistant and start receiving calls, you need to connect a phone number. 
+            You can save your assistant as a draft and connect a phone number later.
+          </p>
+        </div>
+      )}
 
       {/* Settings Content */}
       <div className="px-8 py-8 max-w-4xl">
