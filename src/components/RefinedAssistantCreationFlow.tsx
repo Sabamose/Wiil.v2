@@ -932,7 +932,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {INDUSTRIES.map(industry => <div key={industry.id} onClick={() => handleIndustrySelect(industry.id)} className={`p-4 border rounded-lg cursor-pointer transition-all text-center hover:shadow-md ${formData.industry === industry.id ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'}`}>
+                  {INDUSTRIES.map(industry => <div key={industry.id} onClick={() => handleIndustrySelect(industry.id)} className={`p-4 border rounded-lg cursor-pointer transition-all text-center hover:shadow-md ${formData.industry === industry.id ? 'border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06]' : 'border-border hover:border-[hsl(var(--brand-teal))]'}`}>
                       <div className="text-3xl mb-2">{industry.emoji}</div>
                       <div className="font-medium mb-1">{industry.label}</div>
                       <div className="text-xs text-muted-foreground">{industry.description}</div>
@@ -954,7 +954,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div
                     onClick={() => handleAssistantTypeSelect('inbound')}
-                    className={`relative p-8 rounded-xl border cursor-pointer transition-all hover:shadow-lg ${formData.assistantType === 'inbound' ? 'border-primary ring-2 ring-primary bg-primary/10' : 'border-border hover:border-primary/50 bg-muted/30 hover:bg-muted/50'}`}
+                    className={`relative p-8 rounded-xl border cursor-pointer transition-all hover:shadow-lg ${formData.assistantType === 'inbound' ? 'border-[hsl(var(--brand-teal))] ring-2 ring-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06]' : 'border-border hover:border-[hsl(var(--brand-teal))] bg-muted/30 hover:bg-muted/50'}`}
                   >
                     {formData.assistantType === 'inbound' && (
                       <div className="absolute top-3 right-3">
@@ -975,7 +975,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
 
                   <div
                     onClick={() => handleAssistantTypeSelect('outbound')}
-                    className={`relative p-8 rounded-xl border cursor-pointer transition-all hover:shadow-lg ${formData.assistantType === 'outbound' ? 'border-primary ring-2 ring-primary bg-primary/10' : 'border-border hover:border-primary/50 bg-muted/30 hover:bg-muted/50'}`}
+                    className={`relative p-8 rounded-xl border cursor-pointer transition-all hover:shadow-lg ${formData.assistantType === 'outbound' ? 'border-[hsl(var(--brand-teal))] ring-2 ring-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06]' : 'border-border hover:border-[hsl(var(--brand-teal))] bg-muted/30 hover:bg-muted/50'}`}
                   >
                     {formData.assistantType === 'outbound' && (
                       <div className="absolute top-3 right-3">
