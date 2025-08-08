@@ -106,9 +106,6 @@ const CallTestingInterface = ({ assistant }: CallTestingInterfaceProps) => {
       </div>
 
       {/* Assistant Information */}
-      <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold text-foreground mb-2">{assistant.name}</h3>
-      </div>
 
       {/* Test Instructions */}
       {isInboundAssistant ? (
