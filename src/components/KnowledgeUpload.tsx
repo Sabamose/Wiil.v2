@@ -183,7 +183,7 @@ const KnowledgeUpload: React.FC<KnowledgeUploadProps> = ({ assistantId, onKnowle
           </TabsTrigger>
           <TabsTrigger value="url" className="flex items-center gap-2">
             <Link className="h-4 w-4" />
-            Website URL
+            Add Website Link
           </TabsTrigger>
         </TabsList>
 
