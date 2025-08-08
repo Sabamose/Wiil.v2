@@ -1421,7 +1421,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                   <Brain className="h-6 w-6 text-[hsl(var(--brand-teal))]" />
                   Teach Your Assistant How to Talk to Customers
                 </CardTitle>
-                <p className="text-muted-foreground text-lg">Answer these simple questions to teach your assistant the perfect way to handle calls</p>
+                
               </CardHeader>
               <CardContent className="space-y-12">
                 
