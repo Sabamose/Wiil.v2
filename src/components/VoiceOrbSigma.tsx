@@ -96,10 +96,6 @@ export default function VoiceOrbSigma({
 
   return (
     <div style={{ position: "relative", width: W, height: H }}>
-      {/* Side blur bars ("blur sides") */}
-      <div style={{ position: "absolute", left: 0, top: H * 0.2, width: 70, height: 181, background: "rgba(24,25,53,0.96)", filter: "blur(15px)" }} />
-      <div style={{ position: "absolute", right: 0, top: H * 0.2, width: 70, height: 181, background: "rgba(24,25,53,0.96)", filter: "blur(15px)" }} />
-
       <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{ position: "absolute", inset: 0 }}>
         <defs>
           {/* Orb gradients */}
