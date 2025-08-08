@@ -19,7 +19,6 @@ import { useElevenLabsLibrary } from '@/hooks/useElevenLabsLibrary';
 import { useToast } from '@/hooks/use-toast';
 import { PhoneNumber } from '@/types/phoneNumber';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import { ScrollArea } from '@/components/ui/scroll-area';
 interface RefinedAssistantCreationFlowProps {
   isOpen: boolean;
   onClose: () => void;
@@ -1059,44 +1058,29 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
 
                 <div>
                   <Label className="text-base font-medium">Select Voice</Label>
-                  <ScrollArea className="mt-2 h-72 md:h-80 pr-3 scroll-smooth">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      {Object.entries(voices).map(([id, voice]) => (
-                        <div
-                          key={id}
-                          className={`p-4 border rounded-lg cursor-pointer transition-colors hover-scale ${formData.voice_id === id ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'}`}
-                          onClick={() => setFormData({
-                            ...formData,
-                            voice_id: id,
-                            voice_name: `${voice.name} (${voice.gender})`
-                          })}
-                        >
-                          <div className="flex items-center justify-between">
-                            <div className="flex-1">
-                              <p className="font-medium">{voice.name}</p>
-                              <p className="text-sm text-muted-foreground">{voice.description}</p>
-                              <Badge variant="secondary" className="mt-1 text-xs">
-                                {voice.gender}
-                              </Badge>
-                            </div>
-                            {formData.voice_id === id && (
-                              <Button
-                                size="sm"
-                                variant="outline"
-                                onClick={e => {
-                                  e.stopPropagation();
-                                  handleTestVoice();
-                                }}
-                                disabled={isTestingVoice}
-                              >
-                                {isTestingVoice ? <Loader2 className="h-4 w-4 animate-spin" /> : <Play className="h-4 w-4" />}
-                              </Button>
-                            )}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
+                    {Object.entries(voices).map(([id, voice]) => <div key={id} className={`p-4 border rounded-lg cursor-pointer transition-colors ${formData.voice_id === id ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'}`} onClick={() => setFormData({
+                  ...formData,
+                  voice_id: id,
+                  voice_name: `${voice.name} (${voice.gender})`
+                })}>
+                        <div className="flex items-center justify-between">
+                          <div className="flex-1">
+                            <p className="font-medium">{voice.name}</p>
+                            <p className="text-sm text-muted-foreground">{voice.description}</p>
+                            <Badge variant="secondary" className="mt-1 text-xs">
+                              {voice.gender}
+                            </Badge>
                           </div>
+                          {formData.voice_id === id && <Button size="sm" variant="outline" onClick={e => {
+                      e.stopPropagation();
+                      handleTestVoice();
+                    }} disabled={isTestingVoice}>
+                              {isTestingVoice ? <Loader2 className="h-4 w-4 animate-spin" /> : <Play className="h-4 w-4" />}
+                            </Button>}
                         </div>
-                      ))}
-                    </div>
-                  </ScrollArea>
+                      </div>)}
+                  </div>
                 </div>
 
               </CardContent>
