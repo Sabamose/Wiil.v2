@@ -2119,6 +2119,8 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
       <PhoneNumberPurchaseModal
         isOpen={isPurchaseModalOpen}
         onClose={() => setIsPurchaseModalOpen(false)}
+        assistantType={formData.assistantType as 'inbound' | 'outbound'}
+        assistantName={formData.name}
         onPurchaseComplete={handlePhoneNumberPurchase}
       />
 

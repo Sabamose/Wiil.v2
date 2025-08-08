@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { X, Check } from "lucide-react";
+import PhoneNumberSuccessModal from "./PhoneNumberSuccessModal";
 import { PhoneNumber, PurchasePhoneNumberRequest } from "@/types/phoneNumber";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -22,15 +23,19 @@ interface PhoneNumberPurchaseModalProps {
   isOpen: boolean;
   onClose: () => void;
   onPurchaseComplete: (phoneNumber: PhoneNumber) => void;
+  assistantType?: 'inbound' | 'outbound';
+  assistantName?: string;
 }
 
-const PhoneNumberPurchaseModal = ({ isOpen, onClose, onPurchaseComplete }: PhoneNumberPurchaseModalProps) => {
+const PhoneNumberPurchaseModal = ({ isOpen, onClose, onPurchaseComplete, assistantType, assistantName }: PhoneNumberPurchaseModalProps) => {
   const { toast } = useToast();
   const [provider, setProvider] = useState<"SignalWire" | "Twilio">("SignalWire");
   const [country, setCountry] = useState("US");
   const [numberType, setNumberType] = useState<"local" | "toll-free">("local");
   const [selectedNumber, setSelectedNumber] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [purchasedPhoneNumber, setPurchasedPhoneNumber] = useState<PhoneNumber | null>(null);
 
   // Mock available numbers
   const availableNumbers = [
@@ -71,15 +76,19 @@ const PhoneNumberPurchaseModal = ({ isOpen, onClose, onPurchaseComplete }: Phone
           type: numberType
         };
         
+        setPurchasedPhoneNumber(newPhoneNumber);
         onPurchaseComplete(newPhoneNumber);
         
-        toast({
-          title: "Phone Number Purchased!",
-          description: `${selectedNumber} has been successfully purchased and connected to your assistant.`,
-        });
+        // Show success modal instead of toast
+        setShowSuccessModal(true);
       }
       setIsLoading(false);
     }, 2000);
+  };
+
+  const handleSuccessModalClose = () => {
+    setShowSuccessModal(false);
+    onClose();
   };
 
   if (!isOpen) return null;
@@ -242,6 +251,29 @@ const PhoneNumberPurchaseModal = ({ isOpen, onClose, onPurchaseComplete }: Phone
           </div>
         </div>
       </DialogContent>
+
+      {/* Success Modal */}
+      {showSuccessModal && purchasedPhoneNumber && assistantType && assistantName && (
+        <PhoneNumberSuccessModal
+          isOpen={showSuccessModal}
+          onClose={handleSuccessModalClose}
+          phoneNumber={purchasedPhoneNumber}
+          assistantType={assistantType}
+          assistantName={assistantName}
+          onTestAssistant={() => {
+            // Handle test assistant action
+            console.log('Test assistant clicked');
+          }}
+          onStartCampaign={() => {
+            // Handle start campaign action
+            console.log('Start campaign clicked');
+          }}
+          onMonitorCalls={() => {
+            // Handle monitor calls action
+            console.log('Monitor calls clicked');
+          }}
+        />
+      )}
     </Dialog>
   );
 };

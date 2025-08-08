@@ -1440,6 +1440,8 @@ IMPORTANT GUIDELINES:
         <PhoneNumberPurchaseModal
           isOpen={isPurchaseModalOpen}
           onClose={() => setIsPurchaseModalOpen(false)}
+          assistantType={formData.assistantType as 'inbound' | 'outbound'}
+          assistantName={formData.name}
           onPurchaseComplete={(phoneNumber: PhoneNumber) => {
             setFormData({
               ...formData,
