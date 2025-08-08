@@ -2218,14 +2218,15 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                   onClick={() => {
                     setShowSuccessDialog(false);
                     onClose();
-                    // Stay on main dashboard for campaign creation
+                    // Navigate to campaign creation
+                    window.location.href = '/?tab=campaigns';
                   }}
                   variant="outline"
                   className="w-full"
                   size="lg"
                 >
                   <Target className="h-4 w-4 mr-2" />
-                  Start Making Calls
+                  Create Campaign
                 </Button>
               )}
             </div>
