@@ -2218,8 +2218,8 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                   onClick={() => {
                     setShowSuccessDialog(false);
                     onClose();
-                    // Navigate to campaign creation
-                    window.location.href = '/?tab=campaigns';
+                    // Navigate to campaigns page
+                    window.location.href = '/campaigns';
                   }}
                   variant="outline"
                   className="w-full"
