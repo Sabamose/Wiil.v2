@@ -126,6 +126,8 @@
 
     /* Brand teal (Tailwind teal-600 #0D9488) */
     --brand-teal: 174 84% 32%;
+    --brand-teal-hover: 174 84% 26%;
+    --brand-teal-foreground: 0 0% 98%;
 
     --radius: 0.5rem;
 
@@ -175,6 +177,8 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
     --brand-teal: 174 84% 32%;
+    --brand-teal-hover: 174 84% 26%;
+    --brand-teal-foreground: 0 0% 98%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary-foreground: 0 0% 100%;

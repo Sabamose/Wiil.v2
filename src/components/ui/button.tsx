@@ -20,6 +20,8 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         "test-action": "bg-test-action text-test-action-foreground hover:bg-test-action/90 font-semibold shadow-sm",
         success: "bg-success text-success-foreground hover:bg-success/90",
+        brand: "bg-[hsl(var(--brand-teal))] text-[hsl(var(--brand-teal-foreground))] hover:bg-[hsl(var(--brand-teal-hover))]",
+        "brand-outline": "border border-[hsl(var(--brand-teal))] text-[hsl(var(--brand-teal))] bg-transparent hover:bg-[hsl(var(--brand-teal))] hover:text-[hsl(var(--brand-teal-foreground))]",
       },
       size: {
         default: "h-10 px-4 py-2",

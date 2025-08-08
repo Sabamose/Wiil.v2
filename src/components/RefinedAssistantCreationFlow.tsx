@@ -1959,7 +1959,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     </div>
 
                     <div className="text-center">
-                      <Button variant="outline" onClick={handleNext} className="border-teal-600 text-teal-600 hover:bg-teal-600 hover:text-white">
+                      <Button variant="brand-outline" onClick={handleNext}>
                         Skip for Now
                       </Button>
                     </div>
@@ -2030,13 +2030,13 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
         {/* Navigation Buttons */}
         <div className="flex justify-end pt-6">
           {step === 5 && (
-            <Button onClick={handleNext} disabled={!canGoNext()} className="bg-teal-600 hover:bg-teal-700 text-white">
+            <Button onClick={handleNext} disabled={!canGoNext()} variant="brand">
               Next
               <ArrowRight className="h-4 w-4 ml-2" />
             </Button>
           )}
           {(step === 3 || step === 6 || step === 7) && (
-            <Button onClick={handleNext} disabled={!canGoNext()} className="bg-teal-600 hover:bg-teal-700 text-white">
+            <Button onClick={handleNext} disabled={!canGoNext()} variant="brand">
               Next
               <ArrowRight className="h-4 w-4 ml-2" />
             </Button>
