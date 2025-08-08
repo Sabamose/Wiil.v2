@@ -227,6 +227,7 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
   const [activeTab, setActiveTab] = useState<'Industry' | 'Type' | 'Voice' | 'Role' | 'Actions' | 'Instructions' | 'Knowledge' | 'Phone'>('Industry');
   const [showPhoneSuccessModal, setShowPhoneSuccessModal] = useState(false);
   const [connectedPhoneNumber, setConnectedPhoneNumber] = useState<PhoneNumber | null>(null);
+  const [isAssistantConnectedToPhone, setIsAssistantConnectedToPhone] = useState(true);
   
   // Store original data to track changes
   const [originalData, setOriginalData] = useState<any>({});
@@ -1398,10 +1399,19 @@ IMPORTANT GUIDELINES:
                         </div>
                         <div>
                           <p className="font-semibold text-teal-800">{formData.phoneNumber}</p>
-                          <p className="text-sm text-teal-600">Active • Ready to receive calls</p>
+                          <p className="text-sm text-teal-600">
+                            {isAssistantConnectedToPhone 
+                              ? "Connected • Ready to receive calls"
+                              : "Available • Not connected to assistant"
+                            }
+                          </p>
                         </div>
                       </div>
-                      <div className="w-3 h-3 bg-teal-500 rounded-full animate-pulse"></div>
+                      <div className={`w-3 h-3 rounded-full ${
+                        isAssistantConnectedToPhone 
+                          ? "bg-teal-500 animate-pulse" 
+                          : "bg-gray-400"
+                      }`}></div>
                     </div>
 
 
@@ -1419,45 +1429,68 @@ IMPORTANT GUIDELINES:
                         </Button>
                         <Button
                           onClick={async () => {
-                            try {
-                              // Update the assistant in the database to remove phone number
-                              await updateAssistant(assistant.id, {
-                                phone_number: null,
-                              });
-                              
-                              // Update local state
-                              setFormData({
-                                ...formData,
-                                phoneNumber: null,
-                                hasPhoneNumber: false
-                              });
-                              
-                              // Update original data to reflect the change
-                              setOriginalData(prev => ({
-                                ...prev,
-                                phoneNumber: null,
-                                hasPhoneNumber: false
-                              }));
-                              
-                              toast({
-                                title: "Phone Number Disconnected",
-                                description: "The phone number has been successfully disconnected from this assistant.",
-                              });
-                            } catch (error) {
-                              console.error('Error disconnecting phone number:', error);
-                              toast({
-                                title: "Error",
-                                description: "Failed to disconnect phone number. Please try again.",
-                                variant: "destructive",
-                              });
+                            if (isAssistantConnectedToPhone) {
+                              // Disconnect assistant from phone number
+                              try {
+                                await updateAssistant(assistant.id, {
+                                  phone_number: null,
+                                });
+                                
+                                setIsAssistantConnectedToPhone(false);
+                                
+                                toast({
+                                  title: "Assistant Disconnected",
+                                  description: "Assistant has been disconnected from the phone number. The number is still available.",
+                                });
+                              } catch (error) {
+                                console.error('Error disconnecting assistant:', error);
+                                toast({
+                                  title: "Error",
+                                  description: "Failed to disconnect assistant. Please try again.",
+                                  variant: "destructive",
+                                });
+                              }
+                            } else {
+                              // Reconnect assistant to phone number
+                              try {
+                                await updateAssistant(assistant.id, {
+                                  phone_number: formData.phoneNumber,
+                                });
+                                
+                                setIsAssistantConnectedToPhone(true);
+                                
+                                toast({
+                                  title: "Assistant Connected",
+                                  description: "Assistant has been connected to the phone number.",
+                                });
+                              } catch (error) {
+                                console.error('Error connecting assistant:', error);
+                                toast({
+                                  title: "Error",
+                                  description: "Failed to connect assistant. Please try again.",
+                                  variant: "destructive",
+                                });
+                              }
                             }
                           }}
                           variant="outline"
                           size="sm"
-                          className="text-red-600 border-red-200 hover:bg-red-50"
+                          className={isAssistantConnectedToPhone 
+                            ? "text-red-600 border-red-200 hover:bg-red-50"
+                            : "text-teal-600 border-teal-200 hover:bg-teal-50"
+                          }
                         >
-                          <AlertTriangle className="w-4 h-4 mr-2" />
-                          Disconnect Number
+                          {isAssistantConnectedToPhone ? (
+                            <>
+                              <AlertTriangle className="w-4 h-4 mr-2" />
+                              Disconnect Number
+                            </>
+                          ) : (
+                            <>
+                              <Phone className="w-4 h-4 mr-2" />
+                              Connect Assistant to Phone Number
+                            </>
+                          )}
                         </Button>
                       </div>
                     </div>
