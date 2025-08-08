@@ -6,6 +6,7 @@ import AssignAssistantModal from "@/components/AssignAssistantModal";
 import { PhoneNumber } from "@/types/phoneNumber";
 import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useToast } from "@/hooks/use-toast";
 import {
   Table,
   TableBody,
@@ -26,6 +27,7 @@ const PhoneNumbers = () => {
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [selectedPhoneNumber, setSelectedPhoneNumber] = useState<PhoneNumber | null>(null);
   const isMobile = useIsMobile();
+  const { toast } = useToast();
   const [phoneNumbers, setPhoneNumbers] = useState<PhoneNumber[]>([
     {
       id: "1",
@@ -59,11 +61,17 @@ const PhoneNumbers = () => {
   };
 
   const handleUnassign = (numberId: string) => {
+    const phoneNumber = phoneNumbers.find(num => num.id === numberId);
     setPhoneNumbers(phoneNumbers.map(num => 
       num.id === numberId 
         ? { ...num, assignedAssistant: undefined }
         : num
     ));
+    
+    toast({
+      title: "Assistant Disconnected",
+      description: `Assistant has been disconnected from ${phoneNumber?.number}`,
+    });
   };
 
   const handleToggleStatus = (numberId: string) => {
@@ -80,6 +88,7 @@ const PhoneNumbers = () => {
   };
 
   const handleAssignComplete = (phoneNumberId: string, assistantId: string, assistantName: string) => {
+    const phoneNumber = phoneNumbers.find(num => num.id === phoneNumberId);
     setPhoneNumbers(phoneNumbers.map(num => 
       num.id === phoneNumberId 
         ? { ...num, assignedAssistant: { id: assistantId, name: assistantName } }
@@ -87,6 +96,11 @@ const PhoneNumbers = () => {
     ));
     setIsAssignModalOpen(false);
     setSelectedPhoneNumber(null);
+    
+    toast({
+      title: "Assistant Connected",
+      description: `${assistantName} has been connected to ${phoneNumber?.number}`,
+    });
   };
 
   return (
