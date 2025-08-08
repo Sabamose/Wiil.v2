@@ -276,6 +276,117 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
     setHasUnsavedChanges(hasChanges);
   }, [formData, originalData]);
 
+  // Auto-generate system prompt based on behavior selections
+  useEffect(() => {
+    if (behavior.autoCompose && behavior.goal && behavior.tone) {
+      const generateSystemPrompt = () => {
+        const basePrompt = `You are ${formData.name || 'an AI assistant'}, a ${behavior.tone.toLowerCase()} and helpful voice assistant.`;
+        
+        let goalSection = '';
+        switch (behavior.goal) {
+          case 'Book appointment':
+            goalSection = `Your primary goal is to help customers schedule appointments. You should:
+- Ask for preferred dates and times
+- Collect necessary contact information
+- Confirm appointment details
+- Provide any preparation instructions`;
+            break;
+          case 'Qualify lead':
+            goalSection = `Your primary goal is to qualify potential customers. You should:
+- Ask about their specific needs and requirements
+- Understand their budget and timeline
+- Assess if they're a good fit for our services
+- Collect contact information for follow-up`;
+            break;
+          case 'Support':
+            goalSection = `Your primary goal is to provide excellent customer support. You should:
+- Listen carefully to customer issues
+- Provide helpful solutions and guidance
+- Escalate complex problems when necessary
+- Ensure customer satisfaction`;
+            break;
+          case 'Collect info':
+            goalSection = `Your primary goal is to gather important customer information. You should:
+- Ask relevant questions to understand their needs
+- Collect contact details and preferences
+- Document important details for follow-up
+- Be thorough but respectful of their time`;
+            break;
+          case 'Route call':
+            goalSection = `Your primary goal is to direct callers to the right department. You should:
+- Ask about the nature of their inquiry
+- Determine the best department or person to help
+- Provide clear transfer information
+- Ensure smooth handoff when transferring`;
+            break;
+        }
+
+        let styleSection = '';
+        switch (behavior.responseLength) {
+          case 'Short':
+            styleSection = 'Keep your responses brief and to the point. ';
+            break;
+          case 'Medium':
+            styleSection = 'Provide balanced responses that are informative but not overwhelming. ';
+            break;
+          case 'Detailed':
+            styleSection = 'Give thorough and comprehensive responses with helpful details. ';
+            break;
+        }
+
+        if (behavior.jargonLevel === 'Simple') {
+          styleSection += 'Use simple, easy-to-understand language. Avoid technical jargon.';
+        } else {
+          styleSection += 'You can use standard business terminology when appropriate.';
+        }
+
+        const fullPrompt = `${basePrompt}
+
+${goalSection}
+
+COMMUNICATION STYLE:
+${styleSection}
+
+IMPORTANT GUIDELINES:
+- Always be ${behavior.tone.toLowerCase()} and professional
+- Listen actively to understand customer needs
+- Ask clarifying questions when needed
+- Confirm important information before proceeding
+- Thank customers for their time and patience
+- If you cannot help with something, explain what you can do instead`;
+
+        return fullPrompt;
+      };
+
+      const initialMessage = () => {
+        const greeting = behavior.tone === 'Professional' 
+          ? `Thank you for calling. This is ${formData.name || 'your assistant'}.`
+          : `Hi! This is ${formData.name || 'your assistant'}.`;
+          
+        switch (behavior.goal) {
+          case 'Book appointment':
+            return `${greeting} I'm here to help you schedule an appointment. How can I assist you today?`;
+          case 'Qualify lead':
+            return `${greeting} I'd love to learn more about your needs and see how we can help. What brings you to us today?`;
+          case 'Support':
+            return `${greeting} I'm here to help with any questions or issues you might have. What can I assist you with?`;
+          case 'Collect info':
+            return `${greeting} I'm here to help gather some information for you. How can I get started?`;
+          case 'Route call':
+            return `${greeting} I'm here to make sure you reach the right person. What can I help you with today?`;
+          default:
+            return `${greeting} How can I help you today?`;
+        }
+      };
+
+      setFormData(prev => ({
+        ...prev,
+        system_prompt: generateSystemPrompt(),
+        initial_message: initialMessage()
+      }));
+    }
+  }, [behavior.goal, behavior.tone, behavior.responseLength, behavior.jargonLevel, behavior.autoCompose, formData.name]);
+
   // Initialize ElevenLabs library
   const elevenLabsHook = useElevenLabsLibrary();
   const voices = elevenLabsHook.voices;

@@ -16,7 +16,6 @@ const ExistingAssistantsSection = ({
   loading = false,
   onRefresh
 }: ExistingAssistantsSectionProps) => {
-  console.log('ExistingAssistantsSection - Received assistants:', assistants);
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
   const [selectedAssistant, setSelectedAssistant] = useState<StoredAssistant | null>(null);
   const [isClearing, setIsClearing] = useState(false);
@@ -42,6 +41,9 @@ const ExistingAssistantsSection = ({
     // Use existing status or set default
     status: assistant.status || (index === 1 ? "draft" : "live")
   }));
+
+  console.log('ExistingAssistantsSection - Received assistants:', assistants);
+  console.log('ExistingAssistantsSection - Processed assistantsWithChannels:', assistantsWithChannels);
   const getChannelIcon = (type: string) => {
     switch (type) {
       case "phone":
