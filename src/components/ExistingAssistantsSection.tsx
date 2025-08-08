@@ -18,7 +18,6 @@ const ExistingAssistantsSection = ({
 }: ExistingAssistantsSectionProps) => {
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
   const [selectedAssistant, setSelectedAssistant] = useState<StoredAssistant | null>(null);
-  const [isClearing, setIsClearing] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -97,57 +96,10 @@ const ExistingAssistantsSection = ({
     window.dispatchEvent(event);
   };
 
-  const handleClearAll = async () => {
-    if (!confirm('⚠️ Are you sure you want to delete ALL assistants? This action cannot be undone and will also delete all related conversations and data.')) {
-      return;
-    }
-
-    setIsClearing(true);
-    try {
-      const { error } = await supabase.rpc('delete_all_user_assistants');
-      
-      if (error) {
-        throw error;
-      }
-
-      toast({
-        title: "✅ All assistants deleted",
-        description: "Your dashboard has been cleared successfully.",
-      });
-
-      // Refresh the assistants list
-      if (onRefresh) {
-        onRefresh();
-      }
-    } catch (error) {
-      console.error('Error clearing assistants:', error);
-      toast({
-        title: "❌ Error",
-        description: "Failed to clear assistants. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsClearing(false);
-    }
-  };
   return <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
       <div className="px-6 py-5 border-b border-gray-200 flex justify-between items-center">
         <h2 className="text-lg font-semibold">Your Assistants</h2>
         <div className="flex gap-3">
-          {assistants.length > 0 && (
-            <button 
-              onClick={handleClearAll}
-              disabled={isClearing}
-              className="px-4 py-2 bg-red-600 text-white rounded-md text-sm font-medium hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-            >
-              {isClearing ? (
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-              ) : (
-                <AlertTriangle className="w-4 h-4" />
-              )}
-              {isClearing ? 'Clearing...' : 'Clear All'}
-            </button>
-          )}
           <button onClick={handleCreate} className="px-4 py-2 bg-gray-900 text-white rounded-md text-sm font-medium hover:bg-gray-800 transition-colors">
             + Create Assistant
           </button>
