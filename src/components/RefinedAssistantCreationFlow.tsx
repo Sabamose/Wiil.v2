@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Loader2, Play, ArrowLeft, ArrowRight, Volume2, PhoneIncoming, PhoneOutgoing, User, MessageSquare, Brain, Upload, Phone, TestTube, Zap, Save, AlertTriangle, Settings, Calendar, PhoneForwarded, Check } from 'lucide-react';
+import { Loader2, Play, ArrowLeft, ArrowRight, Volume2, PhoneIncoming, PhoneOutgoing, User, MessageSquare, Brain, Upload, Phone, TestTube, Zap, Save, AlertTriangle, Settings, Calendar, PhoneForwarded, Check, Lightbulb } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import KnowledgeUpload from './KnowledgeUpload';
 import PhoneNumberPurchaseModal from './PhoneNumberPurchaseModal';
@@ -1483,17 +1483,23 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                                 <ToggleGroupItem key={o} value={o} className="data-[state=on]:bg-primary/10 data-[state=on]:text-primary">{o}</ToggleGroupItem>
                               ))}
                             </ToggleGroup>
-                          </div>
-                        </div>
                       </div>
+                    </div>
                     </div>
 
                     {/* Lists */}
-                    <div>
                       <Label className="text-base font-medium">Do Say (max 3)</Label>
                       <div className="mt-2 flex gap-2">
                         <Input placeholder="Add approved phrase/fact" value={doSayInput} onChange={e => setDoSayInput(e.target.value)} onKeyDown={e => { if (e.key==='Enter' && doSayInput) { updateBehavior({ doSay: [...formData.behavior.doSay.slice(0,2), doSayInput] }); setDoSayInput('') } }} />
                         <Button type="button" variant="secondary" onClick={() => { if (doSayInput) { updateBehavior({ doSay: [...formData.behavior.doSay.slice(0,2), doSayInput] }); setDoSayInput('') } }}>Add</Button>
+                      </div>
+                      <div className="mt-2 text-xs text-muted-foreground flex items-center gap-2">
+                        <Lightbulb className="h-3 w-3" /> Examples: “We offer free consultations”, “Ask about project timeline”, “We’re based in Austin, TX”
+                      </div>
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        {['We offer free consultations','Ask about project timeline','We\'re based in Austin, TX'].map(ex => (
+                          <Button key={ex} variant="outline" size="sm" className="h-7 text-xs" type="button" onClick={() => updateBehavior({ doSay: [...formData.behavior.doSay.slice(0,2), ex] })}>{ex}</Button>
+                        ))}
                       </div>
                       <div className="mt-2 flex flex-wrap gap-2">
                         {formData.behavior.doSay.map((i, idx) => (
@@ -1508,12 +1514,19 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                         <Input placeholder="Add restricted topic/phrase" value={dontSayInput} onChange={e => setDontSayInput(e.target.value)} onKeyDown={e => { if (e.key==='Enter' && dontSayInput) { updateBehavior({ dontSay: [...formData.behavior.dontSay.slice(0,2), dontSayInput] }); setDontSayInput('') } }} />
                         <Button type="button" variant="secondary" onClick={() => { if (dontSayInput) { updateBehavior({ dontSay: [...formData.behavior.dontSay.slice(0,2), dontSayInput] }); setDontSayInput('') } }}>Add</Button>
                       </div>
+                      <div className="mt-2 text-xs text-muted-foreground flex items-center gap-2">
+                        <Lightbulb className="h-3 w-3" /> Examples: “Exact pricing without context”, “Medical/legal advice”, “Internal policies”
+                      </div>
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        {['Exact pricing without context','Medical/legal advice','Internal policies'].map(ex => (
+                          <Button key={ex} variant="outline" size="sm" className="h-7 text-xs" type="button" onClick={() => updateBehavior({ dontSay: [...formData.behavior.dontSay.slice(0,2), ex] })}>{ex}</Button>
+                        ))}
+                      </div>
                       <div className="mt-2 flex flex-wrap gap-2">
                         {formData.behavior.dontSay.map((i, idx) => (
                           <Badge key={idx} variant="secondary" className="cursor-pointer" onClick={() => updateBehavior({ dontSay: formData.behavior.dontSay.filter((_,i2)=>i2!==idx) })}>{i} <span className="ml-1">×</span></Badge>
                         ))}
                       </div>
-                    </div>
 
                     <div>
                       <Label className="text-base font-medium">Must‑Ask Questions (up to 3)</Label>
@@ -1528,31 +1541,33 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                       </div>
                     </div>
 
-                    <div>
-                      <Label className="text-base font-medium">Handoff Rules</Label>
-                      <div className="mt-2">
-                        <div className="text-sm text-muted-foreground mb-1">When to transfer</div>
-                        <div className="flex gap-2">
-                          <Input placeholder="e.g., billing, cancellation" value={handoffWhenInput} onChange={e => setHandoffWhenInput(e.target.value)} onKeyDown={e => { if (e.key==='Enter' && handoffWhenInput) { updateBehavior({ handoff: { ...formData.behavior.handoff, when: [...formData.behavior.handoff.when, handoffWhenInput] } }); setHandoffWhenInput('') } }} />
-                          <Button type="button" variant="secondary" onClick={() => { if (handoffWhenInput) { updateBehavior({ handoff: { ...formData.behavior.handoff, when: [...formData.behavior.handoff.when, handoffWhenInput] } }); setHandoffWhenInput('') } }}>Add</Button>
-                        </div>
-                        <div className="mt-2 flex flex-wrap gap-2">
-                          {formData.behavior.handoff.when.map((i, idx) => (
-                            <Badge key={idx} variant="secondary" className="cursor-pointer" onClick={() => updateBehavior({ handoff: { ...formData.behavior.handoff, when: formData.behavior.handoff.when.filter((_,i2)=>i2!==idx) } })}>{i} <span className="ml-1">×</span></Badge>
-                          ))}
-                        </div>
-                        <div className="grid grid-cols-2 gap-3 mt-3">
-                          <div>
-                            <div className="text-sm text-muted-foreground mb-1">Transfer target</div>
-                            <Input placeholder="Team/number" value={formData.behavior.handoff.to} onChange={e => updateBehavior({ handoff: { ...formData.behavior.handoff, to: e.target.value } })} />
+                    {formData.actions.callTransfer.enabled && (
+                      <div>
+                        <Label className="text-base font-medium">Handoff Rules</Label>
+                        <div className="mt-2">
+                          <div className="text-sm text-muted-foreground mb-1">When to transfer</div>
+                          <div className="flex gap-2">
+                            <Input placeholder="e.g., billing, cancellation" value={handoffWhenInput} onChange={e => setHandoffWhenInput(e.target.value)} onKeyDown={e => { if (e.key==='Enter' && handoffWhenInput) { updateBehavior({ handoff: { ...formData.behavior.handoff, when: [...formData.behavior.handoff.when, handoffWhenInput] } }); setHandoffWhenInput('') } }} />
+                            <Button type="button" variant="secondary" onClick={() => { if (handoffWhenInput) { updateBehavior({ handoff: { ...formData.behavior.handoff, when: [...formData.behavior.handoff.when, handoffWhenInput] } }); setHandoffWhenInput('') } }}>Add</Button>
                           </div>
-                          <div>
-                            <div className="text-sm text-muted-foreground mb-1">What to say before transfer</div>
-                            <Input placeholder="One line handoff message" value={formData.behavior.handoff.preface} onChange={e => updateBehavior({ handoff: { ...formData.behavior.handoff, preface: e.target.value } })} />
+                          <div className="mt-2 flex flex-wrap gap-2">
+                            {formData.behavior.handoff.when.map((i, idx) => (
+                              <Badge key={idx} variant="secondary" className="cursor-pointer" onClick={() => updateBehavior({ handoff: { ...formData.behavior.handoff, when: formData.behavior.handoff.when.filter((_,i2)=>i2!==idx) } })}>{i} <span className="ml-1">×</span></Badge>
+                            ))}
+                          </div>
+                          <div className="grid grid-cols-2 gap-3 mt-3">
+                            <div>
+                              <div className="text-sm text-muted-foreground mb-1">Transfer target</div>
+                              <Input placeholder="Team/number" value={formData.behavior.handoff.to} onChange={e => updateBehavior({ handoff: { ...formData.behavior.handoff, to: e.target.value } })} />
+                            </div>
+                            <div>
+                              <div className="text-sm text-muted-foreground mb-1">What to say before transfer</div>
+                              <Input placeholder="One line handoff message" value={formData.behavior.handoff.preface} onChange={e => updateBehavior({ handoff: { ...formData.behavior.handoff, preface: e.target.value } })} />
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
+                    )}
                   </div>
 
                   {/* Live Preview & Advanced */}
