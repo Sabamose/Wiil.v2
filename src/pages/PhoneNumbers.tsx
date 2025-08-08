@@ -115,7 +115,7 @@ const PhoneNumbers = () => {
             </div>
             <Button 
               onClick={() => setIsPurchaseModalOpen(true)}
-              className="flex items-center justify-center gap-2 w-full lg:w-auto"
+              className="flex items-center justify-center gap-2 w-full lg:w-auto bg-teal-600 hover:bg-teal-700 text-white"
             >
               <Plus className="w-4 h-4" />
               Buy Phone Number
