@@ -1385,29 +1385,155 @@ IMPORTANT GUIDELINES:
 
           <section className={activeTab === 'Phone' ? '' : 'hidden'}>
             <div className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-2">Phone Number</h2>
-              <p className="text-gray-600">Manage phone numbers assigned to this assistant.</p>
+              <h2 className="text-2xl font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                <Phone className="h-6 w-6 text-teal-600" />
+                Phone Number Connection
+              </h2>
+              <p className="text-gray-600">Manage the phone number connected to this assistant</p>
             </div>
             
-            <div>
+            <div className="space-y-6">
               {formData.hasPhoneNumber ? (
-                <div className="border border-green-200 bg-green-50 rounded-lg p-4 max-w-md">
-                  <div className="flex items-center gap-3">
-                    <Phone className="w-5 h-5 text-green-600" />
-                    <div>
-                      <p className="font-medium text-green-800">Connected</p>
-                      <p className="text-green-700">{formData.phoneNumber}</p>
+                <Card className="max-w-2xl">
+                  <CardHeader className="pb-4">
+                    <CardTitle className="flex items-center gap-2 text-lg">
+                      <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                        <Phone className="w-4 h-4 text-green-600" />
+                      </div>
+                      Connected Phone Number
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    {/* Phone Number Display */}
+                    <div className="flex items-center justify-between p-4 bg-green-50 border border-green-200 rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                          <Phone className="w-5 h-5 text-green-600" />
+                        </div>
+                        <div>
+                          <p className="font-semibold text-green-800">{formData.phoneNumber}</p>
+                          <p className="text-sm text-green-600">Active • Ready to receive calls</p>
+                        </div>
+                      </div>
+                      <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
                     </div>
-                  </div>
-                </div>
+
+                    {/* Connection Details */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="p-4 bg-gray-50 rounded-lg">
+                        <p className="text-sm text-gray-600 mb-1">Assistant Type</p>
+                        <p className="font-medium capitalize">{formData.assistantType}</p>
+                      </div>
+                      <div className="p-4 bg-gray-50 rounded-lg">
+                        <p className="text-sm text-gray-600 mb-1">Connection Status</p>
+                        <p className="font-medium text-green-600">Connected & Active</p>
+                      </div>
+                    </div>
+
+                    {/* Management Actions */}
+                    <div className="border-t pt-6">
+                      <p className="text-sm font-medium text-gray-900 mb-4">Phone Number Management</p>
+                      <div className="flex flex-wrap gap-3">
+                        <Button
+                          onClick={() => setIsTestModalOpen(true)}
+                          variant="outline"
+                          size="sm"
+                        >
+                          <TestTube className="w-4 h-4 mr-2" />
+                          Test Connection
+                        </Button>
+                        <Button
+                          onClick={() => {
+                            setFormData({
+                              ...formData,
+                              phoneNumber: null,
+                              hasPhoneNumber: false
+                            });
+                            toast({
+                              title: "Phone Number Disconnected",
+                              description: "The phone number has been disconnected from this assistant.",
+                            });
+                          }}
+                          variant="outline"
+                          size="sm"
+                          className="text-red-600 border-red-200 hover:bg-red-50"
+                        >
+                          <AlertTriangle className="w-4 h-4 mr-2" />
+                          Disconnect Number
+                        </Button>
+                        <Button
+                          onClick={() => setIsPurchaseModalOpen(true)}
+                          variant="outline"
+                          size="sm"
+                        >
+                          <Phone className="w-4 h-4 mr-2" />
+                          Change Number
+                        </Button>
+                      </div>
+                    </div>
+
+                    {/* Usage Information */}
+                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                      <div className="flex items-start gap-2">
+                        <MessageSquare className="w-5 h-5 text-blue-600 mt-0.5" />
+                        <div>
+                          <p className="text-sm font-medium text-blue-800 mb-1">
+                            {formData.assistantType === 'inbound' ? 'Inbound Assistant Active' : 'Outbound Assistant Ready'}
+                          </p>
+                          <p className="text-sm text-blue-700">
+                            {formData.assistantType === 'inbound' 
+                              ? 'Your assistant is ready to receive and handle incoming calls on this number.'
+                              : 'Your assistant is ready to make outbound calls using this number for campaigns.'
+                            }
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               ) : (
-                <Button
-                  onClick={() => setIsPurchaseModalOpen(true)}
-                  variant="outline"
-                >
-                  <Phone className="w-4 h-4 mr-2" />
-                  Get Phone Number
-                </Button>
+                <Card className="max-w-2xl">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-lg">
+                      <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                        <Phone className="w-4 h-4 text-gray-600" />
+                      </div>
+                      No Phone Number Connected
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="text-center py-8">
+                      <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <Phone className="w-8 h-8 text-gray-400" />
+                      </div>
+                      <p className="text-gray-600 mb-4">
+                        Connect a phone number to deploy your {formData.assistantType} assistant
+                      </p>
+                      <Button
+                        onClick={() => setIsPurchaseModalOpen(true)}
+                        className="bg-teal-600 hover:bg-teal-700"
+                      >
+                        <Phone className="w-4 h-4 mr-2" />
+                        Connect Phone Number
+                      </Button>
+                    </div>
+                    
+                    <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                      <div className="flex items-start gap-2">
+                        <AlertTriangle className="w-5 h-5 text-amber-600 mt-0.5" />
+                        <div>
+                          <p className="text-sm font-medium text-amber-800 mb-1">Phone Number Required</p>
+                          <p className="text-sm text-amber-700">
+                            {formData.assistantType === 'inbound' 
+                              ? 'To receive calls, your assistant needs a dedicated phone number.'
+                              : 'To make outbound calls, your assistant needs a phone number for caller ID.'
+                            }
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               )}
             </div>
           </section>
