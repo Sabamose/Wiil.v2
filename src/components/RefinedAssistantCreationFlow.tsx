@@ -1963,56 +1963,19 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                         Skip for Now
                       </Button>
                     </div>
-                  </> : <div className="text-center p-6 bg-green-50 border border-green-200 rounded-lg">
-                    <Phone className="w-12 h-12 text-green-600 mx-auto mb-4" />
-                    <div className="font-medium text-green-800 mb-2">Phone number connected!</div>
-                    <div className="text-sm text-green-700">
-                      {formData.phoneNumber && `Your assistant is connected to ${formData.phoneNumber}`}
+                  </> : <div className="text-center p-6 bg-[hsl(var(--brand-teal))/0.06] border border-[hsl(var(--brand-teal))] rounded-lg">
+                    <Phone className="w-12 h-12 text-[hsl(var(--brand-teal))] mx-auto mb-4" />
+                    <div className="font-semibold text-[hsl(var(--brand-teal))] mb-1">Phone number connected!</div>
+                    <div className="text-sm text-foreground mb-4">
+                      {formData.phoneNumber && (
+                        <>Your assistant is connected to <span className="font-semibold text-[hsl(var(--brand-teal))]">{formData.phoneNumber}</span></>
+                      )}
                     </div>
+                    <Button variant="brand" onClick={handleNext}>
+                      Next
+                      <ArrowRight className="h-4 w-4 ml-2" />
+                    </Button>
                   </div>}
-              </CardContent>
-            </Card>}
-
-          {/* Step 9: Testing & Deployment */}
-          {step === 9 && <Card className="max-w-5xl mx-auto">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <TestTube className="h-5 w-5" />
-                  Testing & Deployment
-                </CardTitle>
-                <p className="text-muted-foreground">Review your assistant's capabilities and deploy when ready</p>
-              </CardHeader>
-              <CardContent className="space-y-8">
-
-                {/* Main Testing Card */}
-                <div className="max-w-md mx-auto">
-                  <div className="relative group">
-                    <div className="absolute -inset-1 bg-gradient-to-r from-primary to-accent rounded-xl blur opacity-20 group-hover:opacity-30 transition duration-300"></div>
-                    <div className="relative bg-background border rounded-xl p-8 text-center space-y-6">
-                      <div className="w-20 h-20 mx-auto bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-full flex items-center justify-center">
-                        <TestTube className="w-10 h-10 text-blue-600" />
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <h4 className="font-semibold text-lg">Start Test Call</h4>
-                        <p className="text-sm text-muted-foreground">
-                          {formData.assistantType === 'inbound' 
-                            ? 'Call the assigned number to test your assistant' 
-                            : 'Enter your number for the assistant to call you'}
-                        </p>
-                      </div>
-                      
-                      <Button 
-                        size="lg"
-                        className="w-full relative overflow-hidden group bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 transition-all duration-300 shadow-lg hover:shadow-xl"
-                        onClick={() => setIsTestModalOpen(true)}
-                      >
-                        <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500"></div>
-                        <TestTube className="h-5 w-5 mr-2" />
-                        Start Test
-                      </Button>
-                    </div>
-                  </div>
                 </div>
 
                 <Separator className="my-8" />
