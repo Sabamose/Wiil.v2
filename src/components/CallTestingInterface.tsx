@@ -5,8 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { StoredAssistant } from "@/hooks/useAssistants";
-import FuturisticVoiceOrb from "./FuturisticVoiceOrb";
-import VoiceStatusLabel from "./VoiceStatusLabel";
+import VoiceOrbSigma from "./VoiceOrbSigma";
 interface CallTestingInterfaceProps {
   assistant: StoredAssistant;
 }
@@ -71,16 +70,16 @@ const CallTestingInterface = ({
         
         {/* Main orb widget */}
         <div
-          className={`relative w-[min(80vw,400px)] h-[min(80vw,400px)] flex items-center justify-center transition-all duration-300 ${isActive || isConnecting ? 'scale-110 drop-shadow-[0_0_40px_hsl(var(--primary)/0.35)]' : 'hover:scale-105'}`}
+          className={`relative flex items-center justify-center transition-all duration-300 ${isActive || isConnecting ? 'scale-110' : 'hover:scale-105'}`}
           aria-label={isInboundAssistant ? 'Voice assistant orb. Click to call.' : 'Voice assistant orb.'}
         >
-          {/* SVG Futuristic Orb */}
-          <FuturisticVoiceOrb
-            size={256}
-            state={isConnecting ? 'connecting' : isActive ? 'active' : 'idle'}
-            className="pointer-events-none"
+          <VoiceOrbSigma
+            width={400}
+            height={400}
+            orb={300}
+            state={uiState}
+            muted={false}
           />
-          <VoiceStatusLabel state={uiState} muted={false} />
 
           {/* Microphone button for active calls */}
           {isActive && (
