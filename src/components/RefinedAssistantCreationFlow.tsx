@@ -18,6 +18,7 @@ import { useAssistants, CreateAssistantData } from '@/hooks/useAssistants';
 import { useElevenLabsLibrary } from '@/hooks/useElevenLabsLibrary';
 import { useToast } from '@/hooks/use-toast';
 import { PhoneNumber } from '@/types/phoneNumber';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 interface RefinedAssistantCreationFlowProps {
   isOpen: boolean;
   onClose: () => void;
@@ -1006,27 +1007,53 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 <p className="text-muted-foreground">Choose how your assistant will sound</p>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div>
-                  <Label htmlFor="language" className="text-base font-medium">Language</Label>
-                  <Select value={formData.language} onValueChange={value => {
-                const selectedLang = languages[value];
-                setFormData({
-                  ...formData,
-                  language: value,
-                  language_name: selectedLang?.name || 'English'
-                });
-              }}>
-                    <SelectTrigger className="mt-2">
-                      <SelectValue placeholder="Select language">
-                        {getLanguageDisplay(formData.language, formData.language_name) || "Select language"}
-                      </SelectValue>
-                    </SelectTrigger>
-                    <SelectContent>
-                      {Object.keys(languages).length > 0 ? Object.entries(languages).map(([code, lang]) => <SelectItem key={code} value={code}>
+                <div className="space-y-3">
+                  <Label htmlFor="language" className="text-base font-medium">Choose a language</Label>
+
+                  {/* Quick picks - popular languages */}
+                  <ToggleGroup type="single" value={formData.language} onValueChange={(value) => {
+                    if (!value) return;
+                    const selectedLang = languages[value];
+                    setFormData({
+                      ...formData,
+                      language: value,
+                      language_name: selectedLang?.name || 'English'
+                    });
+                  }} className="flex flex-wrap gap-2">
+                    {['en','es','fr','de','pt','it','hi','ar','ja','zh'].map((code) => (
+                      <ToggleGroupItem key={code} value={code} aria-label={code} className="px-3 py-2">
+                        {getLanguageDisplay(code, languages[code]?.name || code.toUpperCase())}
+                      </ToggleGroupItem>
+                    ))}
+                  </ToggleGroup>
+
+                  {/* Full list */}
+                  <div>
+                    <Label htmlFor="language" className="text-sm text-muted-foreground">Or pick from all languages</Label>
+                    <Select value={formData.language} onValueChange={value => {
+                      const selectedLang = languages[value];
+                      setFormData({
+                        ...formData,
+                        language: value,
+                        language_name: selectedLang?.name || 'English'
+                      });
+                    }}>
+                      <SelectTrigger className="mt-2">
+                        <SelectValue placeholder="Select language">
+                          {getLanguageDisplay(formData.language, formData.language_name) || "Select language"}
+                        </SelectValue>
+                      </SelectTrigger>
+                      <SelectContent className="z-50 bg-background">
+                        {Object.keys(languages).length > 0 ? Object.entries(languages).map(([code, lang]) => (
+                          <SelectItem key={code} value={code}>
                             {getLanguageDisplay(code, lang.name)}
-                          </SelectItem>) : <SelectItem value="en">🇺🇸 English (Loading...)</SelectItem>}
-                    </SelectContent>
-                  </Select>
+                          </SelectItem>
+                        )) : (
+                          <SelectItem value="en">🇺🇸 English (Loading...)</SelectItem>
+                        )}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
 
                 <div>
