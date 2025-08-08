@@ -1404,17 +1404,6 @@ IMPORTANT GUIDELINES:
                       <div className="w-3 h-3 bg-teal-500 rounded-full animate-pulse"></div>
                     </div>
 
-                    {/* Connection Details */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="p-4 bg-gray-50 rounded-lg">
-                        <p className="text-sm text-gray-600 mb-1">Assistant Type</p>
-                        <p className="font-medium capitalize">{formData.assistantType}</p>
-                      </div>
-                      <div className="p-4 bg-gray-50 rounded-lg">
-                        <p className="text-sm text-gray-600 mb-1">Connection Status</p>
-                        <p className="font-medium text-teal-600">Connected & Active</p>
-                      </div>
-                    </div>
 
                     {/* Management Actions */}
                     <div className="border-t pt-6">
