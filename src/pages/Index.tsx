@@ -15,7 +15,7 @@ const Index = () => {
   const [isCreationFlowOpen, setIsCreationFlowOpen] = useState(false);
   const [selectedAssistant, setSelectedAssistant] = useState<any>(null);
   const [currentView, setCurrentView] = useState<"list" | "settings">("list");
-  const { assistants, loading } = useAssistants();
+  const { assistants, loading, fetchAssistants } = useAssistants();
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -67,11 +67,10 @@ const Index = () => {
         <RefinedAssistantCreationFlow 
           isOpen={isCreationFlowOpen}
           onClose={() => setIsCreationFlowOpen(false)}
-          onComplete={(assistantId) => {
+          onComplete={async (assistantId) => {
             console.log('Assistant created with ID:', assistantId);
-            console.log('Current assistants:', assistants);
+            await fetchAssistants();
             setIsCreationFlowOpen(false);
-            // The useAssistants hook should automatically update the list
           }}
         />
       </div>
