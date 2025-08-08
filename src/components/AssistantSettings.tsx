@@ -606,7 +606,7 @@ IMPORTANT GUIDELINES:
             {!formData.hasPhoneNumber ? (
               <Button
                 onClick={() => {
-                  navigate('/phone-numbers');
+                  setIsPurchaseModalOpen(true);
                 }}
                 variant="default"
                 size="sm"
