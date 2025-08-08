@@ -1999,6 +1999,15 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                    <Phone className="h-5 w-5 mr-3" />
                    Start Test Call
                  </Button>
+                 <Button 
+                   variant="outline"
+                   size="lg"
+                   onClick={onClose}
+                   className="flex-1 sm:flex-none px-8 py-6 text-base font-semibold bg-white hover:bg-gray-50"
+                 >
+                   <Save className="h-5 w-5 mr-3" />
+                   Save as Draft
+                 </Button>
                </div>
 
 
