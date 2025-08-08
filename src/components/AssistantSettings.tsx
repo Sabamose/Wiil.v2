@@ -32,7 +32,8 @@ import {
   AlertTriangle,
   Calendar,
   PhoneForwarded,
-  Settings
+  Settings,
+  Check
 } from 'lucide-react';
 import KnowledgeUpload from './KnowledgeUpload';
 import PhoneNumberPurchaseModal from './PhoneNumberPurchaseModal';
@@ -601,44 +602,61 @@ IMPORTANT GUIDELINES:
 
           <section className={activeTab === 'Type' ? '' : 'hidden'}>
             <div className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-2">Assistant Type</h2>
-              <p className="text-gray-600">Choose whether your assistant handles incoming or outgoing calls.</p>
+              <h2 className="text-2xl font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                <Phone className="h-6 w-6 text-teal-600" />
+                What calls will this assistant handle?
+              </h2>
+              <p className="text-gray-600">Pick one. You can change this later.</p>
             </div>
             
-            <div className="grid grid-cols-1 gap-4 max-w-2xl">
-              <button
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl">
+              <div
                 onClick={() => setFormData({ ...formData, assistantType: 'inbound' })}
-                className={`p-6 text-left border rounded-lg transition-all hover:border-gray-400 ${
-                  formData.assistantType === 'inbound'
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-200'
+                className={`relative p-8 rounded-xl border cursor-pointer transition-all hover:shadow-lg ${
+                  formData.assistantType === 'inbound' 
+                    ? 'border-teal-600 ring-2 ring-teal-600 bg-teal-600/10' 
+                    : 'border-border hover:border-teal-600 bg-muted/30 hover:bg-muted/50'
                 }`}
               >
-                <div className="flex items-center gap-3 mb-2">
-                  <PhoneIncoming className="h-6 w-6 text-blue-600" />
-                  <h3 className="font-semibold">Inbound Calls</h3>
+                {formData.assistantType === 'inbound' && (
+                  <div className="absolute top-3 right-3">
+                    <Badge className="gap-1 bg-teal-600 text-white">
+                      <Check className="h-3 w-3" /> Selected
+                    </Badge>
+                  </div>
+                )}
+                <div className="text-center space-y-3">
+                  <PhoneIncoming className="w-16 h-16 mx-auto text-teal-600" />
+                  <h3 className="text-lg font-semibold">
+                    Answer incoming calls
+                  </h3>
+                  <p className="text-sm text-muted-foreground">Customers call your number. The assistant answers.</p>
                 </div>
-                <p className="text-gray-600">
-                  Customers call your business. Perfect for customer support, bookings, and inquiries.
-                </p>
-              </button>
-              
-              <button
+              </div>
+
+              <div
                 onClick={() => setFormData({ ...formData, assistantType: 'outbound' })}
-                className={`p-6 text-left border rounded-lg transition-all hover:border-gray-400 ${
-                  formData.assistantType === 'outbound'
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-200'
+                className={`relative p-8 rounded-xl border cursor-pointer transition-all hover:shadow-lg ${
+                  formData.assistantType === 'outbound' 
+                    ? 'border-teal-600 ring-2 ring-teal-600 bg-teal-600/10' 
+                    : 'border-border hover:border-teal-600 bg-muted/30 hover:bg-muted/50'
                 }`}
               >
-                <div className="flex items-center gap-3 mb-2">
-                  <PhoneOutgoing className="h-6 w-6 text-green-600" />
-                  <h3 className="font-semibold">Outbound Calls</h3>
+                {formData.assistantType === 'outbound' && (
+                  <div className="absolute top-3 right-3">
+                    <Badge className="gap-1 bg-teal-600 text-white">
+                      <Check className="h-3 w-3" /> Selected
+                    </Badge>
+                  </div>
+                )}
+                <div className="text-center space-y-3">
+                  <PhoneOutgoing className="w-16 h-16 mx-auto text-teal-600" />
+                  <h3 className="text-lg font-semibold">
+                    Make outgoing calls
+                  </h3>
+                  <p className="text-sm text-muted-foreground">The assistant calls prospects or customers for you.</p>
                 </div>
-                <p className="text-gray-600">
-                  Your assistant calls customers. Great for sales, follow-ups, and notifications.
-                </p>
-              </button>
+              </div>
             </div>
           </section>
 
