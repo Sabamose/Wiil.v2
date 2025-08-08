@@ -168,7 +168,7 @@ const PhoneNumbers = () => {
                           ? "bg-green-100 text-green-800" 
                           : "bg-gray-100 text-gray-800"
                       }`}>
-                        {phoneNumber.status}
+                        {phoneNumber.status === "active" ? "Connected" : "Not Connected"}
                       </span>
                     </TableCell>
                     <TableCell className="hidden lg:table-cell">${phoneNumber.monthlyCost.toFixed(2)}</TableCell>
