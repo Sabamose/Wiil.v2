@@ -1375,7 +1375,7 @@ IMPORTANT GUIDELINES:
                 <Phone className="h-6 w-6 text-teal-600" />
                 Phone Number Connection
               </h2>
-              <p className="text-gray-600">Manage the phone number connected to this assistant</p>
+              
             </div>
             
             <div className="space-y-6">
