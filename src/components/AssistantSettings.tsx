@@ -143,6 +143,77 @@ const getCountryFlag = (code: string) => {
   return flagMap[code] || '🌍';
 };
 
+// Role selection logic from creation flow
+const getRolesByType = (assistantType: string, industry: string) => {
+  const inboundRoles = [{
+    id: 'customer-support',
+    label: 'Customer Support',
+    description: 'Handle customer inquiries and issues',
+    emoji: '🎧'
+  }, {
+    id: 'scheduler',
+    label: 'Appointment Scheduler',
+    description: 'Book and manage appointments',
+    emoji: '📅'
+  }, {
+    id: 'receptionist',
+    label: 'Virtual Receptionist',
+    description: 'Answer calls and direct inquiries',
+    emoji: '📞'
+  }, {
+    id: 'technical-support',
+    label: 'Technical Support',
+    description: 'Provide technical assistance',
+    emoji: '🔧'
+  }, {
+    id: 'lead-qualifier',
+    label: 'Lead Qualifier',
+    description: 'Qualify incoming leads',
+    emoji: '🎯'
+  }, {
+    id: 'order-processor',
+    label: 'Order Processor',
+    description: 'Handle order inquiries and processing',
+    emoji: '📦'
+  }];
+  
+  const outboundRoles = [{
+    id: 'sales',
+    label: 'Sales Representative',
+    description: 'Engage prospects and drive sales',
+    emoji: '💼'
+  }, {
+    id: 'lead-qualifier',
+    label: 'Lead Qualifier',
+    description: 'Qualify potential customers',
+    emoji: '🎯'
+  }, {
+    id: 'appointment-setter',
+    label: 'Appointment Setter',
+    description: 'Schedule meetings with prospects',
+    emoji: '📅'
+  }, {
+    id: 'survey-conductor',
+    label: 'Survey Conductor',
+    description: 'Conduct market research surveys',
+    emoji: '📊'
+  }, {
+    id: 'follow-up-specialist',
+    label: 'Follow-up Specialist',
+    description: 'Follow up on leads and customers',
+    emoji: '🔄'
+  }];
+
+  // Filter roles based on industry relevance
+  const roleFilter = (role: any) => {
+    if (industry === 'healthcare' && role.id === 'technical-support') return false;
+    if (industry === 'technology' && role.id === 'scheduler') return assistantType === 'inbound';
+    return true;
+  };
+  
+  return assistantType === 'inbound' ? inboundRoles.filter(roleFilter) : outboundRoles.filter(roleFilter);
+};
+
 const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack }) => {
   const [step, setStep] = useState(1);
   const [isTestingVoice, setIsTestingVoice] = useState(false);
@@ -741,32 +812,32 @@ IMPORTANT GUIDELINES:
 
           <section className={activeTab === 'Role' ? '' : 'hidden'}>
             <div className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-2">Role & Purpose</h2>
-              <p className="text-gray-600">What will your assistant help with?</p>
+              <h2 className="text-2xl font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                <User className="h-6 w-6 text-teal-600" />
+                Choose the assistant's role
+              </h2>
+              <p className="text-gray-600">
+                What specific role will your {formData.assistantType} assistant perform?
+              </p>
             </div>
             
-            <div className="grid grid-cols-2 gap-3">
-              {[
-                { id: 'customer-support', label: 'Customer Support' },
-                { id: 'scheduling', label: 'Scheduling & Booking' },
-                { id: 'sales', label: 'Sales & Lead Generation' },
-                { id: 'information', label: 'Information & FAQ' },
-                { id: 'billing', label: 'Billing & Payments' },
-                { id: 'technical', label: 'Technical Support' },
-                { id: 'consultation', label: 'Consultation Booking' },
-                { id: 'other', label: 'Other' }
-              ].map((role) => (
-                <button
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {getRolesByType(formData.assistantType, formData.industry).map(role => (
+                <div
                   key={role.id}
                   onClick={() => setFormData({ ...formData, role: role.id })}
-                  className={`p-4 text-left border rounded-lg transition-all hover:border-gray-400 ${
-                    formData.role === role.id
-                      ? 'border-blue-500 bg-blue-50 text-blue-700'
-                      : 'border-gray-200'
+                  className={`p-4 border rounded-lg cursor-pointer transition-all hover:shadow-md ${
+                    formData.role === role.id 
+                      ? 'border-teal-600 bg-teal-600/10' 
+                      : 'border-border hover:border-teal-600'
                   }`}
                 >
-                  {role.label}
-                </button>
+                  <div className="text-center">
+                    <div className="text-2xl mb-2">{role.emoji}</div>
+                    <div className="font-medium mb-1">{role.label}</div>
+                    <div className="text-sm text-muted-foreground">{role.description}</div>
+                  </div>
+                </div>
               ))}
             </div>
           </section>
