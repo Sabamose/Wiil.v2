@@ -1527,50 +1527,51 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     </div>
                     
                     {/* Sub-choices for conversation style */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto mt-8">
-                      <div className="space-y-3">
-                        <p className="font-medium">How much should your assistant say at once?</p>
-                        <div className="flex flex-wrap gap-2 justify-center">
+                    <div className="space-y-8 max-w-xl mx-auto mt-8">
+                      <div className="text-center space-y-4">
+                        <p className="font-semibold text-lg">Response Length</p>
+                        <div className="flex gap-3 justify-center">
                           {[
-                            { value: 'Short', desc: 'Brief responses' },
-                            { value: 'Medium', desc: 'Balanced answers' },
-                            { value: 'Detailed', desc: 'Thorough explanations' }
+                            { value: 'Short', desc: 'Brief' },
+                            { value: 'Medium', desc: 'Balanced' },
+                            { value: 'Detailed', desc: 'Thorough' }
                           ].map(length => (
                             <button
                               key={length.value}
                               type="button"
                               onClick={() => updateBehavior({ responseLength: length.value })}
-                              className={`px-4 py-2 rounded-full border text-sm transition-all ${
+                              className={`px-6 py-3 rounded-lg border-2 text-center transition-all hover:scale-105 ${
                                 formData.behavior.responseLength === length.value 
                                   ? 'border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))]/10 text-[hsl(var(--brand-teal))]' 
                                   : 'border-border hover:border-[hsl(var(--brand-teal))]/50'
                               }`}
                             >
-                              {length.value}
-                              <div className="text-xs opacity-70">{length.desc}</div>
+                              <div className="font-medium">{length.value}</div>
+                              <div className="text-xs text-muted-foreground">{length.desc}</div>
                             </button>
                           ))}
                         </div>
                       </div>
-                      <div className="space-y-3">
-                        <p className="font-medium">How technical should it be?</p>
-                        <div className="flex flex-wrap gap-2 justify-center">
+                      
+                      <div className="text-center space-y-4">
+                        <p className="font-semibold text-lg">Language Style</p>
+                        <div className="flex gap-3 justify-center">
                           {[
                             { value: 'Simple', desc: 'Easy language' },
-                            { value: 'Standard', desc: 'Normal business terms' }
+                            { value: 'Standard', desc: 'Business terms' }
                           ].map(jargon => (
                             <button
                               key={jargon.value}
                               type="button"
                               onClick={() => updateBehavior({ jargonLevel: jargon.value })}
-                              className={`px-4 py-2 rounded-full border text-sm transition-all ${
+                              className={`px-6 py-3 rounded-lg border-2 text-center transition-all hover:scale-105 ${
                                 formData.behavior.jargonLevel === jargon.value 
                                   ? 'border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))]/10 text-[hsl(var(--brand-teal))]' 
                                   : 'border-border hover:border-[hsl(var(--brand-teal))]/50'
                               }`}
                             >
-                              {jargon.value}
-                              <div className="text-xs opacity-70">{jargon.desc}</div>
+                              <div className="font-medium">{jargon.value}</div>
+                              <div className="text-xs text-muted-foreground">{jargon.desc}</div>
                             </button>
                           ))}
                         </div>
