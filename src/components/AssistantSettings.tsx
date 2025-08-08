@@ -601,6 +601,7 @@ IMPORTANT GUIDELINES:
               onClick={() => setIsTestModalOpen(true)}
               variant="outline"
               size="sm"
+              className="border-teal-600 text-teal-600 hover:bg-teal-50 hover:text-teal-700"
             >
               <TestTube className="w-4 h-4 mr-2" />
               Test Assistant
