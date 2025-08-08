@@ -158,7 +158,7 @@ const PhoneNumbers = () => {
                         <span className="text-gray-900 text-sm">{phoneNumber.assignedAssistant.name}</span>
                       ) : (
                         <span className="text-teal-600 hover:text-teal-700 transition-colors duration-200 text-sm font-medium cursor-pointer underline decoration-teal-300 decoration-dashed underline-offset-2 hover:decoration-solid">
-                          {isMobile ? "Assign" : "Click to assign assistant"}
+                          {isMobile ? "Connect" : "Click here to Connect Assistant"}
                         </span>
                       )}
                     </TableCell>
