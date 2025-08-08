@@ -1127,7 +1127,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                       <Calendar className={`h-6 w-6 mt-1 ${formData.actions.realTimeBooking.enabled ? 'text-[hsl(var(--brand-teal))]' : 'text-foreground'}`} />
                       <div>
                         <h3 className="font-semibold text-lg">Real-Time Booking</h3>
-                        <p className="text-sm text-muted-foreground">Allow customers to book appointments directly through the call</p>
+                        <p className="text-sm text-[hsl(var(--brand-teal))]">Allow customers to book appointments directly through the call</p>
                       </div>
                     </div>
                     <Switch 
@@ -1164,7 +1164,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                       <PhoneForwarded className={`h-6 w-6 mt-1 ${formData.actions.callTransfer.enabled ? 'text-[hsl(var(--brand-teal))]' : 'text-foreground'}`} />
                       <div>
                         <h3 className="font-semibold text-lg">Call Transfer</h3>
-                        <p className="text-sm text-muted-foreground">Transfer calls to human agents based on specific conditions</p>
+                        <p className="text-sm text-[hsl(var(--brand-teal))]">Transfer calls to human agents based on specific conditions</p>
                       </div>
                     </div>
                     <Switch 
@@ -1255,7 +1255,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                       <MessageSquare className={`h-6 w-6 mt-1 ${formData.actions.smsAutomation.enabled ? 'text-[hsl(var(--brand-teal))]' : 'text-foreground'}`} />
                       <div>
                         <h3 className="font-semibold text-lg">SMS Automation</h3>
-                        <p className="text-sm text-muted-foreground">Send automated SMS messages for bookings and follow-ups</p>
+                        <p className="text-sm text-[hsl(var(--brand-teal))]">Send automated SMS messages for bookings and follow-ups</p>
                       </div>
                     </div>
                     <Switch 
