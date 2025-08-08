@@ -1932,7 +1932,15 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                   <Phone className="h-5 w-5" />
                   Phone Number Assignment
                 </CardTitle>
-                <p className="text-muted-foreground">Your assistant needs a phone number to function</p>
+                <p className="text-muted-foreground">
+                  {formData.hasPhoneNumber ? (
+                    <>
+                      Assistant connected to phone number{formData.phoneNumber ? ` ${formData.phoneNumber}` : ""}
+                    </>
+                  ) : (
+                    "Your assistant needs a phone number to function"
+                  )}
+                </p>
               </CardHeader>
               <CardContent className="space-y-6">
                 {!formData.hasPhoneNumber ? <>
