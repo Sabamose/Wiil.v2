@@ -179,7 +179,7 @@ const KnowledgeUpload: React.FC<KnowledgeUploadProps> = ({ assistantId, onKnowle
           </TabsTrigger>
           <TabsTrigger value="text" className="flex items-center gap-2">
             <Type className="h-4 w-4" />
-            Text Input
+            Paste Text or Notes
           </TabsTrigger>
           <TabsTrigger value="url" className="flex items-center gap-2">
             <Link className="h-4 w-4" />
