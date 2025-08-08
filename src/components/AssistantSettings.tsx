@@ -1459,14 +1459,6 @@ IMPORTANT GUIDELINES:
                           <AlertTriangle className="w-4 h-4 mr-2" />
                           Disconnect Number
                         </Button>
-                        <Button
-                          onClick={() => setIsPurchaseModalOpen(true)}
-                          variant="outline"
-                          size="sm"
-                        >
-                          <Phone className="w-4 h-4 mr-2" />
-                          Change Number
-                        </Button>
                       </div>
                     </div>
 
