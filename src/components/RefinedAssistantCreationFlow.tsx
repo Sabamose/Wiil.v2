@@ -1986,9 +1986,6 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                  <TestTube className="h-8 w-8 text-white" />
                </div>
                <CardTitle className="text-2xl">Test Your Assistant</CardTitle>
-               <p className="text-muted-foreground max-w-md mx-auto">
-                 Everything looks perfect! Try your assistant before going live to ensure it works exactly as expected.
-               </p>
              </CardHeader>
              <CardContent className="space-y-8">
                {/* Primary Actions - Clean & Prominent */}
