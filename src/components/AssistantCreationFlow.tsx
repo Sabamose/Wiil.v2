@@ -299,8 +299,8 @@ const AssistantCreationFlow = ({ isOpen, onClose }: AssistantCreationFlowProps) 
                   onClick={() => handleRoleSelect(role.id)}
                   className={`p-4 border rounded-lg cursor-pointer transition-all ${
                     formData.role === role.id
-                      ? 'border-blue-500 bg-blue-50'
-                      : 'border-gray-300 hover:border-blue-500'
+                      ? 'border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06]'
+                      : 'border-gray-300 hover:border-[hsl(var(--brand-teal))]'
                   }`}
                   style={{ height: '140px' }}
                 >

@@ -1099,7 +1099,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {getRolesByType(formData.assistantType, formData.industry).map(role => <div key={role.id} onClick={() => handleRoleSelect(role.id)} className={`p-4 border rounded-lg cursor-pointer transition-all hover:shadow-md ${formData.role === role.id ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'}`}>
+                  {getRolesByType(formData.assistantType, formData.industry).map(role => <div key={role.id} onClick={() => handleRoleSelect(role.id)} className={`p-4 border rounded-lg cursor-pointer transition-all hover:shadow-md ${formData.role === role.id ? 'border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06]' : 'border-border hover:border-[hsl(var(--brand-teal))]'}`}>
                       <div className="text-center">
                         <div className="text-2xl mb-2">{role.emoji}</div>
                         <div className="font-medium mb-1">{role.label}</div>
