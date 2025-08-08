@@ -20,8 +20,7 @@ const CallTestingInterface = ({
   } = useToast();
   const isInboundAssistant = assistant.assistant_type === "inbound";
   const testPhoneNumber = assistant.phone_number || "+1 (555) 123-4567";
-  const uiState: "idle" | "listening" | "thinking" | "speaking" | "muted" | "error" =
-    isConnecting ? "thinking" : isActive ? "speaking" : "idle";
+  const uiState: "idle" | "listening" | "thinking" | "speaking" | "muted" | "error" = isConnecting ? "thinking" : isActive ? "speaking" : "idle";
   const handleCopyPhoneNumber = () => {
     navigator.clipboard.writeText(testPhoneNumber);
     toast({
@@ -61,24 +60,12 @@ const CallTestingInterface = ({
   return <div className="flex flex-col items-center justify-center min-h-[500px] p-8">
       {/* Voice Orb Widget */}
       <div className="relative mb-8">
-        <VoiceOrbSigma
-          width={400}
-          height={400}
-          orb={300}
-          state={uiState}
-          muted={false}
-        />
+        <VoiceOrbSigma width={400} height={400} orb={300} state={uiState} muted={false} />
 
         {/* Microphone button for active calls */}
-        {isActive && (
-          <button
-            onClick={handleEndCall}
-            className="absolute bottom-8 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-colors bg-destructive text-destructive-foreground hover:bg-destructive/90 z-10"
-            aria-label="End test call"
-          >
+        {isActive && <button onClick={handleEndCall} className="absolute bottom-8 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-colors bg-destructive text-destructive-foreground hover:bg-destructive/90 z-10" aria-label="End test call">
             <Phone className="w-5 h-5 rotate-[135deg]" />
-          </button>
-        )}
+          </button>}
       </div>
 
       {/* OR Divider */}
@@ -91,7 +78,7 @@ const CallTestingInterface = ({
       {/* Test Instructions */}
       {isInboundAssistant ? <Card className="w-full max-w-md">
           <CardContent className="p-6 text-center">
-            <h4 className="font-medium mb-3">Test Incoming Calls</h4>
+            <h4 className="font-medium mb-3">Call Assistant to this number: </h4>
             <p className="text-sm text-muted-foreground mb-4">
         </p>
             <div className="flex items-center gap-2 p-3 bg-muted rounded-lg">
