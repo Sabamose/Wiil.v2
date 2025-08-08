@@ -1913,9 +1913,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                   <Upload className="h-5 w-5" />
                   Add Knowledge Base
                 </CardTitle>
-                <p className="text-muted-foreground">
-                  Upload files or add text content to enhance your assistant's knowledge
-                </p>
+                <p className="text-muted-foreground">Add documents or notes your assistant should know (e.g., FAQs, product info, policies).</p>
               </CardHeader>
               <CardContent>
                 <KnowledgeUpload 
