@@ -2004,55 +2004,6 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                  </Button>
                </div>
 
-               {/* Assistant Overview - Elegant Cards */}
-               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                 <div className="bg-gradient-to-br from-background to-muted/30 p-6 rounded-xl border shadow-sm hover:shadow-md transition-all duration-300">
-                   <div className="flex items-center gap-3 mb-3">
-                     <div className="w-10 h-10 bg-[hsl(var(--brand-teal))]/10 rounded-lg flex items-center justify-center">
-                       <User className="h-5 w-5 text-[hsl(var(--brand-teal))]" />
-                     </div>
-                     <div>
-                       <div className="font-semibold">{formData.name}</div>
-                       <div className="text-sm text-muted-foreground">{formData.assistantType} assistant</div>
-                     </div>
-                   </div>
-                   <div className="text-xs text-muted-foreground">
-                     {formData.industry} • {formData.language_name}
-                   </div>
-                 </div>
-
-                 <div className="bg-gradient-to-br from-background to-muted/30 p-6 rounded-xl border shadow-sm hover:shadow-md transition-all duration-300">
-                   <div className="flex items-center gap-3 mb-3">
-                     <div className="w-10 h-10 bg-[hsl(var(--brand-teal))]/10 rounded-lg flex items-center justify-center">
-                       <Volume2 className="h-5 w-5 text-[hsl(var(--brand-teal))]" />
-                     </div>
-                     <div>
-                       <div className="font-semibold">{formData.voice_name}</div>
-                       <div className="text-sm text-muted-foreground">Voice & Language</div>
-                     </div>
-                   </div>
-                   <div className="text-xs text-muted-foreground">
-                     {formData.language_name}
-                   </div>
-                 </div>
-
-                 <div className="bg-gradient-to-br from-background to-muted/30 p-6 rounded-xl border shadow-sm hover:shadow-md transition-all duration-300">
-                   <div className="flex items-center gap-3 mb-3">
-                     <div className="w-10 h-10 bg-[hsl(var(--brand-teal))]/10 rounded-lg flex items-center justify-center">
-                       <Phone className="h-5 w-5 text-[hsl(var(--brand-teal))]" />
-                     </div>
-                     <div>
-                       <div className="font-semibold">{formData.phoneNumber || 'No number'}</div>
-                       <div className="text-sm text-muted-foreground">Phone Number</div>
-                     </div>
-                   </div>
-                   {!formData.phoneNumber && (
-                     <div className="text-xs text-amber-600">
-                       Add later in settings
-                     </div>
-                   )}
-                 </div>
-               </div>
 
              </CardContent>
            </Card>}
