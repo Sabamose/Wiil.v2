@@ -1871,10 +1871,6 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                   <CardContent className="space-y-6">
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
-                        <div className="text-sm text-muted-foreground">Auto-generate from teaching</div>
-                        <Switch checked={formData.behavior.autoCompose} onCheckedChange={(v) => updateBehavior({ autoCompose: v })} />
-                      </div>
-                      <div className="flex items-center justify-between">
                         <div className="text-sm text-muted-foreground">Advanced prompt editing</div>
                         <Switch checked={showPromptEditing} onCheckedChange={setShowPromptEditing} />
                       </div>
