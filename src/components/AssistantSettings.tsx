@@ -606,7 +606,7 @@ IMPORTANT GUIDELINES:
             </Button>
             
             {/* Deploy Button with Phone Number Check */}
-            {!formData.hasPhoneNumber ? (
+            {!formData.hasPhoneNumber && (
               <Button
                 onClick={() => {
                   setIsPurchaseModalOpen(true);
@@ -617,17 +617,6 @@ IMPORTANT GUIDELINES:
               >
                 <Phone className="w-4 h-4 mr-2" />
                 Connect Phone Number
-              </Button>
-            ) : (
-              <Button
-                onClick={handleSaveAssistant}
-                disabled={isSaving}
-                variant="default"
-                size="sm"
-                className="bg-green-600 hover:bg-green-700"
-              >
-                <Save className="w-4 h-4 mr-2" />
-                Deploy Assistant
               </Button>
             )}
             
