@@ -13,9 +13,9 @@ const Navigation = () => {
 
   const getNavItemClass = (path: string) => {
     const isActive = currentPath === path;
-    return `flex items-center gap-3 px-6 py-3 transition-all ${
+    return `flex items-center gap-3 px-6 py-3 transition-all relative ${
       isActive 
-        ? "text-gray-900 bg-gray-100 border-l-3 border-gray-900 font-medium"
+        ? "text-brand-teal bg-brand-teal/5 font-medium before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-brand-teal before:rounded-r-full"
         : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
     }`;
   };
