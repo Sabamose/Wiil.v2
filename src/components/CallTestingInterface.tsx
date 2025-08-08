@@ -117,9 +117,9 @@ const CallTestingInterface = ({ assistant }: CallTestingInterfaceProps) => {
       {isInboundAssistant ? (
         <Card className="w-full max-w-md">
           <CardContent className="p-6 text-center">
-            <h4 className="font-medium mb-3">Test Incoming Calls</h4>
+            <h4 className="font-medium mb-3">Call Your Assistant</h4>
             <p className="text-sm text-muted-foreground mb-4">
-              Call this number to test your phone number integration:
+              Call this number to talk to your Assistant:
             </p>
             <div className="flex items-center gap-2 p-3 bg-muted rounded-lg">
               <span className="font-mono text-lg flex-1">{testPhoneNumber}</span>
@@ -133,7 +133,7 @@ const CallTestingInterface = ({ assistant }: CallTestingInterfaceProps) => {
               </Button>
             </div>
             <p className="text-xs text-muted-foreground mt-3">
-              Your assistant will answer and you can test the conversation flow.
+              Your assistant will answer.
             </p>
           </CardContent>
         </Card>
