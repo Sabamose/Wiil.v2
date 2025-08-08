@@ -181,7 +181,7 @@ const PhoneNumbers = () => {
                               e.stopPropagation();
                               handleUnassign(phoneNumber.id);
                             }}>
-                              Unassign Assistant
+                              Disconnect Assistant
                             </DropdownMenuItem>
                           )}
                           <DropdownMenuItem 
