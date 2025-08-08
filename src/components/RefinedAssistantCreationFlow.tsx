@@ -1976,19 +1976,31 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                       <ArrowRight className="h-4 w-4 ml-2" />
                     </Button>
                   </div>}
-                </div>
+               </CardContent>
+             </Card>}
 
-                <Separator className="my-8" />
-
-                <div className="text-center">
-                  <Button variant="outline" onClick={onClose} className="px-8">
-                    <Save className="h-4 w-4 mr-2" />
-                    Save as Draft
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>}
-        </div>
+           {/* Step 9: Testing & Deployment */}
+           {step === 9 && <Card className="max-w-5xl mx-auto">
+             <CardHeader>
+               <CardTitle className="flex items-center gap-2">
+                 <TestTube className="h-5 w-5" />
+                 Testing & Deployment
+               </CardTitle>
+               <p className="text-muted-foreground">Your assistant is ready to deploy</p>
+             </CardHeader>
+             <CardContent>
+               <div className="text-center space-y-6">
+                 <div className="p-6 border border-dashed border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06] rounded-lg">
+                   <Zap className="w-12 h-12 text-[hsl(var(--brand-teal))] mx-auto mb-4" />
+                   <div className="font-semibold text-[hsl(var(--brand-teal))] mb-2">Ready to Deploy!</div>
+                   <div className="text-sm text-muted-foreground">
+                     Your assistant is configured and ready to handle calls
+                   </div>
+                 </div>
+               </div>
+             </CardContent>
+           </Card>}
+         </div>
 
         {/* Navigation Buttons */}
         <div className="flex justify-end pt-6">
