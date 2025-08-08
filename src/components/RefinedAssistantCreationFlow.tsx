@@ -1834,46 +1834,41 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 </Card>
 
 
-                {/* Advanced Settings (Collapsed) */}
-                <Card className="border-dashed">
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between">
-                      <div className="text-center flex-1">
-                        <div className="font-medium">Want to see the technical details?</div>
-                        <p className="text-sm text-muted-foreground">Advanced users can view and edit the exact prompts generated from your teaching</p>
+                {/* Prompt Editing */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-center text-xl">Review & Customize</CardTitle>
+                    <p className="text-center text-muted-foreground">Fine-tune your assistant's messages and instructions</p>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <div className="text-sm text-muted-foreground">Auto-generate from teaching</div>
+                        <Switch checked={formData.behavior.autoCompose} onCheckedChange={(v) => updateBehavior({ autoCompose: v })} />
                       </div>
-                      <Switch checked={showAdvanced} onCheckedChange={setShowAdvanced} />
+                      <div>
+                        <Label htmlFor="initialMessage" className="text-base font-medium">Opening Message</Label>
+                        <Textarea 
+                          id="initialMessage" 
+                          disabled={formData.behavior.autoCompose} 
+                          value={formData.initial_message} 
+                          onChange={e => setFormData({ ...formData, initial_message: e.target.value })} 
+                          rows={3} 
+                          className="resize-none mt-2" 
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="systemPrompt" className="text-base font-medium">System Instructions</Label>
+                        <Textarea 
+                          id="systemPrompt" 
+                          disabled={formData.behavior.autoCompose} 
+                          value={formData.system_prompt} 
+                          onChange={e => setFormData({ ...formData, system_prompt: e.target.value })} 
+                          rows={8} 
+                          className="resize-none mt-2" 
+                        />
+                      </div>
                     </div>
-                    {showAdvanced && (
-                      <div className="space-y-4 pt-6 border-t mt-6">
-                        <div className="flex items-center justify-between">
-                          <div className="text-sm text-muted-foreground">Auto-generate from teaching</div>
-                          <Switch checked={formData.behavior.autoCompose} onCheckedChange={(v) => updateBehavior({ autoCompose: v })} />
-                        </div>
-                        <div>
-                          <Label htmlFor="initialMessage" className="text-base font-medium">Generated Opening Message</Label>
-                          <Textarea 
-                            id="initialMessage" 
-                            disabled={formData.behavior.autoCompose} 
-                            value={formData.initial_message} 
-                            onChange={e => setFormData({ ...formData, initial_message: e.target.value })} 
-                            rows={3} 
-                            className="resize-none mt-2" 
-                          />
-                        </div>
-                        <div>
-                          <Label htmlFor="systemPrompt" className="text-base font-medium">Generated System Instructions</Label>
-                          <Textarea 
-                            id="systemPrompt" 
-                            disabled={formData.behavior.autoCompose} 
-                            value={formData.system_prompt} 
-                            onChange={e => setFormData({ ...formData, system_prompt: e.target.value })} 
-                            rows={8} 
-                            className="resize-none mt-2" 
-                          />
-                        </div>
-                      </div>
-                    )}
                   </CardContent>
                 </Card>
               </CardContent>
