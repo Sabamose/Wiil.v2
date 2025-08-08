@@ -605,20 +605,6 @@ IMPORTANT GUIDELINES:
               Test Assistant
             </Button>
             
-            {/* Deploy Button with Phone Number Check */}
-            {!formData.hasPhoneNumber && (
-              <Button
-                onClick={() => {
-                  setIsPurchaseModalOpen(true);
-                }}
-                variant="default"
-                size="sm"
-                className="bg-teal-600 hover:bg-teal-700"
-              >
-                <Phone className="w-4 h-4 mr-2" />
-                Connect Phone Number
-              </Button>
-            )}
             
             {hasUnsavedChanges && (
               <div className="text-sm text-amber-600 font-medium">
