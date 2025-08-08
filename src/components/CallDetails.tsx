@@ -150,19 +150,26 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
 
         {/* Transcription Tab */}
         <TabsContent value="transcription" className="space-y-4 mt-6">
-          <div className="space-y-4">
+          <div className="max-w-4xl mx-auto space-y-3">
             {sampleTranscript.map((item, index) => (
-              <div key={index} className="flex gap-3">
-                <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-xs font-medium">
-                  {item.speaker === 'Agent' ? 'A' : 'C'}
-                </div>
-                <div className="flex-1">
+              <div key={index} className={`flex ${item.speaker === 'Agent' ? 'justify-start' : 'justify-end'}`}>
+                <div className={`max-w-xs lg:max-w-md xl:max-w-lg ${
+                  item.speaker === 'Agent' ? 'mr-auto' : 'ml-auto'
+                }`}>
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-sm font-medium">{item.speaker === 'Agent' ? 'Agent' : 'Customer'}</span>
+                    <span className={`text-xs font-medium ${
+                      item.speaker === 'Agent' ? 'text-primary' : 'text-secondary-foreground'
+                    }`}>
+                      {item.speaker === 'Agent' ? 'Agent' : 'Customer'}
+                    </span>
                     <span className="text-xs text-muted-foreground">{item.time}</span>
                   </div>
-                  <div className="bg-muted/50 p-3 rounded-lg max-w-2xl">
-                    <p className="text-sm">{item.message}</p>
+                  <div className={`p-3 rounded-2xl ${
+                    item.speaker === 'Agent' 
+                      ? 'bg-primary/10 text-foreground rounded-bl-sm' 
+                      : 'bg-secondary text-secondary-foreground rounded-br-sm'
+                  }`}>
+                    <p className="text-sm leading-relaxed">{item.message}</p>
                   </div>
                 </div>
               </div>
