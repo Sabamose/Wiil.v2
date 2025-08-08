@@ -3,6 +3,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { StoredAssistant } from "@/hooks/useAssistants";
 import TestAssistantModal from "./TestAssistantModal";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 interface ExistingAssistantsSectionProps {
   assistants: StoredAssistant[];
   loading?: boolean;
@@ -14,6 +15,7 @@ const ExistingAssistantsSection = ({
   console.log('ExistingAssistantsSection - Received assistants:', assistants);
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
   const [selectedAssistant, setSelectedAssistant] = useState<StoredAssistant | null>(null);
+  const navigate = useNavigate();
 
   // Convert assistants to include channel data with different statuses
   const assistantsWithChannels = assistants.map((assistant, index) => ({
@@ -163,7 +165,7 @@ const ExistingAssistantsSection = ({
                         <Copy className="w-4 h-4 mr-2" />
                         Duplicate
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleIntegrateChannels(assistant.name)}>
+                      <DropdownMenuItem onClick={(e) => { e.stopPropagation(); navigate('/phone-numbers'); }}>
                         <Link className="w-4 h-4 mr-2" />
                         Manage Phone Number
                       </DropdownMenuItem>
