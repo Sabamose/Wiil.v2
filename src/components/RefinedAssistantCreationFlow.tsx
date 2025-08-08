@@ -1986,11 +1986,69 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                  <TestTube className="h-5 w-5" />
                  Testing & Deployment
                </CardTitle>
-               <p className="text-muted-foreground">Your assistant is ready to deploy</p>
+               <p className="text-muted-foreground">Test your assistant before going live</p>
              </CardHeader>
              <CardContent>
-               <div className="text-center space-y-6">
-                 <div className="p-6 border border-dashed border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06] rounded-lg">
+               <div className="space-y-6">
+                 {/* Test Interface */}
+                 <div className="border border-dashed border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06] rounded-lg p-6">
+                   <div className="flex items-center gap-3 mb-4">
+                     <TestTube className="w-8 h-8 text-[hsl(var(--brand-teal))]" />
+                     <div>
+                       <div className="font-semibold text-[hsl(var(--brand-teal))]">Test Your Assistant</div>
+                       <div className="text-sm text-muted-foreground">Try a sample conversation to see how it responds</div>
+                     </div>
+                   </div>
+                   
+                   <div className="flex gap-3">
+                     <Button 
+                       variant="brand" 
+                       onClick={() => setIsTestModalOpen(true)}
+                       className="flex-1"
+                     >
+                       <TestTube className="h-4 w-4 mr-2" />
+                       Start Test Call
+                     </Button>
+                     <Button 
+                       variant="brand-outline"
+                       onClick={() => {
+                         // Preview functionality
+                         console.log('Preview assistant:', formData);
+                       }}
+                     >
+                       <MessageSquare className="h-4 w-4 mr-2" />
+                       Preview Settings
+                     </Button>
+                   </div>
+                 </div>
+
+                 {/* Assistant Summary */}
+                 <div className="bg-muted/30 rounded-lg p-4">
+                   <div className="font-medium mb-3">Assistant Summary</div>
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                     <div>
+                       <span className="text-muted-foreground">Name:</span> {formData.name}
+                     </div>
+                     <div>
+                       <span className="text-muted-foreground">Industry:</span> {formData.industry}
+                     </div>
+                     <div>
+                       <span className="text-muted-foreground">Type:</span> {formData.assistantType}
+                     </div>
+                     <div>
+                       <span className="text-muted-foreground">Voice:</span> {formData.voice_name}
+                     </div>
+                     <div>
+                       <span className="text-muted-foreground">Language:</span> {formData.language_name}
+                     </div>
+                     <div>
+                       <span className="text-muted-foreground">Phone:</span> {formData.phoneNumber || 'Not assigned'}
+                     </div>
+                   </div>
+                 </div>
+
+                 {/* Ready to Deploy */}
+                 <div className="text-center p-6 border border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06] rounded-lg">
                    <Zap className="w-12 h-12 text-[hsl(var(--brand-teal))] mx-auto mb-4" />
                    <div className="font-semibold text-[hsl(var(--brand-teal))] mb-2">Ready to Deploy!</div>
                    <div className="text-sm text-muted-foreground">
