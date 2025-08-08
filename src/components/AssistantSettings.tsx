@@ -1383,25 +1383,25 @@ IMPORTANT GUIDELINES:
                 <Card className="max-w-2xl">
                   <CardHeader className="pb-4">
                     <CardTitle className="flex items-center gap-2 text-lg">
-                      <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                        <Phone className="w-4 h-4 text-green-600" />
+                      <div className="w-8 h-8 bg-teal-100 rounded-full flex items-center justify-center">
+                        <Phone className="w-4 h-4 text-teal-600" />
                       </div>
                       Connected Phone Number
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-6">
                     {/* Phone Number Display */}
-                    <div className="flex items-center justify-between p-4 bg-green-50 border border-green-200 rounded-lg">
+                    <div className="flex items-center justify-between p-4 bg-teal-50 border border-teal-200 rounded-lg">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                          <Phone className="w-5 h-5 text-green-600" />
+                        <div className="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center">
+                          <Phone className="w-5 h-5 text-teal-600" />
                         </div>
                         <div>
-                          <p className="font-semibold text-green-800">{formData.phoneNumber}</p>
-                          <p className="text-sm text-green-600">Active • Ready to receive calls</p>
+                          <p className="font-semibold text-teal-800">{formData.phoneNumber}</p>
+                          <p className="text-sm text-teal-600">Active • Ready to receive calls</p>
                         </div>
                       </div>
-                      <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                      <div className="w-3 h-3 bg-teal-500 rounded-full animate-pulse"></div>
                     </div>
 
                     {/* Connection Details */}
@@ -1412,7 +1412,7 @@ IMPORTANT GUIDELINES:
                       </div>
                       <div className="p-4 bg-gray-50 rounded-lg">
                         <p className="text-sm text-gray-600 mb-1">Connection Status</p>
-                        <p className="font-medium text-green-600">Connected & Active</p>
+                        <p className="font-medium text-teal-600">Connected & Active</p>
                       </div>
                     </div>
 
