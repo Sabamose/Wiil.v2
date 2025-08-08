@@ -2041,6 +2041,13 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
           
           {step === totalSteps && (
             <div className="text-center space-y-3">
+              {!formData.hasPhoneNumber && (
+                <div className="mb-4 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                  <p className="text-amber-800 text-sm">
+                    ⚠️ To deploy your assistant, please go back to step 8 and connect a phone number first.
+                  </p>
+                </div>
+              )}
               <Button 
                 onClick={async () => {
                   setIsCreating(true);
@@ -2076,7 +2083,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     setIsCreating(false);
                   }
                 }}
-                disabled={isCreating}
+                disabled={isCreating || !formData.hasPhoneNumber}
                 size="lg"
                 className="px-8"
               >
@@ -2084,6 +2091,10 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                   <>
                     <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                     Creating & Deploying...
+                  </>
+                ) : !formData.hasPhoneNumber ? (
+                  <>
+                    Connect Phone Number to Deploy
                   </>
                 ) : (
                   <>
