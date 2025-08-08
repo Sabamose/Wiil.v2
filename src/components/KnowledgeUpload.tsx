@@ -175,7 +175,7 @@ const KnowledgeUpload: React.FC<KnowledgeUploadProps> = ({ assistantId, onKnowle
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="file" className="flex items-center gap-2">
             <FileText className="h-4 w-4" />
-            File Upload
+            Upload Relevant Files
           </TabsTrigger>
           <TabsTrigger value="text" className="flex items-center gap-2">
             <Type className="h-4 w-4" />
