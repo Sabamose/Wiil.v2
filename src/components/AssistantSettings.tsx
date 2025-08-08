@@ -149,7 +149,7 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
   const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
-  const [activeTab, setActiveTab] = useState<'Agent' | 'Voice' | 'Role' | 'Phone' | 'Knowledge' | 'Advanced'>('Agent');
+  const [activeTab, setActiveTab] = useState<'Industry' | 'Type' | 'Voice' | 'Role' | 'Actions' | 'Details' | 'Knowledge' | 'Phone' | 'Testing'>('Industry');
   
   // Store original data to track changes
   const [originalData, setOriginalData] = useState<any>({});
@@ -415,7 +415,7 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
       {/* Tab Navigation */}
       <div className="border-b border-gray-200 px-8">
         <div className="flex space-x-8">
-          {(['Agent', 'Voice', 'Role', 'Phone', 'Knowledge', 'Advanced'] as const).map((tab) => (
+          {(['Industry', 'Type', 'Voice', 'Role', 'Actions', 'Details', 'Knowledge', 'Phone', 'Testing'] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -436,7 +436,7 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
       <div className="px-8 py-8 max-w-4xl">
         <div className="space-y-12">
           
-          <section className={activeTab === 'Agent' ? '' : 'hidden'}>
+          <section className={activeTab === 'Industry' ? '' : 'hidden'}>
             <div className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-2">Industry Selection</h2>
               <p className="text-gray-600">Choose the industry your business operates in.</p>
@@ -472,7 +472,7 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
             </div>
           </section>
 
-          <section className={activeTab === 'Agent' ? '' : 'hidden'}>
+          <section className={activeTab === 'Type' ? '' : 'hidden'}>
             <div className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-2">Assistant Type</h2>
               <p className="text-gray-600">Choose whether your assistant handles incoming or outgoing calls.</p>
@@ -626,7 +626,7 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
             </div>
           </section>
 
-           <section className={activeTab === 'Advanced' ? '' : 'hidden'}>
+           <section className={activeTab === 'Actions' ? '' : 'hidden'}>
             <div className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-2">Actions & Integrations</h2>
               <p className="text-gray-600">Configure what your assistant can do to help your business</p>
@@ -938,7 +938,7 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
             </div>
           </section>
 
-          <section className={activeTab === 'Agent' ? '' : 'hidden'}>
+          <section className={activeTab === 'Details' ? '' : 'hidden'}>
             <div className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-2">Assistant Details</h2>
               <p className="text-gray-600">Configure your assistant's name and behavior.</p>
@@ -981,7 +981,7 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
             </div>
           </section>
 
-          <section className={activeTab === 'Agent' ? '' : 'hidden'}>
+          <section className={activeTab === 'Details' ? '' : 'hidden'}>
             <div className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-2">First Message</h2>
               <p className="text-gray-600">The first message the agent will say. If empty, the agent will wait for the user to start the conversation.</p>
@@ -1002,7 +1002,7 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
             </div>
           </section>
 
-          <section className={activeTab === 'Agent' ? '' : 'hidden'}>
+          <section className={activeTab === 'Details' ? '' : 'hidden'}>
             <div className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-2">System Prompt</h2>
               <p className="text-gray-600">The system prompt is used to determine the persona of the agent and the context of the conversation.</p>
@@ -1059,6 +1059,58 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
               assistantId={assistant.id}
               onKnowledgeAdded={(knowledge) => setFormData({ ...formData, knowledge })}
             />
+          </section>
+
+          <section className={activeTab === 'Testing' ? '' : 'hidden'}>
+            <div className="mb-8">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-2">Testing & Deployment</h2>
+              <p className="text-gray-600">Test your assistant and monitor its performance.</p>
+            </div>
+            
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Button
+                  onClick={() => setIsTestModalOpen(true)}
+                  variant="outline"
+                  size="lg"
+                  className="h-20 flex flex-col items-center justify-center gap-2"
+                >
+                  <TestTube className="w-6 h-6" />
+                  <span>Test Assistant</span>
+                </Button>
+                
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="h-20 flex flex-col items-center justify-center gap-2"
+                  onClick={() => {
+                    toast({
+                      title: "Analytics Coming Soon",
+                      description: "Call analytics and performance metrics will be available soon.",
+                    });
+                  }}
+                >
+                  <Settings2 className="w-6 h-6" />
+                  <span>View Analytics</span>
+                </Button>
+              </div>
+              
+              <div className="border border-gray-200 rounded-lg p-6">
+                <h3 className="font-semibold text-lg mb-4">Assistant Status</h3>
+                <div className="flex items-center gap-3">
+                  <div className={`w-3 h-3 rounded-full ${assistant.status === 'live' ? 'bg-teal-600' : 'bg-gray-400'}`}></div>
+                  <span className={`font-medium ${assistant.status === 'live' ? 'text-teal-600' : 'text-gray-500'}`}>
+                    {assistant.status === 'live' ? 'Live' : 'Draft'}
+                  </span>
+                </div>
+                <p className="text-sm text-gray-600 mt-2">
+                  {assistant.status === 'live' 
+                    ? 'Your assistant is live and ready to handle calls.'
+                    : 'Your assistant is in draft mode. Test it before going live.'
+                  }
+                </p>
+              </div>
+            </div>
           </section>
 
         </div>
