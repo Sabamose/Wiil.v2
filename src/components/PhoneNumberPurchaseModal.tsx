@@ -86,7 +86,7 @@ const PhoneNumberPurchaseModal = ({ isOpen, onClose, onPurchaseComplete }: Phone
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto z-[60]">
         <DialogHeader>
           <DialogTitle>Buy Phone Number</DialogTitle>
           <DialogDescription>
@@ -107,8 +107,8 @@ const PhoneNumberPurchaseModal = ({ isOpen, onClose, onPurchaseComplete }: Phone
                 }}
                 className={`p-4 border rounded-lg text-left transition-colors ${
                   provider === "SignalWire" 
-                    ? "border-primary bg-primary/10 text-primary" 
-                    : "border-border hover:border-primary/50"
+                    ? "border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06] text-[hsl(var(--brand-teal))]" 
+                    : "border-border hover:border-[hsl(var(--brand-teal))]/50"
                 }`}
               >
                 <div className="flex items-center justify-between">
@@ -116,7 +116,7 @@ const PhoneNumberPurchaseModal = ({ isOpen, onClose, onPurchaseComplete }: Phone
                     <div className="font-medium">SignalWire</div>
                     <div className="text-sm text-muted-foreground">Recommended</div>
                   </div>
-                  {provider === "SignalWire" && <Check className="w-5 h-5 text-primary" />}
+                  {provider === "SignalWire" && <Check className="w-5 h-5 text-[hsl(var(--brand-teal))]" />}
                 </div>
               </button>
               <button
@@ -127,8 +127,8 @@ const PhoneNumberPurchaseModal = ({ isOpen, onClose, onPurchaseComplete }: Phone
                 }}
                 className={`p-4 border rounded-lg text-left transition-colors ${
                   provider === "Twilio" 
-                    ? "border-primary bg-primary/10 text-primary" 
-                    : "border-border hover:border-primary/50"
+                    ? "border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06] text-[hsl(var(--brand-teal))]" 
+                    : "border-border hover:border-[hsl(var(--brand-teal))]/50"
                 }`}
               >
                 <div className="flex items-center justify-between">
@@ -136,7 +136,7 @@ const PhoneNumberPurchaseModal = ({ isOpen, onClose, onPurchaseComplete }: Phone
                     <div className="font-medium">Twilio</div>
                     <div className="text-sm text-muted-foreground">Alternative</div>
                   </div>
-                  {provider === "Twilio" && <Check className="w-5 h-5 text-primary" />}
+                  {provider === "Twilio" && <Check className="w-5 h-5 text-[hsl(var(--brand-teal))]" />}
                 </div>
               </button>
             </div>
@@ -149,10 +149,10 @@ const PhoneNumberPurchaseModal = ({ isOpen, onClose, onPurchaseComplete }: Phone
               console.log('Country changed to:', value);
               setCountry(value);
             }}>
-              <SelectTrigger>
+              <SelectTrigger className="bg-background">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="z-50 bg-background">
                 <SelectItem value="US">United States</SelectItem>
                 <SelectItem value="CA">Canada</SelectItem>
                 <SelectItem value="UK">United Kingdom</SelectItem>
@@ -172,8 +172,8 @@ const PhoneNumberPurchaseModal = ({ isOpen, onClose, onPurchaseComplete }: Phone
                 }}
                 className={`p-3 border rounded-lg text-center transition-colors ${
                   numberType === "local" 
-                    ? "border-primary bg-primary/10 text-primary" 
-                    : "border-border hover:border-primary/50"
+                    ? "border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06] text-[hsl(var(--brand-teal))]" 
+                    : "border-border hover:border-[hsl(var(--brand-teal))]/50"
                 }`}
               >
                 <div className="font-medium">Local</div>
@@ -187,8 +187,8 @@ const PhoneNumberPurchaseModal = ({ isOpen, onClose, onPurchaseComplete }: Phone
                 }}
                 className={`p-3 border rounded-lg text-center transition-colors ${
                   numberType === "toll-free" 
-                    ? "border-primary bg-primary/10 text-primary" 
-                    : "border-border hover:border-primary/50"
+                    ? "border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06] text-[hsl(var(--brand-teal))]" 
+                    : "border-border hover:border-[hsl(var(--brand-teal))]/50"
                 }`}
               >
                 <div className="font-medium">Toll-Free</div>
@@ -211,8 +211,8 @@ const PhoneNumberPurchaseModal = ({ isOpen, onClose, onPurchaseComplete }: Phone
                   }}
                   className={`w-full p-3 border rounded-lg text-left flex justify-between items-center transition-colors ${
                     selectedNumber === number.number 
-                      ? "border-primary bg-primary/10 text-primary" 
-                      : "border-border hover:border-primary/50"
+                      ? "border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06] text-[hsl(var(--brand-teal))]" 
+                      : "border-border hover:border-[hsl(var(--brand-teal))]/50"
                   }`}
                 >
                   <span className="font-medium">{number.number}</span>
@@ -224,10 +224,11 @@ const PhoneNumberPurchaseModal = ({ isOpen, onClose, onPurchaseComplete }: Phone
 
           {/* Action Buttons */}
           <div className="flex justify-end gap-3 pt-4 border-t">
-            <Button variant="outline" onClick={onClose}>
+            <Button variant="brand-outline" onClick={onClose}>
               Cancel
             </Button>
             <Button 
+              variant="brand"
               onClick={() => {
                 console.log('Buy Number button clicked, selectedNumber:', selectedNumber);
                 if (selectedNumber) {
