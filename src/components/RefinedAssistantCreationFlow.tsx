@@ -2065,19 +2065,6 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                  </div>
                </div>
 
-               {/* Ready Status - Elegant Confirmation */}
-               <div className="relative overflow-hidden bg-gradient-to-r from-[hsl(var(--brand-teal))]/5 via-[hsl(var(--brand-teal))]/10 to-[hsl(var(--brand-teal))]/5 border border-[hsl(var(--brand-teal))]/20 rounded-2xl p-8 text-center">
-                 
-                 <div className="relative">
-                   <div className="w-20 h-20 bg-gradient-to-br from-[hsl(var(--brand-teal))] to-[hsl(var(--brand-teal-hover))] rounded-full flex items-center justify-center mx-auto mb-6 animate-scale-in">
-                     <Check className="h-10 w-10 text-white" />
-                   </div>
-                   <div className="font-bold text-xl text-[hsl(var(--brand-teal))] mb-2">Ready to Deploy!</div>
-                   <div className="text-muted-foreground max-w-md mx-auto">
-                     Your AI assistant is fully configured and ready to handle calls with professional excellence.
-                   </div>
-                 </div>
-               </div>
              </CardContent>
            </Card>}
          </div>
