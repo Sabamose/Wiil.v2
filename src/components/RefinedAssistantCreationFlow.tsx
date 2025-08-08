@@ -1521,7 +1521,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                         >
                           <div className="text-3xl mb-3">{tone.icon}</div>
                           <div className="font-semibold text-lg">{tone.value}</div>
-                          <div className="text-sm text-muted-foreground mt-2">{tone.desc}</div>
+                          
                         </button>
                       ))}
                     </div>
