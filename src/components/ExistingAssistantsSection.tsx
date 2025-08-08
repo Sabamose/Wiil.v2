@@ -166,7 +166,7 @@ const ExistingAssistantsSection = ({
             <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Assistant Name</th>
             <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Assistant Type
           </th>
-            <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Assistant Industry/Role</th>
+            <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Status</th>
             <th className="px-6 py-4 text-left text-sm font-medium text-gray-500"></th>
           </tr>
         </thead>
@@ -191,8 +191,11 @@ const ExistingAssistantsSection = ({
                 </div>
               </td>
               <td className="px-6 py-5">
-                <div className="text-sm text-gray-600">
-                  {assistant.industry} • {assistant.use_case.replace(/-/g, ' ')}
+                <div className="flex items-center gap-2">
+                  <span className={`w-2 h-2 rounded-full ${assistant.status === 'live' ? 'bg-teal-600' : 'bg-gray-400'}`}></span>
+                  <span className={`text-sm font-medium ${assistant.status === 'live' ? 'text-teal-600' : 'text-gray-500'}`}>
+                    {assistant.status === 'live' ? 'Live' : 'Draft'}
+                  </span>
                 </div>
               </td>
               <td className="px-6 py-5">
