@@ -1712,13 +1712,13 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
 
                 {/* Question 5: What NOT to Say */}
                 <Card className="p-6">
-                  <div className="text-center space-y-6">
-                    <h3 className="text-xl font-semibold text-[hsl(var(--brand-teal))]">What should your assistant never talk about?</h3>
-                    <p className="text-muted-foreground">Protect your business by teaching what topics to avoid</p>
-                    <div className="max-w-2xl mx-auto space-y-4">
+                  <div className="text-center space-y-5">
+                    <h3 className="text-xl font-semibold text-[hsl(var(--brand-teal))]">What should your assistant avoid mentioning?</h3>
+                    
+                    <div className="max-w-lg mx-auto space-y-4">
                       <div className="flex gap-2">
                         <Input 
-                          placeholder="e.g., Exact pricing without context, Internal policies" 
+                          placeholder="Type topics to avoid (up to 3)" 
                           value={dontSayInput} 
                           onChange={e => setDontSayInput(e.target.value)} 
                           onKeyDown={e => { 
@@ -1743,9 +1743,8 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                         </Button>
                       </div>
                       
-                      <div className="text-xs text-muted-foreground">💡 Common things to avoid:</div>
                       <div className="flex flex-wrap gap-2 justify-center">
-                        {['Exact pricing without context','Personal medical advice','Company secrets'].map(ex => (
+                        {['Pricing details','Internal policies','Personal advice','Competitor info'].map(ex => (
                           <Button 
                             key={ex} 
                             variant="outline" 
@@ -1764,19 +1763,23 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                         ))}
                       </div>
                       
-                      <div className="flex flex-wrap gap-2 justify-center">
-                        {formData.behavior.dontSay.map((item, idx) => (
-                          <Badge 
-                            key={idx} 
-                            variant="destructive"
-                            className="cursor-pointer text-sm py-1 px-3" 
-                            onClick={() => updateBehavior({ dontSay: formData.behavior.dontSay.filter((_,i)=>i!==idx) })}
-                          >
-                            ⚠️ {item} <span className="ml-2 opacity-60">×</span>
-                          </Badge>
-                        ))}
-                      </div>
-                      
+                      {formData.behavior.dontSay.length > 0 && (
+                        <div className="space-y-2">
+                          <div className="text-sm font-medium">Will avoid:</div>
+                          <div className="flex flex-wrap gap-2 justify-center">
+                            {formData.behavior.dontSay.map((item, idx) => (
+                              <Badge 
+                                key={idx} 
+                                variant="destructive"
+                                className="cursor-pointer text-sm py-1 px-3" 
+                                onClick={() => updateBehavior({ dontSay: formData.behavior.dontSay.filter((_,i)=>i!==idx) })}
+                              >
+                                ⚠️ {item} <span className="ml-2 opacity-60">×</span>
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </Card>
