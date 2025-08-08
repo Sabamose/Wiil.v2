@@ -1488,56 +1488,60 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     </div>
 
                     {/* Lists */}
-                      <Label className="text-base font-medium">Do Say (max 3)</Label>
-                      <div className="mt-2 flex gap-2">
-                        <Input placeholder="Add approved phrase/fact" value={doSayInput} onChange={e => setDoSayInput(e.target.value)} onKeyDown={e => { if (e.key==='Enter' && doSayInput) { updateBehavior({ doSay: [...formData.behavior.doSay.slice(0,2), doSayInput] }); setDoSayInput('') } }} />
-                        <Button type="button" variant="secondary" onClick={() => { if (doSayInput) { updateBehavior({ doSay: [...formData.behavior.doSay.slice(0,2), doSayInput] }); setDoSayInput('') } }}>Add</Button>
-                      </div>
-                      <div className="mt-2 text-xs text-muted-foreground flex items-center gap-2">
-                        <Lightbulb className="h-3 w-3" /> Examples: “We offer free consultations”, “Ask about project timeline”, “We’re based in Austin, TX”
-                      </div>
-                      <div className="mt-2 flex flex-wrap gap-2">
-                        {['We offer free consultations','Ask about project timeline','We\'re based in Austin, TX'].map(ex => (
-                          <Button key={ex} variant="outline" size="sm" className="h-7 text-xs" type="button" onClick={() => updateBehavior({ doSay: [...formData.behavior.doSay.slice(0,2), ex] })}>{ex}</Button>
-                        ))}
-                      </div>
-                      <div className="mt-2 flex flex-wrap gap-2">
-                        {formData.behavior.doSay.map((i, idx) => (
-                          <Badge key={idx} variant="secondary" className="cursor-pointer" onClick={() => updateBehavior({ doSay: formData.behavior.doSay.filter((_,i2)=>i2!==idx) })}>{i} <span className="ml-1">×</span></Badge>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div>
-                      <Label className="text-base font-medium">Don't Say (max 3)</Label>
-                      <div className="mt-2 flex gap-2">
-                        <Input placeholder="Add restricted topic/phrase" value={dontSayInput} onChange={e => setDontSayInput(e.target.value)} onKeyDown={e => { if (e.key==='Enter' && dontSayInput) { updateBehavior({ dontSay: [...formData.behavior.dontSay.slice(0,2), dontSayInput] }); setDontSayInput('') } }} />
-                        <Button type="button" variant="secondary" onClick={() => { if (dontSayInput) { updateBehavior({ dontSay: [...formData.behavior.dontSay.slice(0,2), dontSayInput] }); setDontSayInput('') } }}>Add</Button>
-                      </div>
-                      <div className="mt-2 text-xs text-muted-foreground flex items-center gap-2">
-                        <Lightbulb className="h-3 w-3" /> Examples: “Exact pricing without context”, “Medical/legal advice”, “Internal policies”
-                      </div>
-                      <div className="mt-2 flex flex-wrap gap-2">
-                        {['Exact pricing without context','Medical/legal advice','Internal policies'].map(ex => (
-                          <Button key={ex} variant="outline" size="sm" className="h-7 text-xs" type="button" onClick={() => updateBehavior({ dontSay: [...formData.behavior.dontSay.slice(0,2), ex] })}>{ex}</Button>
-                        ))}
-                      </div>
-                      <div className="mt-2 flex flex-wrap gap-2">
-                        {formData.behavior.dontSay.map((i, idx) => (
-                          <Badge key={idx} variant="secondary" className="cursor-pointer" onClick={() => updateBehavior({ dontSay: formData.behavior.dontSay.filter((_,i2)=>i2!==idx) })}>{i} <span className="ml-1">×</span></Badge>
-                        ))}
+                    <div className="space-y-6">
+                      <div>
+                        <Label className="text-base font-medium">Do Say (max 3)</Label>
+                        <div className="mt-2 flex gap-2">
+                          <Input placeholder="Add approved phrase/fact" value={doSayInput} onChange={e => setDoSayInput(e.target.value)} onKeyDown={e => { if (e.key==='Enter' && doSayInput) { updateBehavior({ doSay: [...formData.behavior.doSay.slice(0,2), doSayInput] }); setDoSayInput('') } }} />
+                          <Button type="button" variant="secondary" onClick={() => { if (doSayInput) { updateBehavior({ doSay: [...formData.behavior.doSay.slice(0,2), doSayInput] }); setDoSayInput('') } }}>Add</Button>
+                        </div>
+                        <div className="mt-2 text-xs text-muted-foreground flex items-center gap-2">
+                          <Lightbulb className="h-3 w-3" /> Examples: “We offer free consultations”, “Ask about project timeline”, “We’re based in Austin, TX”
+                        </div>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          {['We offer free consultations','Ask about project timeline','We\'re based in Austin, TX'].map(ex => (
+                            <Button key={ex} variant="outline" size="sm" className="h-7 text-xs" type="button" onClick={() => updateBehavior({ doSay: [...formData.behavior.doSay.slice(0,2), ex] })}>{ex}</Button>
+                          ))}
+                        </div>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          {formData.behavior.doSay.map((i, idx) => (
+                            <Badge key={idx} variant="secondary" className="cursor-pointer" onClick={() => updateBehavior({ doSay: formData.behavior.doSay.filter((_,i2)=>i2!==idx) })}>{i} <span className="ml-1">×</span></Badge>
+                          ))}
+                        </div>
                       </div>
 
-                    <div>
-                      <Label className="text-base font-medium">Must‑Ask Questions (up to 3)</Label>
-                      <div className="mt-2 flex gap-2">
-                        <Input placeholder="Add a question to always ask" value={mustAskInput} onChange={e => setMustAskInput(e.target.value)} onKeyDown={e => { if (e.key==='Enter' && mustAskInput) { updateBehavior({ mustAsk: [...formData.behavior.mustAsk.slice(0,2), mustAskInput] }); setMustAskInput('') } }} />
-                        <Button type="button" variant="secondary" onClick={() => { if (mustAskInput) { updateBehavior({ mustAsk: [...formData.behavior.mustAsk.slice(0,2), mustAskInput] }); setMustAskInput('') } }}>Add</Button>
+                      <div>
+                        <Label className="text-base font-medium">Don't Say (max 3)</Label>
+                        <div className="mt-2 flex gap-2">
+                          <Input placeholder="Add restricted topic/phrase" value={dontSayInput} onChange={e => setDontSayInput(e.target.value)} onKeyDown={e => { if (e.key==='Enter' && dontSayInput) { updateBehavior({ dontSay: [...formData.behavior.dontSay.slice(0,2), dontSayInput] }); setDontSayInput('') } }} />
+                          <Button type="button" variant="secondary" onClick={() => { if (dontSayInput) { updateBehavior({ dontSay: [...formData.behavior.dontSay.slice(0,2), dontSayInput] }); setDontSayInput('') } }}>Add</Button>
+                        </div>
+                        <div className="mt-2 text-xs text-muted-foreground flex items-center gap-2">
+                          <Lightbulb className="h-3 w-3" /> Examples: “Exact pricing without context”, “Medical/legal advice”, “Internal policies”
+                        </div>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          {['Exact pricing without context','Medical/legal advice','Internal policies'].map(ex => (
+                            <Button key={ex} variant="outline" size="sm" className="h-7 text-xs" type="button" onClick={() => updateBehavior({ dontSay: [...formData.behavior.dontSay.slice(0,2), ex] })}>{ex}</Button>
+                          ))}
+                        </div>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          {formData.behavior.dontSay.map((i, idx) => (
+                            <Badge key={idx} variant="secondary" className="cursor-pointer" onClick={() => updateBehavior({ dontSay: formData.behavior.dontSay.filter((_,i2)=>i2!==idx) })}>{i} <span className="ml-1">×</span></Badge>
+                          ))}
+                        </div>
                       </div>
-                      <div className="mt-2 flex flex-wrap gap-2">
-                        {formData.behavior.mustAsk.map((i, idx) => (
-                          <Badge key={idx} variant="secondary" className="cursor-pointer" onClick={() => updateBehavior({ mustAsk: formData.behavior.mustAsk.filter((_,i2)=>i2!==idx) })}>{i} <span className="ml-1">×</span></Badge>
-                        ))}
+
+                      <div>
+                        <Label className="text-base font-medium">Must‑Ask Questions (up to 3)</Label>
+                        <div className="mt-2 flex gap-2">
+                          <Input placeholder="Add a question to always ask" value={mustAskInput} onChange={e => setMustAskInput(e.target.value)} onKeyDown={e => { if (e.key==='Enter' && mustAskInput) { updateBehavior({ mustAsk: [...formData.behavior.mustAsk.slice(0,2), mustAskInput] }); setMustAskInput('') } }} />
+                          <Button type="button" variant="secondary" onClick={() => { if (mustAskInput) { updateBehavior({ mustAsk: [...formData.behavior.mustAsk.slice(0,2), mustAskInput] }); setMustAskInput('') } }}>Add</Button>
+                        </div>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          {formData.behavior.mustAsk.map((i, idx) => (
+                            <Badge key={idx} variant="secondary" className="cursor-pointer" onClick={() => updateBehavior({ mustAsk: formData.behavior.mustAsk.filter((_,i2)=>i2!==idx) })}>{i} <span className="ml-1">×</span></Badge>
+                          ))}
+                        </div>
                       </div>
                     </div>
 
@@ -1613,6 +1617,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                       </CollapsibleContent>
                     </Collapsible>
                   </div>
+                </div>
                 </div>
               </CardContent>
             </Card>}
