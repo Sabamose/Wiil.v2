@@ -1583,12 +1583,14 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 {/* Question 4: What TO Say */}
                 <Card className="p-6">
                   <div className="text-center space-y-6">
-                    <h3 className="text-xl font-semibold text-[hsl(var(--brand-teal))]">What important things should your assistant always mention?</h3>
-                    <p className="text-muted-foreground">Teach your assistant key facts, benefits, or offers to share with customers</p>
-                    <div className="max-w-2xl mx-auto space-y-4">
+                    <h3 className="text-xl font-semibold text-[hsl(var(--brand-teal))]">What should your assistant always mention?</h3>
+                    <p className="text-muted-foreground text-sm">Choose up to 3 key things your assistant should naturally work into conversations</p>
+                    
+                    {/* Input section */}
+                    <div className="max-w-lg mx-auto">
                       <div className="flex gap-2">
                         <Input 
-                          placeholder="e.g., We offer free consultations, Ask about our warranty" 
+                          placeholder="Type your own or pick from examples below" 
                           value={doSayInput} 
                           onChange={e => setDoSayInput(e.target.value)} 
                           onKeyDown={e => { 
@@ -1612,40 +1614,99 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                           Add
                         </Button>
                       </div>
-                      
-                      
-                      <div className="flex flex-wrap gap-2 justify-center">
-                        {['We offer free consultations','Ask about our warranty','We\'re locally owned and operated'].map(ex => (
-                          <Button 
-                            key={ex} 
-                            variant="outline" 
-                            size="sm" 
-                            className="text-xs border-[hsl(var(--brand-teal))]/30 text-[hsl(var(--brand-teal))] hover:bg-[hsl(var(--brand-teal))]/10" 
-                            type="button" 
-                            onClick={() => {
-                              if (formData.behavior.doSay.length < 3 && !formData.behavior.doSay.includes(ex)) {
-                                updateBehavior({ doSay: [...formData.behavior.doSay, ex] })
-                              }
-                            }}
-                            disabled={formData.behavior.doSay.length >= 3 || formData.behavior.doSay.includes(ex)}
-                          >
-                            + {ex}
-                          </Button>
-                        ))}
-                      </div>
-                      
-                      <div className="flex flex-wrap gap-2 justify-center">
-                        {formData.behavior.doSay.map((item, idx) => (
-                          <Badge 
-                            key={idx} 
-                            className="cursor-pointer bg-[hsl(var(--brand-teal))]/10 text-[hsl(var(--brand-teal))] border-[hsl(var(--brand-teal))]/30 text-sm py-1 px-3" 
-                            onClick={() => updateBehavior({ doSay: formData.behavior.doSay.filter((_,i)=>i!==idx) })}
-                          >
-                            ✓ {item} <span className="ml-2 opacity-60">×</span>
-                          </Badge>
-                        ))}
+                    </div>
+                    
+                    {/* Categorized Examples */}
+                    <div className="space-y-6 max-w-3xl mx-auto">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="space-y-3">
+                          <div className="font-medium text-sm text-[hsl(var(--brand-teal))]">💰 Offers & Benefits</div>
+                          <div className="space-y-2">
+                            {['Free consultation', '30-day money back guarantee', 'We price match competitors', 'Same-day service available'].map(ex => (
+                              <Button 
+                                key={ex} 
+                                variant="outline" 
+                                size="sm" 
+                                className="w-full text-xs border-[hsl(var(--brand-teal))]/30 text-[hsl(var(--brand-teal))] hover:bg-[hsl(var(--brand-teal))]/10" 
+                                type="button" 
+                                onClick={() => {
+                                  if (formData.behavior.doSay.length < 3 && !formData.behavior.doSay.includes(ex)) {
+                                    updateBehavior({ doSay: [...formData.behavior.doSay, ex] })
+                                  }
+                                }}
+                                disabled={formData.behavior.doSay.length >= 3 || formData.behavior.doSay.includes(ex)}
+                              >
+                                + {ex}
+                              </Button>
+                            ))}
+                          </div>
+                        </div>
+                        
+                        <div className="space-y-3">
+                          <div className="font-medium text-sm text-[hsl(var(--brand-teal))]">🏆 Credentials & Trust</div>
+                          <div className="space-y-2">
+                            {['Licensed and insured', '10+ years in business', 'Family owned and operated', '5-star Google rating'].map(ex => (
+                              <Button 
+                                key={ex} 
+                                variant="outline" 
+                                size="sm" 
+                                className="w-full text-xs border-[hsl(var(--brand-teal))]/30 text-[hsl(var(--brand-teal))] hover:bg-[hsl(var(--brand-teal))]/10" 
+                                type="button" 
+                                onClick={() => {
+                                  if (formData.behavior.doSay.length < 3 && !formData.behavior.doSay.includes(ex)) {
+                                    updateBehavior({ doSay: [...formData.behavior.doSay, ex] })
+                                  }
+                                }}
+                                disabled={formData.behavior.doSay.length >= 3 || formData.behavior.doSay.includes(ex)}
+                              >
+                                + {ex}
+                              </Button>
+                            ))}
+                          </div>
+                        </div>
+                        
+                        <div className="space-y-3">
+                          <div className="font-medium text-sm text-[hsl(var(--brand-teal))]">📞 Next Steps</div>
+                          <div className="space-y-2">
+                            {['Ask about your timeline', 'Schedule a site visit', 'Get a custom quote', 'Check our availability'].map(ex => (
+                              <Button 
+                                key={ex} 
+                                variant="outline" 
+                                size="sm" 
+                                className="w-full text-xs border-[hsl(var(--brand-teal))]/30 text-[hsl(var(--brand-teal))] hover:bg-[hsl(var(--brand-teal))]/10" 
+                                type="button" 
+                                onClick={() => {
+                                  if (formData.behavior.doSay.length < 3 && !formData.behavior.doSay.includes(ex)) {
+                                    updateBehavior({ doSay: [...formData.behavior.doSay, ex] })
+                                  }
+                                }}
+                                disabled={formData.behavior.doSay.length >= 3 || formData.behavior.doSay.includes(ex)}
+                              >
+                                + {ex}
+                              </Button>
+                            ))}
+                          </div>
+                        </div>
                       </div>
                     </div>
+                    
+                    {/* Selected items */}
+                    {formData.behavior.doSay.length > 0 && (
+                      <div className="space-y-3">
+                        <div className="text-sm font-medium">Your assistant will mention:</div>
+                        <div className="flex flex-wrap gap-2 justify-center">
+                          {formData.behavior.doSay.map((item, idx) => (
+                            <Badge 
+                              key={idx} 
+                              className="cursor-pointer bg-[hsl(var(--brand-teal))]/10 text-[hsl(var(--brand-teal))] border-[hsl(var(--brand-teal))]/30 text-sm py-1 px-3" 
+                              onClick={() => updateBehavior({ doSay: formData.behavior.doSay.filter((_,i)=>i!==idx) })}
+                            >
+                              ✓ {item} <span className="ml-2 opacity-60">×</span>
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </Card>
 
