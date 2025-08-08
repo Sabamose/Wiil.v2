@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import PhoneNumberSuccessModal from './PhoneNumberSuccessModal';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -224,6 +225,8 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [activeTab, setActiveTab] = useState<'Industry' | 'Type' | 'Voice' | 'Role' | 'Actions' | 'Instructions' | 'Knowledge' | 'Phone'>('Industry');
+  const [showPhoneSuccessModal, setShowPhoneSuccessModal] = useState(false);
+  const [connectedPhoneNumber, setConnectedPhoneNumber] = useState<PhoneNumber | null>(null);
   
   // Store original data to track changes
   const [originalData, setOriginalData] = useState<any>({});
@@ -1449,6 +1452,8 @@ IMPORTANT GUIDELINES:
               hasPhoneNumber: true
             });
             setIsPurchaseModalOpen(false);
+            setConnectedPhoneNumber(phoneNumber);
+            setShowPhoneSuccessModal(true);
           }}
         />
       )}
@@ -1477,6 +1482,21 @@ IMPORTANT GUIDELINES:
             status: 'testing' as const,
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString(),
+          }}
+        />
+      )}
+
+      {/* Phone Number Success Modal */}
+      {showPhoneSuccessModal && connectedPhoneNumber && (
+        <PhoneNumberSuccessModal
+          isOpen={showPhoneSuccessModal}
+          onClose={() => setShowPhoneSuccessModal(false)}
+          phoneNumber={connectedPhoneNumber}
+          assistantType={formData.assistantType as 'inbound' | 'outbound'}
+          assistantName={formData.name}
+          onTestAssistant={() => {
+            setIsTestModalOpen(true);
+            setShowPhoneSuccessModal(false);
           }}
         />
       )}
