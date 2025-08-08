@@ -1913,7 +1913,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                   <Upload className="h-5 w-5" />
                   Add Company Info
                 </CardTitle>
-                <p className="text-muted-foreground">Add documents or notes your assistant should know (e.g., FAQs, product info, policies).</p>
+                <p className="text-muted-foreground">Upload simple files or paste text that tells your assistant about your business (FAQs, services, pricing, policies). It uses this info to provide accurate, on-brand answers and handle common questions for you.</p>
               </CardHeader>
               <CardContent>
                 <KnowledgeUpload 
