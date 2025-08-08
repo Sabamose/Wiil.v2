@@ -1077,10 +1077,13 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 <p className="text-muted-foreground">Choose how your assistant will sound</p>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="space-y-3">
-                  <Label htmlFor="language" className="text-base font-medium">Choose a language</Label>
+                <div className="space-y-6">
+                  <div>
+                    <Label htmlFor="language" className="text-base font-medium">Choose a language</Label>
+                    <p className="text-sm text-muted-foreground mt-1">Popular languages</p>
+                  </div>
 
-                  {/* Quick picks - popular languages */}
+                  {/* Quick picks - popular languages with improved visual design */}
                   <ToggleGroup type="single" value={formData.language} onValueChange={(value) => {
                     if (!value) return;
                     const selectedLang = languages[value];
@@ -1089,17 +1092,27 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                       language: value,
                       language_name: selectedLang?.name || 'English'
                     });
-                  }} className="flex flex-wrap gap-2">
+                  }} className="grid grid-cols-2 md:grid-cols-5 gap-3">
                     {['en','es','fr','de','pt','it','hi','ar','ja','zh'].map((code) => (
-                      <ToggleGroupItem key={code} value={code} aria-label={code} className="px-3 py-2">
-                        {getLanguageDisplay(code, languages[code]?.name || code.toUpperCase())}
+                      <ToggleGroupItem 
+                        key={code} 
+                        value={code} 
+                        aria-label={code} 
+                        className="flex flex-col items-center gap-2 p-4 h-20 border-2 border-muted hover:border-[hsl(var(--brand-teal))]/50 data-[state=on]:border-[hsl(var(--brand-teal))] data-[state=on]:bg-[hsl(var(--brand-teal))]/10 transition-all duration-200 hover:shadow-md"
+                      >
+                        <div className="text-2xl">
+                          {getLanguageDisplay(code, '').split(' ')[0]}
+                        </div>
+                        <div className="text-xs font-medium text-center leading-tight">
+                          {languages[code]?.name || code.toUpperCase()}
+                        </div>
                       </ToggleGroupItem>
                     ))}
                   </ToggleGroup>
 
-                  {/* Full list */}
-                  <div>
-                    <Label htmlFor="language" className="text-sm text-muted-foreground">Or pick from all languages</Label>
+                  {/* Full list with improved styling */}
+                  <div className="space-y-3">
+                    <Label htmlFor="language" className="text-sm font-medium text-muted-foreground">All languages</Label>
                     <Select value={formData.language} onValueChange={value => {
                       const selectedLang = languages[value];
                       setFormData({
@@ -1108,15 +1121,29 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                         language_name: selectedLang?.name || 'English'
                       });
                     }}>
-                      <SelectTrigger className="mt-2">
-                        <SelectValue placeholder="Select language">
-                          {getLanguageDisplay(formData.language, formData.language_name) || "Select language"}
+                      <SelectTrigger className="h-12 border-2 hover:border-[hsl(var(--brand-teal))]/50 focus:border-[hsl(var(--brand-teal))] transition-colors">
+                        <SelectValue placeholder="Search for more languages...">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xl">
+                              {getLanguageDisplay(formData.language, '').split(' ')[0]}
+                            </span>
+                            <span>
+                              {formData.language_name || "Select language"}
+                            </span>
+                          </div>
                         </SelectValue>
                       </SelectTrigger>
-                      <SelectContent className="z-50 bg-background">
+                      <SelectContent className="z-50 bg-background border-2 shadow-xl max-h-[300px]">
                         {Object.keys(languages).length > 0 ? Object.entries(languages).map(([code, lang]) => (
-                          <SelectItem key={code} value={code}>
-                            {getLanguageDisplay(code, lang.name)}
+                          <SelectItem key={code} value={code} className="flex items-center gap-2 py-3 hover:bg-[hsl(var(--brand-teal))]/10">
+                            <div className="flex items-center gap-3 w-full">
+                              <span className="text-lg">
+                                {getLanguageDisplay(code, '').split(' ')[0]}
+                              </span>
+                              <span className="font-medium">
+                                {lang.name}
+                              </span>
+                            </div>
                           </SelectItem>
                         )) : (
                           <SelectItem value="en">🇺🇸 English (Loading...)</SelectItem>
