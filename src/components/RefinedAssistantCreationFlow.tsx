@@ -991,7 +991,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
 
         <div className="space-y-6">
           {/* Step 1: Industry Selection */}
-          {step === 1 && <Card>
+          {step === 1 && <Card className="max-w-5xl mx-auto">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <User className="h-5 w-5" />
@@ -1011,7 +1011,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
             </Card>}
 
           {/* Step 2: Assistant Type Selection */}
-          {step === 2 && <Card>
+          {step === 2 && <Card className="max-w-5xl mx-auto">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Phone className="h-5 w-5" />
@@ -1067,7 +1067,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
             </Card>}
 
           {/* Step 3: Voice & Language Selection */}
-          {step === 3 && <Card>
+          {step === 3 && <Card className="max-w-5xl mx-auto">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Volume2 className="h-5 w-5" />
@@ -1156,7 +1156,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
             </Card>}
 
           {/* Step 4: Role & Purpose Selection */}
-          {step === 4 && <Card>
+          {step === 4 && <Card className="max-w-5xl mx-auto">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <User className="h-5 w-5" />
@@ -1180,7 +1180,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
             </Card>}
 
           {/* Step 5: Actions & Integrations */}
-          {step === 5 && <Card>
+          {step === 5 && <Card className="max-w-5xl mx-auto">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Settings className="h-5 w-5" />
@@ -1415,7 +1415,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
             </Card>}
 
           {/* Step 6: Assistant Details & Behavior Configuration */}
-          {step === 6 && <Card>
+          {step === 6 && <Card className="max-w-5xl mx-auto">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Brain className="h-5 w-5 text-[hsl(var(--brand-teal))]" />
@@ -1423,7 +1423,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 </CardTitle>
                 <p className="text-muted-foreground">Configure your assistant's identity and behavior</p>
               </CardHeader>
-              <CardContent className="space-y-8">
+              <CardContent className="space-y-10 md:space-y-12">
                 <div>
                   <Label htmlFor="assistantName" className="text-base font-medium">Assistant Name</Label>
                   <Input id="assistantName" value={formData.name} onChange={e => {
@@ -1440,8 +1440,10 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                   }} placeholder="e.g., Customer Support Assistant" className="mt-2" />
                 </div>
 
+                <Separator className="my-6" />
+
                 {/* Minimal Questions */}
-                <div className="grid gap-6 md:grid-cols-2">
+                <div className="grid gap-10 lg:gap-12 md:grid-cols-[1fr_420px] items-start">
                   <div className="space-y-6">
                     <div>
                       <Label className="text-base font-medium">Primary Goal</Label>
@@ -1627,7 +1629,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
             </Card>}
 
           {/* Step 7: Knowledge Base Upload (Optional) */}
-          {step === 7 && <Card>
+          {step === 7 && <Card className="max-w-5xl mx-auto">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Upload className="h-5 w-5" />
@@ -1648,7 +1650,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
             </Card>}
 
           {/* Step 8: Phone Number Assignment */}
-          {step === 8 && <Card>
+          {step === 8 && <Card className="max-w-5xl mx-auto">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Phone className="h-5 w-5" />
@@ -1696,7 +1698,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
             </Card>}
 
           {/* Step 9: Testing & Deployment */}
-          {step === 9 && <Card>
+          {step === 9 && <Card className="max-w-5xl mx-auto">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <TestTube className="h-5 w-5" />
