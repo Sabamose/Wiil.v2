@@ -1059,7 +1059,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 <div>
                   <Label className="text-base font-medium">Select Voice</Label>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
-                    {Object.entries(voices).map(([id, voice]) => <div key={id} className={`p-4 border rounded-lg cursor-pointer transition-colors ${formData.voice_id === id ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'}`} onClick={() => setFormData({
+                    {Object.entries(voices).map(([id, voice]) => <div key={id} className={`p-4 border rounded-lg cursor-pointer transition-colors ${formData.voice_id === id ? 'border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06]' : 'border-border hover:border-[hsl(var(--brand-teal))]'}`} onClick={() => setFormData({
                   ...formData,
                   voice_id: id,
                   voice_name: `${voice.name} (${voice.gender})`

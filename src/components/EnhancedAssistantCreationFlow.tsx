@@ -246,8 +246,8 @@ const EnhancedAssistantCreationFlow: React.FC<EnhancedAssistantCreationFlowProps
                         key={id}
                         className={`p-3 border rounded-lg cursor-pointer transition-colors ${
                           formData.voice_id === id
-                            ? 'border-primary bg-primary/5'
-                            : 'border-muted hover:border-primary/50'
+                            ? 'border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06]'
+                            : 'border-muted hover:border-[hsl(var(--brand-teal))]'
                         }`}
                         onClick={() =>
                           setFormData({
