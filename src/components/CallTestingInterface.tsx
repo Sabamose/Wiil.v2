@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { StoredAssistant } from "@/hooks/useAssistants";
 import FuturisticVoiceOrb from "./FuturisticVoiceOrb";
+import VoiceStatusLabel from "./VoiceStatusLabel";
 interface CallTestingInterfaceProps {
   assistant: StoredAssistant;
 }
@@ -20,6 +21,8 @@ const CallTestingInterface = ({
   } = useToast();
   const isInboundAssistant = assistant.assistant_type === "inbound";
   const testPhoneNumber = assistant.phone_number || "+1 (555) 123-4567";
+  const uiState: "idle" | "listening" | "thinking" | "speaking" | "muted" | "error" =
+    isConnecting ? "thinking" : isActive ? "speaking" : "idle";
   const handleCopyPhoneNumber = () => {
     navigator.clipboard.writeText(testPhoneNumber);
     toast({
@@ -77,6 +80,7 @@ const CallTestingInterface = ({
             state={isConnecting ? 'connecting' : isActive ? 'active' : 'idle'}
             className="pointer-events-none"
           />
+          <VoiceStatusLabel state={uiState} muted={false} />
 
           {/* Microphone button for active calls */}
           {isActive && (
