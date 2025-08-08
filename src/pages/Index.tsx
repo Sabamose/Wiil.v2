@@ -53,7 +53,7 @@ const Index = () => {
         {/* Main Content */}
         {currentView === "list" ? (
           <main className={`${isMobile ? 'ml-0' : 'ml-60'} mt-16 p-4 md:p-8`}>
-            <ExistingAssistantsSection assistants={assistants} loading={loading} />
+            <ExistingAssistantsSection assistants={assistants} loading={loading} onRefresh={fetchAssistants} />
           </main>
         ) : (
           selectedAssistant && (
