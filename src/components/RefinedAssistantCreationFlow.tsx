@@ -1446,7 +1446,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                       placeholder="e.g., Sarah, Alex, Customer Care Assistant" 
                       className="max-w-md mx-auto text-center text-lg"
                     />
-                    <p className="text-sm text-muted-foreground">Choose a friendly name that customers will feel comfortable talking to</p>
+                    
                   </div>
                 </Card>
 
