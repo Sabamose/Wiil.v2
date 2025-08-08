@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
-import { Phone, Target, Users, Calendar, Clock, FileText, Upload, Plus, Settings, Play, Pause, BarChart3 } from "lucide-react";
+import { Phone, Target, Users, Calendar, Clock, FileText, Upload, Plus, Settings, Play, Pause, BarChart3, ArrowLeft } from "lucide-react";
 import { useAssistants } from "@/hooks/useAssistants";
 import { useToast } from "@/hooks/use-toast";
 
@@ -107,9 +107,19 @@ const Campaigns = () => {
       <main className={`${isMobile ? 'ml-0' : 'ml-60'} mt-16 p-4 md:p-6 space-y-6`}>
         {/* Header */}
         <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">Outbound Campaigns</h1>
-            <p className="text-muted-foreground">Create and manage your outbound calling campaigns</p>
+          <div className="flex items-center gap-4">
+            <Button 
+              variant="ghost" 
+              onClick={() => window.location.href = '/'}
+              className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to Dashboard
+            </Button>
+            <div>
+              <h1 className="text-2xl font-bold text-foreground">Outbound Campaigns</h1>
+              <p className="text-muted-foreground">Create and manage your outbound calling campaigns</p>
+            </div>
           </div>
           <div className="flex gap-3">
             <Button variant="outline">
