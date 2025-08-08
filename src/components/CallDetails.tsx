@@ -107,12 +107,11 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
 
       {/* Tabs */}
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="transcription">Transcription</TabsTrigger>
           <TabsTrigger value="client-data">Client data</TabsTrigger>
           <TabsTrigger value="phone-call">Phone call</TabsTrigger>
-          <TabsTrigger value="batch-call">Batch call</TabsTrigger>
         </TabsList>
 
         {/* Overview Tab */}
@@ -229,12 +228,6 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
           </div>
         </TabsContent>
 
-        {/* Batch Call Tab */}
-        <TabsContent value="batch-call" className="space-y-4 mt-6">
-          <div className="text-center py-8 text-muted-foreground">
-            <p>No batch call information available</p>
-          </div>
-        </TabsContent>
       </Tabs>
     </div>
   );
