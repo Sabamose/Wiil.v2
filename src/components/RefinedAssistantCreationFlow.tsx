@@ -1414,236 +1414,426 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               </CardContent>
             </Card>}
 
-          {/* Step 6: Assistant Details & Behavior Configuration */}
-          {step === 6 && <Card className="max-w-5xl mx-auto">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Brain className="h-5 w-5 text-[hsl(var(--brand-teal))]" />
-                  Assistant Details & Behavior
+          {/* Step 6: Teach Your Assistant */}
+          {step === 6 && <Card className="max-w-4xl mx-auto">
+              <CardHeader className="text-center">
+                <CardTitle className="flex items-center justify-center gap-2 text-2xl">
+                  <Brain className="h-6 w-6 text-[hsl(var(--brand-teal))]" />
+                  Teach Your Assistant How to Talk to Customers
                 </CardTitle>
-                <p className="text-muted-foreground">Configure your assistant's identity and behavior</p>
+                <p className="text-muted-foreground text-lg">Answer these simple questions to teach your assistant the perfect way to handle calls</p>
               </CardHeader>
-              <CardContent className="space-y-10 md:space-y-12">
-                <div>
-                  <Label htmlFor="assistantName" className="text-base font-medium">Assistant Name</Label>
-                  <Input id="assistantName" value={formData.name} onChange={e => {
-                    const name = e.target.value
-                    setFormData(prev => {
-                      const next = { ...prev, name } as typeof prev
-                      if (next.behavior?.autoCompose) {
-                        const { initial, prompt } = composeFromBehavior(next)
-                        next.initial_message = initial
-                        next.system_prompt = prompt
-                      }
-                      return next
-                    })
-                  }} placeholder="e.g., Customer Support Assistant" className="mt-2" />
-                </div>
+              <CardContent className="space-y-12">
+                
+                {/* Assistant Name */}
+                <Card className="p-6 border-2 border-[hsl(var(--brand-teal))]/20 bg-[hsl(var(--brand-teal))]/5">
+                  <div className="text-center space-y-4">
+                    <h3 className="text-xl font-semibold text-[hsl(var(--brand-teal))]">First, what should we call your assistant?</h3>
+                    <Input 
+                      value={formData.name} 
+                      onChange={e => {
+                        const name = e.target.value
+                        setFormData(prev => {
+                          const next = { ...prev, name } as typeof prev
+                          if (next.behavior?.autoCompose) {
+                            const { initial, prompt } = composeFromBehavior(next)
+                            next.initial_message = initial
+                            next.system_prompt = prompt
+                          }
+                          return next
+                        })
+                      }} 
+                      placeholder="e.g., Sarah, Alex, Customer Care Assistant" 
+                      className="max-w-md mx-auto text-center text-lg"
+                    />
+                    <p className="text-sm text-muted-foreground">Choose a friendly name that customers will feel comfortable talking to</p>
+                  </div>
+                </Card>
 
-                <Separator className="my-6" />
+                {/* Question 1: Main Focus */}
+                <Card className="p-6">
+                  <div className="text-center space-y-6">
+                    <h3 className="text-xl font-semibold text-[hsl(var(--brand-teal))]">What should your assistant focus on during calls?</h3>
+                    <p className="text-muted-foreground">Pick the main thing you want your assistant to accomplish</p>
+                    <div className="flex flex-wrap gap-3 justify-center max-w-2xl mx-auto">
+                      {[
+                        { value: 'Book appointment', icon: '📅', desc: 'Schedule meetings or appointments' },
+                        { value: 'Qualify lead', icon: '🎯', desc: 'Assess if caller is a good fit' },
+                        { value: 'Support', icon: '🤝', desc: 'Help with questions and issues' },
+                        { value: 'Collect info', icon: '📝', desc: 'Gather customer information' },
+                        { value: 'Route call', icon: '📞', desc: 'Direct to right department' }
+                      ].map(goal => (
+                        <button
+                          key={goal.value}
+                          type="button"
+                          onClick={() => updateBehavior({ goal: goal.value })}
+                          className={`p-4 rounded-lg border-2 text-center transition-all hover:scale-105 ${
+                            formData.behavior.goal === goal.value 
+                              ? 'border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))]/10 text-[hsl(var(--brand-teal))]' 
+                              : 'border-border hover:border-[hsl(var(--brand-teal))]/50'
+                          }`}
+                        >
+                          <div className="text-2xl mb-2">{goal.icon}</div>
+                          <div className="font-medium">{goal.value}</div>
+                          <div className="text-xs text-muted-foreground mt-1">{goal.desc}</div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </Card>
 
-                {/* Minimal Questions */}
-                <div className="max-w-3xl mx-auto space-y-12">
-                  <div className="text-center space-y-8">
-                    <div className="space-y-6">
-                      <div className="text-center">
-                        <Label className="text-lg font-semibold text-[hsl(var(--brand-teal))]">Primary Goal</Label>
+                {/* Question 2: Who They Talk To */}
+                <Card className="p-6">
+                  <div className="text-center space-y-6">
+                    <h3 className="text-xl font-semibold text-[hsl(var(--brand-teal))]">Who will your assistant be talking to?</h3>
+                    <p className="text-muted-foreground">Describe your typical callers so your assistant knows how to connect with them</p>
+                    <div className="max-w-lg mx-auto">
+                      <Input 
+                        placeholder="e.g., small business owners, new customers, existing clients" 
+                        value={formData.behavior.audience} 
+                        onChange={e => updateBehavior({ audience: e.target.value })} 
+                        className="text-center text-lg"
+                      />
+                    </div>
+                  </div>
+                </Card>
+
+                {/* Question 3: Conversation Style */}
+                <Card className="p-6">
+                  <div className="text-center space-y-6">
+                    <h3 className="text-xl font-semibold text-[hsl(var(--brand-teal))]">How should your assistant sound on calls?</h3>
+                    <p className="text-muted-foreground">Choose the personality that fits your brand</p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
+                      {[
+                        { value: 'Friendly', icon: '😊', desc: 'Warm, welcoming, and approachable' },
+                        { value: 'Professional', icon: '💼', desc: 'Polite, formal, and business-focused' },
+                        { value: 'Empathetic', icon: '❤️', desc: 'Understanding, caring, and supportive' }
+                      ].map(tone => (
+                        <button
+                          key={tone.value}
+                          type="button"
+                          onClick={() => updateBehavior({ tone: tone.value })}
+                          className={`p-6 rounded-lg border-2 text-center transition-all hover:scale-105 ${
+                            formData.behavior.tone === tone.value 
+                              ? 'border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))]/10 text-[hsl(var(--brand-teal))]' 
+                              : 'border-border hover:border-[hsl(var(--brand-teal))]/50'
+                          }`}
+                        >
+                          <div className="text-3xl mb-3">{tone.icon}</div>
+                          <div className="font-semibold text-lg">{tone.value}</div>
+                          <div className="text-sm text-muted-foreground mt-2">{tone.desc}</div>
+                        </button>
+                      ))}
+                    </div>
+                    
+                    {/* Sub-choices for conversation style */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto mt-8">
+                      <div className="space-y-3">
+                        <p className="font-medium">How much should your assistant say at once?</p>
+                        <div className="flex flex-wrap gap-2 justify-center">
+                          {[
+                            { value: 'Short', desc: 'Brief responses' },
+                            { value: 'Medium', desc: 'Balanced answers' },
+                            { value: 'Detailed', desc: 'Thorough explanations' }
+                          ].map(length => (
+                            <button
+                              key={length.value}
+                              type="button"
+                              onClick={() => updateBehavior({ responseLength: length.value })}
+                              className={`px-4 py-2 rounded-full border text-sm transition-all ${
+                                formData.behavior.responseLength === length.value 
+                                  ? 'border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))]/10 text-[hsl(var(--brand-teal))]' 
+                                  : 'border-border hover:border-[hsl(var(--brand-teal))]/50'
+                              }`}
+                            >
+                              {length.value}
+                              <div className="text-xs opacity-70">{length.desc}</div>
+                            </button>
+                          ))}
+                        </div>
                       </div>
-                      <div className="flex justify-center">
-                        <ToggleGroup type="single" value={formData.behavior.goal} onValueChange={(v) => v && updateBehavior({ goal: v })} className="flex flex-wrap gap-3 justify-center">
-                        {['Book appointment','Qualify lead','Support','Collect info','Route call'].map(g => (
-                          <ToggleGroupItem key={g} value={g} className="data-[state=on]:bg-[hsl(var(--brand-teal))]/10 data-[state=on]:text-[hsl(var(--brand-teal))] data-[state=on]:ring-1 data-[state=on]:ring-[hsl(var(--brand-teal))]">{g}</ToggleGroupItem>
+                      <div className="space-y-3">
+                        <p className="font-medium">How technical should it be?</p>
+                        <div className="flex flex-wrap gap-2 justify-center">
+                          {[
+                            { value: 'Simple', desc: 'Easy language' },
+                            { value: 'Standard', desc: 'Normal business terms' }
+                          ].map(jargon => (
+                            <button
+                              key={jargon.value}
+                              type="button"
+                              onClick={() => updateBehavior({ jargonLevel: jargon.value })}
+                              className={`px-4 py-2 rounded-full border text-sm transition-all ${
+                                formData.behavior.jargonLevel === jargon.value 
+                                  ? 'border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))]/10 text-[hsl(var(--brand-teal))]' 
+                                  : 'border-border hover:border-[hsl(var(--brand-teal))]/50'
+                              }`}
+                            >
+                              {jargon.value}
+                              <div className="text-xs opacity-70">{jargon.desc}</div>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+
+                {/* Question 4: What TO Say */}
+                <Card className="p-6">
+                  <div className="text-center space-y-6">
+                    <h3 className="text-xl font-semibold text-[hsl(var(--brand-teal))]">What important things should your assistant always mention?</h3>
+                    <p className="text-muted-foreground">Teach your assistant key facts, benefits, or offers to share with customers</p>
+                    <div className="max-w-2xl mx-auto space-y-4">
+                      <div className="flex gap-2">
+                        <Input 
+                          placeholder="e.g., We offer free consultations, Ask about our warranty" 
+                          value={doSayInput} 
+                          onChange={e => setDoSayInput(e.target.value)} 
+                          onKeyDown={e => { 
+                            if (e.key==='Enter' && doSayInput && formData.behavior.doSay.length < 3) { 
+                              updateBehavior({ doSay: [...formData.behavior.doSay, doSayInput] }); 
+                              setDoSayInput('') 
+                            } 
+                          }} 
+                          className="text-center"
+                        />
+                        <Button 
+                          type="button" 
+                          onClick={() => { 
+                            if (doSayInput && formData.behavior.doSay.length < 3) { 
+                              updateBehavior({ doSay: [...formData.behavior.doSay, doSayInput] }); 
+                              setDoSayInput('') 
+                            } 
+                          }}
+                          disabled={!doSayInput || formData.behavior.doSay.length >= 3}
+                        >
+                          Add
+                        </Button>
+                      </div>
+                      
+                      <div className="text-xs text-muted-foreground">💡 Quick examples to try:</div>
+                      <div className="flex flex-wrap gap-2 justify-center">
+                        {['We offer free consultations','Ask about our warranty','We\'re locally owned and operated'].map(ex => (
+                          <Button 
+                            key={ex} 
+                            variant="outline" 
+                            size="sm" 
+                            className="text-xs border-[hsl(var(--brand-teal))]/30 text-[hsl(var(--brand-teal))] hover:bg-[hsl(var(--brand-teal))]/10" 
+                            type="button" 
+                            onClick={() => {
+                              if (formData.behavior.doSay.length < 3 && !formData.behavior.doSay.includes(ex)) {
+                                updateBehavior({ doSay: [...formData.behavior.doSay, ex] })
+                              }
+                            }}
+                            disabled={formData.behavior.doSay.length >= 3 || formData.behavior.doSay.includes(ex)}
+                          >
+                            + {ex}
+                          </Button>
                         ))}
-                        </ToggleGroup>
+                      </div>
+                      
+                      <div className="flex flex-wrap gap-2 justify-center">
+                        {formData.behavior.doSay.map((item, idx) => (
+                          <Badge 
+                            key={idx} 
+                            className="cursor-pointer bg-[hsl(var(--brand-teal))]/10 text-[hsl(var(--brand-teal))] border-[hsl(var(--brand-teal))]/30 text-sm py-1 px-3" 
+                            onClick={() => updateBehavior({ doSay: formData.behavior.doSay.filter((_,i)=>i!==idx) })}
+                          >
+                            ✓ {item} <span className="ml-2 opacity-60">×</span>
+                          </Badge>
+                        ))}
+                      </div>
+                      <div className="text-xs text-muted-foreground">Click on any item to remove it • Max 3 items</div>
+                    </div>
+                  </div>
+                </Card>
+
+                {/* Question 5: What NOT to Say */}
+                <Card className="p-6">
+                  <div className="text-center space-y-6">
+                    <h3 className="text-xl font-semibold text-[hsl(var(--brand-teal))]">What should your assistant never talk about?</h3>
+                    <p className="text-muted-foreground">Protect your business by teaching what topics to avoid</p>
+                    <div className="max-w-2xl mx-auto space-y-4">
+                      <div className="flex gap-2">
+                        <Input 
+                          placeholder="e.g., Exact pricing without context, Internal policies" 
+                          value={dontSayInput} 
+                          onChange={e => setDontSayInput(e.target.value)} 
+                          onKeyDown={e => { 
+                            if (e.key==='Enter' && dontSayInput && formData.behavior.dontSay.length < 3) { 
+                              updateBehavior({ dontSay: [...formData.behavior.dontSay, dontSayInput] }); 
+                              setDontSayInput('') 
+                            } 
+                          }}
+                          className="text-center"
+                        />
+                        <Button 
+                          type="button" 
+                          onClick={() => { 
+                            if (dontSayInput && formData.behavior.dontSay.length < 3) { 
+                              updateBehavior({ dontSay: [...formData.behavior.dontSay, dontSayInput] }); 
+                              setDontSayInput('') 
+                            } 
+                          }}
+                          disabled={!dontSayInput || formData.behavior.dontSay.length >= 3}
+                        >
+                          Add
+                        </Button>
+                      </div>
+                      
+                      <div className="text-xs text-muted-foreground">💡 Common things to avoid:</div>
+                      <div className="flex flex-wrap gap-2 justify-center">
+                        {['Exact pricing without context','Personal medical advice','Company secrets'].map(ex => (
+                          <Button 
+                            key={ex} 
+                            variant="outline" 
+                            size="sm" 
+                            className="text-xs border-red-300 text-red-600 hover:bg-red-50" 
+                            type="button" 
+                            onClick={() => {
+                              if (formData.behavior.dontSay.length < 3 && !formData.behavior.dontSay.includes(ex)) {
+                                updateBehavior({ dontSay: [...formData.behavior.dontSay, ex] })
+                              }
+                            }}
+                            disabled={formData.behavior.dontSay.length >= 3 || formData.behavior.dontSay.includes(ex)}
+                          >
+                            + {ex}
+                          </Button>
+                        ))}
+                      </div>
+                      
+                      <div className="flex flex-wrap gap-2 justify-center">
+                        {formData.behavior.dontSay.map((item, idx) => (
+                          <Badge 
+                            key={idx} 
+                            variant="destructive"
+                            className="cursor-pointer text-sm py-1 px-3" 
+                            onClick={() => updateBehavior({ dontSay: formData.behavior.dontSay.filter((_,i)=>i!==idx) })}
+                          >
+                            ⚠️ {item} <span className="ml-2 opacity-60">×</span>
+                          </Badge>
+                        ))}
+                      </div>
+                      <div className="text-xs text-muted-foreground">Click on any item to remove it • Max 3 items</div>
+                    </div>
+                  </div>
+                </Card>
+
+                {/* Question 6: Important Questions to Ask */}
+                <Card className="p-6">
+                  <div className="text-center space-y-6">
+                    <h3 className="text-xl font-semibold text-[hsl(var(--brand-teal))]">What questions should your assistant always ask?</h3>
+                    <p className="text-muted-foreground">Teach your assistant the most important questions to gather key information</p>
+                    <div className="max-w-2xl mx-auto space-y-4">
+                      <div className="flex gap-2">
+                        <Input 
+                          placeholder="e.g., What's your budget range?, When do you need this completed?" 
+                          value={mustAskInput} 
+                          onChange={e => setMustAskInput(e.target.value)} 
+                          onKeyDown={e => { 
+                            if (e.key==='Enter' && mustAskInput && formData.behavior.mustAsk.length < 3) { 
+                              updateBehavior({ mustAsk: [...formData.behavior.mustAsk, mustAskInput] }); 
+                              setMustAskInput('') 
+                            } 
+                          }}
+                          className="text-center"
+                        />
+                        <Button 
+                          type="button" 
+                          onClick={() => { 
+                            if (mustAskInput && formData.behavior.mustAsk.length < 3) { 
+                              updateBehavior({ mustAsk: [...formData.behavior.mustAsk, mustAskInput] }); 
+                              setMustAskInput('') 
+                            } 
+                          }}
+                          disabled={!mustAskInput || formData.behavior.mustAsk.length >= 3}
+                        >
+                          Add
+                        </Button>
+                      </div>
+                      
+                      <div className="flex flex-wrap gap-2 justify-center">
+                        {formData.behavior.mustAsk.map((item, idx) => (
+                          <Badge 
+                            key={idx} 
+                            className="cursor-pointer bg-blue-100 text-blue-700 border-blue-300 text-sm py-1 px-3" 
+                            onClick={() => updateBehavior({ mustAsk: formData.behavior.mustAsk.filter((_,i)=>i!==idx) })}
+                          >
+                            ❓ {item} <span className="ml-2 opacity-60">×</span>
+                          </Badge>
+                        ))}
+                      </div>
+                      <div className="text-xs text-muted-foreground">Click on any item to remove it • Max 3 questions</div>
+                    </div>
+                  </div>
+                </Card>
+
+                {/* Live Preview */}
+                <Card className="border-2 border-[hsl(var(--brand-teal))]/30 bg-[hsl(var(--brand-teal))]/5">
+                  <CardHeader>
+                    <CardTitle className="text-[hsl(var(--brand-teal))] text-center text-xl">🎉 Your Teaching Progress</CardTitle>
+                    <p className="text-center text-muted-foreground">Here's how your assistant will introduce itself and behave based on your teaching</p>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <div className="text-sm font-medium text-center mb-2">Opening Message</div>
+                        <div className="p-4 rounded-lg border bg-background text-sm">{formData.initial_message}</div>
+                      </div>
+                      <div>
+                        <div className="text-sm font-medium text-center mb-2">Personality Summary</div>
+                        <div className="p-4 rounded-lg border bg-background text-sm">
+                          Your assistant will be <strong>{formData.behavior.tone?.toLowerCase()}</strong> with <strong>{formData.behavior.audience || 'customers'}</strong>, 
+                          focusing on <strong>{formData.behavior.goal?.toLowerCase()}</strong> using <strong>{formData.behavior.responseLength?.toLowerCase()}</strong> responses.
+                        </div>
                       </div>
                     </div>
+                  </CardContent>
+                </Card>
 
-                    <div className="space-y-4">
-                      <div className="text-center">
-                        <Label className="text-lg font-semibold text-[hsl(var(--brand-teal))]">Audience</Label>
+                {/* Advanced Settings (Collapsed) */}
+                <Card className="border-dashed">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div className="text-center flex-1">
+                        <div className="font-medium">Want to see the technical details?</div>
+                        <p className="text-sm text-muted-foreground">Advanced users can view and edit the exact prompts generated from your teaching</p>
                       </div>
-                      <div className="flex justify-center">
-                        <Input placeholder="e.g., new customers, IT admins" value={formData.behavior.audience} onChange={e => updateBehavior({ audience: e.target.value })} className="max-w-md text-center" />
-                      </div>
+                      <Switch checked={showAdvanced} onCheckedChange={setShowAdvanced} />
                     </div>
-
-                    <div className="space-y-6">
-                      <div className="text-center">
-                        <Label className="text-lg font-semibold text-[hsl(var(--brand-teal))]">Tone & Style</Label>
-                      </div>
-                      <div className="space-y-6">
-                        <div className="text-center space-y-3">
-                          <div className="text-sm text-muted-foreground">Tone</div>
-                          <div className="flex justify-center">
-                            <ToggleGroup type="single" value={formData.behavior.tone} onValueChange={(v) => v && updateBehavior({ tone: v })} className="flex flex-wrap gap-3">
-                              {['Friendly','Professional','Empathetic'].map(t => (
-                                <ToggleGroupItem key={t} value={t} className="data-[state=on]:bg-[hsl(var(--brand-teal))]/10 data-[state=on]:text-[hsl(var(--brand-teal))] data-[state=on]:ring-1 data-[state=on]:ring-[hsl(var(--brand-teal))]">{t}</ToggleGroupItem>
-                              ))}
-                            </ToggleGroup>
-                          </div>
+                    {showAdvanced && (
+                      <div className="space-y-4 pt-6 border-t mt-6">
+                        <div className="flex items-center justify-between">
+                          <div className="text-sm text-muted-foreground">Auto-generate from teaching</div>
+                          <Switch checked={formData.behavior.autoCompose} onCheckedChange={(v) => updateBehavior({ autoCompose: v })} />
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-center">
-                          <div className="space-y-3">
-                            <div className="text-sm text-muted-foreground">Response length</div>
-                            <div className="flex justify-center">
-                              <ToggleGroup type="single" value={formData.behavior.responseLength} onValueChange={(v) => v && updateBehavior({ responseLength: v })} className="flex flex-wrap gap-3">
-                                {['Short','Medium','Detailed'].map(o => (
-                                  <ToggleGroupItem key={o} value={o} className="data-[state=on]:bg-[hsl(var(--brand-teal))]/10 data-[state=on]:text-[hsl(var(--brand-teal))] data-[state=on]:ring-1 data-[state=on]:ring-[hsl(var(--brand-teal))]">{o}</ToggleGroupItem>
-                                ))}
-                              </ToggleGroup>
-                            </div>
-                          </div>
-                          <div className="space-y-3">
-                            <div className="text-sm text-muted-foreground">Jargon level</div>
-                            <div className="flex justify-center">
-                              <ToggleGroup type="single" value={formData.behavior.jargonLevel} onValueChange={(v) => v && updateBehavior({ jargonLevel: v })} className="flex flex-wrap gap-3">
-                                {['Simple','Standard'].map(o => (
-                                  <ToggleGroupItem key={o} value={o} className="data-[state=on]:bg-[hsl(var(--brand-teal))]/10 data-[state=on]:text-[hsl(var(--brand-teal))] data-[state=on]:ring-1 data-[state=on]:ring-[hsl(var(--brand-teal))]">{o}</ToggleGroupItem>
-                                ))}
-                              </ToggleGroup>
-                            </div>
-                          </div>
+                        <div>
+                          <Label htmlFor="initialMessage" className="text-base font-medium">Generated Opening Message</Label>
+                          <Textarea 
+                            id="initialMessage" 
+                            disabled={formData.behavior.autoCompose} 
+                            value={formData.initial_message} 
+                            onChange={e => setFormData({ ...formData, initial_message: e.target.value })} 
+                            rows={3} 
+                            className="resize-none mt-2" 
+                          />
                         </div>
-                      </div>
-                    </div>
-
-                    {/* Lists */}
-                    <div className="space-y-6">
-                      <div>
-                        <Label className="text-base font-medium">Do Say (max 3)</Label>
-                        <div className="mt-2 flex gap-2">
-                          <Input placeholder="Add approved phrase/fact" value={doSayInput} onChange={e => setDoSayInput(e.target.value)} onKeyDown={e => { if (e.key==='Enter' && doSayInput) { updateBehavior({ doSay: [...formData.behavior.doSay.slice(0,2), doSayInput] }); setDoSayInput('') } }} />
-                          <Button type="button" variant="secondary" onClick={() => { if (doSayInput) { updateBehavior({ doSay: [...formData.behavior.doSay.slice(0,2), doSayInput] }); setDoSayInput('') } }}>Add</Button>
-                        </div>
-                        <div className="mt-2 text-xs text-muted-foreground flex items-center gap-2">
-                          <Lightbulb className="h-3 w-3 text-[hsl(var(--brand-teal))]" /> Examples: “We offer free consultations”, “Ask about project timeline”, “We’re based in Austin, TX”
-                        </div>
-                        <div className="mt-2 flex flex-wrap gap-2">
-                          {['We offer free consultations','Ask about project timeline','We\'re based in Austin, TX'].map(ex => (
-                            <Button key={ex} variant="outline" size="sm" className="h-7 text-xs border-[hsl(var(--brand-teal))]/30 text-[hsl(var(--brand-teal))] hover:bg-[hsl(var(--brand-teal))]/10" type="button" onClick={() => updateBehavior({ doSay: [...formData.behavior.doSay.slice(0,2), ex] })}>{ex}</Button>
-                          ))}
-                        </div>
-                        <div className="mt-2 flex flex-wrap gap-2">
-                          {formData.behavior.doSay.map((i, idx) => (
-                            <Badge key={idx} variant="secondary" className="cursor-pointer bg-[hsl(var(--brand-teal))]/10 text-[hsl(var(--brand-teal))] border-[hsl(var(--brand-teal))]/30" onClick={() => updateBehavior({ doSay: formData.behavior.doSay.filter((_,i2)=>i2!==idx) })}>{i} <span className="ml-1">×</span></Badge>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div>
-                        <Label className="text-base font-medium">Don't Say (max 3)</Label>
-                        <div className="mt-2 flex gap-2">
-                          <Input placeholder="Add restricted topic/phrase" value={dontSayInput} onChange={e => setDontSayInput(e.target.value)} onKeyDown={e => { if (e.key==='Enter' && dontSayInput) { updateBehavior({ dontSay: [...formData.behavior.dontSay.slice(0,2), dontSayInput] }); setDontSayInput('') } }} />
-                          <Button type="button" variant="secondary" onClick={() => { if (dontSayInput) { updateBehavior({ dontSay: [...formData.behavior.dontSay.slice(0,2), dontSayInput] }); setDontSayInput('') } }}>Add</Button>
-                        </div>
-                        <div className="mt-2 text-xs text-muted-foreground flex items-center gap-2">
-                          <Lightbulb className="h-3 w-3 text-[hsl(var(--brand-teal))]" /> Examples: “Exact pricing without context”, “Medical/legal advice”, “Internal policies”
-                        </div>
-                        <div className="mt-2 flex flex-wrap gap-2">
-                          {['Exact pricing without context','Medical/legal advice','Internal policies'].map(ex => (
-                            <Button key={ex} variant="outline" size="sm" className="h-7 text-xs border-[hsl(var(--brand-teal))]/30 text-[hsl(var(--brand-teal))] hover:bg-[hsl(var(--brand-teal))]/10" type="button" onClick={() => updateBehavior({ dontSay: [...formData.behavior.dontSay.slice(0,2), ex] })}>{ex}</Button>
-                          ))}
-                        </div>
-                        <div className="mt-2 flex flex-wrap gap-2">
-                          {formData.behavior.dontSay.map((i, idx) => (
-                            <Badge key={idx} variant="secondary" className="cursor-pointer bg-[hsl(var(--brand-teal))]/10 text-[hsl(var(--brand-teal))] border-[hsl(var(--brand-teal))]/30" onClick={() => updateBehavior({ dontSay: formData.behavior.dontSay.filter((_,i2)=>i2!==idx) })}>{i} <span className="ml-1">×</span></Badge>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div>
-                        <Label className="text-base font-medium">Must‑Ask Questions (up to 3)</Label>
-                        <div className="mt-2 flex gap-2">
-                          <Input placeholder="Add a question to always ask" value={mustAskInput} onChange={e => setMustAskInput(e.target.value)} onKeyDown={e => { if (e.key==='Enter' && mustAskInput) { updateBehavior({ mustAsk: [...formData.behavior.mustAsk.slice(0,2), mustAskInput] }); setMustAskInput('') } }} />
-                          <Button type="button" variant="secondary" onClick={() => { if (mustAskInput) { updateBehavior({ mustAsk: [...formData.behavior.mustAsk.slice(0,2), mustAskInput] }); setMustAskInput('') } }}>Add</Button>
-                        </div>
-                        <div className="mt-2 flex flex-wrap gap-2">
-                          {formData.behavior.mustAsk.map((i, idx) => (
-                            <Badge key={idx} variant="secondary" className="cursor-pointer" onClick={() => updateBehavior({ mustAsk: formData.behavior.mustAsk.filter((_,i2)=>i2!==idx) })}>{i} <span className="ml-1">×</span></Badge>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-
-                    {formData.actions.callTransfer.enabled && (
-                      <div>
-                        <Label className="text-base font-medium">Handoff Rules</Label>
-                        <div className="mt-2">
-                          <div className="text-sm text-muted-foreground mb-1">When to transfer</div>
-                          <div className="flex gap-2">
-                            <Input placeholder="e.g., billing, cancellation" value={handoffWhenInput} onChange={e => setHandoffWhenInput(e.target.value)} onKeyDown={e => { if (e.key==='Enter' && handoffWhenInput) { updateBehavior({ handoff: { ...formData.behavior.handoff, when: [...formData.behavior.handoff.when, handoffWhenInput] } }); setHandoffWhenInput('') } }} />
-                            <Button type="button" variant="secondary" onClick={() => { if (handoffWhenInput) { updateBehavior({ handoff: { ...formData.behavior.handoff, when: [...formData.behavior.handoff.when, handoffWhenInput] } }); setHandoffWhenInput('') } }}>Add</Button>
-                          </div>
-                          <div className="mt-2 flex flex-wrap gap-2">
-                            {formData.behavior.handoff.when.map((i, idx) => (
-                              <Badge key={idx} variant="secondary" className="cursor-pointer" onClick={() => updateBehavior({ handoff: { ...formData.behavior.handoff, when: formData.behavior.handoff.when.filter((_,i2)=>i2!==idx) } })}>{i} <span className="ml-1">×</span></Badge>
-                            ))}
-                          </div>
-                          <div className="grid grid-cols-2 gap-3 mt-3">
-                            <div>
-                              <div className="text-sm text-muted-foreground mb-1">Transfer target</div>
-                              <Input placeholder="Team/number" value={formData.behavior.handoff.to} onChange={e => updateBehavior({ handoff: { ...formData.behavior.handoff, to: e.target.value } })} />
-                            </div>
-                            <div>
-                              <div className="text-sm text-muted-foreground mb-1">What to say before transfer</div>
-                              <Input placeholder="One line handoff message" value={formData.behavior.handoff.preface} onChange={e => updateBehavior({ handoff: { ...formData.behavior.handoff, preface: e.target.value } })} />
-                            </div>
-                          </div>
+                        <div>
+                          <Label htmlFor="systemPrompt" className="text-base font-medium">Generated System Instructions</Label>
+                          <Textarea 
+                            id="systemPrompt" 
+                            disabled={formData.behavior.autoCompose} 
+                            value={formData.system_prompt} 
+                            onChange={e => setFormData({ ...formData, system_prompt: e.target.value })} 
+                            rows={8} 
+                            className="resize-none mt-2" 
+                          />
                         </div>
                       </div>
                     )}
-                  </div>
-
-                  {/* Live Preview - Centered */}
-                  <div className="flex justify-center">
-                    <Card className="border-l-4 border-[hsl(var(--brand-teal))]/50 w-full max-w-2xl">
-                      <CardHeader>
-                        <CardTitle className="text-[hsl(var(--brand-teal))] text-center">Live Preview</CardTitle>
-                      </CardHeader>
-                      <CardContent className="space-y-4">
-                        <div>
-                          <div className="text-sm text-muted-foreground mb-1 text-center">Initial Message</div>
-                          <div className="p-3 rounded-md border bg-muted/40 text-sm">{formData.initial_message}</div>
-                        </div>
-                        <div>
-                          <div className="text-sm text-muted-foreground mb-1 text-center">Behavior summary</div>
-                          <div className="p-3 rounded-md border bg-muted/40 text-sm whitespace-pre-wrap">
-                            {composeFromBehavior(formData).prompt}
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-
-                  {/* Advanced Toggle - Centered */}
-                  <div className="flex justify-center">
-                    <div className="w-full max-w-2xl space-y-2">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <div className="font-medium">Advanced</div>
-                          <p className="text-sm text-muted-foreground">Toggle to customize the exact prompts now. You can always edit this later in Assistant Settings.</p>
-                        </div>
-                        <Switch checked={showAdvanced} onCheckedChange={setShowAdvanced} />
-                      </div>
-                      {showAdvanced && (
-                        <div className="space-y-4 pt-4 border rounded-md p-4">
-                          <div className="flex items-center justify-between">
-                            <div className="text-sm text-muted-foreground">Auto-compose from answers</div>
-                            <Switch checked={formData.behavior.autoCompose} onCheckedChange={(v) => updateBehavior({ autoCompose: v })} />
-                          </div>
-                          <div>
-                            <Label htmlFor="initialMessage" className="text-base font-medium">Initial Message</Label>
-                            <Textarea id="initialMessage" disabled={formData.behavior.autoCompose} value={formData.initial_message} onChange={e => setFormData({ ...formData, initial_message: e.target.value })} rows={3} className="resize-none mt-2" />
-                          </div>
-                          <div>
-                            <Label htmlFor="systemPrompt" className="text-base font-medium">System Prompt</Label>
-                            <Textarea id="systemPrompt" disabled={formData.behavior.autoCompose} value={formData.system_prompt} onChange={e => setFormData({ ...formData, system_prompt: e.target.value })} rows={8} className="resize-none mt-2" />
-                          </div>
-                        </div>
-                      )}
-                  </div>
-                </div>
-                </div>
+                  </CardContent>
+                </Card>
               </CardContent>
             </Card>}
 
