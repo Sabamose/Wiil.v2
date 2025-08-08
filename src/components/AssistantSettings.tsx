@@ -1626,7 +1626,7 @@ IMPORTANT GUIDELINES:
               onClick={handleSaveAssistant}
               disabled={isSaving}
               size="lg"
-              className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg px-6 py-3"
+              className="bg-teal-600 hover:bg-teal-700 text-white shadow-lg px-6 py-3"
             >
               <Save className="w-5 h-5 mr-2" />
               {isSaving ? 'Saving...' : 'Save Changes'}
