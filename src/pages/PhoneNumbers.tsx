@@ -170,12 +170,6 @@ const PhoneNumbers = () => {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="bg-white border shadow-lg z-50">
-                          <DropdownMenuItem onClick={(e) => {
-                            e.stopPropagation();
-                            handleToggleStatus(phoneNumber.id);
-                          }}>
-                            {phoneNumber.status === "active" ? "Deactivate" : "Activate"}
-                          </DropdownMenuItem>
                           {phoneNumber.assignedAssistant && (
                             <DropdownMenuItem onClick={(e) => {
                               e.stopPropagation();
