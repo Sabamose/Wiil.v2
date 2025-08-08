@@ -59,39 +59,26 @@ const CallTestingInterface = ({
     });
   };
   return <div className="flex flex-col items-center justify-center min-h-[500px] p-8">
-      {/* Testing Bubble */}
+      {/* Voice Orb Widget */}
       <div className="relative mb-8">
-        {/* Pulse rings */}
-        {(isActive || isConnecting) && <>
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary/20 to-accent/20 animate-ping"></div>
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary/10 to-accent/10 animate-ping animation-delay-75"></div>
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary/5 to-accent/5 animate-ping animation-delay-150"></div>
-          </>}
-        
-        {/* Main orb widget */}
-        <div
-          className={`relative flex items-center justify-center transition-all duration-300 ${isActive || isConnecting ? 'scale-110' : 'hover:scale-105'}`}
-          aria-label={isInboundAssistant ? 'Voice assistant orb. Click to call.' : 'Voice assistant orb.'}
-        >
-          <VoiceOrbSigma
-            width={400}
-            height={400}
-            orb={300}
-            state={uiState}
-            muted={false}
-          />
+        <VoiceOrbSigma
+          width={400}
+          height={400}
+          orb={300}
+          state={uiState}
+          muted={false}
+        />
 
-          {/* Microphone button for active calls */}
-          {isActive && (
-            <button
-              onClick={handleEndCall}
-              className="absolute bottom-4 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-colors bg-destructive text-destructive-foreground hover:bg-destructive/90"
-              aria-label="End test call"
-            >
-              <Phone className="w-5 h-5 rotate-[135deg]" />
-            </button>
-          )}
-        </div>
+        {/* Microphone button for active calls */}
+        {isActive && (
+          <button
+            onClick={handleEndCall}
+            className="absolute bottom-8 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-colors bg-destructive text-destructive-foreground hover:bg-destructive/90 z-10"
+            aria-label="End test call"
+          >
+            <Phone className="w-5 h-5 rotate-[135deg]" />
+          </button>
+        )}
       </div>
 
       {/* Assistant Information */}
