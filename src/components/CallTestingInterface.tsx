@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { StoredAssistant } from "@/hooks/useAssistants";
+import FuturisticVoiceOrb from "./FuturisticVoiceOrb";
 interface CallTestingInterfaceProps {
   assistant: StoredAssistant;
 }
@@ -65,25 +66,28 @@ const CallTestingInterface = ({
             <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary/5 to-accent/5 animate-ping animation-delay-150"></div>
           </>}
         
-        {/* Main bubble */}
-        <div className={`relative w-64 h-64 rounded-full bg-gradient-to-br from-primary/80 via-primary to-accent transition-all duration-300 shadow-2xl ${isActive || isConnecting ? 'scale-110 shadow-primary/50' : 'hover:scale-105'}`}>
-          {/* Inner content */}
-          <div className="absolute inset-8 rounded-full bg-white/10 backdrop-blur-sm flex flex-col items-center justify-center">
-            <Phone className={`w-8 h-8 text-white mb-2 ${isActive ? 'animate-bounce' : ''}`} />
-            <div className="text-white text-center">
-              <div className="text-sm font-medium">
-                {isConnecting ? 'Connecting...' : isActive ? 'Live Call' : isInboundAssistant ? 'Try a call' : 'Start test call'}
-              </div>
-              {isActive && <div className="text-xs opacity-80 mt-1">
-                  Tap to interrupt
-                </div>}
-            </div>
-          </div>
+        {/* Main orb widget */}
+        <div
+          className={`relative w-[min(80vw,400px)] h-[min(80vw,400px)] flex items-center justify-center transition-all duration-300 ${isActive || isConnecting ? 'scale-110 drop-shadow-[0_0_40px_hsl(var(--primary)/0.35)]' : 'hover:scale-105'}`}
+          aria-label={isInboundAssistant ? 'Voice assistant orb. Click to call.' : 'Voice assistant orb.'}
+        >
+          {/* SVG Futuristic Orb */}
+          <FuturisticVoiceOrb
+            size={256}
+            state={isConnecting ? 'connecting' : isActive ? 'active' : 'idle'}
+            className="pointer-events-none"
+          />
 
           {/* Microphone button for active calls */}
-          {isActive && <button onClick={handleEndCall} className="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-12 h-12 bg-red-500 rounded-full flex items-center justify-center shadow-lg hover:bg-red-600 transition-colors">
-              <Phone className="w-5 h-5 text-white rotate-[135deg]" />
-            </button>}
+          {isActive && (
+            <button
+              onClick={handleEndCall}
+              className="absolute bottom-4 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-colors bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              aria-label="End test call"
+            >
+              <Phone className="w-5 h-5 rotate-[135deg]" />
+            </button>
+          )}
         </div>
       </div>
 
