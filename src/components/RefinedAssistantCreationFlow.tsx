@@ -2032,9 +2032,6 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
           
           {step === totalSteps && (
             <div className="text-center space-y-3">
-              <div className="text-sm text-muted-foreground">
-                Your assistant is ready! Deploy to make it live and start handling calls.
-              </div>
               <Button 
                 onClick={async () => {
                   setIsCreating(true);
