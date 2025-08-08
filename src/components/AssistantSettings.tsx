@@ -1458,23 +1458,6 @@ IMPORTANT GUIDELINES:
                       </div>
                     </div>
 
-                    {/* Usage Information */}
-                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                      <div className="flex items-start gap-2">
-                        <MessageSquare className="w-5 h-5 text-blue-600 mt-0.5" />
-                        <div>
-                          <p className="text-sm font-medium text-blue-800 mb-1">
-                            {formData.assistantType === 'inbound' ? 'Inbound Assistant Active' : 'Outbound Assistant Ready'}
-                          </p>
-                          <p className="text-sm text-blue-700">
-                            {formData.assistantType === 'inbound' 
-                              ? 'Your assistant is ready to receive and handle incoming calls on this number.'
-                              : 'Your assistant is ready to make outbound calls using this number for campaigns.'
-                            }
-                          </p>
-                        </div>
-                      </div>
-                    </div>
                   </CardContent>
                 </Card>
               ) : (
