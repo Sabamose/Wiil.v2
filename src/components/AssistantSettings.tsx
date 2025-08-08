@@ -1548,7 +1548,10 @@ IMPORTANT GUIDELINES:
       {isPurchaseModalOpen && (
         <PhoneNumberPurchaseModal
           isOpen={isPurchaseModalOpen}
-          onClose={() => setIsPurchaseModalOpen(false)}
+          onClose={() => {
+            setIsPurchaseModalOpen(false);
+            setActiveTab('Phone'); // Navigate back to phone settings page
+          }}
           assistantType={formData.assistantType as 'inbound' | 'outbound'}
           assistantName={formData.name}
           onPurchaseComplete={(phoneNumber: PhoneNumber) => {
