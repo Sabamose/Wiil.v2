@@ -111,24 +111,49 @@ const CallTestingInterface = ({ assistant }: CallTestingInterfaceProps) => {
       {isInboundAssistant ? (
         <Card className="w-full max-w-md">
           <CardContent className="p-6 text-center">
-            <h4 className="font-medium mb-3">Call Your Assistant</h4>
+            <h4 className="font-medium mb-3">Talk to Your Assistant</h4>
             <p className="text-sm text-muted-foreground mb-4">
-              Call this number to talk to your Assistant:
+              Choose how you want to interact:
             </p>
-            <div className="flex items-center gap-2 p-3 bg-muted rounded-lg">
-              <span className="font-mono text-lg flex-1">{testPhoneNumber}</span>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleCopyPhoneNumber}
-                className="shrink-0"
-              >
-                <Copy className="w-4 h-4" />
-              </Button>
+            
+            {/* Option 1: Click bubble */}
+            <div className="mb-4">
+              <div className="flex items-center justify-center gap-2 text-sm font-medium text-primary">
+                <span>Click the bubble above</span>
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">
+                Instant voice conversation
+              </p>
             </div>
-            <p className="text-xs text-muted-foreground mt-3">
-              Your assistant will answer.
-            </p>
+
+            {/* OR divider */}
+            <div className="flex items-center gap-3 my-4">
+              <div className="flex-1 h-px bg-border"></div>
+              <span className="text-xs text-muted-foreground font-medium">OR</span>
+              <div className="flex-1 h-px bg-border"></div>
+            </div>
+
+            {/* Option 2: Call phone number */}
+            <div className="mb-4">
+              <div className="flex items-center justify-center gap-2 text-sm font-medium text-primary mb-2">
+                <Phone className="w-4 h-4" />
+                <span>Call this number</span>
+              </div>
+              <div className="flex items-center gap-2 p-3 bg-muted rounded-lg">
+                <span className="font-mono text-lg flex-1">{testPhoneNumber}</span>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleCopyPhoneNumber}
+                  className="shrink-0"
+                >
+                  <Copy className="w-4 h-4" />
+                </Button>
+              </div>
+              <p className="text-xs text-muted-foreground mt-2">
+                Your assistant will answer immediately
+              </p>
+            </div>
           </CardContent>
         </Card>
       ) : (
