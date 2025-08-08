@@ -1454,7 +1454,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 <Card className="p-6">
                   <div className="text-center space-y-6">
                     <h3 className="text-xl font-semibold text-[hsl(var(--brand-teal))]">What should your assistant focus on during calls?</h3>
-                    <p className="text-muted-foreground">Pick the main thing you want your assistant to accomplish</p>
+                    
                     <div className="flex flex-wrap gap-3 justify-center max-w-2xl mx-auto">
                       {[
                         { value: 'Book appointment', icon: '📅', desc: 'Schedule meetings or appointments' },
