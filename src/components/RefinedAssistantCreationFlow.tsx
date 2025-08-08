@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Loader2, Play, ArrowLeft, ArrowRight, Volume2, PhoneIncoming, PhoneOutgoing, User, MessageSquare, Brain, Upload, Phone, TestTube, Zap, Save, AlertTriangle, Settings, Calendar, PhoneForwarded } from 'lucide-react';
+import { Loader2, Play, ArrowLeft, ArrowRight, Volume2, PhoneIncoming, PhoneOutgoing, User, MessageSquare, Brain, Upload, Phone, TestTube, Zap, Save, AlertTriangle, Settings, Calendar, PhoneForwarded, Check } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import KnowledgeUpload from './KnowledgeUpload';
 import PhoneNumberPurchaseModal from './PhoneNumberPurchaseModal';
@@ -945,28 +945,51 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Phone className="h-5 w-5" />
-                  What type of assistant do you need?
+                  What calls will this assistant handle?
                 </CardTitle>
+                <p className="text-muted-foreground">Pick one. You can change this later.</p>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div onClick={() => handleAssistantTypeSelect('inbound')} className={`p-8 rounded-xl cursor-pointer transition-all hover:scale-105 hover:shadow-lg ${formData.assistantType === 'inbound' ? 'bg-primary/10 ring-2 ring-primary' : 'bg-muted/30 hover:bg-muted/50'}`}>
-                    <div className="text-center space-y-4">
+                  <div
+                    onClick={() => handleAssistantTypeSelect('inbound')}
+                    className={`relative p-8 rounded-xl border cursor-pointer transition-all hover:shadow-lg ${formData.assistantType === 'inbound' ? 'border-primary ring-2 ring-primary bg-primary/10' : 'border-border hover:border-primary/50 bg-muted/30 hover:bg-muted/50'}`}
+                  >
+                    {formData.assistantType === 'inbound' && (
+                      <div className="absolute top-3 right-3">
+                        <Badge className="gap-1">
+                          <Check className="h-3 w-3" /> Selected
+                        </Badge>
+                      </div>
+                    )}
+                    <div className="text-center space-y-3">
                       <PhoneIncoming className="w-16 h-16 mx-auto text-primary" />
-                      <h3 className="text-xl font-semibold">Incoming Calls</h3>
-                      <p className="text-muted-foreground">
-                        Handles customer calls to your business
-                      </p>
+                      <h3 className="text-lg font-semibold flex items-center justify-center gap-2">
+                        Answer incoming calls
+                        <Badge variant="secondary">Inbound</Badge>
+                      </h3>
+                      <p className="text-sm text-muted-foreground">Customers call your number. The assistant answers.</p>
                     </div>
                   </div>
 
-                  <div onClick={() => handleAssistantTypeSelect('outbound')} className={`p-8 rounded-xl cursor-pointer transition-all hover:scale-105 hover:shadow-lg ${formData.assistantType === 'outbound' ? 'bg-primary/10 ring-2 ring-primary' : 'bg-muted/30 hover:bg-muted/50'}`}>
-                    <div className="text-center space-y-4">
+                  <div
+                    onClick={() => handleAssistantTypeSelect('outbound')}
+                    className={`relative p-8 rounded-xl border cursor-pointer transition-all hover:shadow-lg ${formData.assistantType === 'outbound' ? 'border-primary ring-2 ring-primary bg-primary/10' : 'border-border hover:border-primary/50 bg-muted/30 hover:bg-muted/50'}`}
+                  >
+                    {formData.assistantType === 'outbound' && (
+                      <div className="absolute top-3 right-3">
+                        <Badge className="gap-1">
+                          <Check className="h-3 w-3" /> Selected
+                        </Badge>
+                      </div>
+                    )}
+                    <div className="text-center space-y-3">
                       <PhoneOutgoing className="w-16 h-16 mx-auto text-primary" />
-                      <h3 className="text-xl font-semibold">Outgoing Calls</h3>
-                      <p className="text-muted-foreground">
-                        Makes calls to prospects and customers
-                      </p>
+                      <h3 className="text-lg font-semibold flex items-center justify-center gap-2">
+                        Make outgoing calls
+                        <Badge variant="secondary">Outbound</Badge>
+                      </h3>
+                      <p className="text-sm text-muted-foreground">The assistant calls prospects or customers for you.</p>
                     </div>
                   </div>
                 </div>
