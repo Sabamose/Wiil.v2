@@ -1613,7 +1613,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                         </Button>
                       </div>
                       
-                      <div className="text-xs text-muted-foreground">💡 Quick examples to try:</div>
+                      
                       <div className="flex flex-wrap gap-2 justify-center">
                         {['We offer free consultations','Ask about our warranty','We\'re locally owned and operated'].map(ex => (
                           <Button 
