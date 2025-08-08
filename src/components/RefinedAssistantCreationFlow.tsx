@@ -2002,17 +2002,6 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                    <Phone className="h-5 w-5 mr-3" />
                    Start Test Call
                  </Button>
-                 <Button 
-                   variant="brand-outline"
-                   size="lg"
-                   onClick={() => {
-                     console.log('Preview assistant:', formData);
-                   }}
-                   className="flex-1 sm:flex-none px-8 py-6 text-base font-semibold hover-scale"
-                 >
-                   <MessageSquare className="h-5 w-5 mr-3" />
-                   Preview Setup
-                 </Button>
                </div>
 
                {/* Assistant Overview - Elegant Cards */}
