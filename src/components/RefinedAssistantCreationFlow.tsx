@@ -1833,28 +1833,6 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                   </div>
                 </Card>
 
-                {/* Live Preview */}
-                <Card className="border-2 border-[hsl(var(--brand-teal))]/30 bg-[hsl(var(--brand-teal))]/5">
-                  <CardHeader>
-                    <CardTitle className="text-[hsl(var(--brand-teal))] text-center text-xl">🎉 Your Teaching Progress</CardTitle>
-                    <p className="text-center text-muted-foreground">Here's how your assistant will introduce itself and behave based on your teaching</p>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <div className="text-sm font-medium text-center mb-2">Opening Message</div>
-                        <div className="p-4 rounded-lg border bg-background text-sm">{formData.initial_message}</div>
-                      </div>
-                      <div>
-                        <div className="text-sm font-medium text-center mb-2">Personality Summary</div>
-                        <div className="p-4 rounded-lg border bg-background text-sm">
-                          Your assistant will be <strong>{formData.behavior.tone?.toLowerCase()}</strong> with <strong>{formData.behavior.audience || 'customers'}</strong>, 
-                          focusing on <strong>{formData.behavior.goal?.toLowerCase()}</strong> using <strong>{formData.behavior.responseLength?.toLowerCase()}</strong> responses.
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
 
                 {/* Advanced Settings (Collapsed) */}
                 <Card className="border-dashed">
