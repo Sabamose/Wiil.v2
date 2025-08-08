@@ -2110,6 +2110,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
         <TestAssistantModal
           isOpen={isTestModalOpen}
           onClose={() => setIsTestModalOpen(false)}
+          onBackToCreation={() => setIsTestModalOpen(false)}
           assistant={{
             id: currentAssistantId || 'test-assistant',
             user_id: 'demo-user-123',

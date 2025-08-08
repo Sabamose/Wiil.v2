@@ -10,9 +10,10 @@ interface TestAssistantModalProps {
   isOpen: boolean;
   onClose: () => void;
   assistant: StoredAssistant;
+  onBackToCreation?: () => void;
 }
 
-const TestAssistantModal = ({ isOpen, onClose, assistant }: TestAssistantModalProps) => {
+const TestAssistantModal = ({ isOpen, onClose, assistant, onBackToCreation }: TestAssistantModalProps) => {
   if (!isOpen) return null;
 
   return (
@@ -22,7 +23,7 @@ const TestAssistantModal = ({ isOpen, onClose, assistant }: TestAssistantModalPr
         <div className="flex items-center justify-between p-4 border-b">
           <Button 
             variant="ghost" 
-            onClick={onClose}
+            onClick={onBackToCreation || onClose}
             className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
           >
             <ArrowLeft className="w-4 h-4" />
