@@ -96,7 +96,7 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
             variant="outline"
             size="sm"
             onClick={() => setIsPlaying(!isPlaying)}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 border-brand-teal/30 hover:bg-brand-teal/10 hover:border-brand-teal"
           >
             {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
             {playbackSpeed}
@@ -105,16 +105,17 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
             variant="ghost" 
             size="sm"
             onClick={() => setPlaybackSpeed(playbackSpeed === "1.0x" ? "1.5x" : playbackSpeed === "1.5x" ? "2.0x" : "1.0x")}
+            className="hover:bg-brand-teal/10 hover:text-brand-teal"
           >
             <RotateCcw className="h-4 w-4" />
           </Button>
-          <Button variant="ghost" size="sm">
+          <Button variant="ghost" size="sm" className="hover:bg-brand-teal/10 hover:text-brand-teal">
             <RotateCw className="h-4 w-4" />
           </Button>
           <span className="text-sm text-muted-foreground ml-auto">
             {currentTime} / {formatDuration(call.duration)}
           </span>
-          <Button variant="ghost" size="sm">
+          <Button variant="ghost" size="sm" className="hover:bg-brand-teal/10 hover:text-brand-teal">
             <Download className="h-4 w-4" />
           </Button>
         </div>
@@ -122,11 +123,11 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
 
       {/* Tabs */}
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="transcription">Transcription</TabsTrigger>
-          <TabsTrigger value="client-data">Client data</TabsTrigger>
-          <TabsTrigger value="phone-call">Phone call</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-4 bg-muted p-1">
+          <TabsTrigger value="overview" className="data-[state=active]:bg-brand-teal data-[state=active]:text-white">Overview</TabsTrigger>
+          <TabsTrigger value="transcription" className="data-[state=active]:bg-brand-teal data-[state=active]:text-white">Transcription</TabsTrigger>
+          <TabsTrigger value="client-data" className="data-[state=active]:bg-brand-teal data-[state=active]:text-white">Client data</TabsTrigger>
+          <TabsTrigger value="phone-call" className="data-[state=active]:bg-brand-teal data-[state=active]:text-white">Phone call</TabsTrigger>
         </TabsList>
 
         {/* Overview Tab */}
