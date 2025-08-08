@@ -83,7 +83,7 @@ const CallTestingInterface = ({ assistant }: CallTestingInterfaceProps) => {
             <Phone className={`w-8 h-8 text-white mb-2 ${isActive ? 'animate-bounce' : ''}`} />
             <div className="text-white text-center">
               <div className="text-sm font-medium">
-                {isConnecting ? 'Connecting...' : isActive ? 'Live Call' : isInboundAssistant ? 'Try a call' : 'Start test call'}
+                {isConnecting ? 'Connecting...' : isActive ? 'Live Call' : isInboundAssistant ? 'Click to Talk' : 'Click to Call'}
               </div>
               {isActive && (
                 <div className="text-xs opacity-80 mt-1">
