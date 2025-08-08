@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -635,6 +636,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
   onClose,
   onComplete
 }) => {
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [isTestingVoice, setIsTestingVoice] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
@@ -2050,6 +2052,12 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               )}
               <Button 
                 onClick={async () => {
+                  if (!formData.hasPhoneNumber) {
+                    onClose();
+                    navigate('/phone-numbers');
+                    return;
+                  }
+                  
                   setIsCreating(true);
                   try {
                     await handleCreateAssistant();
@@ -2083,7 +2091,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     setIsCreating(false);
                   }
                 }}
-                disabled={isCreating || !formData.hasPhoneNumber}
+                disabled={isCreating}
                 size="lg"
                 className="px-8"
               >
