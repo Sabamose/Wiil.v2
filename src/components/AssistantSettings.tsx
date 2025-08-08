@@ -562,36 +562,39 @@ IMPORTANT GUIDELINES:
           
           <section className={activeTab === 'Industry' ? '' : 'hidden'}>
             <div className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-2">Industry Selection</h2>
-              <p className="text-gray-600">Choose the industry your business operates in.</p>
+              <h2 className="text-2xl font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                <User className="h-6 w-6 text-teal-600" />
+                What industry is your business in?
+              </h2>
+              <p className="text-gray-600">Select the industry that best describes your business</p>
             </div>
             
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {[
-                { id: 'healthcare', label: 'Healthcare & Medical' },
-                { id: 'retail', label: 'Retail & E-commerce' },
-                { id: 'finance', label: 'Finance & Banking' },
-                { id: 'real-estate', label: 'Real Estate' },
-                { id: 'education', label: 'Education & Training' },
-                { id: 'hospitality', label: 'Hospitality & Travel' },
-                { id: 'automotive', label: 'Automotive' },
-                { id: 'professional', label: 'Professional Services' },
-                { id: 'technology', label: 'Technology & Software' },
-                { id: 'government', label: 'Government & Public' },
-                { id: 'food', label: 'Food & Beverage' },
-                { id: 'other', label: 'Other' }
-              ].map((industry) => (
-                <button
+                { id: 'healthcare', label: 'Healthcare & Medical', emoji: '⚕️', description: 'Hospitals, clinics, medical practices' },
+                { id: 'retail', label: 'Retail & E-commerce', emoji: '🛍️', description: 'Online stores, retail chains, boutiques' },
+                { id: 'finance', label: 'Finance & Banking', emoji: '🏦', description: 'Banks, credit unions, financial services' },
+                { id: 'real-estate', label: 'Real Estate', emoji: '🏠', description: 'Property sales, rentals, management' },
+                { id: 'technology', label: 'Technology & Software', emoji: '💻', description: 'SaaS, tech support, IT services' },
+                { id: 'education', label: 'Education & Training', emoji: '🎓', description: 'Schools, universities, online courses' },
+                { id: 'legal', label: 'Legal Services', emoji: '⚖️', description: 'Law firms, legal consultations' },
+                { id: 'automotive', label: 'Automotive', emoji: '🚗', description: 'Car dealers, auto services, parts' },
+                { id: 'hospitality', label: 'Hospitality & Travel', emoji: '✈️', description: 'Hotels, restaurants, travel agencies' },
+                { id: 'professional', label: 'Professional Services', emoji: '💼', description: 'Consulting, agencies, business services' }
+              ].map(industry => (
+                <div
                   key={industry.id}
                   onClick={() => setFormData({ ...formData, industry: industry.id })}
-                  className={`p-4 text-left border rounded-lg transition-all hover:border-gray-400 ${
-                    formData.industry === industry.id
-                      ? 'border-blue-500 bg-blue-50 text-blue-700'
-                      : 'border-gray-200'
+                  className={`p-4 border rounded-lg cursor-pointer transition-all text-center hover:shadow-md ${
+                    formData.industry === industry.id 
+                      ? 'border-teal-600 bg-teal-600/10' 
+                      : 'border-border hover:border-teal-600'
                   }`}
                 >
-                  {industry.label}
-                </button>
+                  <div className="text-3xl mb-2">{industry.emoji}</div>
+                  <div className="font-medium mb-1">{industry.label}</div>
+                  <div className="text-xs text-muted-foreground">{industry.description}</div>
+                </div>
               ))}
             </div>
           </section>
