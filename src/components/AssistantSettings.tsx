@@ -1418,16 +1418,39 @@ IMPORTANT GUIDELINES:
                           Test Connection
                         </Button>
                         <Button
-                          onClick={() => {
-                            setFormData({
-                              ...formData,
-                              phoneNumber: null,
-                              hasPhoneNumber: false
-                            });
-                            toast({
-                              title: "Phone Number Disconnected",
-                              description: "The phone number has been disconnected from this assistant.",
-                            });
+                          onClick={async () => {
+                            try {
+                              // Update the assistant in the database to remove phone number
+                              await updateAssistant(assistant.id, {
+                                phone_number: null,
+                              });
+                              
+                              // Update local state
+                              setFormData({
+                                ...formData,
+                                phoneNumber: null,
+                                hasPhoneNumber: false
+                              });
+                              
+                              // Update original data to reflect the change
+                              setOriginalData(prev => ({
+                                ...prev,
+                                phoneNumber: null,
+                                hasPhoneNumber: false
+                              }));
+                              
+                              toast({
+                                title: "Phone Number Disconnected",
+                                description: "The phone number has been successfully disconnected from this assistant.",
+                              });
+                            } catch (error) {
+                              console.error('Error disconnecting phone number:', error);
+                              toast({
+                                title: "Error",
+                                description: "Failed to disconnect phone number. Please try again.",
+                                variant: "destructive",
+                              });
+                            }
                           }}
                           variant="outline"
                           size="sm"

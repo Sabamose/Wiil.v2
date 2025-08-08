@@ -109,7 +109,7 @@ export const useAssistants = () => {
     }
   };
 
-  const updateAssistant = async (id: string, updates: Partial<CreateAssistantData>): Promise<StoredAssistant | null> => {
+  const updateAssistant = async (id: string, updates: Partial<CreateAssistantData & { phone_number?: string | null }>): Promise<StoredAssistant | null> => {
     try {
       const { data: updatedAssistant, error } = await supabase
         .from('assistants')
