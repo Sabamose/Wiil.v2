@@ -81,9 +81,11 @@ const CallTestingInterface = ({
         )}
       </div>
 
-      {/* Assistant Information */}
-      <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold text-foreground mb-2">{assistant.name}</h3>
+      {/* OR Divider */}
+      <div className="flex items-center gap-4 mb-6 w-full max-w-md">
+        <div className="flex-1 h-px bg-border"></div>
+        <span className="text-muted-foreground font-medium">OR</span>
+        <div className="flex-1 h-px bg-border"></div>
       </div>
 
       {/* Test Instructions */}
