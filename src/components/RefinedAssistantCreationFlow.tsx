@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Loader2, Play, ArrowLeft, ArrowRight, Volume2, PhoneIncoming, PhoneOutgoing, User, MessageSquare, Brain, Upload, Phone, TestTube, Zap, Save, AlertTriangle, Settings, Calendar, PhoneForwarded, Check, Lightbulb } from 'lucide-react';
+import { Loader2, Play, ArrowLeft, ArrowRight, Volume2, PhoneIncoming, PhoneOutgoing, User, MessageSquare, Brain, Upload, Phone, TestTube, Zap, Save, AlertTriangle, Settings, Calendar, PhoneForwarded, Check, Lightbulb, CheckCircle, Sparkles, Target } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import KnowledgeUpload from './KnowledgeUpload';
 import PhoneNumberPurchaseModal from './PhoneNumberPurchaseModal';
@@ -2138,24 +2138,38 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
         />
       )}
 
-      {/* Success Dialog */}
+      {/* Enhanced Success Dialog with Contextual Guidance */}
       <Dialog open={showSuccessDialog} onOpenChange={setShowSuccessDialog}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Assistant Created Successfully!</DialogTitle>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader className="text-center">
+            <div className="w-16 h-16 bg-gradient-to-br from-[hsl(var(--brand-teal))] to-[hsl(var(--brand-teal-hover))] rounded-full flex items-center justify-center mx-auto mb-4">
+              <CheckCircle className="h-8 w-8 text-white" />
+            </div>
+            <DialogTitle className="text-xl">🎉 Assistant Deployed Successfully!</DialogTitle>
           </DialogHeader>
-          <div className="text-center space-y-4 py-4">
-            <p className="text-muted-foreground">
-              Your assistant is now live and ready to handle calls. You can start receiving or making calls immediately.
-            </p>
-            
+          
+          <div className="space-y-6 py-4">
+            {/* Contextual Message Based on Assistant Type */}
+            <div className="text-center">
+              <p className="text-muted-foreground mb-4">
+                {formData.assistantType === 'inbound' ? (
+                  <>Your inbound assistant is now live and ready to receive calls! Test it first, then start receiving calls on {formData.phoneNumber ? `your number ${formData.phoneNumber}` : 'your configured number'}.</>
+                ) : (
+                  <>Your outbound assistant is ready to make calls! Test it first, then create campaigns to start reaching your prospects effectively.</>
+                )}
+              </p>
+            </div>
+
             {/* Assistant Capabilities */}
             {(formData.actions.realTimeBooking.enabled || 
               formData.actions.callTransfer.enabled || 
               formData.actions.smsAutomation.enabled) && (
-              <div className="text-left bg-muted/30 rounded-lg p-4 mt-4">
-                <p className="text-sm font-medium text-foreground mb-2">Your assistant can:</p>
-                <ul className="text-sm text-muted-foreground space-y-1">
+              <div className="bg-muted/30 rounded-lg p-4">
+                <p className="text-sm font-semibold text-foreground mb-2 flex items-center gap-2">
+                  <Sparkles className="h-4 w-4" />
+                  Your assistant can:
+                </p>
+                <ul className="text-sm text-muted-foreground space-y-1 ml-6">
                   {formData.actions.realTimeBooking.enabled && (
                     <li>• Schedule appointments in real-time</li>
                   )}
@@ -2169,16 +2183,94 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 </ul>
               </div>
             )}
-            
-            <Button 
-              onClick={() => {
-                setShowSuccessDialog(false);
-                onClose();
-              }}
-              className="w-full"
-            >
-              Done
-            </Button>
+
+            {/* Primary Action Buttons */}
+            <div className="space-y-3">
+              <Button 
+                onClick={() => {
+                  setShowSuccessDialog(false);
+                  setIsTestModalOpen(true);
+                }}
+                className="w-full bg-[hsl(var(--brand-teal))] hover:bg-[hsl(var(--brand-teal-hover))] text-white"
+                size="lg"
+              >
+                <Phone className="h-4 w-4 mr-2" />
+                Test Your Assistant First
+              </Button>
+
+              {formData.assistantType === 'inbound' ? (
+                <Button 
+                  onClick={() => {
+                    setShowSuccessDialog(false);
+                    onClose();
+                    // Navigate to conversations page
+                    window.location.href = '/conversations';
+                  }}
+                  variant="outline"
+                  className="w-full"
+                  size="lg"
+                >
+                  <MessageSquare className="h-4 w-4 mr-2" />
+                  Monitor Incoming Calls
+                </Button>
+              ) : (
+                <Button 
+                  onClick={() => {
+                    setShowSuccessDialog(false);
+                    onClose();
+                    // Stay on main dashboard for campaign creation
+                  }}
+                  variant="outline"
+                  className="w-full"
+                  size="lg"
+                >
+                  <Target className="h-4 w-4 mr-2" />
+                  Start Making Calls
+                </Button>
+              )}
+            </div>
+
+            {/* Secondary Actions */}
+            <div className="border-t pt-4">
+              <p className="text-xs text-muted-foreground text-center mb-3">Quick access to:</p>
+              <div className="flex justify-center gap-4 text-xs">
+                <button 
+                  onClick={() => {
+                    setShowSuccessDialog(false);
+                    onClose();
+                    window.location.href = '/phone-numbers';
+                  }}
+                  className="flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <Phone className="h-3 w-3" />
+                  Phone Numbers
+                </button>
+                {formData.actions.realTimeBooking.enabled && (
+                  <button 
+                    onClick={() => {
+                      setShowSuccessDialog(false);
+                      onClose();
+                      window.location.href = '/bookings';
+                    }}
+                    className="flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    <Calendar className="h-3 w-3" />
+                    Bookings
+                  </button>
+                )}
+                <button 
+                  onClick={() => {
+                    setShowSuccessDialog(false);
+                    onClose();
+                    window.location.href = '/conversations';
+                  }}
+                  className="flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <MessageSquare className="h-3 w-3" />
+                  Conversations
+                </button>
+              </div>
+            </div>
           </div>
         </DialogContent>
       </Dialog>
