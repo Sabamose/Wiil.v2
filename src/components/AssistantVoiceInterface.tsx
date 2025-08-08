@@ -6,6 +6,8 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
 import { useAssistantVoiceConversation } from '@/hooks/useAssistantVoiceConversation';
 import { StoredAssistant } from '@/hooks/useAssistants';
+import VoiceOrb from '@/components/VoiceOrb';
+import useMicLevel from '@/hooks/useMicLevel';
 
 interface AssistantVoiceInterfaceProps {
   assistant: StoredAssistant;
@@ -15,11 +17,17 @@ const AssistantVoiceInterface: React.FC<AssistantVoiceInterfaceProps> = ({ assis
   const {
     isRecording,
     isProcessing,
+    isSpeaking,
     messages,
     startRecording,
     stopRecording,
     clearConversation
   } = useAssistantVoiceConversation(assistant);
+
+  const level = useMicLevel(isRecording);
+
+  const orbState: 'idle' | 'listening' | 'thinking' | 'speaking' =
+    isRecording ? 'listening' : isProcessing ? 'thinking' : isSpeaking ? 'speaking' : 'idle';
 
   const handleMicClick = () => {
     if (isRecording) {
@@ -133,24 +141,25 @@ const AssistantVoiceInterface: React.FC<AssistantVoiceInterfaceProps> = ({ assis
 
           {/* Status and Controls */}
           <div className="border-t pt-4 mt-4">
-            <div className="flex flex-col items-center gap-4">
-              <p className="text-sm text-muted-foreground text-center">
-                {getStatusMessage()}
-              </p>
-              
-              <Button
-                onClick={handleMicClick}
-                disabled={isProcessing}
-                size="lg"
-                className={`w-16 h-16 rounded-full ${
-                  isRecording 
-                    ? 'bg-destructive hover:bg-destructive/90 text-destructive-foreground' 
-                    : 'bg-primary hover:bg-primary/90'
-                } ${isProcessing ? 'animate-pulse' : ''}`}
-              >
-                {getMicIcon()}
-              </Button>
-            </div>
+<div className="flex flex-col items-center gap-5">
+  <VoiceOrb state={orbState} level={level} size={220} />
+  <p className="text-sm text-muted-foreground text-center">
+    {getStatusMessage()}
+  </p>
+  
+  <Button
+    onClick={handleMicClick}
+    disabled={isProcessing}
+    size="lg"
+    className={`w-16 h-16 rounded-full ${
+      isRecording 
+        ? 'bg-destructive hover:bg-destructive/90 text-destructive-foreground' 
+        : 'bg-primary hover:bg-primary/90'
+    } ${isProcessing ? 'animate-pulse' : ''}`}
+  >
+    {getMicIcon()}
+  </Button>
+</div>
           </div>
         </CardContent>
       </Card>
