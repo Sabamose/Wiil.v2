@@ -514,7 +514,7 @@ IMPORTANT GUIDELINES:
             <div className="flex items-center gap-2 text-gray-500">
               <span>Assistants</span>
               <span>/</span>
-              <span className="text-2xl font-semibold text-black">{assistant.name}</span>
+              <span className="text-2xl font-semibold text-black">Assistant Settings</span>
             </div>
           </div>
           
