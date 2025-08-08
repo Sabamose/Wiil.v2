@@ -642,6 +642,11 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
   const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+  // Inputs for quick list additions in Behavior step
+  const [doSayInput, setDoSayInput] = useState('');
+  const [dontSayInput, setDontSayInput] = useState('');
+  const [mustAskInput, setMustAskInput] = useState('');
+  const [handoffWhenInput, setHandoffWhenInput] = useState('');
   
   const [formData, setFormData] = useState({
     // Step 1: Industry
@@ -689,6 +694,19 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
     system_prompt: 'You are a helpful AI assistant. Be friendly, professional, and concise in your responses. Always aim to be helpful and provide accurate information.',
     temperature: 0.7,
     max_tokens: 300,
+    // Behavior settings (used to auto-compose prompts)
+    behavior: {
+      goal: '',
+      audience: '',
+      tone: 'Friendly',
+      responseLength: 'Short',
+      jargonLevel: 'Simple',
+      doSay: [] as string[],
+      dontSay: [] as string[],
+      mustAsk: [] as string[],
+      handoff: { when: [] as string[], to: '', preface: '' },
+      autoCompose: true,
+    },
     // Step 7: Knowledge Base (optional)
     knowledge: [] as Array<{
       id: string;
@@ -715,6 +733,44 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
   const {
     toast
   } = useToast();
+  // Compose prompt and greeting from Behavior answers
+  const composeFromBehavior = (fd = formData) => {
+    const b = fd.behavior;
+    const goal = b.goal || 'help the caller';
+    const audience = b.audience ? ` for ${b.audience}` : '';
+    const tone = b.tone ? `Use a ${b.tone.toLowerCase()} tone.` : '';
+    const lengthRule = b.responseLength ? `Keep responses ${b.responseLength.toLowerCase()}.` : '';
+    const jargonRule = b.jargonLevel ? `Use ${b.jargonLevel.toLowerCase()} language.` : '';
+    const industry = fd.industry ? `${fd.industry} ` : '';
+    const role = fd.role ? `${fd.role} ` : '';
+
+    const greetingName = fd.name || 'our assistant';
+    const initial = `Hi! This is ${greetingName}. I'm here to ${goal}${audience}. How can I help today?`;
+
+    const doSay = b.doSay.length ? `\nApproved phrases & facts:\n- ${b.doSay.join('\n- ')}` : '';
+    const dontSay = b.dontSay.length ? `\nForbidden topics/phrasing:\n- ${b.dontSay.join('\n- ')}` : '';
+    const mustAsk = b.mustAsk.length ? `\nMust-ask questions every call:\n- ${b.mustAsk.join('\n- ')}` : '';
+    const handoff = (b.handoff.when.length || b.handoff.to || b.handoff.preface)
+      ? `\nHandoff policy:\n- When: ${b.handoff.when.join(', ')}\n- Transfer to: ${b.handoff.to || 'human agent'}\n- Say before transfer: ${b.handoff.preface || 'Let me connect you to a teammate who can assist further.'}`
+      : '';
+
+    const prompt = `You are a ${industry}${role}voice assistant. Primary goal: ${goal}. Audience: ${b.audience || 'callers'}. ${tone} ${lengthRule} ${jargonRule}\n${doSay}${dontSay}${mustAsk}${handoff}\nFollow these rules strictly. Be accurate, polite, and efficient.`;
+
+    return { initial, prompt };
+  };
+
+  const updateBehavior = (patch: Partial<typeof formData.behavior>) => {
+    setFormData(prev => {
+      const next = { ...prev, behavior: { ...prev.behavior, ...patch } } as typeof prev;
+      if (next.behavior.autoCompose) {
+        const { initial, prompt } = composeFromBehavior(next);
+        next.initial_message = initial;
+        next.system_prompt = prompt;
+      }
+      return next;
+    });
+  };
+
   const totalSteps = 9;
   const handleTestVoice = async () => {
     if (!formData.voice_id) return;
@@ -802,6 +858,18 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
       system_prompt: '',
       temperature: 0.7,
       max_tokens: 300,
+      behavior: {
+        goal: '',
+        audience: '',
+        tone: 'Friendly',
+        responseLength: 'Short',
+        jargonLevel: 'Simple',
+        doSay: [],
+        dontSay: [],
+        mustAsk: [],
+        handoff: { when: [], to: '', preface: '' },
+        autoCompose: true,
+      },
       knowledge: [],
       phoneNumber: null,
       hasPhoneNumber: false
@@ -1354,35 +1422,183 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 </CardTitle>
                 <p className="text-muted-foreground">Configure your assistant's identity and behavior</p>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="space-y-8">
                 <div>
                   <Label htmlFor="assistantName" className="text-base font-medium">Assistant Name</Label>
-                  <Input id="assistantName" value={formData.name} onChange={e => setFormData({
-                ...formData,
-                name: e.target.value
-              })} placeholder="e.g., Customer Support Assistant" className="mt-2" />
+                  <Input id="assistantName" value={formData.name} onChange={e => {
+                    const name = e.target.value
+                    setFormData(prev => {
+                      const next = { ...prev, name } as typeof prev
+                      if (next.behavior?.autoCompose) {
+                        const { initial, prompt } = composeFromBehavior(next)
+                        next.initial_message = initial
+                        next.system_prompt = prompt
+                      }
+                      return next
+                    })
+                  }} placeholder="e.g., Customer Support Assistant" className="mt-2" />
                 </div>
 
-                <div>
-                  <Label htmlFor="initialMessage" className="text-base font-medium">Initial Message</Label>
-                  <p className="text-sm text-muted-foreground mb-2">What your assistant says when the call begins</p>
-                  <Textarea id="initialMessage" value={formData.initial_message} onChange={e => setFormData({
-                ...formData,
-                initial_message: e.target.value
-              })} placeholder="Hello! How can I help you today?" rows={3} className="resize-none" />
-                </div>
+                {/* Minimal Questions */}
+                <div className="grid gap-6 md:grid-cols-2">
+                  <div className="space-y-6">
+                    <div>
+                      <Label className="text-base font-medium">Primary Goal</Label>
+                      <ToggleGroup type="single" value={formData.behavior.goal} onValueChange={(v) => v && updateBehavior({ goal: v })} className="mt-3 flex flex-wrap gap-2">
+                        {['Book appointment','Qualify lead','Support','Collect info','Route call'].map(g => (
+                          <ToggleGroupItem key={g} value={g} className="data-[state=on]:bg-primary/10 data-[state=on]:text-primary">{g}</ToggleGroupItem>
+                        ))}
+                      </ToggleGroup>
+                    </div>
 
-                <div>
-                  <Label htmlFor="systemPrompt" className="text-base font-medium">System Prompt</Label>
-                  <p className="text-sm text-muted-foreground mb-2">
-                    Define how your assistant should behave, what it can help with, and any guidelines it should follow
-                  </p>
-                  <Textarea id="systemPrompt" value={formData.system_prompt} onChange={e => setFormData({
-                ...formData,
-                system_prompt: e.target.value
-              })} placeholder="You are a helpful customer support assistant..." rows={8} className="resize-none" />
-                </div>
+                    <div>
+                      <Label className="text-base font-medium">Audience</Label>
+                      <Input placeholder="e.g., new customers, IT admins" value={formData.behavior.audience} onChange={e => updateBehavior({ audience: e.target.value })} className="mt-2" />
+                    </div>
 
+                    <div>
+                      <Label className="text-base font-medium">Tone & Style</Label>
+                      <div className="mt-3 space-y-3">
+                        <div>
+                          <div className="text-sm text-muted-foreground mb-1">Tone</div>
+                          <ToggleGroup type="single" value={formData.behavior.tone} onValueChange={(v) => v && updateBehavior({ tone: v })} className="flex flex-wrap gap-2">
+                            {['Friendly','Professional','Empathetic'].map(t => (
+                              <ToggleGroupItem key={t} value={t} className="data-[state=on]:bg-primary/10 data-[state=on]:text-primary">{t}</ToggleGroupItem>
+                            ))}
+                          </ToggleGroup>
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <div className="text-sm text-muted-foreground mb-1">Response length</div>
+                            <ToggleGroup type="single" value={formData.behavior.responseLength} onValueChange={(v) => v && updateBehavior({ responseLength: v })} className="flex flex-wrap gap-2">
+                              {['Short','Medium','Detailed'].map(o => (
+                                <ToggleGroupItem key={o} value={o} className="data-[state=on]:bg-primary/10 data-[state=on]:text-primary">{o}</ToggleGroupItem>
+                              ))}
+                            </ToggleGroup>
+                          </div>
+                          <div>
+                            <div className="text-sm text-muted-foreground mb-1">Jargon level</div>
+                            <ToggleGroup type="single" value={formData.behavior.jargonLevel} onValueChange={(v) => v && updateBehavior({ jargonLevel: v })} className="flex flex-wrap gap-2">
+                              {['Simple','Standard'].map(o => (
+                                <ToggleGroupItem key={o} value={o} className="data-[state=on]:bg-primary/10 data-[state=on]:text-primary">{o}</ToggleGroupItem>
+                              ))}
+                            </ToggleGroup>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Lists */}
+                    <div>
+                      <Label className="text-base font-medium">Do Say (max 3)</Label>
+                      <div className="mt-2 flex gap-2">
+                        <Input placeholder="Add approved phrase/fact" value={doSayInput} onChange={e => setDoSayInput(e.target.value)} onKeyDown={e => { if (e.key==='Enter' && doSayInput) { updateBehavior({ doSay: [...formData.behavior.doSay.slice(0,2), doSayInput] }); setDoSayInput('') } }} />
+                        <Button type="button" variant="secondary" onClick={() => { if (doSayInput) { updateBehavior({ doSay: [...formData.behavior.doSay.slice(0,2), doSayInput] }); setDoSayInput('') } }}>Add</Button>
+                      </div>
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        {formData.behavior.doSay.map((i, idx) => (
+                          <Badge key={idx} variant="secondary" className="cursor-pointer" onClick={() => updateBehavior({ doSay: formData.behavior.doSay.filter((_,i2)=>i2!==idx) })}>{i} <span className="ml-1">×</span></Badge>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <Label className="text-base font-medium">Don't Say (max 3)</Label>
+                      <div className="mt-2 flex gap-2">
+                        <Input placeholder="Add restricted topic/phrase" value={dontSayInput} onChange={e => setDontSayInput(e.target.value)} onKeyDown={e => { if (e.key==='Enter' && dontSayInput) { updateBehavior({ dontSay: [...formData.behavior.dontSay.slice(0,2), dontSayInput] }); setDontSayInput('') } }} />
+                        <Button type="button" variant="secondary" onClick={() => { if (dontSayInput) { updateBehavior({ dontSay: [...formData.behavior.dontSay.slice(0,2), dontSayInput] }); setDontSayInput('') } }}>Add</Button>
+                      </div>
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        {formData.behavior.dontSay.map((i, idx) => (
+                          <Badge key={idx} variant="secondary" className="cursor-pointer" onClick={() => updateBehavior({ dontSay: formData.behavior.dontSay.filter((_,i2)=>i2!==idx) })}>{i} <span className="ml-1">×</span></Badge>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <Label className="text-base font-medium">Must‑Ask Questions (up to 3)</Label>
+                      <div className="mt-2 flex gap-2">
+                        <Input placeholder="Add a question to always ask" value={mustAskInput} onChange={e => setMustAskInput(e.target.value)} onKeyDown={e => { if (e.key==='Enter' && mustAskInput) { updateBehavior({ mustAsk: [...formData.behavior.mustAsk.slice(0,2), mustAskInput] }); setMustAskInput('') } }} />
+                        <Button type="button" variant="secondary" onClick={() => { if (mustAskInput) { updateBehavior({ mustAsk: [...formData.behavior.mustAsk.slice(0,2), mustAskInput] }); setMustAskInput('') } }}>Add</Button>
+                      </div>
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        {formData.behavior.mustAsk.map((i, idx) => (
+                          <Badge key={idx} variant="secondary" className="cursor-pointer" onClick={() => updateBehavior({ mustAsk: formData.behavior.mustAsk.filter((_,i2)=>i2!==idx) })}>{i} <span className="ml-1">×</span></Badge>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <Label className="text-base font-medium">Handoff Rules</Label>
+                      <div className="mt-2">
+                        <div className="text-sm text-muted-foreground mb-1">When to transfer</div>
+                        <div className="flex gap-2">
+                          <Input placeholder="e.g., billing, cancellation" value={handoffWhenInput} onChange={e => setHandoffWhenInput(e.target.value)} onKeyDown={e => { if (e.key==='Enter' && handoffWhenInput) { updateBehavior({ handoff: { ...formData.behavior.handoff, when: [...formData.behavior.handoff.when, handoffWhenInput] } }); setHandoffWhenInput('') } }} />
+                          <Button type="button" variant="secondary" onClick={() => { if (handoffWhenInput) { updateBehavior({ handoff: { ...formData.behavior.handoff, when: [...formData.behavior.handoff.when, handoffWhenInput] } }); setHandoffWhenInput('') } }}>Add</Button>
+                        </div>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          {formData.behavior.handoff.when.map((i, idx) => (
+                            <Badge key={idx} variant="secondary" className="cursor-pointer" onClick={() => updateBehavior({ handoff: { ...formData.behavior.handoff, when: formData.behavior.handoff.when.filter((_,i2)=>i2!==idx) } })}>{i} <span className="ml-1">×</span></Badge>
+                          ))}
+                        </div>
+                        <div className="grid grid-cols-2 gap-3 mt-3">
+                          <div>
+                            <div className="text-sm text-muted-foreground mb-1">Transfer target</div>
+                            <Input placeholder="Team/number" value={formData.behavior.handoff.to} onChange={e => updateBehavior({ handoff: { ...formData.behavior.handoff, to: e.target.value } })} />
+                          </div>
+                          <div>
+                            <div className="text-sm text-muted-foreground mb-1">What to say before transfer</div>
+                            <Input placeholder="One line handoff message" value={formData.behavior.handoff.preface} onChange={e => updateBehavior({ handoff: { ...formData.behavior.handoff, preface: e.target.value } })} />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Live Preview & Advanced */}
+                  <div className="space-y-6">
+                    <Card>
+                      <CardHeader>
+                        <CardTitle>Live Preview</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <div>
+                          <div className="text-sm text-muted-foreground mb-1">Initial Message</div>
+                          <div className="p-3 rounded-md border bg-muted/40 text-sm">{formData.initial_message}</div>
+                        </div>
+                        <div>
+                          <div className="text-sm text-muted-foreground mb-1">Behavior summary</div>
+                          <div className="p-3 rounded-md border bg-muted/40 text-sm whitespace-pre-wrap">
+                            {composeFromBehavior(formData).prompt}
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    <Collapsible>
+                      <CollapsibleTrigger asChild>
+                        <Button variant="outline" className="w-full justify-between">
+                          Advanced Prompt (optional)
+                          <Settings className="h-4 w-4" />
+                        </Button>
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className="space-y-4 pt-4">
+                        <div className="flex items-center justify-between">
+                          <div className="text-sm text-muted-foreground">Auto-compose from answers</div>
+                          <Switch checked={formData.behavior.autoCompose} onCheckedChange={(v) => updateBehavior({ autoCompose: v })} />
+                        </div>
+                        <div>
+                          <Label htmlFor="initialMessage" className="text-base font-medium">Initial Message</Label>
+                          <Textarea id="initialMessage" disabled={formData.behavior.autoCompose} value={formData.initial_message} onChange={e => setFormData({ ...formData, initial_message: e.target.value })} rows={3} className="resize-none mt-2" />
+                        </div>
+                        <div>
+                          <Label htmlFor="systemPrompt" className="text-base font-medium">System Prompt</Label>
+                          <Textarea id="systemPrompt" disabled={formData.behavior.autoCompose} value={formData.system_prompt} onChange={e => setFormData({ ...formData, system_prompt: e.target.value })} rows={8} className="resize-none mt-2" />
+                        </div>
+                      </CollapsibleContent>
+                    </Collapsible>
+                  </div>
+                </div>
               </CardContent>
             </Card>}
 
