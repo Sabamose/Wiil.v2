@@ -1443,51 +1443,68 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 <Separator className="my-6" />
 
                 {/* Minimal Questions */}
-                <div className="grid gap-10 lg:gap-12 md:grid-cols-[1fr_420px] items-start">
-                  <div className="space-y-6">
-                    <div>
-                      <Label className="text-base font-medium">Primary Goal</Label>
-                      <ToggleGroup type="single" value={formData.behavior.goal} onValueChange={(v) => v && updateBehavior({ goal: v })} className="mt-3 flex flex-wrap gap-2">
+                <div className="max-w-3xl mx-auto space-y-12">
+                  <div className="text-center space-y-8">
+                    <div className="space-y-6">
+                      <div className="text-center">
+                        <Label className="text-lg font-semibold text-[hsl(var(--brand-teal))]">Primary Goal</Label>
+                      </div>
+                      <div className="flex justify-center">
+                        <ToggleGroup type="single" value={formData.behavior.goal} onValueChange={(v) => v && updateBehavior({ goal: v })} className="flex flex-wrap gap-3 justify-center">
                         {['Book appointment','Qualify lead','Support','Collect info','Route call'].map(g => (
                           <ToggleGroupItem key={g} value={g} className="data-[state=on]:bg-[hsl(var(--brand-teal))]/10 data-[state=on]:text-[hsl(var(--brand-teal))] data-[state=on]:ring-1 data-[state=on]:ring-[hsl(var(--brand-teal))]">{g}</ToggleGroupItem>
                         ))}
-                      </ToggleGroup>
+                        </ToggleGroup>
+                      </div>
                     </div>
 
-                    <div>
-                      <Label className="text-base font-medium">Audience</Label>
-                      <Input placeholder="e.g., new customers, IT admins" value={formData.behavior.audience} onChange={e => updateBehavior({ audience: e.target.value })} className="mt-2" />
+                    <div className="space-y-4">
+                      <div className="text-center">
+                        <Label className="text-lg font-semibold text-[hsl(var(--brand-teal))]">Audience</Label>
+                      </div>
+                      <div className="flex justify-center">
+                        <Input placeholder="e.g., new customers, IT admins" value={formData.behavior.audience} onChange={e => updateBehavior({ audience: e.target.value })} className="max-w-md text-center" />
+                      </div>
                     </div>
 
-                    <div>
-                      <Label className="text-base font-medium">Tone & Style</Label>
-                      <div className="mt-3 space-y-3">
-                        <div>
-                          <div className="text-sm text-muted-foreground mb-1">Tone</div>
-                          <ToggleGroup type="single" value={formData.behavior.tone} onValueChange={(v) => v && updateBehavior({ tone: v })} className="flex flex-wrap gap-2">
-                            {['Friendly','Professional','Empathetic'].map(t => (
-                              <ToggleGroupItem key={t} value={t} className="data-[state=on]:bg-[hsl(var(--brand-teal))]/10 data-[state=on]:text-[hsl(var(--brand-teal))] data-[state=on]:ring-1 data-[state=on]:ring-[hsl(var(--brand-teal))]">{t}</ToggleGroupItem>
-                            ))}
-                          </ToggleGroup>
-                        </div>
-                        <div className="grid grid-cols-2 gap-3">
-                          <div>
-                            <div className="text-sm text-muted-foreground mb-1">Response length</div>
-                            <ToggleGroup type="single" value={formData.behavior.responseLength} onValueChange={(v) => v && updateBehavior({ responseLength: v })} className="flex flex-wrap gap-2">
-                              {['Short','Medium','Detailed'].map(o => (
-                                <ToggleGroupItem key={o} value={o} className="data-[state=on]:bg-[hsl(var(--brand-teal))]/10 data-[state=on]:text-[hsl(var(--brand-teal))] data-[state=on]:ring-1 data-[state=on]:ring-[hsl(var(--brand-teal))]">{o}</ToggleGroupItem>
+                    <div className="space-y-6">
+                      <div className="text-center">
+                        <Label className="text-lg font-semibold text-[hsl(var(--brand-teal))]">Tone & Style</Label>
+                      </div>
+                      <div className="space-y-6">
+                        <div className="text-center space-y-3">
+                          <div className="text-sm text-muted-foreground">Tone</div>
+                          <div className="flex justify-center">
+                            <ToggleGroup type="single" value={formData.behavior.tone} onValueChange={(v) => v && updateBehavior({ tone: v })} className="flex flex-wrap gap-3">
+                              {['Friendly','Professional','Empathetic'].map(t => (
+                                <ToggleGroupItem key={t} value={t} className="data-[state=on]:bg-[hsl(var(--brand-teal))]/10 data-[state=on]:text-[hsl(var(--brand-teal))] data-[state=on]:ring-1 data-[state=on]:ring-[hsl(var(--brand-teal))]">{t}</ToggleGroupItem>
                               ))}
                             </ToggleGroup>
                           </div>
-                          <div>
-                            <div className="text-sm text-muted-foreground mb-1">Jargon level</div>
-                            <ToggleGroup type="single" value={formData.behavior.jargonLevel} onValueChange={(v) => v && updateBehavior({ jargonLevel: v })} className="flex flex-wrap gap-2">
-                              {['Simple','Standard'].map(o => (
-                                <ToggleGroupItem key={o} value={o} className="data-[state=on]:bg-[hsl(var(--brand-teal))]/10 data-[state=on]:text-[hsl(var(--brand-teal))] data-[state=on]:ring-1 data-[state=on]:ring-[hsl(var(--brand-teal))]">{o}</ToggleGroupItem>
-                              ))}
-                            </ToggleGroup>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-center">
+                          <div className="space-y-3">
+                            <div className="text-sm text-muted-foreground">Response length</div>
+                            <div className="flex justify-center">
+                              <ToggleGroup type="single" value={formData.behavior.responseLength} onValueChange={(v) => v && updateBehavior({ responseLength: v })} className="flex flex-wrap gap-3">
+                                {['Short','Medium','Detailed'].map(o => (
+                                  <ToggleGroupItem key={o} value={o} className="data-[state=on]:bg-[hsl(var(--brand-teal))]/10 data-[state=on]:text-[hsl(var(--brand-teal))] data-[state=on]:ring-1 data-[state=on]:ring-[hsl(var(--brand-teal))]">{o}</ToggleGroupItem>
+                                ))}
+                              </ToggleGroup>
+                            </div>
+                          </div>
+                          <div className="space-y-3">
+                            <div className="text-sm text-muted-foreground">Jargon level</div>
+                            <div className="flex justify-center">
+                              <ToggleGroup type="single" value={formData.behavior.jargonLevel} onValueChange={(v) => v && updateBehavior({ jargonLevel: v })} className="flex flex-wrap gap-3">
+                                {['Simple','Standard'].map(o => (
+                                  <ToggleGroupItem key={o} value={o} className="data-[state=on]:bg-[hsl(var(--brand-teal))]/10 data-[state=on]:text-[hsl(var(--brand-teal))] data-[state=on]:ring-1 data-[state=on]:ring-[hsl(var(--brand-teal))]">{o}</ToggleGroupItem>
+                                ))}
+                              </ToggleGroup>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                    </div>
                     </div>
 
                     {/* Lists */}
@@ -1577,27 +1594,30 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     )}
                   </div>
 
-                  {/* Live Preview & Advanced */}
-                  <div className="space-y-6">
-                    <Card className="border-l-4 border-[hsl(var(--brand-teal))]/50">
+                  {/* Live Preview - Centered */}
+                  <div className="flex justify-center">
+                    <Card className="border-l-4 border-[hsl(var(--brand-teal))]/50 w-full max-w-2xl">
                       <CardHeader>
-                        <CardTitle className="text-[hsl(var(--brand-teal))]">Live Preview</CardTitle>
+                        <CardTitle className="text-[hsl(var(--brand-teal))] text-center">Live Preview</CardTitle>
                       </CardHeader>
                       <CardContent className="space-y-4">
                         <div>
-                          <div className="text-sm text-muted-foreground mb-1">Initial Message</div>
+                          <div className="text-sm text-muted-foreground mb-1 text-center">Initial Message</div>
                           <div className="p-3 rounded-md border bg-muted/40 text-sm">{formData.initial_message}</div>
                         </div>
                         <div>
-                          <div className="text-sm text-muted-foreground mb-1">Behavior summary</div>
+                          <div className="text-sm text-muted-foreground mb-1 text-center">Behavior summary</div>
                           <div className="p-3 rounded-md border bg-muted/40 text-sm whitespace-pre-wrap">
                             {composeFromBehavior(formData).prompt}
                           </div>
                         </div>
                       </CardContent>
                     </Card>
+                  </div>
 
-                    <div className="space-y-2">
+                  {/* Advanced Toggle - Centered */}
+                  <div className="flex justify-center">
+                    <div className="w-full max-w-2xl space-y-2">
                       <div className="flex items-center justify-between">
                         <div>
                           <div className="font-medium">Advanced</div>
@@ -1621,7 +1641,6 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                           </div>
                         </div>
                       )}
-                    </div>
                   </div>
                 </div>
                 </div>
