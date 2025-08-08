@@ -2044,7 +2044,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               {!formData.hasPhoneNumber && (
                 <div className="mb-4 p-4 bg-amber-50 border border-amber-200 rounded-lg">
                   <p className="text-amber-800 text-sm">
-                    ⚠️ You can save this assistant as a draft and connect a phone number later to deploy it.
+                    ⚠️ To deploy your assistant, please go back to step 8 and connect a phone number first.
                   </p>
                 </div>
               )}
