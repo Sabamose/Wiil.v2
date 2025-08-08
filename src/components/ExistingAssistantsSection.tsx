@@ -171,7 +171,7 @@ const ExistingAssistantsSection = ({
           </tr>
         </thead>
         <tbody>
-          {assistantsWithChannels.map((assistant, index) => <tr key={assistant.id} className={`border-b border-gray-100 hover:bg-[#fafafa] transition-all duration-200 cursor-pointer group hover-scale ${index === assistantsWithChannels.length - 1 ? 'border-b-0' : ''}`} onClick={() => {
+          {assistantsWithChannels.map((assistant, index) => <tr key={assistant.id} className={`border-b border-gray-100 hover:bg-gray-100 hover:shadow-md transition-all duration-200 cursor-pointer group hover-scale ${index === assistantsWithChannels.length - 1 ? 'border-b-0' : ''}`} onClick={() => {
           const event = new CustomEvent('view-assistant-settings', {
             detail: {
               assistantId: assistant.id
