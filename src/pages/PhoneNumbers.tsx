@@ -52,6 +52,30 @@ const PhoneNumbers = () => {
       monthlyCost: 25.00,
       country: "United States",
       type: "toll-free"
+    },
+    {
+      id: "3",
+      number: "+44 20 7946 0958",
+      provider: "Twilio",
+      assignedAssistant: {
+        id: "2",
+        name: "UK Sales Assistant"
+      },
+      status: "active",
+      purchaseDate: "2024-01-18",
+      monthlyCost: 18.50,
+      country: "United Kingdom",
+      type: "local"
+    },
+    {
+      id: "4",
+      number: "+61 2 8765 4321",
+      provider: "SignalWire",
+      status: "inactive",
+      purchaseDate: "2024-01-22",
+      monthlyCost: 22.00,
+      country: "Australia",
+      type: "local"
     }
   ]);
 
