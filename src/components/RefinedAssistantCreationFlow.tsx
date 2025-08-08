@@ -1926,7 +1926,9 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
             </Card>}
 
           {/* Step 8: Phone Number Assignment */}
-          {step === 8 && <Card className="max-w-5xl mx-auto">
+          {step === 8 && (() => {
+            console.log('Phone step - hasPhoneNumber:', formData.hasPhoneNumber, 'phoneNumber:', formData.phoneNumber);
+            return <Card className="max-w-5xl mx-auto">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Phone className="h-5 w-5" />
@@ -1985,7 +1987,8 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     </Button>
                   </div>}
                </CardContent>
-             </Card>}
+              </Card>;
+          })()}
 
            {/* Step 9: Testing & Deployment */}
            {step === 9 && <Card className="max-w-5xl mx-auto">
