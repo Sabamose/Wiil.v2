@@ -14,7 +14,6 @@ export const useAssistantVoiceConversation = (assistant?: StoredAssistant | null
   const [isRecording, setIsRecording] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
-  const [isSpeaking, setIsSpeaking] = useState(false);
   
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
@@ -163,13 +162,10 @@ export const useAssistantVoiceConversation = (assistant?: StoredAssistant | null
         throw new Error(ttsResponse.error.message);
       }
 
-// Play audio
-const audioContent = ttsResponse.data.audioContent;
-const audio = new Audio(`data:audio/mpeg;base64,${audioContent}`);
-setIsSpeaking(true);
-audio.onended = () => setIsSpeaking(false);
-audio.onerror = () => setIsSpeaking(false);
-await audio.play();
+      // Play audio
+      const audioContent = ttsResponse.data.audioContent;
+      const audio = new Audio(`data:audio/mpeg;base64,${audioContent}`);
+      await audio.play();
 
     } catch (error) {
       console.error('Error processing audio:', error);
@@ -192,14 +188,13 @@ await audio.play();
     }] : []);
   }, [assistant]);
 
-return {
-  isRecording,
-  isProcessing,
-  isSpeaking,
-  messages,
-  startRecording,
-  stopRecording,
-  clearConversation,
-  assistant
-};
+  return {
+    isRecording,
+    isProcessing,
+    messages,
+    startRecording,
+    stopRecording,
+    clearConversation,
+    assistant
+  };
 };
