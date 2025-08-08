@@ -1644,7 +1644,6 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                           </Badge>
                         ))}
                       </div>
-                      <div className="text-xs text-muted-foreground">Click on any item to remove it • Max 3 items</div>
                     </div>
                   </div>
                 </Card>
