@@ -151,7 +151,7 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
 
         {/* Transcription Tab */}
         <TabsContent value="transcription" className="space-y-4 mt-6">
-          <div className="max-w-4xl mx-auto space-y-3">
+          <div className="max-w-4xl mx-auto space-y-3 max-h-96 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-muted scrollbar-track-transparent">
             {sampleTranscript.map((item, index) => (
               <div key={index} className={`flex ${item.speaker === 'Agent' ? 'justify-start' : 'justify-end'}`}>
                 <div className={`max-w-xs lg:max-w-md xl:max-w-lg ${
