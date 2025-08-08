@@ -1342,17 +1342,6 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                   )}
                 </div>
 
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                  <div className="flex items-start gap-3">
-                    <Settings className="w-5 h-5 text-blue-600 mt-0.5" />
-                    <div className="text-sm">
-                      <div className="font-medium text-blue-800 mb-1">Actions Configuration</div>
-                      <div className="text-blue-700">
-                        These actions will be available to your assistant during calls. Each action can be configured with specific conditions and will integrate with your existing business systems.
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </CardContent>
             </Card>}
 
