@@ -1517,6 +1517,21 @@ IMPORTANT GUIDELINES:
                         Connect Phone Number
                       </Button>
                     </div>
+                    
+                    <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                      <div className="flex items-start gap-2">
+                        <AlertTriangle className="w-5 h-5 text-amber-600 mt-0.5" />
+                        <div>
+                          <p className="text-sm font-medium text-amber-800 mb-1">Phone Number Required</p>
+                          <p className="text-sm text-amber-700">
+                            {formData.assistantType === 'inbound' 
+                              ? 'To receive calls, your assistant needs a dedicated phone number.'
+                              : 'To make outbound calls, your assistant needs a phone number for caller ID.'
+                            }
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </CardContent>
                 </Card>
               )}
