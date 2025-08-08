@@ -128,7 +128,7 @@ const PhoneNumbers = () => {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="min-w-[140px]">Phone Number</TableHead>
-                    <TableHead className="hidden md:table-cell">Provider</TableHead>
+                    <TableHead className="hidden md:table-cell">Region</TableHead>
                     <TableHead className="min-w-[120px]">Assistant</TableHead>
                     <TableHead className="hidden sm:table-cell">Status</TableHead>
                     <TableHead className="hidden lg:table-cell">Monthly Cost</TableHead>
@@ -152,7 +152,9 @@ const PhoneNumbers = () => {
                         </span>
                       </div>
                     </TableCell>
-                    <TableCell className="hidden md:table-cell">{phoneNumber.provider}</TableCell>
+                    <TableCell className="hidden md:table-cell">
+                      {phoneNumber.country === "United States" ? "US/Canada" : phoneNumber.country}
+                    </TableCell>
                     <TableCell>
                       {phoneNumber.assignedAssistant ? (
                         <span className="text-gray-900 text-sm">{phoneNumber.assignedAssistant.name}</span>
