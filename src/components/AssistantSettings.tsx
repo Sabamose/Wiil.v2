@@ -154,6 +154,19 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
   // Store original data to track changes
   const [originalData, setOriginalData] = useState<any>({});
   
+  // Behavior state for interactive Instructions
+  const [behavior, setBehavior] = useState({
+    goal: '',
+    audience: '',
+    tone: 'Friendly',
+    responseLength: 'Medium',
+    jargonLevel: 'Simple',
+    alwaysMention: [] as string[],
+    avoidMentioning: [] as string[],
+    questionsToAsk: [] as string[],
+    autoCompose: true
+  });
+  
   // Initialize form data with existing assistant data
   const [formData, setFormData] = useState({
     // Step 1: Industry
@@ -951,7 +964,7 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
               {/* Assistant Name */}
               <Card className="p-6 border-2 border-teal-600/20 bg-teal-600/5">
                 <div className="text-center space-y-4">
-                  <h3 className="text-xl font-semibold text-teal-600">Assistant Name</h3>
+                  <h3 className="text-xl font-semibold text-teal-600">First, what should we call your assistant?</h3>
                   <Input 
                     value={formData.name} 
                     onChange={e => setFormData({ ...formData, name: e.target.value })} 
@@ -961,112 +974,170 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
                 </div>
               </Card>
 
-              {/* Initial Message */}
+              {/* Focus/Goal Selection */}
               <Card className="p-6">
-                <div className="space-y-4">
-                  <div>
-                    <Label className="text-lg font-semibold text-teal-600">First Message</Label>
-                    <p className="text-sm text-gray-600 mt-1">What should your assistant say when answering calls?</p>
+                <div className="text-center space-y-6">
+                  <h3 className="text-xl font-semibold text-teal-600">What should your assistant focus on during calls?</h3>
+                  
+                  <div className="flex flex-wrap gap-3 justify-center max-w-2xl mx-auto">
+                    {[
+                      { value: 'Book appointment', icon: '📅', desc: 'Schedule meetings or appointments' },
+                      { value: 'Qualify lead', icon: '🎯', desc: 'Assess if caller is a good fit' },
+                      { value: 'Support', icon: '🛡️', desc: 'Help with questions and issues' },
+                      { value: 'Collect info', icon: '📝', desc: 'Gather customer information' },
+                      { value: 'Route call', icon: '📞', desc: 'Direct to right department' }
+                    ].map(goal => (
+                      <button
+                        key={goal.value}
+                        type="button"
+                        onClick={() => setBehavior(prev => ({ ...prev, goal: goal.value }))}
+                        className={`p-4 rounded-lg border-2 text-center transition-all hover:scale-105 ${
+                          behavior.goal === goal.value 
+                            ? 'border-teal-600 bg-teal-600/10 text-teal-600' 
+                            : 'border-gray-200 hover:border-teal-600/50'
+                        }`}
+                      >
+                        <div className="text-2xl mb-2">{goal.icon}</div>
+                        <div className="font-medium">{goal.value}</div>
+                        <div className="text-xs text-gray-500 mt-1">{goal.desc}</div>
+                      </button>
+                    ))}
                   </div>
-                  <Textarea
-                    value={formData.initial_message}
-                    onChange={e => setFormData({ ...formData, initial_message: e.target.value })}
-                    placeholder="Hello! Thanks for calling. How can I help you today?"
-                    className="min-h-[100px] text-base"
-                  />
                 </div>
               </Card>
 
-              {/* Template Selection */}
+              {/* Personality & Style */}
+              <Card className="p-6">
+                <div className="text-center space-y-6">
+                  <h3 className="text-xl font-semibold text-teal-600">How should your assistant sound on calls?</h3>
+                  <p className="text-gray-600">Choose the personality that fits your brand</p>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
+                    {[
+                      { value: 'Friendly', icon: '😊', desc: 'Warm, welcoming, and approachable' },
+                      { value: 'Professional', icon: '💼', desc: 'Polite, formal, and business-focused' },
+                      { value: 'Empathetic', icon: '❤️', desc: 'Understanding, caring, and supportive' }
+                    ].map(tone => (
+                      <button
+                        key={tone.value}
+                        type="button"
+                        onClick={() => setBehavior(prev => ({ ...prev, tone: tone.value }))}
+                        className={`p-6 rounded-lg border-2 text-center transition-all hover:scale-105 ${
+                          behavior.tone === tone.value 
+                            ? 'border-teal-600 bg-teal-600/10 text-teal-600' 
+                            : 'border-gray-200 hover:border-teal-600/50'
+                        }`}
+                      >
+                        <div className="text-3xl mb-3">{tone.icon}</div>
+                        <div className="font-semibold text-lg">{tone.value}</div>
+                      </button>
+                    ))}
+                  </div>
+                  
+                  {/* Response Length */}
+                  <div className="space-y-4 max-w-xl mx-auto mt-8">
+                    <p className="font-semibold text-lg">Response Length</p>
+                    <div className="flex gap-3 justify-center">
+                      {[
+                        { value: 'Short', desc: 'Brief' },
+                        { value: 'Medium', desc: 'Balanced' },
+                        { value: 'Detailed', desc: 'Thorough' }
+                      ].map(length => (
+                        <button
+                          key={length.value}
+                          type="button"
+                          onClick={() => setBehavior(prev => ({ ...prev, responseLength: length.value }))}
+                          className={`px-6 py-3 rounded-lg border-2 text-center transition-all hover:scale-105 ${
+                            behavior.responseLength === length.value 
+                              ? 'border-teal-600 bg-teal-600/10 text-teal-600' 
+                              : 'border-gray-200 hover:border-teal-600/50'
+                          }`}
+                        >
+                          <div className="font-medium">{length.value}</div>
+                          <div className="text-xs text-gray-500">{length.desc}</div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  {/* Language Style */}
+                  <div className="space-y-4 max-w-xl mx-auto">
+                    <p className="font-semibold text-lg">Language Style</p>
+                    <div className="flex gap-3 justify-center">
+                      {[
+                        { value: 'Simple', desc: 'Easy language' },
+                        { value: 'Standard', desc: 'Business terms' }
+                      ].map(jargon => (
+                        <button
+                          key={jargon.value}
+                          type="button"
+                          onClick={() => setBehavior(prev => ({ ...prev, jargonLevel: jargon.value }))}
+                          className={`px-6 py-3 rounded-lg border-2 text-center transition-all hover:scale-105 ${
+                            behavior.jargonLevel === jargon.value 
+                              ? 'border-teal-600 bg-teal-600/10 text-teal-600' 
+                              : 'border-gray-200 hover:border-teal-600/50'
+                          }`}
+                        >
+                          <div className="font-medium">{jargon.value}</div>
+                          <div className="text-xs text-gray-500">{jargon.desc}</div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </Card>
+
+              {/* Review & Customize */}
               <Card className="p-6">
                 <div className="space-y-6">
                   <div className="text-center">
-                    <h3 className="text-xl font-semibold text-teal-600">Quick Templates</h3>
-                    <p className="text-gray-600">Apply a pre-built template for your industry and role</p>
+                    <h3 className="text-xl font-semibold text-gray-900">Review & Customize</h3>
+                    <p className="text-gray-600">Fine-tune your assistant's messages and instructions</p>
                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {Object.entries(SYSTEM_PROMPT_TEMPLATES)
-                      .filter(([key]) => key.includes(formData.industry) && key.includes(formData.assistantType))
-                      .slice(0, 4)
-                      .map(([key, template]) => (
-                        <button
-                          key={key}
-                          onClick={() => handleApplyTemplate(key)}
-                          className="p-4 border-2 border-gray-200 rounded-lg hover:border-teal-600/50 hover:bg-teal-600/5 transition-all text-left"
-                        >
-                          <div className="font-semibold text-gray-900">{template.name}</div>
-                          <div className="text-sm text-gray-600 mt-1 line-clamp-2">
-                            {template.initial_message}
-                          </div>
-                        </button>
-                      ))}
+                  <div className="flex items-center justify-between max-w-md mx-auto">
+                    <Label htmlFor="advanced-editing" className="text-sm font-medium">
+                      Advanced prompt editing
+                    </Label>
+                    <Switch
+                      id="advanced-editing"
+                      checked={!behavior.autoCompose}
+                      onCheckedChange={(checked) => setBehavior(prev => ({ ...prev, autoCompose: !checked }))}
+                    />
                   </div>
-                </div>
-              </Card>
-
-              {/* System Prompt */}
-              <Card className="p-6">
-                <div className="space-y-4">
-                  <div>
-                    <Label className="text-lg font-semibold text-teal-600">Assistant Instructions</Label>
-                    <p className="text-sm text-gray-600 mt-1">Detailed instructions for how your assistant should behave</p>
-                  </div>
-                  <Textarea
-                    value={formData.system_prompt}
-                    onChange={e => setFormData({ ...formData, system_prompt: e.target.value })}
-                    placeholder="You are a helpful AI assistant..."
-                    className="min-h-[200px] text-base font-mono"
-                  />
-                </div>
-              </Card>
-
-              {/* AI Settings */}
-              <Card className="p-6">
-                <div className="space-y-6">
-                  <h3 className="text-xl font-semibold text-teal-600">AI Behavior Settings</h3>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label className="font-medium">Response Creativity</Label>
-                      <div className="flex items-center gap-3">
-                        <span className="text-sm text-gray-500">Conservative</span>
-                        <input
-                          type="range"
-                          min="0"
-                          max="1"
-                          step="0.1"
-                          value={formData.temperature}
-                          onChange={e => setFormData({ ...formData, temperature: parseFloat(e.target.value) })}
-                          className="flex-1"
-                        />
-                        <span className="text-sm text-gray-500">Creative</span>
-                      </div>
-                      <div className="text-center text-sm text-gray-600">
-                        Current: {formData.temperature}
-                      </div>
+                  <div className="space-y-6">
+                    <div>
+                      <Label className="text-base font-medium">First Message</Label>
+                      <Textarea
+                        value={formData.initial_message}
+                        onChange={e => setFormData({ ...formData, initial_message: e.target.value })}
+                        placeholder="Hello! Thanks for calling. How can I help you today?"
+                        className="mt-2 min-h-[100px]"
+                        disabled={behavior.autoCompose}
+                      />
                     </div>
                     
-                    <div className="space-y-2">
-                      <Label className="font-medium">Response Length</Label>
-                      <div className="flex items-center gap-3">
-                        <span className="text-sm text-gray-500">Short</span>
-                        <input
-                          type="range"
-                          min="100"
-                          max="500"
-                          step="50"
-                          value={formData.max_tokens}
-                          onChange={e => setFormData({ ...formData, max_tokens: parseInt(e.target.value) })}
-                          className="flex-1"
-                        />
-                        <span className="text-sm text-gray-500">Long</span>
-                      </div>
-                      <div className="text-center text-sm text-gray-600">
-                        Max tokens: {formData.max_tokens}
-                      </div>
+                    <div>
+                      <Label className="text-base font-medium">System Instructions</Label>
+                      <Textarea
+                        value={formData.system_prompt}
+                        onChange={e => setFormData({ ...formData, system_prompt: e.target.value })}
+                        placeholder="You are a helpful AI assistant..."
+                        className="mt-2 min-h-[300px] font-mono text-sm"
+                        disabled={behavior.autoCompose}
+                      />
                     </div>
                   </div>
+                  
+                  {behavior.autoCompose && (
+                    <div className="p-4 bg-teal-50 rounded-lg border-2 border-teal-200">
+                      <p className="text-sm text-teal-800 mb-2">
+                        Turn off "Advanced prompt editing" to manually customize your assistant's responses.
+                        Currently using auto-generated prompts based on your selections above.
+                      </p>
+                    </div>
+                  )}
                 </div>
               </Card>
             </div>
