@@ -37,7 +37,21 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
     { speaker: "Customer", message: "I'm checking on my order status.", time: "0:05" },
     { speaker: "Agent", message: "Sure, I'll look that up. Could I have your order number?", time: "0:10" },
     { speaker: "Customer", message: "It's 12345.", time: "0:20" },
-    { speaker: "Agent", message: "Found it. Your order ships tomorrow. Anything else I can help with?", time: "0:25" }
+    { speaker: "Agent", message: "Found it. Your order ships tomorrow. Anything else I can help with?", time: "0:25" },
+    { speaker: "Customer", message: "Actually, yes. I also wanted to ask about changing the delivery address.", time: "0:35" },
+    { speaker: "Agent", message: "I can help with that. What's the new address you'd like to use?", time: "0:42" },
+    { speaker: "Customer", message: "123 Main Street, Springfield, IL 62701", time: "0:48" },
+    { speaker: "Agent", message: "Perfect. I've updated your delivery address. Is there anything else?", time: "0:55" },
+    { speaker: "Customer", message: "Can you also tell me about the return policy?", time: "1:02" },
+    { speaker: "Agent", message: "Of course! You have 30 days from delivery to return items in original condition.", time: "1:08" },
+    { speaker: "Customer", message: "What if I need to return something after 30 days?", time: "1:15" },
+    { speaker: "Agent", message: "After 30 days, we can still help on a case-by-case basis. We'd need to review the situation.", time: "1:22" },
+    { speaker: "Customer", message: "That sounds reasonable. How do I track my order?", time: "1:35" },
+    { speaker: "Agent", message: "I'll send you a tracking link via email. You'll also get updates via text if you'd like.", time: "1:42" },
+    { speaker: "Customer", message: "Yes, please enable text updates. My number is the same as on file.", time: "1:50" },
+    { speaker: "Agent", message: "Done! You're all set for text notifications. Is there anything else I can help with today?", time: "1:58" },
+    { speaker: "Customer", message: "No, that covers everything. Thank you so much for your help!", time: "2:05" },
+    { speaker: "Agent", message: "You're very welcome! Have a great day and thank you for choosing us.", time: "2:12" }
   ];
 
   return (
