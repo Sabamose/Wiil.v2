@@ -110,7 +110,6 @@ const ExistingAssistantsSection = ({
             <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Assistant Name</th>
             <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Assistant Type
           </th>
-            <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Assistant Phone number:</th>
             <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Assistant Industry/Role</th>
             <th className="px-6 py-4 text-left text-sm font-medium text-gray-500"></th>
           </tr>
@@ -132,14 +131,6 @@ const ExistingAssistantsSection = ({
                   {assistant.assistant_type === 'inbound' ? <PhoneIncoming className="w-4 h-4 text-gray-600" /> : <PhoneOutgoing className="w-4 h-4 text-gray-600" />}
                   <span className="text-sm font-medium text-gray-800">
                     {assistant.assistant_type === 'inbound' ? 'Incoming Call Assistant' : 'Outgoing Calls'}
-                  </span>
-                </div>
-              </td>
-              <td className="px-6 py-5">
-                <div className="flex items-center gap-2">
-                  <Phone className="w-4 h-4 text-gray-600" />
-                  <span className="text-sm text-gray-600">
-                    {assistant.phone_number || "Not connected"}
                   </span>
                 </div>
               </td>
