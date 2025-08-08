@@ -1981,78 +1981,100 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
 
            {/* Step 9: Testing & Deployment */}
            {step === 9 && <Card className="max-w-5xl mx-auto">
-             <CardHeader>
-               <CardTitle className="flex items-center gap-2">
-                 <TestTube className="h-5 w-5" />
-                 Testing & Deployment
-               </CardTitle>
-               <p className="text-muted-foreground">Test your assistant before going live</p>
+             <CardHeader className="text-center pb-8">
+               <div className="w-16 h-16 bg-gradient-to-br from-[hsl(var(--brand-teal))] to-[hsl(var(--brand-teal-hover))] rounded-full flex items-center justify-center mx-auto mb-4 animate-scale-in">
+                 <TestTube className="h-8 w-8 text-white" />
+               </div>
+               <CardTitle className="text-2xl">Test Your Assistant</CardTitle>
+               <p className="text-muted-foreground max-w-md mx-auto">
+                 Everything looks perfect! Try your assistant before going live to ensure it works exactly as expected.
+               </p>
              </CardHeader>
-             <CardContent>
-               <div className="space-y-6">
-                 {/* Test Interface */}
-                 <div className="border border-dashed border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06] rounded-lg p-6">
-                   <div className="flex items-center gap-3 mb-4">
-                     <TestTube className="w-8 h-8 text-[hsl(var(--brand-teal))]" />
+             <CardContent className="space-y-8">
+               {/* Primary Actions - Clean & Prominent */}
+               <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                 <Button 
+                   variant="brand" 
+                   size="lg"
+                   onClick={() => setIsTestModalOpen(true)}
+                   className="flex-1 sm:flex-none px-8 py-6 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover-scale"
+                 >
+                   <Phone className="h-5 w-5 mr-3" />
+                   Start Test Call
+                 </Button>
+                 <Button 
+                   variant="brand-outline"
+                   size="lg"
+                   onClick={() => {
+                     console.log('Preview assistant:', formData);
+                   }}
+                   className="flex-1 sm:flex-none px-8 py-6 text-base font-semibold hover-scale"
+                 >
+                   <MessageSquare className="h-5 w-5 mr-3" />
+                   Preview Setup
+                 </Button>
+               </div>
+
+               {/* Assistant Overview - Elegant Cards */}
+               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                 <div className="bg-gradient-to-br from-background to-muted/30 p-6 rounded-xl border shadow-sm hover:shadow-md transition-all duration-300">
+                   <div className="flex items-center gap-3 mb-3">
+                     <div className="w-10 h-10 bg-[hsl(var(--brand-teal))]/10 rounded-lg flex items-center justify-center">
+                       <User className="h-5 w-5 text-[hsl(var(--brand-teal))]" />
+                     </div>
                      <div>
-                       <div className="font-semibold text-[hsl(var(--brand-teal))]">Test Your Assistant</div>
-                       <div className="text-sm text-muted-foreground">Try a sample conversation to see how it responds</div>
+                       <div className="font-semibold">{formData.name}</div>
+                       <div className="text-sm text-muted-foreground">{formData.assistantType} assistant</div>
                      </div>
                    </div>
-                   
-                   <div className="flex gap-3">
-                     <Button 
-                       variant="brand" 
-                       onClick={() => setIsTestModalOpen(true)}
-                       className="flex-1"
-                     >
-                       <TestTube className="h-4 w-4 mr-2" />
-                       Start Test Call
-                     </Button>
-                     <Button 
-                       variant="brand-outline"
-                       onClick={() => {
-                         // Preview functionality
-                         console.log('Preview assistant:', formData);
-                       }}
-                     >
-                       <MessageSquare className="h-4 w-4 mr-2" />
-                       Preview Settings
-                     </Button>
+                   <div className="text-xs text-muted-foreground">
+                     {formData.industry} • {formData.language_name}
                    </div>
                  </div>
 
-                 {/* Assistant Summary */}
-                 <div className="bg-muted/30 rounded-lg p-4">
-                   <div className="font-medium mb-3">Assistant Summary</div>
-                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                     <div>
-                       <span className="text-muted-foreground">Name:</span> {formData.name}
+                 <div className="bg-gradient-to-br from-background to-muted/30 p-6 rounded-xl border shadow-sm hover:shadow-md transition-all duration-300">
+                   <div className="flex items-center gap-3 mb-3">
+                     <div className="w-10 h-10 bg-[hsl(var(--brand-teal))]/10 rounded-lg flex items-center justify-center">
+                       <Volume2 className="h-5 w-5 text-[hsl(var(--brand-teal))]" />
                      </div>
                      <div>
-                       <span className="text-muted-foreground">Industry:</span> {formData.industry}
+                       <div className="font-semibold">{formData.voice_name}</div>
+                       <div className="text-sm text-muted-foreground">Voice & Language</div>
                      </div>
-                     <div>
-                       <span className="text-muted-foreground">Type:</span> {formData.assistantType}
-                     </div>
-                     <div>
-                       <span className="text-muted-foreground">Voice:</span> {formData.voice_name}
-                     </div>
-                     <div>
-                       <span className="text-muted-foreground">Language:</span> {formData.language_name}
-                     </div>
-                     <div>
-                       <span className="text-muted-foreground">Phone:</span> {formData.phoneNumber || 'Not assigned'}
-                     </div>
+                   </div>
+                   <div className="text-xs text-muted-foreground">
+                     {formData.language_name}
                    </div>
                  </div>
 
-                 {/* Ready to Deploy */}
-                 <div className="text-center p-6 border border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06] rounded-lg">
-                   <Zap className="w-12 h-12 text-[hsl(var(--brand-teal))] mx-auto mb-4" />
-                   <div className="font-semibold text-[hsl(var(--brand-teal))] mb-2">Ready to Deploy!</div>
-                   <div className="text-sm text-muted-foreground">
-                     Your assistant is configured and ready to handle calls
+                 <div className="bg-gradient-to-br from-background to-muted/30 p-6 rounded-xl border shadow-sm hover:shadow-md transition-all duration-300">
+                   <div className="flex items-center gap-3 mb-3">
+                     <div className="w-10 h-10 bg-[hsl(var(--brand-teal))]/10 rounded-lg flex items-center justify-center">
+                       <Phone className="h-5 w-5 text-[hsl(var(--brand-teal))]" />
+                     </div>
+                     <div>
+                       <div className="font-semibold">{formData.phoneNumber || 'No number'}</div>
+                       <div className="text-sm text-muted-foreground">Phone Number</div>
+                     </div>
+                   </div>
+                   {!formData.phoneNumber && (
+                     <div className="text-xs text-amber-600">
+                       Add later in settings
+                     </div>
+                   )}
+                 </div>
+               </div>
+
+               {/* Ready Status - Elegant Confirmation */}
+               <div className="relative overflow-hidden bg-gradient-to-r from-[hsl(var(--brand-teal))]/5 via-[hsl(var(--brand-teal))]/10 to-[hsl(var(--brand-teal))]/5 border border-[hsl(var(--brand-teal))]/20 rounded-2xl p-8 text-center">
+                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[hsl(var(--brand-teal))]/5 to-transparent animate-pulse"></div>
+                 <div className="relative">
+                   <div className="w-20 h-20 bg-gradient-to-br from-[hsl(var(--brand-teal))] to-[hsl(var(--brand-teal-hover))] rounded-full flex items-center justify-center mx-auto mb-6 animate-scale-in">
+                     <Check className="h-10 w-10 text-white" />
+                   </div>
+                   <div className="font-bold text-xl text-[hsl(var(--brand-teal))] mb-2">Ready to Deploy!</div>
+                   <div className="text-muted-foreground max-w-md mx-auto">
+                     Your AI assistant is fully configured and ready to handle calls with professional excellence.
                    </div>
                  </div>
                </div>
