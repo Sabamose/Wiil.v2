@@ -24,8 +24,8 @@ const App = () => (
       <AuthWrapper>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<HomePageTealV2 />} />
-            <Route path="/assistants" element={<Index />} />
+            <Route path="/home" element={<HomePageTealV2 />} />
+            <Route path="/" element={<Index />} />
             <Route path="/bookings" element={<Bookings />} />
             <Route path="/conversations" element={<Conversations />} />
             <Route path="/campaigns" element={<Campaigns />} />
