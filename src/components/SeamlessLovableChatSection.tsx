@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { ArrowRight } from "lucide-react";
 
 /**
  * SeamlessLovableChatSection
@@ -272,7 +273,7 @@ export default function SeamlessLovableChatSection({
         )}
         <button style={styles.sendBtn} onClick={handleSendMessage} aria-label="Send">
           <span style={styles.shineWrap}><span style={styles.shine} /></span>
-          Send
+          <ArrowRight size={18} />
         </button>
         </div>
       </div>
