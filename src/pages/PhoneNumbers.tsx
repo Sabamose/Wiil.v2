@@ -221,7 +221,7 @@ const PhoneNumbers = () => {
                               }
                             }}
                           >
-                            {phoneNumber.assignedAssistant ? "Disconnect" : "Connect"}
+                            {phoneNumber.assignedAssistant ? "Disconnect Assistant" : "Connect Assistant"}
                           </DropdownMenuItem>
                           <DropdownMenuItem 
                             className="text-red-600"
