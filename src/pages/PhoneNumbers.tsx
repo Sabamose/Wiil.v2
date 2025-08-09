@@ -180,15 +180,28 @@ const PhoneNumbers = () => {
                     <TableCell className="hidden md:table-cell">
                       {phoneNumber.country === "United States" ? "US/Canada" : phoneNumber.country}
                     </TableCell>
-                    <TableCell>
-                      {phoneNumber.assignedAssistant ? (
-                        <span className="text-gray-900 text-sm">{phoneNumber.assignedAssistant.name}</span>
-                      ) : (
-                        <span className="text-teal-600 text-sm cursor-pointer hover:text-teal-700 hover:scale-105 transition-all duration-200 hover:font-semibold hover:underline inline-block">
-                          {isMobile ? "Connect" : "Click here to Connect Assistant"}
-                        </span>
-                      )}
-                    </TableCell>
+                     <TableCell>
+                       {phoneNumber.assignedAssistant ? (
+                         <div className="flex flex-col gap-2">
+                           <span className="text-gray-900 text-sm">{phoneNumber.assignedAssistant.name}</span>
+                           <Button
+                             variant="outline"
+                             size="sm"
+                             onClick={() => handleUnassign(phoneNumber.id)}
+                             className="text-red-600 hover:text-red-700 hover:border-red-300 text-xs h-7 w-fit"
+                           >
+                             Disconnect
+                           </Button>
+                         </div>
+                       ) : (
+                         <span 
+                           className="text-teal-600 text-sm cursor-pointer hover:text-teal-700 hover:scale-105 transition-all duration-200 hover:font-semibold hover:underline inline-block"
+                           onClick={() => handlePhoneNumberClick(phoneNumber)}
+                         >
+                           {isMobile ? "Connect" : "Click here to Connect Assistant"}
+                         </span>
+                       )}
+                     </TableCell>
                     <TableCell className="hidden sm:table-cell">
                       <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
                         phoneNumber.status === "active" 
