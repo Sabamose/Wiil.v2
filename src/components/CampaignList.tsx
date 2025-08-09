@@ -88,42 +88,17 @@ const CampaignList = ({ campaigns, onCampaignClick, onCreateCampaign, onBack }: 
             >
               <CardContent className="p-4 space-y-3">
                 <div className="space-y-2">
-                  <div className="flex items-start gap-2">
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-lg truncate">{campaign.name}</h3>
-                      <p className="text-sm text-brand-teal font-medium">{campaignType.type}</p>
-                    </div>
-                  </div>
+                  <h3 className="font-semibold text-lg">{campaign.name}</h3>
                   
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-1">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1 text-sm text-muted-foreground">
                       <Users className="h-3 w-3" />
-                      <span>{campaign.recipients}</span>
+                      <span>{campaign.recipients} recipients</span>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <Clock className="h-3 w-3" />
-                      <span>{campaign.duration}</span>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-success"></div>
+                      <span className="text-sm text-success font-medium">Completed</span>
                     </div>
-                  </div>
-                  
-                  {dataColumns.length > 0 && (
-                    <div className="flex flex-wrap gap-1">
-                      {dataColumns.map((column, index) => (
-                        <span 
-                          key={index}
-                          className="inline-block px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-md"
-                        >
-                          {column}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-success"></div>
-                    <span className="text-sm text-success font-medium">Completed</span>
                   </div>
                 </div>
               </CardContent>
