@@ -61,7 +61,7 @@ const CampaignList = ({ campaigns, onCampaignClick, onCreateCampaign, onBack }: 
           </Button>
           <h1 className="text-2xl font-bold">My Call Campaigns</h1>
         </div>
-        <Button onClick={onCreateCampaign}>+ Make Calls</Button>
+        <Button onClick={onCreateCampaign} className="bg-teal-600 hover:bg-teal-700">+ Make Calls</Button>
       </div>
 
       <div className="relative">
