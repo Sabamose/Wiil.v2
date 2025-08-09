@@ -1,8 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, Play, Pause, RotateCcw, RotateCw, User, Phone, Clock, CheckCircle, XCircle, AlertTriangle } from "lucide-react";
+import { ArrowLeft, Play, Pause, RotateCcw, RotateCw, Download, CheckCircle, XCircle, AlertTriangle } from "lucide-react";
 import { useState } from "react";
 
 interface CallData {
@@ -32,6 +31,7 @@ interface OutboundCallDetailsProps {
 const OutboundCallDetails = ({ call, onBack }: OutboundCallDetailsProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState("0:00");
+  const [playbackSpeed, setPlaybackSpeed] = useState("1.0x");
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -49,270 +49,258 @@ const OutboundCallDetails = ({ call, onBack }: OutboundCallDetailsProps) => {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'completed':
-        return <Badge className="bg-green-100 text-green-800">✓ Completed</Badge>;
+        return 'default';
       case 'failed':
-        return <Badge variant="destructive">✗ Failed</Badge>;
+        return 'destructive';
       case 'no-answer':
-        return <Badge variant="secondary">📞 No Answer</Badge>;
+        return 'secondary';
       default:
-        return <Badge variant="outline">Unknown</Badge>;
+        return 'outline';
     }
   };
 
   const successfulCriteria = call.criteria.filter(c => c.status === 'success').length;
   const totalCriteria = call.criteria.length;
 
+  const sampleTranscript = [
+    { speaker: "Agent", message: "Hello, this is calling from Armstrong Transport. May I speak with someone regarding your logistics needs?", time: "0:00" },
+    { speaker: "Contact", message: "Yes, this is speaking. What can you help me with?", time: "0:05" },
+    { speaker: "Agent", message: "Great! I wanted to discuss our freight solutions that might benefit your business. We specialize in logistics and transportation services for companies like yours.", time: "0:10" },
+    { speaker: "Contact", message: "We might be interested. Can you send me some information via email?", time: "0:35" },
+    { speaker: "Agent", message: "Absolutely! I'd be happy to send you detailed information. Could I get your email address?", time: "0:42" },
+    { speaker: "Contact", message: "Sure, it's contact@company.com", time: "0:48" },
+    { speaker: "Agent", message: "Perfect! I'll send that over today. Thank you for your time.", time: "0:55" }
+  ];
+
   return (
-    <div className="space-y-6">
+    <div className="max-w-5xl mx-auto p-6 space-y-6">
       {/* Header */}
-      <div className="flex items-center gap-4">
-        <Button variant="ghost" onClick={onBack} className="flex items-center gap-2">
-          <ArrowLeft className="h-4 w-4" />
-          Back
-        </Button>
-        <div>
-          <h1 className="text-2xl font-bold flex items-center gap-2">
-            <User className="h-6 w-6" />
-            Conversation with {call.recipientName || "Contact"}
-          </h1>
-          <p className="text-sm text-gray-500">conv_{call.id}</p>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <Button variant="ghost" size="sm" onClick={onBack} className="hover:bg-brand-teal/10 hover:text-brand-teal">
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back to Calls
+          </Button>
+          <div>
+            <h1 className="text-2xl font-semibold">Conversation with {call.recipientName || "Contact"}</h1>
+            <p className="text-sm text-muted-foreground">conv_{call.id.slice(0, 8)}...{call.id.slice(-8)}</p>
+          </div>
+        </div>
+        <div className="h-2 w-2 rounded-full bg-brand-teal animate-pulse"></div>
+      </div>
+
+      {/* Waveform and Audio Controls */}
+      <div className="space-y-4">
+        {/* Waveform Visualization */}
+        <div className="h-20 bg-muted rounded-lg flex items-center justify-center border">
+          <div className="flex items-end gap-1 h-12">
+            {Array.from({ length: 80 }, (_, i) => (
+              <div
+                key={i}
+                className={`w-1 rounded-sm transition-colors ${
+                  i < 20 ? 'bg-brand-teal' : 'bg-border'
+                }`}
+                style={{
+                  height: `${Math.random() * 40 + 8}px`,
+                }}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Audio Controls */}
+        <div className="flex items-center gap-4">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setIsPlaying(!isPlaying)}
+            className="flex items-center gap-2 border-brand-teal/30 hover:bg-brand-teal/10 hover:border-brand-teal"
+          >
+            {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+            {playbackSpeed}
+          </Button>
+          <Button 
+            variant="ghost" 
+            size="sm"
+            onClick={() => setPlaybackSpeed(playbackSpeed === "1.0x" ? "1.5x" : playbackSpeed === "1.5x" ? "2.0x" : "1.0x")}
+            className="hover:bg-brand-teal/10 hover:text-brand-teal"
+          >
+            <RotateCcw className="h-4 w-4" />
+          </Button>
+          <Button variant="ghost" size="sm" className="hover:bg-brand-teal/10 hover:text-brand-teal">
+            <RotateCw className="h-4 w-4" />
+          </Button>
+          <span className="text-sm text-muted-foreground ml-auto">
+            {currentTime} / {call.duration}
+          </span>
+          <Button variant="ghost" size="sm" className="hover:bg-brand-teal/10 hover:text-brand-teal">
+            <Download className="h-4 w-4" />
+          </Button>
         </div>
       </div>
 
-      {/* Audio Player */}
-      <Card>
-        <CardContent className="p-4">
-          <div className="flex items-center gap-4">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setIsPlaying(!isPlaying)}
-              className="flex items-center gap-2"
-            >
-              {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-              1.0x
-            </Button>
-            <Button variant="ghost" size="sm">
-              <RotateCcw className="h-4 w-4" />
-            </Button>
-            <Button variant="ghost" size="sm">
-              <RotateCw className="h-4 w-4" />
-            </Button>
-            <div className="flex-1 bg-gray-200 h-2 rounded-full relative">
-              <div className="bg-black h-2 rounded-full w-1/4"></div>
-            </div>
-            <span className="text-sm text-gray-600">{currentTime} / {call.duration}</span>
-          </div>
-        </CardContent>
-      </Card>
-
       {/* Tabs */}
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="transcription">Transcription</TabsTrigger>
-          <TabsTrigger value="client-data">Client data</TabsTrigger>
-          <TabsTrigger value="phone-call">Phone call</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-4 bg-muted p-1">
+          <TabsTrigger value="overview" className="data-[state=active]:bg-brand-teal data-[state=active]:text-white">Overview</TabsTrigger>
+          <TabsTrigger value="transcription" className="data-[state=active]:bg-brand-teal data-[state=active]:text-white">Transcription</TabsTrigger>
+          <TabsTrigger value="client-data" className="data-[state=active]:bg-brand-teal data-[state=active]:text-white">Client data</TabsTrigger>
+          <TabsTrigger value="phone-call" className="data-[state=active]:bg-brand-teal data-[state=active]:text-white">Phone call</TabsTrigger>
         </TabsList>
 
+        {/* Overview Tab */}
         <TabsContent value="overview" className="space-y-6 mt-6">
-          {/* Summary */}
-          <div className="space-y-2">
-            <h2 className="text-xl font-bold">Summary</h2>
-            <p className="text-gray-700">{call.summary}</p>
+          <div>
+            <h3 className="text-lg font-semibold mb-3">Summary</h3>
+            <div className="bg-muted/50 p-4 rounded-lg">
+              <p className="text-sm leading-relaxed">
+                {call.summary}
+              </p>
+            </div>
           </div>
 
-          {/* Call Status & Metrics */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="space-y-1">
-              <h3 className="text-sm font-medium text-gray-600">Call status</h3>
-              {getStatusBadge(call.status)}
+          <div className="grid grid-cols-3 gap-6">
+            <div>
+              <h4 className="font-medium mb-2">Call status</h4>
+              <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+                <span className="text-sm">Status</span>
+                <Badge variant={getStatusBadge(call.status)} className="capitalize">
+                  {call.status === 'completed' ? 'Successful' : 
+                   call.status === 'no-answer' ? 'No Answer' : 
+                   call.status}
+                </Badge>
+              </div>
+            </div>
+            
+            <div>
+              <h4 className="font-medium mb-2">User ID</h4>
+              <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+                <span className="text-sm">User ID</span>
+                <span className="text-sm text-muted-foreground">No user ID</span>
+              </div>
             </div>
 
-            <div className="space-y-1">
-              <h3 className="text-sm font-medium text-gray-600">User ID</h3>
-              <span className="text-sm text-gray-500">No user ID</span>
-            </div>
-
-            <div className="space-y-1">
-              <h3 className="text-sm font-medium text-gray-600">Criteria evaluation</h3>
-              <span className="text-sm font-medium">{successfulCriteria} of {totalCriteria} successful</span>
+            <div>
+              <h4 className="font-medium mb-2">Criteria evaluation</h4>
+              <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+                <span className="text-sm">Success Rate</span>
+                <span className="text-sm font-medium">{successfulCriteria} of {totalCriteria}</span>
+              </div>
             </div>
           </div>
 
           {/* Criteria Details */}
-          <div className="space-y-3">
-            {call.criteria.map((criterion, index) => (
-              <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                <div className="flex items-center gap-3">
-                  {getStatusIcon(criterion.status)}
-                  <div>
-                    <span className="font-medium">{criterion.name}</span>
-                    <p className="text-sm text-gray-600 mt-1">{criterion.description}</p>
+          <div>
+            <h4 className="font-medium mb-3">Criteria Details</h4>
+            <div className="space-y-3">
+              {call.criteria.map((criterion, index) => (
+                <div key={index} className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
+                  <div className="flex items-center gap-3">
+                    {getStatusIcon(criterion.status)}
+                    <div>
+                      <span className="font-medium">{criterion.name}</span>
+                      <p className="text-sm text-muted-foreground mt-1">{criterion.description}</p>
+                    </div>
                   </div>
+                  <Badge 
+                    variant={criterion.status === 'success' ? 'default' : criterion.status === 'failure' ? 'destructive' : 'secondary'}
+                  >
+                    {criterion.status === 'success' ? 'Success' : 
+                     criterion.status === 'failure' ? 'Failure' : 'Unknown'}
+                  </Badge>
                 </div>
-                <Badge 
-                  variant={criterion.status === 'success' ? 'default' : 'destructive'}
-                  className={criterion.status === 'success' ? 'bg-black text-white' : ''}
-                >
-                  {criterion.status === 'success' ? 'Success' : 'Failure'}
-                </Badge>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
           {/* Data Collection */}
-          <div className="space-y-4">
-            <h2 className="text-xl font-bold">Data collection</h2>
+          <div>
+            <h4 className="font-medium mb-3">Data Collection</h4>
             <div className="space-y-3">
               {Object.entries(call.dataCollected).map(([key, value]) => (
-                <div key={key} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <div className="flex items-center gap-2">
-                    <span className="font-medium">{key}</span>
-                    <span className="text-xs bg-gray-200 px-2 py-1 rounded">string</span>
-                    <AlertTriangle className="h-4 w-4 text-yellow-500" />
-                  </div>
-                  <span className="text-sm text-gray-500 italic">
-                    {value || 'null'}
-                  </span>
+                <div key={key} className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
+                  <span className="font-medium capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
+                  <span className="text-muted-foreground">{value || 'null'}</span>
                 </div>
               ))}
             </div>
           </div>
         </TabsContent>
 
-        <TabsContent value="transcription">
-          <div className="space-y-4">
-            <h2 className="text-xl font-bold">Call Transcription</h2>
-            <div className="bg-gray-50 rounded-lg p-4 max-h-96 overflow-y-auto">
-              {call.transcript ? (
-                <div className="space-y-4">
-                  {/* Agent Message */}
-                  <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
-                      A
-                    </div>
-                    <div className="flex-1">
-                      <div className="bg-white rounded-lg p-3 shadow-sm border">
-                        <div className="text-xs text-gray-500 mb-1">Agent</div>
-                        <p className="text-gray-800">Hello, this is calling from Armstrong Transport. May I speak with someone regarding your logistics needs?</p>
-                      </div>
-                      <div className="text-xs text-gray-400 mt-1">00:05</div>
-                    </div>
+        {/* Transcription Tab */}
+        <TabsContent value="transcription" className="space-y-4 mt-6">
+          <div className="max-w-4xl mx-auto space-y-3 max-h-96 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-muted scrollbar-track-transparent">
+            {sampleTranscript.map((item, index) => (
+              <div key={index} className={`flex ${item.speaker === 'Agent' ? 'justify-start' : 'justify-end'}`}>
+                <div className={`max-w-xs lg:max-w-md xl:max-w-lg ${
+                  item.speaker === 'Agent' ? 'mr-auto' : 'ml-auto'
+                }`}>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className={`text-xs font-medium ${
+                      item.speaker === 'Agent' ? 'text-brand-teal' : 'text-secondary-foreground'
+                    }`}>
+                      {item.speaker === 'Agent' ? 'Agent' : 'Contact'}
+                    </span>
+                    <span className="text-xs text-muted-foreground">{item.time}</span>
                   </div>
-
-                  {/* Contact Message */}
-                  <div className="flex items-start gap-3 flex-row-reverse">
-                    <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
-                      C
-                    </div>
-                    <div className="flex-1">
-                      <div className="bg-green-50 rounded-lg p-3 shadow-sm border border-green-200">
-                        <div className="text-xs text-gray-500 mb-1 text-right">Contact</div>
-                        <p className="text-gray-800">Yes, this is speaking. What can you help me with?</p>
-                      </div>
-                      <div className="text-xs text-gray-400 mt-1 text-right">00:12</div>
-                    </div>
-                  </div>
-
-                  {/* Agent Message */}
-                  <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
-                      A
-                    </div>
-                    <div className="flex-1">
-                      <div className="bg-white rounded-lg p-3 shadow-sm border">
-                        <div className="text-xs text-gray-500 mb-1">Agent</div>
-                        <p className="text-gray-800">Great! I wanted to discuss our freight solutions that might benefit your business. We specialize in logistics and transportation services for companies like yours.</p>
-                      </div>
-                      <div className="text-xs text-gray-400 mt-1">00:18</div>
-                    </div>
-                  </div>
-
-                  {/* Contact Message */}
-                  <div className="flex items-start gap-3 flex-row-reverse">
-                    <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
-                      C
-                    </div>
-                    <div className="flex-1">
-                      <div className="bg-green-50 rounded-lg p-3 shadow-sm border border-green-200">
-                        <div className="text-xs text-gray-500 mb-1 text-right">Contact</div>
-                        <p className="text-gray-800">We might be interested. Can you send me some information via email?</p>
-                      </div>
-                      <div className="text-xs text-gray-400 mt-1 text-right">00:35</div>
-                    </div>
-                  </div>
-
-                  {/* Agent Message */}
-                  <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
-                      A
-                    </div>
-                    <div className="flex-1">
-                      <div className="bg-white rounded-lg p-3 shadow-sm border">
-                        <div className="text-xs text-gray-500 mb-1">Agent</div>
-                        <p className="text-gray-800">Absolutely! I'd be happy to send you detailed information. Could I get your email address?</p>
-                      </div>
-                      <div className="text-xs text-gray-400 mt-1">00:42</div>
-                    </div>
+                  <div className={`p-3 rounded-2xl ${
+                    item.speaker === 'Agent' 
+                      ? 'bg-primary/10 text-foreground rounded-bl-sm' 
+                      : 'bg-secondary text-secondary-foreground rounded-br-sm'
+                  }`}>
+                    <p className="text-sm leading-relaxed">{item.message}</p>
                   </div>
                 </div>
-              ) : (
-                <div className="text-center py-8">
-                  <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                    </svg>
-                  </div>
-                  <p className="text-gray-500">Transcription not available for this call.</p>
+              </div>
+            ))}
+          </div>
+        </TabsContent>
+
+        {/* Client Data Tab */}
+        <TabsContent value="client-data" className="space-y-4 mt-6">
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Dynamic Variables</h3>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between p-4 border rounded-lg">
+                <span className="font-medium">Phone Number</span>
+                <span className="text-muted-foreground">{call.phoneNumber}</span>
+              </div>
+              <div className="flex items-center justify-between p-4 border rounded-lg">
+                <span className="font-medium">Call Duration</span>
+                <span className="text-muted-foreground">{call.duration}</span>
+              </div>
+              {Object.entries(call.dataCollected).map(([key, value]) => (
+                <div key={key} className="flex items-center justify-between p-4 border rounded-lg">
+                  <span className="font-medium capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
+                  <span className="text-muted-foreground">{value || 'null'}</span>
                 </div>
-              )}
+              ))}
             </div>
           </div>
         </TabsContent>
 
-        <TabsContent value="client-data">
+        {/* Phone Call Tab */}
+        <TabsContent value="phone-call" className="space-y-4 mt-6">
           <div className="space-y-4">
-            <h2 className="text-xl font-bold">Client Information</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Phone Number</label>
-                <div className="flex items-center gap-2 p-3 bg-gray-50 rounded">
-                  <Phone className="h-4 w-4 text-gray-500" />
-                  <span>{call.phoneNumber}</span>
-                </div>
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Call Duration</label>
-                <div className="flex items-center gap-2 p-3 bg-gray-50 rounded">
-                  <Clock className="h-4 w-4 text-gray-500" />
-                  <span>{call.duration}</span>
-                </div>
-              </div>
+            <div className="flex items-center justify-between p-4 border rounded-lg">
+              <span className="font-medium">Status</span>
+              <Badge variant={getStatusBadge(call.status)} className="capitalize">
+                {call.status === 'completed' ? 'Successful' : 
+                 call.status === 'no-answer' ? 'No Answer' : 
+                 call.status}
+              </Badge>
             </div>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="phone-call">
-          <div className="space-y-4">
-            <h2 className="text-xl font-bold">Phone Call Details</h2>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="p-3 bg-gray-50 rounded">
-                <label className="text-sm font-medium text-gray-600">Call Status</label>
-                <p className="font-medium">{call.status}</p>
-              </div>
-              <div className="p-3 bg-gray-50 rounded">
-                <label className="text-sm font-medium text-gray-600">Duration</label>
-                <p className="font-medium">{call.duration}</p>
-              </div>
-              <div className="p-3 bg-gray-50 rounded">
-                <label className="text-sm font-medium text-gray-600">Timestamp</label>
-                <p className="font-medium">{call.timestamp.toLocaleString()}</p>
-              </div>
-              <div className="p-3 bg-gray-50 rounded">
-                <label className="text-sm font-medium text-gray-600">Phone Number</label>
-                <p className="font-medium">{call.phoneNumber}</p>
-              </div>
+            <div className="flex items-center justify-between p-4 border rounded-lg">
+              <span className="font-medium">Duration</span>
+              <span className="text-muted-foreground">{call.duration}</span>
+            </div>
+            <div className="flex items-center justify-between p-4 border rounded-lg">
+              <span className="font-medium">Time</span>
+              <span className="text-muted-foreground">{call.timestamp.toLocaleString()}</span>
+            </div>
+            <div className="flex items-center justify-between p-4 border rounded-lg">
+              <span className="font-medium">Phone Number</span>
+              <span className="text-muted-foreground">{call.phoneNumber}</span>
             </div>
           </div>
         </TabsContent>
