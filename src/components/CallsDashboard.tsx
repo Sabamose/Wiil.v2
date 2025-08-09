@@ -300,9 +300,12 @@ const CallsDashboard = () => {
   return (
     <div className="space-y-6">
       {/* Header with Toggle */}
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Customer Management</h1>
-        <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
+      <div className="flex justify-between items-center border-b border-teal-100 pb-4">
+        <h1 className="text-2xl font-bold relative">
+          Customer Management
+          <div className="absolute -bottom-1 left-0 w-12 h-0.5 bg-gradient-to-r from-teal-500 to-teal-300"></div>
+        </h1>
+        <div className="flex items-center gap-2 bg-gray-50 rounded-lg p-1 border border-teal-100/50">"
           <Button
             variant={view === 'incoming' ? 'default' : 'ghost'}
             size="sm"
@@ -324,21 +327,22 @@ const CallsDashboard = () => {
 
       {/* Search */}
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-teal-400 h-4 w-4" />
         <Input
           placeholder="Search customers by name, phone, email, or company..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="pl-10"
+          className="pl-10 border-teal-100 focus:border-teal-300 focus:ring-teal-200"
         />
       </div>
 
       {/* Customer List Table */}
-      <Card>
-        <CardHeader>
+      <Card className="border-teal-100/50 shadow-sm">
+        <CardHeader className="border-b border-teal-50">
           <CardTitle className="flex items-center gap-2">
-            <Users className="h-5 w-5" />
+            <Users className="h-5 w-5 text-teal-600" />
             Customer List
+            <div className="ml-auto w-8 h-0.5 bg-teal-200 rounded-full"></div>
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -356,20 +360,23 @@ const CallsDashboard = () => {
               {filteredCustomers.map((customer) => (
                 <TableRow 
                   key={customer.id}
-                  className="cursor-pointer hover:bg-blue-50 hover:shadow-sm transition-all duration-200"
+                  className="cursor-pointer hover:bg-teal-50/50 hover:shadow-sm transition-all duration-200 border-b border-teal-50/30"
                   onClick={() => handleCustomerClick(customer)}
                 >
-                  <TableCell className="font-medium">{customer.name}</TableCell>
+                  <TableCell className="font-medium relative">
+                    {customer.name}
+                    <div className="absolute left-0 top-0 w-1 h-full bg-teal-200/20 rounded-r"></div>
+                  </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
-                      <Phone className="h-4 w-4 text-gray-500" />
+                      <Phone className="h-4 w-4 text-teal-500" />
                       {customer.phoneNumber}
                     </div>
                   </TableCell>
                   <TableCell>{customer.email || '-'}</TableCell>
                   <TableCell>{customer.company || '-'}</TableCell>
                   <TableCell>
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" className="border-teal-200 text-teal-700 hover:bg-teal-50 hover:border-teal-300">
                       View Details
                     </Button>
                   </TableCell>

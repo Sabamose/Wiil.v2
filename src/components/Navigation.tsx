@@ -38,7 +38,7 @@ const Navigation = () => {
       ))}
       
       {/* Separator */}
-      <div className="border-t border-gray-200 my-4 mx-6"></div>
+      <div className="border-t border-teal-100 my-4 mx-6"></div>
       
       <a href="/phone-numbers" className={getNavItemClass("/phone-numbers")} onClick={() => setIsOpen(false)}>
         <Phone className="w-5 h-5" />
@@ -50,7 +50,7 @@ const Navigation = () => {
   return (
     <>
       {/* Header */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 px-4 md:px-6 h-16 flex items-center justify-between">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-teal-100/50 px-4 md:px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-2">
           {isMobile && (
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -81,7 +81,7 @@ const Navigation = () => {
 
       {/* Desktop Sidebar Navigation */}
       {!isMobile && (
-        <nav className="fixed left-0 top-16 w-60 h-[calc(100vh-4rem)] bg-white border-r border-gray-200 py-6 overflow-y-auto">
+        <nav className="fixed left-0 top-16 w-60 h-[calc(100vh-4rem)] bg-white border-r border-teal-100/30 py-6 overflow-y-auto">
           <NavigationContent />
         </nav>
       )}
