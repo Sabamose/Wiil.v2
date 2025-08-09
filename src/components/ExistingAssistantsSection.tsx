@@ -98,7 +98,7 @@ const ExistingAssistantsSection = ({
 
   return <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
       <div className="px-6 py-5 border-b border-gray-200 flex justify-between items-center">
-        <h2 className="text-lg font-semibold">Your Assistants</h2>
+        <div></div>
         <div className="flex gap-3">
           <button onClick={handleCreate} className="px-4 py-2 bg-teal-600 text-white rounded-md text-sm font-medium hover:bg-teal-700 transition-colors">
             + Create Assistant
