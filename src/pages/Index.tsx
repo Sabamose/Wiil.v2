@@ -47,7 +47,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 to-white">
+    <div className="min-h-screen bg-gradient-to-br from-teal-100 to-teal-50">`
         {currentView === "list" && <Navigation />}
         
         {/* Main Content */}
