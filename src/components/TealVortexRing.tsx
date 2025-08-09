@@ -56,16 +56,16 @@ export default function TealVortexRing({
     }
   }, [state]);
 
-  // Initialise particles (once)
-  useEffect(() => {
-    const count = 420; // safe on laptops
-    particles.current = new Array(count).fill(0).map((_, i) => ({
-      a: (i / count) * Math.PI * 2 + Math.random() * 0.5,
-      rOff: (Math.random() * 2 - 1) * (r * 0.14),
-      sp: (0.6 + Math.random() * 0.8) * (Math.random() < 0.5 ? -1 : 1),
-      x: 0, y: 0,
-    }));
-  }, [r]);
+  // Particles disabled
+  // useEffect(() => {
+  //   const count = 420; // safe on laptops
+  //   particles.current = new Array(count).fill(0).map((_, i) => ({
+  //     a: (i / count) * Math.PI * 2 + Math.random() * 0.5,
+  //     rOff: (Math.random() * 2 - 1) * (r * 0.14),
+  //     sp: (0.6 + Math.random() * 0.8) * (Math.random() < 0.5 ? -1 : 1),
+  //     x: 0, y: 0,
+  //   }));
+  // }, [r]);
 
   // Tap ripple trigger
   const triggerRipple = () => { ripples.current.push({ t0: performance.now() }); if (ripples.current.length > 4) ripples.current.shift(); };
@@ -130,31 +130,31 @@ export default function TealVortexRing({
       }
       ctx.restore();
 
-      // --- particle halo with trails ---
-      ctx.save();
-      ctx.globalCompositeOperation = "lighter";
-      const baseSpeed = 0.006 * params.speed * (1 + energy * 0.8);
-      const trailAlpha = 0.18 + energy * 0.25;
-      for (let i = 0; i < particles.current.length; i++) {
-        const p = particles.current[i];
-        const noise = Math.sin(p.a * 4 + t * 1.3) * 0.006 + Math.sin(p.a * 9 - t * 0.7) * 0.003;
-        p.a += (baseSpeed * p.sp) + noise;
-        const rr = baseR + p.rOff + Math.sin(t * 0.9 + i) * 1.2;
-        const x = cx + Math.cos(p.a) * rr;
-        const y = cy + Math.sin(p.a) * rr;
-        // trail
-        if (p.x || p.y) {
-          const g = ctx.createLinearGradient(p.x, p.y, x, y);
-          g.addColorStop(0, `rgba(153,246,228,${trailAlpha * 0.5})`);
-          g.addColorStop(1, `rgba(13,148,136,${trailAlpha})`);
-          ctx.strokeStyle = g; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(x, y); ctx.stroke();
-        }
-        // spark
-        ctx.fillStyle = `rgba(13,148,136,${0.35 + energy * 0.35})`;
-        ctx.beginPath(); ctx.arc(x, y, 0.9 + energy * 0.9, 0, Math.PI * 2); ctx.fill();
-        p.x = x; p.y = y;
-      }
-      ctx.restore();
+      // --- particle halo with trails --- DISABLED
+      // ctx.save();
+      // ctx.globalCompositeOperation = "lighter";
+      // const baseSpeed = 0.006 * params.speed * (1 + energy * 0.8);
+      // const trailAlpha = 0.18 + energy * 0.25;
+      // for (let i = 0; i < particles.current.length; i++) {
+      //   const p = particles.current[i];
+      //   const noise = Math.sin(p.a * 4 + t * 1.3) * 0.006 + Math.sin(p.a * 9 - t * 0.7) * 0.003;
+      //   p.a += (baseSpeed * p.sp) + noise;
+      //   const rr = baseR + p.rOff + Math.sin(t * 0.9 + i) * 1.2;
+      //   const x = cx + Math.cos(p.a) * rr;
+      //   const y = cy + Math.sin(p.a) * rr;
+      //   // trail
+      //   if (p.x || p.y) {
+      //     const g = ctx.createLinearGradient(p.x, p.y, x, y);
+      //     g.addColorStop(0, `rgba(153,246,228,${trailAlpha * 0.5})`);
+      //     g.addColorStop(1, `rgba(13,148,136,${trailAlpha})`);
+      //     ctx.strokeStyle = g; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(x, y); ctx.stroke();
+      //   }
+      //   // spark
+      //   ctx.fillStyle = `rgba(13,148,136,${0.35 + energy * 0.35})`;
+      //   ctx.beginPath(); ctx.arc(x, y, 0.9 + energy * 0.9, 0, Math.PI * 2); ctx.fill();
+      //   p.x = x; p.y = y;
+      // }
+      // ctx.restore();
 
       // --- crisp ring outline ---
       ctx.save(); ctx.beginPath(); ctx.arc(cx, cy, baseR + 2, 0, Math.PI * 2); ctx.strokeStyle = accent; ctx.lineWidth = 2; ctx.globalAlpha = 0.9; ctx.stroke(); ctx.restore();
