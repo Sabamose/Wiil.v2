@@ -189,25 +189,6 @@ function DemoVideo() {
   );
 }
 
-// ---------- 3‑step guide (non‑technical) ----------
-function QuickGuide() {
-  const steps = [
-    {h:"Pick a template", d:"Sales, support, bookings — start from a proven flow."},
-    {h:"Name it & tweak", d:"Edit tone and key answers. No code required."},
-    {h:"Go live", d:"Click connect. Get a number or embed on your site."},
-  ];
-  return (
-    <div className="max-w-5xl mx-auto px-6 mt-12 grid md:grid-cols-3 gap-4">
-      {steps.map((s,i)=> (
-        <div key={i} className="rounded-3xl border border-neutral-200 p-5">
-          <div className="w-8 h-8 rounded-xl bg-teal-600 text-white grid place-items-center mb-3">{i+1}</div>
-          <div className="font-medium">{s.h}</div>
-          <div className="text-neutral-600 text-sm mt-1">{s.d}</div>
-        </div>
-      ))}
-    </div>
-  );
-}
 
 // ---------- Page ----------
 export default function HomePageTealV2() {
@@ -331,8 +312,6 @@ export default function HomePageTealV2() {
       {/* Demo video */}
       <DemoVideo />
 
-      {/* 3-step quick guide */}
-      <QuickGuide />
 
       <footer className="max-w-7xl mx-auto px-6 py-14 text-sm text-neutral-500">© {new Date().getFullYear()} Will — minimal, modern, and fast.</footer>
     </main>
