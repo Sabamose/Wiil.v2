@@ -2,8 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, Play, Pause, RotateCcw, RotateCw, User, Phone, Clock, CheckCircle, XCircle, AlertTriangle, CalendarCheck, PhoneForwarded, MessageSquare } from "lucide-react";
-import type { CampaignAction } from "@/types/campaign";
+import { ArrowLeft, Play, Pause, RotateCcw, RotateCw, User, Phone, Clock, CheckCircle, XCircle, AlertTriangle } from "lucide-react";
 import { useState } from "react";
 
 interface CallData {
@@ -23,7 +22,6 @@ interface CallData {
     [key: string]: string | null;
   };
   transcript?: string;
-  actions?: CampaignAction[];
 }
 
 interface OutboundCallDetailsProps {
@@ -63,11 +61,7 @@ const OutboundCallDetails = ({ call, onBack }: OutboundCallDetailsProps) => {
 
   const successfulCriteria = call.criteria.filter(c => c.status === 'success').length;
   const totalCriteria = call.criteria.length;
-  const ACTION_LABELS: Record<CampaignAction, string> = {
-    booking_calls: 'Booking Calls',
-    call_transfer: 'Call Transfer',
-    sms_follow_up: 'SMS follow-up',
-  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -145,23 +139,6 @@ const OutboundCallDetails = ({ call, onBack }: OutboundCallDetailsProps) => {
               <span className="text-sm font-medium">{successfulCriteria} of {totalCriteria} successful</span>
             </div>
           </div>
-
-          {call.actions && call.actions.length > 0 && (
-            <div className="space-y-2">
-              <h3 className="text-sm font-medium text-gray-600">Campaign actions</h3>
-              <div className="flex flex-wrap gap-2">
-                {call.actions.map((action) => (
-                  <Badge key={action} variant="secondary" className="flex items-center gap-1 text-xs">
-                    {action === 'booking_calls' && <CalendarCheck className="h-3 w-3" />}
-                    {action === 'call_transfer' && <PhoneForwarded className="h-3 w-3" />}
-                    {action === 'sms_follow_up' && <MessageSquare className="h-3 w-3" />}
-                    {ACTION_LABELS[action]}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-          )}
-
 
           {/* Criteria Details */}
           <div className="space-y-3">

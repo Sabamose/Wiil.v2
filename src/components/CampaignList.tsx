@@ -1,9 +1,9 @@
-import { Campaign, CampaignAction } from "@/types/campaign";
+import { Campaign } from "@/types/campaign";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Search, Clock, ArrowLeft, Users, Building2, Globe, MapPin, Briefcase, CalendarCheck, PhoneForwarded, MessageSquare } from "lucide-react";
+import { Search, Clock, ArrowLeft, Users, Building2, Globe, MapPin, Briefcase } from "lucide-react";
 import { useState } from "react";
 
 interface CampaignListProps {
@@ -51,18 +51,6 @@ const CampaignList = ({ campaigns, onCampaignClick, onCreateCampaign, onBack }: 
     );
   };
 
-  const ACTION_LABELS: Record<CampaignAction, string> = {
-    booking_calls: 'Booking Calls',
-    call_transfer: 'Call Transfer',
-    sms_follow_up: 'SMS follow-up',
-  };
-
-  const ACTION_ICONS: Record<CampaignAction, React.ComponentType<any>> = {
-    booking_calls: CalendarCheck,
-    call_transfer: PhoneForwarded,
-    sms_follow_up: MessageSquare,
-  };
-
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -101,19 +89,6 @@ const CampaignList = ({ campaigns, onCampaignClick, onCreateCampaign, onBack }: 
               <CardContent className="p-4 space-y-3">
                 <div className="space-y-2">
                   <h3 className="font-semibold text-lg">{campaign.name}</h3>
-
-                  {campaign.actions && campaign.actions.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
-                      {campaign.actions.map((action) => {
-                        const Icon = ACTION_ICONS[action];
-                        return (
-                          <Badge key={action} variant="secondary" className="flex items-center gap-1 text-xs">
-                            <Icon className="h-3 w-3" /> {ACTION_LABELS[action]}
-                          </Badge>
-                        );
-                      })}
-                    </div>
-                  )}
                   
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-1 text-sm text-muted-foreground">

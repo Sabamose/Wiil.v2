@@ -1,4 +1,4 @@
-import { Campaign, CampaignRecipient, CampaignAction } from "@/types/campaign";
+import { Campaign, CampaignRecipient } from "@/types/campaign";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -12,11 +12,12 @@ interface CampaignDetailsProps {
 }
 
 const CampaignDetails = ({ campaign, onBack, onRecipientClick }: CampaignDetailsProps) => {
-  const ACTION_LABELS: Record<CampaignAction, string> = {
-    booking_calls: 'Booking Calls',
-    call_transfer: 'Call Transfer',
-    sms_follow_up: 'SMS follow-up',
-  };
+  // Get all dynamic variable keys from the first recipient
+  const dynamicKeys = campaign.csvData.length > 0 
+    ? Object.keys(campaign.csvData[0]).filter(key => 
+        !['id', 'phone_number', 'status'].includes(key)
+      )
+    : [];
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -75,12 +76,15 @@ const CampaignDetails = ({ campaign, onBack, onRecipientClick }: CampaignDetails
                     </div>
                     <div className="text-xs text-gray-500">phone_number</div>
                   </TableHead>
-                  <TableHead className="px-4 py-3">
-                    <div className="flex items-center gap-2">
-                      <span>⚙️</span>
-                      Actions
-                    </div>
-                  </TableHead>
+                  {dynamicKeys.map((key) => (
+                    <TableHead key={key} className="px-4 py-3">
+                      <div className="flex items-center gap-2">
+                        <span>{ }</span>
+                        Dynamic Variable
+                      </div>
+                      <div className="text-xs text-gray-500">{key}</div>
+                    </TableHead>
+                  ))}
                   <TableHead className="px-4 py-3">
                     <div className="flex items-center gap-2">
                       <span>📊</span>
@@ -100,15 +104,11 @@ const CampaignDetails = ({ campaign, onBack, onRecipientClick }: CampaignDetails
                     <TableCell className="px-4 py-3 font-medium">
                       {recipient.phone_number}
                     </TableCell>
-                    <TableCell className="px-4 py-3">
-                      <div className="flex flex-wrap gap-2">
-                        {(campaign.actions || []).map((action) => (
-                          <Badge key={action} variant="secondary" className="text-xs">
-                            {ACTION_LABELS[action as CampaignAction]}
-                          </Badge>
-                        ))}
-                      </div>
-                    </TableCell>
+                    {dynamicKeys.map((key) => (
+                      <TableCell key={key} className="px-4 py-3">
+                        {recipient[key] || '--'}
+                      </TableCell>
+                    ))}
                     <TableCell className="px-4 py-3">
                       {getStatusBadge(recipient.status)}
                     </TableCell>
