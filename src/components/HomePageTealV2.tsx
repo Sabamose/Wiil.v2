@@ -562,8 +562,8 @@ export default function HomePageTealV2() {
       {/* Hero */}
       <section className="relative max-w-6xl mx-auto px-6 pt-6 pb-14">
         <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-5xl font-semibold tracking-tight">Meet your assistant</h1>
-          <p className="mt-3 text-neutral-600">No docs. Tap the orb, feel it respond, then create yours.</p>
+          <h1 className="text-4xl md:text-5xl font-semibold tracking-tight">This isn’t a website — it’s your AI assistant platform.</h1>
+          <p className="mt-3 text-neutral-600">Spin up an agent, talk to it live, and launch in minutes. Tap the orb to kick off.</p>
         </div>
 
         <div className="relative flex items-center justify-center min-h-[500px]">
