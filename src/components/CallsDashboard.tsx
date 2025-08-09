@@ -362,7 +362,7 @@ const CallsDashboard = () => {
                   <TableCell className="font-medium">{customer.name}</TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
-                      <Phone className="h-4 w-4 text-gray-500" />
+                      <Phone className="h-4 w-4 text-teal-600" />
                       {customer.phoneNumber}
                     </div>
                   </TableCell>
