@@ -171,24 +171,28 @@ const CallsDashboard = () => {
     };
     csvData: any[];
     timing: 'immediate' | 'scheduled';
+    scheduledDate?: Date;
+    scheduledTime?: string;
+    timezone?: string;
   }) => {
     const newCampaign: Campaign = {
       id: Date.now().toString(),
       name: data.batchName,
       recipients: data.csvData.length,
       assistant: data.assistant,
-      status: 'completed',
-      completionPercentage: 100,
-      duration: "0:30",
+      status: data.timing === 'immediate' ? 'in-progress' : 'pending',
+      completionPercentage: data.timing === 'immediate' ? 25 : 0,
+      duration: data.timing === 'immediate' ? "0:05" : "0:00",
       createdAt: new Date(),
       csvData: data.csvData.map((row, index) => ({
         id: index.toString(),
         ...row,
-        status: Math.random() > 0.2 ? 'completed' : 'no-answer'
+        status: data.timing === 'immediate' ? 
+          (Math.random() > 0.7 ? 'completed' : 'pending') : 'pending'
       }))
     };
     
-    setCampaigns([...campaigns, newCampaign]);
+    setCampaigns([newCampaign, ...campaigns]);
     setView('campaigns');
   };
 

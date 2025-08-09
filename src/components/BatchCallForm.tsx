@@ -13,6 +13,7 @@ import { format } from "date-fns";
 import { Upload, Download, ArrowLeft, Users, FileText, CheckCircle, AlertCircle, X, Info, CalendarIcon, Clock, Globe } from "lucide-react";
 import TestOutboundCallModal from "./TestOutboundCallModal";
 import Papa from "papaparse";
+import { useToast } from "@/hooks/use-toast";
 
 interface BatchCallFormProps {
   onBack: () => void;
@@ -25,10 +26,14 @@ interface BatchCallFormProps {
     };
     csvData: any[];
     timing: 'immediate' | 'scheduled';
+    scheduledDate?: Date;
+    scheduledTime?: string;
+    timezone?: string;
   }) => void;
 }
 
 const BatchCallForm = ({ onBack, onSubmit }: BatchCallFormProps) => {
+  const { toast } = useToast();
   const [batchName, setBatchName] = useState("Untitled Batch");
   const [selectedAssistant, setSelectedAssistant] = useState("");
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
@@ -173,7 +178,7 @@ const BatchCallForm = ({ onBack, onSubmit }: BatchCallFormProps) => {
     const assistant = mockAssistants.find(a => a.id === selectedAssistant);
     if (!assistant?.phoneNumber || csvData.length === 0) return;
 
-    onSubmit({
+    const campaignData = {
       batchName,
       assistant: {
         id: assistant.id,
@@ -181,8 +186,26 @@ const BatchCallForm = ({ onBack, onSubmit }: BatchCallFormProps) => {
         phoneNumber: assistant.phoneNumber,
       },
       csvData,
-      timing
+      timing,
+      scheduledDate,
+      scheduledTime,
+      timezone
+    };
+
+    onSubmit(campaignData);
+    
+    // Show success notification
+    toast({
+      title: "Campaign Created Successfully!",
+      description: timing === 'immediate' 
+        ? `Campaign "${batchName}" started with ${csvData.length} recipients.`
+        : `Campaign "${batchName}" scheduled for ${scheduledDate ? format(scheduledDate, "PPP") : ''} at ${scheduledTime}.`,
     });
+  };
+
+  const handleScheduleConfirm = () => {
+    setSchedulerOpen(false);
+    handleSubmit();
   };
 
   const canSubmit = () => {
@@ -568,7 +591,7 @@ const BatchCallForm = ({ onBack, onSubmit }: BatchCallFormProps) => {
                 Cancel
               </Button>
               <Button 
-                onClick={() => setSchedulerOpen(false)}
+                onClick={handleScheduleConfirm}
                 className="flex-1 bg-teal-600 hover:bg-teal-700"
                 disabled={!scheduledDate}
               >
