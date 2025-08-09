@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis, Bar, BarChart } from "recharts";
 import { PhoneIncoming, PhoneOutgoing } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import TealVortexRing from "./TealVortexRing";
 
 // Tailwind-first, teal-600 accents. This is a self-contained homepage.
 // NEW: more teal in the widget + subtle "breathing" + energy-reactive waves.
@@ -640,7 +641,7 @@ export default function HomePageTealV2() {
 
           {/* Voice orb - centered */}
           <div className="relative z-10">
-            <TealBreathingOrb state={state} energy={energy} simulate onStateChange={setState} />
+            <TealVortexRing state={state} energy={energy} onTap={() => setState(state === "idle" ? "listening" : "idle")} />
           </div>
         </div>
 
