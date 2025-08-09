@@ -12,7 +12,7 @@ const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const getNavItemClass = (path: string) => {
     const isActive = currentPath === path;
-    return `flex items-center gap-3 px-6 py-3 transition-all relative ${isActive ? "text-brand-teal bg-brand-teal/5 font-medium before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-brand-teal before:rounded-r-full" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"}`;
+    return `flex items-center gap-3 px-6 py-3 transition-all relative ${isActive ? "text-brand-teal bg-brand-teal/8 font-medium before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-brand-teal before:rounded-r-full" : "text-gray-600 hover:bg-teal-600/4 hover:text-gray-900"}`;
   };
   const navigationItems = [{
     href: "/home",
@@ -56,7 +56,7 @@ const Navigation = () => {
     </>;
   return <>
       {/* Header */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 px-4 md:px-6 h-16 flex items-center justify-between">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-teal-600/4 border-b border-teal-600/10 px-4 md:px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-2">
           {isMobile && <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
@@ -64,7 +64,7 @@ const Navigation = () => {
                   <Menu className="w-5 h-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-60 p-0">
+              <SheetContent side="left" className="w-60 p-0 bg-teal-600/4">
                 <div className="py-6">
                   <NavigationContent />
                 </div>
@@ -85,7 +85,7 @@ const Navigation = () => {
       </div>
 
       {/* Desktop Sidebar Navigation */}
-      {!isMobile && <nav className="fixed left-0 top-16 w-60 h-[calc(100vh-4rem)] bg-white border-r border-gray-200 py-6 overflow-y-auto">
+      {!isMobile && <nav className="fixed left-0 top-16 w-60 h-[calc(100vh-4rem)] bg-teal-600/4 border-r border-teal-600/10 py-6 overflow-y-auto">
           <NavigationContent />
         </nav>}
     </>;

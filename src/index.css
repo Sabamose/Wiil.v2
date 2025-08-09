@@ -129,6 +129,11 @@
     --brand-teal-hover: 174 84% 26%;
     --brand-teal-foreground: 0 0% 98%;
     
+    /* Subtle teal backgrounds for cohesive design */
+    --teal-background-subtle: 174 84% 97%;  /* Very light teal background */
+    --teal-background-nav: 174 84% 96%;     /* Navigation background */
+    --teal-background-hover: 174 84% 95%;   /* Hover states */
+    
     /* Amber for pending states */
     --amber-500: 45 93% 58%;
 
