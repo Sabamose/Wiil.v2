@@ -496,7 +496,7 @@ function AnalyticsModalContent() {
             📞 Incoming Calls
           </TabsTrigger>
           <TabsTrigger value="outgoing" className="flex items-center gap-2">
-            📈 Campaigns
+            📞 Outgoing calls
           </TabsTrigger>
         </TabsList>
         
