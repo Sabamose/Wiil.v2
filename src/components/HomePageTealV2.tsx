@@ -201,6 +201,23 @@ const peakHours = [
   { hour: '4 PM', calls: 67 }
 ];
 
+const costBreakdown = [
+  { day: 'Day 1', cost: 0.14 },
+  { day: 'Day 2', cost: 0.12 },
+  { day: 'Day 3', cost: 0.11 },
+  { day: 'Day 4', cost: 0.13 },
+  { day: 'Day 5', cost: 0.10 },
+  { day: 'Day 6', cost: 0.12 },
+  { day: 'Day 7', cost: 0.09 },
+  { day: 'Day 8', cost: 0.11 },
+  { day: 'Day 9', cost: 0.10 },
+  { day: 'Day 10', cost: 0.12 },
+  { day: 'Day 11', cost: 0.08 },
+  { day: 'Day 12', cost: 0.11 },
+  { day: 'Day 13', cost: 0.13 },
+  { day: 'Day 14', cost: 0.12 }
+];
+
 function AnalyticsModalContent() {
   return (
     <div className="animate-fade-in">
@@ -248,7 +265,7 @@ function AnalyticsModalContent() {
           ))}
         </section>
 
-        {/* Charts section */}
+        {/* Charts section - 2x2 grid */}
         <section className="grid gap-4 md:grid-cols-2">
           {/* Conversation Volume */}
           <Card className="animate-fade-in" style={{animationDelay: '0.6s'}}>
@@ -297,12 +314,45 @@ function AnalyticsModalContent() {
               </ResponsiveContainer>
             </CardContent>
           </Card>
+
+          {/* Cost per Conversation Breakdown */}
+          <Card className="animate-fade-in" style={{animationDelay: '1.2s'}}>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm text-muted-foreground">Cost per Conversation Breakdown</CardTitle>
+            </CardHeader>
+            <CardContent className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={costBreakdown} margin={{ left: 0, right: 0, top: 10, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="colorCost" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="hsl(var(--brand-teal))" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="hsl(var(--brand-teal))" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+                  <XAxis dataKey="day" tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
+                  <YAxis 
+                    domain={[0.05, 0.15]} 
+                    tick={{ fill: "hsl(var(--muted-foreground))" }} 
+                    tickLine={false} 
+                    axisLine={false}
+                    tickFormatter={(value) => `$${value.toFixed(2)}`}
+                  />
+                  <Tooltip 
+                    contentStyle={{ background: "hsl(var(--background))", border: "1px solid hsl(var(--border))" }}
+                    formatter={(value) => [`$${value}`, 'Cost per Conversation']}
+                  />
+                  <Area type="monotone" dataKey="cost" stroke="hsl(var(--brand-teal))" fillOpacity={1} fill="url(#colorCost)" />
+                </AreaChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
         </section>
 
         {/* Additional insights section */}
-        <section className="grid gap-4 md:grid-cols-2">
+        <section className="grid gap-4 md:grid-cols-1">
           {/* Peak Hours Chart */}
-          <Card className="animate-fade-in" style={{animationDelay: '1s'}}>
+          <Card className="animate-fade-in" style={{animationDelay: '1.4s'}}>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm text-muted-foreground">Peak Hours Analysis</CardTitle>
             </CardHeader>
