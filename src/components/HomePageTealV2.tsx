@@ -186,7 +186,20 @@ const series = Array.from({ length: 14 }).map((_, i) => ({
   day: `Day ${i + 1}`,
   calls: 40 + Math.round(Math.sin(i / 2) * 18) + Math.round(Math.random() * 8),
   success: 70 + Math.round(Math.cos(i / 2) * 10),
+  satisfaction: 85 + Math.round(Math.sin(i / 3) * 8),
+  conversions: 15 + Math.round(Math.cos(i / 2.5) * 5),
 }));
+
+const peakHours = [
+  { hour: '9 AM', calls: 45 },
+  { hour: '10 AM', calls: 62 },
+  { hour: '11 AM', calls: 78 },
+  { hour: '12 PM', calls: 55 },
+  { hour: '1 PM', calls: 48 },
+  { hour: '2 PM', calls: 71 },
+  { hour: '3 PM', calls: 82 },
+  { hour: '4 PM', calls: 67 }
+];
 
 function AnalyticsModalContent() {
   return (
@@ -197,23 +210,50 @@ function AnalyticsModalContent() {
       </DialogHeader>
 
       <div className="space-y-6">
-        <section className="grid gap-4 md:grid-cols-3">
-          {[{ kpi: "Calls", v: "1,284" }, { kpi: "Success Rate", v: "92%" }, { kpi: "Avg. Duration", v: "36s" }].map((x) => (
-            <Card key={x.kpi} className="animate-scale-in" style={{animationDelay: `${Math.random() * 0.3}s`}}>
+        {/* Primary KPIs - Business focused */}
+        <section className="grid gap-4 md:grid-cols-4">
+          {[
+            { kpi: "Total Conversations", v: "1,284", change: "+12%" },
+            { kpi: "Customer Satisfaction", v: "4.7★", change: "+0.3" },
+            { kpi: "Issues Resolved", v: "92%", change: "+5%" },
+            { kpi: "Avg. Response Time", v: "1.2s", change: "-0.3s" }
+          ].map((x, i) => (
+            <Card key={x.kpi} className="animate-scale-in" style={{animationDelay: `${i * 0.1}s`}}>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm text-muted-foreground">{x.kpi}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-semibold text-foreground">{x.v}</div>
+                <div className="text-xs text-teal-600 mt-1">{x.change} vs last week</div>
               </CardContent>
             </Card>
           ))}
         </section>
 
+        {/* Secondary metrics */}
+        <section className="grid gap-4 md:grid-cols-3">
+          {[
+            { kpi: "Cost per Conversation", v: "$0.12" },
+            { kpi: "Peak Hours", v: "2-4 PM" },
+            { kpi: "Conversion Rate", v: "18.5%" }
+          ].map((x, i) => (
+            <Card key={x.kpi} className="animate-fade-in" style={{animationDelay: `${0.3 + i * 0.1}s`}}>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm text-muted-foreground">{x.kpi}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-xl font-semibold text-foreground">{x.v}</div>
+              </CardContent>
+            </Card>
+          ))}
+        </section>
+
+        {/* Charts section */}
         <section className="grid gap-4 md:grid-cols-2">
-          <Card className="animate-fade-in" style={{animationDelay: '0.2s'}}>
+          {/* Conversation Volume */}
+          <Card className="animate-fade-in" style={{animationDelay: '0.6s'}}>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm text-muted-foreground">Daily Calls</CardTitle>
+              <CardTitle className="text-sm text-muted-foreground">Daily Conversations</CardTitle>
             </CardHeader>
             <CardContent className="h-64">
               <ResponsiveContainer width="100%" height="100%">
@@ -234,26 +274,86 @@ function AnalyticsModalContent() {
             </CardContent>
           </Card>
 
-          <Card className="animate-fade-in" style={{animationDelay: '0.4s'}}>
+          {/* Customer Satisfaction Trend */}
+          <Card className="animate-fade-in" style={{animationDelay: '0.8s'}}>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm text-muted-foreground">Success Rate</CardTitle>
+              <CardTitle className="text-sm text-muted-foreground">Customer Satisfaction Trend</CardTitle>
             </CardHeader>
             <CardContent className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={series} margin={{ left: 0, right: 0, top: 10, bottom: 0 }}>
                   <defs>
-                    <linearGradient id="colorSuccess" x1="0" y1="0" x2="0" y2="1">
+                    <linearGradient id="colorSatisfaction" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="hsl(var(--brand-teal))" stopOpacity={0.5} />
                       <stop offset="95%" stopColor="hsl(var(--brand-teal))" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
                   <XAxis dataKey="day" tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
-                  <YAxis domain={[50, 100]} tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
+                  <YAxis domain={[75, 95]} tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
                   <Tooltip contentStyle={{ background: "hsl(var(--background))", border: "1px solid hsl(var(--border))" }} />
-                  <Area type="monotone" dataKey="success" stroke="hsl(var(--brand-teal))" fillOpacity={1} fill="url(#colorSuccess)" />
+                  <Area type="monotone" dataKey="satisfaction" stroke="hsl(var(--brand-teal))" fillOpacity={1} fill="url(#colorSatisfaction)" />
                 </AreaChart>
               </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* Additional insights section */}
+        <section className="grid gap-4 md:grid-cols-2">
+          {/* Peak Hours Chart */}
+          <Card className="animate-fade-in" style={{animationDelay: '1s'}}>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm text-muted-foreground">Peak Hours Analysis</CardTitle>
+            </CardHeader>
+            <CardContent className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={peakHours} margin={{ left: 0, right: 0, top: 10, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="colorPeakHours" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="hsl(var(--brand-teal))" stopOpacity={0.4} />
+                      <stop offset="95%" stopColor="hsl(var(--brand-teal))" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+                  <XAxis dataKey="hour" tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
+                  <YAxis tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
+                  <Tooltip contentStyle={{ background: "hsl(var(--background))", border: "1px solid hsl(var(--border))" }} />
+                  <Area type="monotone" dataKey="calls" stroke="hsl(var(--brand-teal))" fillOpacity={1} fill="url(#colorPeakHours)" />
+                </AreaChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+
+          {/* Quick Insights */}
+          <Card className="animate-fade-in" style={{animationDelay: '1.2s'}}>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm text-muted-foreground">Key Insights</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between p-3 bg-teal-50 rounded-lg">
+                <div>
+                  <div className="font-medium text-sm">Most Active Day</div>
+                  <div className="text-xs text-muted-foreground">Wednesday generates 23% more conversations</div>
+                </div>
+                <div className="text-lg font-semibold text-teal-600">📈</div>
+              </div>
+              
+              <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                <div>
+                  <div className="font-medium text-sm">Top Performing Feature</div>
+                  <div className="text-xs text-muted-foreground">Appointment booking has 94% success rate</div>
+                </div>
+                <div className="text-lg font-semibold text-green-600">⭐</div>
+              </div>
+              
+              <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+                <div>
+                  <div className="font-medium text-sm">Cost Efficiency</div>
+                  <div className="text-xs text-muted-foreground">15% cheaper than human agents</div>
+                </div>
+                <div className="text-lg font-semibold text-blue-600">💰</div>
+              </div>
             </CardContent>
           </Card>
         </section>
