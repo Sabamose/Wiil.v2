@@ -179,7 +179,7 @@ export default function SeamlessLovableChatSection({
       width: "100%",
       minWidth: "800px",
     },
-    inputText: { flex: 1, color: "#111827", fontSize: 16, lineHeight: "22px", minHeight: 22, background: "transparent", border: "none", outline: "none" },
+    inputText: { flex: 1, color: "#0d9488", fontSize: 16, lineHeight: "22px", minHeight: 22, background: "transparent", border: "none", outline: "none" },
     caret: { display: "inline-block", width: 1.5, height: 18, background: "#9ca3af", marginLeft: 2, animation: "caretBlink 1s step-end infinite" },
     sendBtn: {
       position: "relative", padding: "10px 14px", borderRadius: 18, color: "#fff", fontWeight: 600,
