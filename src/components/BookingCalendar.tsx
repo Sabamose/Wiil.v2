@@ -160,7 +160,7 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
               variant={view === 'week' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setView('week')}
-              className="bg-teal-600 hover:bg-teal-700 text-white"
+              className="bg-white text-teal-600 border border-teal-600 hover:bg-teal-50"
             >
               Week
             </Button>
@@ -168,7 +168,7 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
               variant={view === 'day' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setView('day')}
-              className="bg-teal-600 hover:bg-teal-700 text-white"
+              className="bg-white text-teal-600 border border-teal-600 hover:bg-teal-50"
             >
               Day
             </Button>
@@ -176,7 +176,7 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
               variant={view === 'agenda' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setView('agenda')}
-              className="bg-teal-600 hover:bg-teal-700 text-white"
+              className="bg-white text-teal-600 border border-teal-600 hover:bg-teal-50"
             >
               List
             </Button>
