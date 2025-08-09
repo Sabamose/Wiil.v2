@@ -19,6 +19,8 @@ export default function SeamlessLovableChatSection({
     "What kind of assistants can I build?",
     "How can I use these assistants?",
     "How are assistants helpful for my business?",
+    "What are the stats for today?",
+    "How many calls came in?",
     "How much does it cost to run an AI assistant?",
     "Can I create a sales assistant that books meetings?",
     "How do I train my assistant with my company data?", 
