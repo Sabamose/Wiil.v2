@@ -77,25 +77,26 @@ export default function SeamlessLovableChatSection({
         @keyframes shine { 0%{ transform: translateX(-120%) rotate(12deg)} 100%{ transform: translateX(120%) rotate(12deg)} }
         @keyframes gradientShift { 0%{ background-position: 0% 50% } 50%{ background-position: 100% 50% } 100%{ background-position: 0% 50% } }
         @keyframes pulseGlow { 0%{ box-shadow: 0 20px 40px rgba(13,148,136,.4), 0 0 0 1px rgba(13,148,136,.2), inset 0 1px 0 rgba(255,255,255,.3) } 100%{ box-shadow: 0 25px 50px rgba(13,148,136,.5), 0 0 20px rgba(13,148,136,.3), inset 0 1px 0 rgba(255,255,255,.4) } }
-        @keyframes contourMove { 0%{ background-position: 0% 50% } 100%{ background-position: 200% 50% } }
+        @keyframes contourMove { 0%{ background-position: 0% 50% } 100%{ background-position: 400% 50% } }
         .enhanced-primary:hover { transform: scale(1.05) translateY(-2px) !important; }
         .enhanced-secondary:hover { transform: scale(1.02) !important; background: rgba(13,148,136,0.05) !important; }
         .chat-contour { 
-          position: absolute; 
-          inset: -3px; 
-          border-radius: 27px; 
-          background: linear-gradient(90deg, #0d9488, #5eead4, #0d9488, #5eead4, #0d9488); 
-          background-size: 300% 100%; 
-          animation: contourMove 3s linear infinite;
-          z-index: 0;
+          position: absolute !important; 
+          inset: -4px !important; 
+          border-radius: 28px !important; 
+          background: linear-gradient(90deg, #0d9488, #14b8a6, #06b6d4, #0d9488, #14b8a6) !important; 
+          background-size: 400% 100% !important; 
+          animation: contourMove 4s linear infinite !important;
+          z-index: 0 !important;
+          opacity: 1 !important;
         }
         .chat-contour::before { 
-          content: ''; 
-          position: absolute; 
-          inset: 3px; 
-          background: rgba(255,255,255,0.9); 
-          border-radius: 24px; 
-          backdrop-filter: saturate(120%) blur(8px);
+          content: '' !important; 
+          position: absolute !important; 
+          inset: 4px !important; 
+          background: rgba(255,255,255,0.9) !important; 
+          border-radius: 24px !important; 
+          backdrop-filter: saturate(120%) blur(8px) !important;
         }
       `;
       document.head.appendChild(s);
@@ -204,8 +205,8 @@ export default function SeamlessLovableChatSection({
       width: "100%",
       minWidth: "800px",
     },
-    inputText: { flex: 1, color: "#0d9488", fontSize: 16, lineHeight: "22px", minHeight: 22, background: "transparent", border: "none", outline: "none" },
-    caret: { display: "inline-block", width: 1.5, height: 18, background: "#9ca3af", marginLeft: 2, animation: "caretBlink 1s step-end infinite" },
+    inputText: { flex: 1, color: "#0f766e", fontSize: 16, lineHeight: "22px", minHeight: 22, background: "transparent", border: "none", outline: "none" },
+    caret: { display: "inline-block", width: 1.5, height: 18, background: "#0f766e", marginLeft: 2, animation: "caretBlink 1s step-end infinite" },
     sendBtn: {
       position: "relative", padding: "10px 14px", borderRadius: 18, color: "#fff", fontWeight: 600,
       background: `linear-gradient(180deg, ${lighten(accent, .1)} 0%, ${accent} 100%)`,
