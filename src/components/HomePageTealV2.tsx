@@ -492,11 +492,11 @@ function AnalyticsModalContent() {
 
       <Tabs defaultValue="incoming" className="w-full">
         <TabsList className="grid w-full grid-cols-2 mb-6">
-          <TabsTrigger value="incoming" className="flex items-center gap-2">
+          <TabsTrigger value="incoming" className="flex items-center gap-2 justify-center px-4 py-2 rounded-xl border border-brand-teal text-foreground hover:bg-brand-teal/10 data-[state=active]:bg-brand-teal data-[state=active]:text-brand-teal-foreground shadow-sm transition hover-scale">
             <PhoneIncoming size={16} />
             Incoming Calls
           </TabsTrigger>
-          <TabsTrigger value="outgoing" className="flex items-center gap-2">
+          <TabsTrigger value="outgoing" className="flex items-center gap-2 justify-center px-4 py-2 rounded-xl border border-brand-teal text-foreground hover:bg-brand-teal/10 data-[state=active]:bg-brand-teal data-[state=active]:text-brand-teal-foreground shadow-sm transition hover-scale">
             <PhoneOutgoing size={16} />
             Outgoing calls
           </TabsTrigger>
