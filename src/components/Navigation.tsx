@@ -63,9 +63,6 @@ const Navigation = () => {
 
       {/* Account Section - Fixed at bottom */}
       <div className="mt-auto pt-4">
-        <div className="mb-2 mx-6">
-          <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">Account</span>
-        </div>
         <Link to="/billing" className={getNavItemClass("/billing")} onClick={() => setIsOpen(false)}>
           <CreditCard className="w-5 h-5" />
           Billing
