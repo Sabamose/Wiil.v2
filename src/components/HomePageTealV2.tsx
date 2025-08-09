@@ -647,7 +647,7 @@ export default function HomePageTealV2() {
         {/* Primary actions */}
         <div className="mt-8 flex items-center justify-center gap-3">
           <button
-            className="px-6 py-4 rounded-2xl bg-gradient-to-r from-brand-teal to-brand-teal-hover text-brand-teal-foreground font-semibold shadow-lg shadow-brand-teal/20 hover:shadow-xl hover:shadow-brand-teal/30 hover:scale-105 transition-all duration-300 relative overflow-hidden group"
+            className="px-5 py-3 rounded-2xl bg-gradient-to-r from-brand-teal to-brand-teal-hover text-brand-teal-foreground font-semibold shadow-lg shadow-brand-teal/20 hover:shadow-xl hover:shadow-brand-teal/30 hover:scale-105 transition-all duration-300 relative overflow-hidden group"
             onClick={() => {
               navigate("/");
               setTimeout(() => window.dispatchEvent(new Event("create-assistant")), 75);
