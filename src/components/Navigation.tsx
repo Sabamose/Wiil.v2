@@ -1,4 +1,4 @@
-import { Home, MessageCircle, Bot, Phone, Globe, Calendar, Menu, X, Moon } from "lucide-react";
+import { Home, MessageCircle, Bot, Phone, Globe, Calendar, Menu, X, Moon, CreditCard } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useLocation, Link } from "react-router-dom";
 import { useState } from "react";
@@ -39,6 +39,11 @@ const Navigation = () => {
     path: "/phone-numbers",
     icon: Phone,
     label: "Phone Numbers"
+  }, {
+    href: "/billing",
+    path: "/billing",
+    icon: CreditCard,
+    label: "Billing"
   }];
   const NavigationContent = () => <>
       {navigationItems.slice(0, 4).map(item => <Link key={item.path} to={item.href} className={getNavItemClass(item.path)} onClick={() => setIsOpen(false)}>
@@ -52,6 +57,11 @@ const Navigation = () => {
       <Link to="/phone-numbers" className={getNavItemClass("/phone-numbers")} onClick={() => setIsOpen(false)}>
         <Phone className="w-5 h-5" />
         Phone Numbers
+      </Link>
+
+      <Link to="/billing" className={getNavItemClass("/billing")} onClick={() => setIsOpen(false)}>
+        <CreditCard className="w-5 h-5" />
+        Billing
       </Link>
     </>;
   return <>
