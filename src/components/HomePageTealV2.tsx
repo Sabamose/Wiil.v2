@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Navigation from "./Navigation";
-import TemplateCard from "@/components/TemplateCard";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -519,7 +518,6 @@ function AnalyticsModalContent() {
 export default function HomePageTealV2() {
   const [state, setState] = useState<VoiceState>("idle");
   const [energy, setEnergy] = useState(0); // 0..1 — hook this to your backend later
-  const [templatesOpen, setTemplatesOpen] = useState(false);
   const [analyticsOpen, setAnalyticsOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -658,12 +656,6 @@ export default function HomePageTealV2() {
             Create my assistant
           </button>
           <button
-            className="px-5 py-3 rounded-2xl border border-teal-200 text-teal-700 hover:bg-teal-50"
-            onClick={() => setTemplatesOpen(true)}
-          >
-            Explore templates
-          </button>
-          <button
             className="px-5 py-3 rounded-2xl border border-neutral-200 text-neutral-800 hover:bg-neutral-50"
             onClick={() => setAnalyticsOpen(true)}
           >
@@ -674,55 +666,6 @@ export default function HomePageTealV2() {
 
       {/* Immediate value row */}
       <MiniAnalytics />
-
-      {/* Templates modal */}
-      <Dialog open={templatesOpen} onOpenChange={setTemplatesOpen}>
-        <DialogContent className="max-w-3xl">
-          <DialogHeader>
-            <DialogTitle>Explore Templates</DialogTitle>
-          </DialogHeader>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <TemplateCard
-              title="Customer Support"
-              icon="🤖"
-              description="Answer FAQs and route complex issues."
-              features={["24/7 availability", "Escalation hints", "Polite tone"]}
-              demoNumber="(555) 123-4567"
-            />
-            <TemplateCard
-              title="Booking Assistant"
-              icon="📅"
-              description="Schedule appointments with confirmations."
-              features={["Calendar-friendly", "Time zone aware", "Reschedule flow"]}
-              demoNumber="(555) 987-6543"
-            />
-            <TemplateCard
-              title="Sales Qualifier"
-              icon="💼"
-              description="Qualify leads and capture intent."
-              features={["Lead scoring", "Qualification questions", "Handoff notes"]}
-            />
-            <TemplateCard
-              title="Onboarding Guide"
-              icon="🧭"
-              description="Guide new users through setup."
-              features={["Step-by-step", "Progress checks", "Friendly tone"]}
-            />
-          </div>
-          <div className="flex justify-end pt-2">
-            <button
-              className="px-4 py-2 rounded-xl bg-teal-600 text-white hover:bg-teal-700"
-              onClick={() => {
-                setTemplatesOpen(false);
-                navigate("/");
-                setTimeout(() => window.dispatchEvent(new Event("create-assistant")), 75);
-              }}
-            >
-              Use a template
-            </button>
-          </div>
-        </DialogContent>
-      </Dialog>
 
       {/* Analytics modal */}
       <Dialog open={analyticsOpen} onOpenChange={setAnalyticsOpen}>
