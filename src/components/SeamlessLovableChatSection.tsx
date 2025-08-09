@@ -36,8 +36,11 @@ export default function SeamlessLovableChatSection({
   primaryText?: string;
   secondaryText?: string;
 }) {
-  // --- typewriter controller ---
+  // --- typewriter + interactive controller ---
   const [text, setText] = useState("");
+  const [userInput, setUserInput] = useState("");
+  const [isUserTyping, setIsUserTyping] = useState(false);
+  const [chatHistory, setChatHistory] = useState<Array<{type: 'user' | 'assistant', message: string}>>([]);
   const [iPrompt, setIPrompt] = useState(0);
   const [phase, setPhase] = useState<"idle" | "typing" | "hold" | "clear" | "done">("idle");
 
@@ -60,11 +63,11 @@ export default function SeamlessLovableChatSection({
 
   useEffect(() => {
     if (!autoStart || !prompts.length) return;
-    if (phase === "idle") setPhase("typing");
-  }, [autoStart, prompts.length, phase]);
+    if (phase === "idle" && !isUserTyping) setPhase("typing");
+  }, [autoStart, prompts.length, phase, isUserTyping]);
 
   useEffect(() => {
-    if (phase !== "typing") return;
+    if (phase !== "typing" || isUserTyping) return;
     const target = prompts[iPrompt] || "";
     const delay = 26 + Math.random() * 40; // natural cadence
 
@@ -79,9 +82,11 @@ export default function SeamlessLovableChatSection({
     }, delay) as any;
 
     return () => typingRef.current && clearTimeout(typingRef.current);
-  }, [text, phase, iPrompt, prompts, onSend]);
+  }, [text, phase, iPrompt, prompts, onSend, isUserTyping]);
 
   useEffect(() => {
+    if (isUserTyping) return; // Don't auto-clear if user is typing
+    
     if (phase === "hold") {
       const t = window.setTimeout(() => setPhase("clear"), 900); // brief hold before clearing
       return () => clearTimeout(t);
@@ -101,7 +106,46 @@ export default function SeamlessLovableChatSection({
       }, 12);
       return () => clearInterval(t);
     }
-  }, [phase, iPrompt, prompts.length]);
+  }, [phase, iPrompt, prompts.length, isUserTyping]);
+
+  // Handle user input and chat simulation
+  const handleUserInput = (value: string) => {
+    setUserInput(value);
+    setIsUserTyping(value.length > 0);
+    if (value.length > 0) {
+      setText(value);
+      setPhase("done"); // Stop auto-typing when user types
+    }
+  };
+
+  const handleSendMessage = () => {
+    const messageToSend = userInput || text || prompts[iPrompt] || "";
+    if (!messageToSend.trim()) return;
+    
+    // Add user message to chat history
+    setChatHistory(prev => [...prev, { type: 'user', message: messageToSend }]);
+    
+    // Simulate AI response
+    setTimeout(() => {
+      const responses = [
+        "I'd be happy to help you build an AI assistant! You can create voice assistants for customer support, sales, or any custom use case.",
+        "Our pricing is flexible based on usage. Would you like to see a detailed breakdown of our plans?",
+        "Let me show you a quick demo! Click 'Create Assistant' to get started with our intuitive setup process.",
+        "That's a great question! Our AI assistants can handle complex conversations and integrate with your existing systems.",
+        "I can help you with that! Our platform supports multiple industries and use cases. What specific scenario are you looking to address?"
+      ];
+      const response = responses[Math.floor(Math.random() * responses.length)];
+      setChatHistory(prev => [...prev, { type: 'assistant', message: response }]);
+    }, 1000);
+    
+    // Clear input and reset
+    setUserInput("");
+    setText("");
+    setIsUserTyping(false);
+    
+    // Call original onSend
+    try { onSend && onSend(messageToSend); } catch {}
+  };
 
   // --- styles ---
   const styles: Record<string, React.CSSProperties> = {
@@ -119,7 +163,7 @@ export default function SeamlessLovableChatSection({
       width: "100%",
       minWidth: "800px",
     },
-    inputText: { flex: 1, color: "#111827", fontSize: 16, lineHeight: "22px", minHeight: 22 },
+    inputText: { flex: 1, color: "#111827", fontSize: 16, lineHeight: "22px", minHeight: 22, background: "transparent", border: "none", outline: "none" },
     caret: { display: "inline-block", width: 1.5, height: 18, background: "#9ca3af", marginLeft: 2, animation: "caretBlink 1s step-end infinite" },
     sendBtn: {
       position: "relative", padding: "10px 14px", borderRadius: 18, color: "#fff", fontWeight: 600,
@@ -135,13 +179,40 @@ export default function SeamlessLovableChatSection({
 
   return (
     <section style={styles.wrap}>
+      {/* Chat History */}
+      {chatHistory.length > 0 && (
+        <div style={{ marginBottom: 16, maxHeight: 200, overflowY: "auto", background: "rgba(255,255,255,0.7)", borderRadius: 12, padding: 12 }}>
+          {chatHistory.map((chat, i) => (
+            <div key={i} style={{ marginBottom: 8, display: "flex", justifyContent: chat.type === "user" ? "flex-end" : "flex-start" }}>
+              <div style={{ 
+                background: chat.type === "user" ? accent : "#f3f4f6", 
+                color: chat.type === "user" ? "#fff" : "#111827",
+                padding: "8px 12px", 
+                borderRadius: 12, 
+                maxWidth: "70%",
+                fontSize: 14
+              }}>
+                {chat.message}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      
       {/* Chat bar */}
       <div style={styles.bar} role="form" aria-label="Ask Will">
-        <div style={styles.inputText} aria-live="polite">
-          {text || <span style={{ color: "#9ca3af" }}>Ask anything about AI assistants…</span>}
+        <input
+          style={styles.inputText}
+          value={userInput}
+          onChange={(e) => handleUserInput(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+          placeholder={!isUserTyping && !userInput ? (text || "Ask anything about AI assistants…") : ""}
+          aria-label="Message"
+        />
+        {!isUserTyping && !userInput && (
           <span style={styles.caret} />
-        </div>
-        <button style={styles.sendBtn} onClick={() => onSend && onSend(text || prompts[iPrompt] || "") } aria-label="Send">
+        )}
+        <button style={styles.sendBtn} onClick={handleSendMessage} aria-label="Send">
           <span style={styles.shineWrap}><span style={styles.shine} /></span>
           Send
         </button>
