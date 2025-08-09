@@ -578,7 +578,7 @@ IMPORTANT GUIDELINES:
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[linear-gradient(to_bottom,rgba(0,0,0,0)_23px,rgba(0,0,0,0)_23px),linear-gradient(to_right,hsl(var(--brand-teal)/0.06)_1px,transparent_1px)] bg-[size:100%_24px,24px_100%]">
       {/* Header */}
       <div className="border-b border-gray-200 px-8 py-6">
         <div className="flex items-center justify-between">
@@ -590,9 +590,9 @@ IMPORTANT GUIDELINES:
               <ArrowLeft className="w-5 h-5" />
             </button>
             <div className="flex items-center gap-2 text-gray-500">
-              <span>Assistants</span>
-              <span>/</span>
-              <span className="text-2xl font-semibold text-black">Assistant Settings</span>
+              <span className="text-muted-foreground">Assistants</span>
+              <span className="text-muted-foreground">/</span>
+              <span className="text-2xl font-semibold text-brand-teal">Assistant Settings</span>
             </div>
           </div>
           
@@ -655,12 +655,12 @@ IMPORTANT GUIDELINES:
 
       {/* Settings Content */}
       <div className="px-8 py-8 max-w-4xl">
-        <div className="space-y-12">
+        <div className="space-y-12 rounded-xl border border-brand-teal/20 bg-background shadow-sm p-6">
           
           <section className={activeTab === 'Industry' ? '' : 'hidden'}>
             <div className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-2 flex items-center gap-2">
-                <User className="h-6 w-6 text-teal-600" />
+              <h2 className="text-2xl font-semibold text-brand-teal mb-2 flex items-center gap-2">
+                <User className="h-6 w-6 text-brand-teal" />
                 What industry is your business in?
               </h2>
               <p className="text-gray-600">Select the industry that best describes your business</p>
@@ -758,7 +758,7 @@ IMPORTANT GUIDELINES:
 
           <section className={activeTab === 'Voice' ? '' : 'hidden'}>
             <div className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-2">Voice & Language</h2>
+              <h2 className="text-2xl font-semibold text-brand-teal mb-2">Voice & Language</h2>
               <p className="text-gray-600">Configure how your assistant speaks and communicates.</p>
             </div>
             
@@ -869,7 +869,7 @@ IMPORTANT GUIDELINES:
 
            <section className={activeTab === 'Actions' ? '' : 'hidden'}>
             <div className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-2">Actions & Integrations</h2>
+              <h2 className="text-2xl font-semibold text-brand-teal mb-2">Actions & Integrations</h2>
               <p className="text-gray-600">Configure what your assistant can do to help your business</p>
             </div>
             
@@ -1092,8 +1092,8 @@ IMPORTANT GUIDELINES:
 
           <section className={activeTab === 'Instructions' ? '' : 'hidden'}>
             <div className="mb-8 text-center">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-2 flex items-center justify-center gap-2">
-                <Brain className="h-6 w-6 text-teal-600" />
+              <h2 className="text-2xl font-semibold text-brand-teal mb-2 flex items-center justify-center gap-2">
+                <Brain className="h-6 w-6 text-brand-teal" />
                 Teach Your Assistant How to Talk to Customers
               </h2>
               <p className="text-gray-600">Configure how your assistant should behave and respond to customers.</p>
@@ -1284,8 +1284,8 @@ IMPORTANT GUIDELINES:
 
           <section className={activeTab === 'Phone' ? '' : 'hidden'}>
             <div className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-2 flex items-center gap-2">
-                <Phone className="h-6 w-6 text-teal-600" />
+              <h2 className="text-2xl font-semibold text-brand-teal mb-2 flex items-center gap-2">
+                <Phone className="h-6 w-6 text-brand-teal" />
                 Phone Number Connection
               </h2>
               
@@ -1443,7 +1443,7 @@ IMPORTANT GUIDELINES:
 
           <section className={activeTab === 'Knowledge' ? '' : 'hidden'}>
             <div className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-2">Knowledge Base</h2>
+              <h2 className="text-2xl font-semibold text-brand-teal mb-2">Knowledge Base</h2>
               <p className="text-gray-600">Connect knowledge sources to help your assistant answer questions about your business.</p>
             </div>
             
