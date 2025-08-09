@@ -7,8 +7,7 @@ import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YA
 import { PhoneIncoming, PhoneOutgoing } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import TealVortexRing from "./TealVortexRing";
-import { AttentionButtons } from "./AttentionButtons";
-import { ChatDock } from "./ChatDock";
+import SeamlessLovableChatSection from "./SeamlessLovableChatSection";
 
 // Tailwind-first, teal-600 accents. This is a self-contained homepage.
 // NEW: more teal in the widget + subtle "breathing" + energy-reactive waves.
@@ -609,21 +608,19 @@ export default function HomePageTealV2() {
 
         {/* Primary actions */}
         <div className="mt-8 flex items-center justify-center gap-3">
-          {/* Chat Integration */}
+          {/* Seamless Chat Section with CTAs */}
           <div className="mt-8">
-            <ChatDock
+            <SeamlessLovableChatSection
+              prompts={[
+                "What can I build with Will?",
+                "How is pricing structured?", 
+                "Show me a quick demo."
+              ]}
+              autoStart={true}
               onSend={(message) => {
                 console.log("Chat message:", message);
                 // Handle chat message here - could integrate with assistant or support
               }}
-              suggestions={["What can I build?", "Show pricing", "Quick demo"]}
-              placeholder="Ask anything about AI assistants..."
-            />
-          </div>
-
-          {/* Enhanced CTA Buttons */}
-          <div className="mt-6">
-            <AttentionButtons
               onPrimary={() => {
                 navigate("/");
                 setTimeout(() => window.dispatchEvent(new Event("create-assistant")), 75);
@@ -631,7 +628,6 @@ export default function HomePageTealV2() {
               onSecondary={() => setAnalyticsOpen(true)}
               primaryText="+ Create Assistant"
               secondaryText="See Analytics"
-              pulse={false}
             />
           </div>
         </div>
