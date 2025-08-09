@@ -159,35 +159,6 @@ const OutboundCallDetails = ({ call, onBack }: OutboundCallDetailsProps) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-6">
-            <div>
-              <h4 className="font-medium mb-2">Call status</h4>
-              <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
-                <span className="text-sm">Status</span>
-                <Badge variant={getStatusBadge(call.status)} className="capitalize">
-                  {call.status === 'completed' ? 'Successful' : 
-                   call.status === 'no-answer' ? 'No Answer' : 
-                   call.status}
-                </Badge>
-              </div>
-            </div>
-            
-            <div>
-              <h4 className="font-medium mb-2">User ID</h4>
-              <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
-                <span className="text-sm">User ID</span>
-                <span className="text-sm text-muted-foreground">No user ID</span>
-              </div>
-            </div>
-
-            <div>
-              <h4 className="font-medium mb-2">Criteria evaluation</h4>
-              <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
-                <span className="text-sm">Success Rate</span>
-                <span className="text-sm font-medium">{successfulCriteria} of {totalCriteria}</span>
-              </div>
-            </div>
-          </div>
 
         </TabsContent>
 
