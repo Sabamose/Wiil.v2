@@ -6,7 +6,11 @@ import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Upload, Download, ArrowLeft, Users, FileText, CheckCircle, AlertCircle, X, Info } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
+import { Upload, Download, ArrowLeft, Users, FileText, CheckCircle, AlertCircle, X, Info, CalendarIcon, Clock, Globe } from "lucide-react";
 import TestOutboundCallModal from "./TestOutboundCallModal";
 import Papa from "papaparse";
 
@@ -31,6 +35,10 @@ const BatchCallForm = ({ onBack, onSubmit }: BatchCallFormProps) => {
   const [csvData, setCsvData] = useState<any[]>([]);
   const [timing, setTiming] = useState<'immediate' | 'scheduled'>('immediate');
   const [testModalOpen, setTestModalOpen] = useState(false);
+  const [schedulerOpen, setSchedulerOpen] = useState(false);
+  const [scheduledDate, setScheduledDate] = useState<Date>();
+  const [scheduledTime, setScheduledTime] = useState("09:00");
+  const [timezone, setTimezone] = useState("America/New_York");
   const [uploadStatus, setUploadStatus] = useState<{
     loading: boolean;
     validRecipients: number;
@@ -429,12 +437,36 @@ const BatchCallForm = ({ onBack, onSubmit }: BatchCallFormProps) => {
               </Button>
               <Button
                 variant={timing === 'scheduled' ? 'default' : 'outline'}
-                onClick={() => setTiming('scheduled')}
-                className="flex-1"
+                onClick={() => {
+                  setTiming('scheduled');
+                  setSchedulerOpen(true);
+                }}
+                className={`flex-1 ${timing === 'scheduled' ? 'bg-teal-600 hover:bg-teal-700' : ''}`}
               >
                 Schedule for later
               </Button>
             </div>
+            
+            {/* Scheduled Details */}
+            {timing === 'scheduled' && scheduledDate && (
+              <div className="p-4 bg-teal-50 border border-teal-200 rounded-lg">
+                <div className="flex items-center gap-2 text-teal-800 mb-2">
+                  <CalendarIcon className="h-4 w-4" />
+                  <span className="font-medium">Scheduled for:</span>
+                </div>
+                <p className="text-sm text-teal-700">
+                  {format(scheduledDate, "PPPP")} at {scheduledTime} ({timezone})
+                </p>
+                <Button 
+                  variant="link" 
+                  size="sm" 
+                  onClick={() => setSchedulerOpen(true)}
+                  className="p-0 h-auto text-teal-600 hover:text-teal-700"
+                >
+                  Change schedule
+                </Button>
+              </div>
+            )}
           </div>
 
           {/* Action Buttons */}
@@ -450,6 +482,102 @@ const BatchCallForm = ({ onBack, onSubmit }: BatchCallFormProps) => {
           </div>
         </CardContent>
       </Card>
+
+      {/* Scheduler Modal */}
+      <Dialog open={schedulerOpen} onOpenChange={setSchedulerOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-teal-700">
+              <Clock className="h-5 w-5" />
+              Schedule Campaign
+            </DialogTitle>
+          </DialogHeader>
+          
+          <div className="space-y-6 py-4">
+            {/* Date Selection */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Date</label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start text-left font-normal"
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {scheduledDate ? format(scheduledDate, "PPP") : "Pick a date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={scheduledDate}
+                    onSelect={setScheduledDate}
+                    disabled={(date) => date < new Date()}
+                    initialFocus
+                    className="p-3 pointer-events-auto"
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+
+            {/* Time Selection */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Time</label>
+              <Select value={scheduledTime} onValueChange={setScheduledTime}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {Array.from({ length: 24 }, (_, i) => {
+                    const hour = i.toString().padStart(2, '0');
+                    return [
+                      <SelectItem key={`${hour}:00`} value={`${hour}:00`}>{hour}:00</SelectItem>,
+                      <SelectItem key={`${hour}:30`} value={`${hour}:30`}>{hour}:30</SelectItem>
+                    ];
+                  }).flat()}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Timezone Selection */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium flex items-center gap-2">
+                <Globe className="h-4 w-4" />
+                Timezone
+              </label>
+              <Select value={timezone} onValueChange={setTimezone}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="America/New_York">Eastern Time (ET)</SelectItem>
+                  <SelectItem value="America/Chicago">Central Time (CT)</SelectItem>
+                  <SelectItem value="America/Denver">Mountain Time (MT)</SelectItem>
+                  <SelectItem value="America/Los_Angeles">Pacific Time (PT)</SelectItem>
+                  <SelectItem value="Europe/London">London (GMT)</SelectItem>
+                  <SelectItem value="Europe/Paris">Paris (CET)</SelectItem>
+                  <SelectItem value="Asia/Tokyo">Tokyo (JST)</SelectItem>
+                  <SelectItem value="Australia/Sydney">Sydney (AEDT)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Actions */}
+            <div className="flex gap-3 pt-4">
+              <Button variant="outline" onClick={() => setSchedulerOpen(false)} className="flex-1">
+                Cancel
+              </Button>
+              <Button 
+                onClick={() => setSchedulerOpen(false)}
+                className="flex-1 bg-teal-600 hover:bg-teal-700"
+                disabled={!scheduledDate}
+              >
+                Schedule Campaign
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Test Call Modal */}
       <TestOutboundCallModal 
