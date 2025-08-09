@@ -18,7 +18,7 @@ export default function VoiceStatusLabel({ state, muted = false }: VoiceStatusLa
     if (muted) return "Muted";
     switch (state) {
       case "idle":
-        return "Tap to start";
+        return "Tap to conversate";
       case "listening":
         return "Listening…";
       case "thinking":
