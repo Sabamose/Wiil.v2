@@ -94,17 +94,23 @@ const generateRandomDateTime = (daysOffset: number = 0): Date => {
 };
 
 export const generateSimulatedBookings = async (assistants: Array<{ id: string; name: string; type?: string; industry?: string }>) => {
+  console.log('Starting booking generation with assistants:', assistants);
+  
   if (!assistants.length) {
     throw new Error('No assistants available for simulation');
   }
 
   const { data: user } = await supabase.auth.getUser();
+  console.log('Current user:', user);
+  
   if (!user.user) {
     throw new Error('User not authenticated');
   }
 
   const bookings: SimulationBooking[] = [];
   const totalBookings = Math.floor(Math.random() * 15) + 20; // 20-35 bookings
+  
+  console.log(`Generating ${totalBookings} bookings`);
 
   for (let i = 0; i < totalBookings; i++) {
     const assistant = assistants[Math.floor(Math.random() * assistants.length)];
@@ -132,18 +138,28 @@ export const generateSimulatedBookings = async (assistants: Array<{ id: string; 
     });
   }
 
+  console.log('Generated bookings:', bookings.length);
+  
   // Insert bookings into database
   const bookingsWithUserId = bookings.map(booking => ({
     ...booking,
     user_id: user.user.id
   }));
 
+  console.log('Inserting bookings into database:', bookingsWithUserId.length);
+
   const { data, error } = await supabase
     .from('bookings')
     .insert(bookingsWithUserId)
     .select();
 
-  if (error) throw error;
+  console.log('Database insert result:', { data, error });
+
+  if (error) {
+    console.error('Database error:', error);
+    throw error;
+  }
+  
   return data;
 };
 
