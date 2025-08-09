@@ -40,6 +40,38 @@ export const useAssistants = () => {
   const fetchAssistants = async () => {
     setLoading(true);
     try {
+      const { data: user } = await supabase.auth.getUser();
+      
+      if (!user.user) {
+        // For demo mode, create some sample assistants
+        const demoAssistants: StoredAssistant[] = [
+          {
+            id: 'demo-1',
+            user_id: 'demo-user',
+            name: 'Healthcare Assistant',
+            type: 'Voice',
+            industry: 'healthcare',
+            use_case: 'appointment-setter',
+            assistant_type: 'inbound',
+            voice_id: 'aria',
+            voice_name: 'Aria (Female)',
+            language: 'en',
+            language_name: 'English',
+            system_prompt: 'You are a healthcare appointment-setter voice assistant.',
+            initial_message: 'Hi! I\'m here to help you schedule appointments. How can I help today?',
+            temperature: 0.7,
+            max_tokens: 300,
+            status: 'draft',
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+            phone_number: '+1 (555) 123-4567'
+          }
+        ];
+        setAssistants(demoAssistants);
+        setLoading(false);
+        return;
+      }
+
       const { data, error } = await supabase
         .from('assistants')
         .select('*')
@@ -63,13 +95,26 @@ export const useAssistants = () => {
   const createAssistant = async (data: CreateAssistantData): Promise<StoredAssistant | null> => {
     try {
       const { data: user } = await supabase.auth.getUser();
+      
+      // For demo/preview mode, create a mock assistant without saving to database
       if (!user.user) {
+        const mockAssistant: StoredAssistant = {
+          ...data,
+          id: `demo-${Date.now()}`,
+          user_id: 'demo-user',
+          status: 'draft' as const,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        };
+        
+        setAssistants(prev => [mockAssistant, ...prev]);
+        
         toast({
-          title: "Error",
-          description: "Please log in to create assistants",
-          variant: "destructive",
+          title: "Demo Assistant Created",
+          description: "Assistant created for demo purposes (not saved)",
         });
-        return null;
+        
+        return mockAssistant;
       }
 
       const assistantData = {

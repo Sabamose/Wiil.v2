@@ -11,6 +11,67 @@ export const useBookings = () => {
   const { data: bookings, isLoading } = useQuery({
     queryKey: ['bookings'],
     queryFn: async () => {
+      const { data: user } = await supabase.auth.getUser();
+      
+      // For demo mode, return sample booking data
+      if (!user.user) {
+        const now = new Date();
+        const demoBookings: Booking[] = [
+          {
+            id: 'demo-booking-1',
+            user_id: 'demo-user',
+            assistant_id: 'demo-1',
+            title: 'Healthcare Consultation',
+            customer_name: 'John Smith',
+            customer_email: 'john@example.com',
+            customer_phone: '+1 (555) 123-4567',
+            start_time: new Date(now.getTime() + 24 * 60 * 60 * 1000).toISOString(), // Tomorrow
+            end_time: new Date(now.getTime() + 24 * 60 * 60 * 1000 + 60 * 60 * 1000).toISOString(), // Tomorrow + 1 hour
+            status: 'confirmed',
+            source: 'website',
+            notes: 'Initial consultation for new patient',
+            timezone: 'UTC',
+            created_at: now.toISOString(),
+            updated_at: now.toISOString(),
+          },
+          {
+            id: 'demo-booking-2',
+            user_id: 'demo-user',
+            assistant_id: 'demo-1',
+            title: 'Follow-up Appointment',
+            customer_name: 'Sarah Johnson',
+            customer_email: 'sarah@example.com',
+            customer_phone: '+1 (555) 987-6543',
+            start_time: new Date(now.getTime() + 48 * 60 * 60 * 1000).toISOString(), // Day after tomorrow
+            end_time: new Date(now.getTime() + 48 * 60 * 60 * 1000 + 30 * 60 * 1000).toISOString(), // Day after tomorrow + 30 min
+            status: 'confirmed',
+            source: 'phone',
+            notes: 'Follow-up after initial treatment',
+            timezone: 'UTC',
+            created_at: now.toISOString(),
+            updated_at: now.toISOString(),
+          },
+          {
+            id: 'demo-booking-3',
+            user_id: 'demo-user',
+            assistant_id: 'demo-1',
+            title: 'Routine Checkup',
+            customer_name: 'Michael Davis',
+            customer_email: 'michael@example.com',
+            customer_phone: '+1 (555) 456-7890',
+            start_time: new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString(), // Next week
+            end_time: new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000 + 45 * 60 * 1000).toISOString(), // Next week + 45 min
+            status: 'pending',
+            source: 'website',
+            notes: 'Annual routine checkup',
+            timezone: 'UTC',
+            created_at: now.toISOString(),
+            updated_at: now.toISOString(),
+          }
+        ];
+        return demoBookings;
+      }
+
       const { data, error } = await supabase
         .from('bookings')
         .select('*')
