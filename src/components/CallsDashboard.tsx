@@ -88,13 +88,13 @@ const mockCampaigns: Campaign[] = [
     phoneNumber: "+1234567890",
     createdAt: new Date(),
     csvData: [
-      { id: "1", phone_number: "+1 310 417 8775", website: "https://fijiiseafood.com/", address: "10402 S La Cienega Blvd, Inglewood, CA 90304", company_name: "Fiji Seafood Marketing LLC", status: "completed" },
-      { id: "2", phone_number: "+1 657 859 3474", website: "http://kingsseafooddistribution.com/", address: "2615 S Rousselle St, Santa Ana, CA 92707", company_name: "King's Seafood Distribution", status: "completed" }
+      { id: "1", phone_number: "+1 310 417 8775", website: "https://fijiiseafood.com/", address: "10402 S La Cienega Blvd", company_name: "Fiji Seafood Marketing LLC", status: "completed" },
+      { id: "2", phone_number: "+1 657 859 3474", website: "http://kingsseafooddistribution.com/", address: "2615 S Rousselle St", company_name: "King's Seafood Distribution", status: "completed" }
     ]
   },
   {
     id: "2",
-    name: "LAST BATCH DIRECT",
+    name: "Local Restaurant Outreach",
     recipients: 12,
     agent: "Valeria",
     status: "completed",
@@ -102,11 +102,14 @@ const mockCampaigns: Campaign[] = [
     duration: "167:10:39",
     phoneNumber: "+1234567890",
     createdAt: new Date(),
-    csvData: []
+    csvData: [
+      { id: "1", phone_number: "+1 555 123 4567", business_name: "Mario's Pizza", address: "123 Main St", city: "Los Angeles", status: "completed" },
+      { id: "2", phone_number: "+1 555 987 6543", business_name: "Taco Bell", address: "456 Oak Ave", city: "Beverly Hills", status: "no-answer" }
+    ]
   },
   {
     id: "3",
-    name: "seafood first logistics",
+    name: "Tech Startup Lead Gen",
     recipients: 28,
     agent: "Valeria",
     status: "completed",
@@ -114,7 +117,10 @@ const mockCampaigns: Campaign[] = [
     duration: "11:13",
     phoneNumber: "+1234567890",
     createdAt: new Date(),
-    csvData: []
+    csvData: [
+      { id: "1", phone_number: "+1 555 111 2222", company: "StartupXYZ", founder: "John Doe", industry: "SaaS", funding: "Series A", status: "completed" },
+      { id: "2", phone_number: "+1 555 333 4444", company: "TechCorp", founder: "Jane Smith", industry: "AI", funding: "Seed", status: "completed" }
+    ]
   }
 ];
 
@@ -296,7 +302,7 @@ const CallsDashboard = () => {
             onClick={() => setView('campaigns')}
             className={['campaigns', 'create-campaign', 'campaign-details'].includes(view) ? 'bg-brand-teal hover:bg-brand-teal/90 text-white' : 'hover:bg-brand-teal/10 hover:text-brand-teal'}
           >
-            Outgoing Calls
+            Batch Calls
           </Button>
         </div>
       </div>
