@@ -647,13 +647,14 @@ export default function HomePageTealV2() {
         {/* Primary actions */}
         <div className="mt-8 flex items-center justify-center gap-3">
           <button
-            className="px-5 py-3 rounded-2xl bg-teal-600 text-white font-medium shadow-sm hover:bg-teal-700 transition"
+            className="px-6 py-4 rounded-2xl bg-gradient-to-r from-brand-teal to-brand-teal-hover text-brand-teal-foreground font-semibold shadow-lg hover:shadow-xl hover:shadow-brand-teal/25 hover:scale-105 transition-all duration-300 animate-pulse hover:animate-none relative overflow-hidden group"
             onClick={() => {
               navigate("/");
               setTimeout(() => window.dispatchEvent(new Event("create-assistant")), 75);
             }}
           >
-            Create my assistant
+            <span className="relative z-10">Create my assistant</span>
+            <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </button>
           <button
             className="px-5 py-3 rounded-2xl border border-neutral-200 text-neutral-800 hover:bg-neutral-50"
