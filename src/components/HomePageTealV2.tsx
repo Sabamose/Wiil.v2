@@ -50,62 +50,6 @@ function ExtendedWavesTeal({ running = true }: { running?: boolean }) {
   );
 }
 
-// ---------- WaveNet overlay (outer long waves) ----------
-function WaveNet({ width = 1000, height = 420, r = 170, speed = 0.6 }: { width?: number; height?: number; r?: number; speed?: number }) {
-  const [t, setT] = React.useState(0);
-  const id = React.useMemo(() => `net-${Math.random().toString(36).slice(2)}`, []);
-  React.useEffect(() => {
-    let raf = 0;
-    const loop = () => { setT((p) => p + 0.016 * speed); raf = requestAnimationFrame(loop); };
-    raf = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(raf);
-  }, [speed]);
-
-  const build = (y: number, amp = 14, freq = 0.012, vel = 1) => {
-    const pts = 220, step = width / (pts - 1);
-    let d = "";
-    for (let i = 0; i < pts; i++) {
-      const x = i * step;
-      const yy = y
-        + Math.sin(x * freq + t * vel) * amp
-        + Math.sin(x * (freq * 0.6) + t * (vel * 0.7)) * (amp * 0.45);
-      d += i ? ` L ${x.toFixed(1)} ${yy.toFixed(1)}` : `M ${x.toFixed(1)} ${yy.toFixed(1)}`;
-    }
-    return d;
-  };
-
-  const offsets = React.useMemo(() => Array.from({ length: 11 }, (_, i) => -140 + i * 28), []);
-
-  return (
-    <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} className="pointer-events-none">
-      <defs>
-        <linearGradient id={`${id}-grad`} x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#5eead4" />
-          <stop offset="50%" stopColor="#14b8a6" />
-          <stop offset="100%" stopColor="#0f766e" />
-        </linearGradient>
-        {/* mask to keep lines OUTSIDE of the orb area */}
-        <mask id={`${id}-mask`}>
-          <rect x="0" y="0" width={width} height={height} fill="white" />
-          <circle cx={width / 2} cy={height / 2} r={r} fill="black" />
-        </mask>
-      </defs>
-      <g transform={`translate(0 ${height / 2})`} mask={`url(#${id}-mask)`} opacity={0.75}>
-        {offsets.map((off, i) => (
-          <path
-            key={i}
-            d={build(off, 12 + i * 0.6, 0.010 + i * 0.0006, 0.7 + i * 0.015)}
-            stroke={`url(#${id}-grad)`}
-            strokeOpacity={0.45 - i * 0.02}
-            strokeWidth={2.2}
-            fill="none"
-          />
-        ))}
-      </g>
-    </svg>
-  );
-}
-
 // ---------- Orb widget (more teal + breathing + energy hook) ----------
 function TealBreathingOrb({ width = 480, height = 400, orb = 330, state = "idle", energy = 0, simulate = false, onStateChange, }: {
   width?: number; height?: number; orb?: number; state?: VoiceState; energy?: number; simulate?: boolean; onStateChange?: (s: VoiceState) => void;
@@ -628,6 +572,30 @@ export default function HomePageTealV2() {
             <ExtendedWavesTeal running={state === "speaking" || state === "listening"} />
           </div>
           
+          {/* Additional wave nets - centered */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <svg className="pointer-events-none opacity-40" height={180} width={600} viewBox="0 0 600 180">
+              <defs>
+                <linearGradient id="waveNet1" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#5eead4" stopOpacity="0.3" />
+                  <stop offset="50%" stopColor="#14b8a6" stopOpacity="0.6" />
+                  <stop offset="100%" stopColor="#0f766e" stopOpacity="0.3" />
+                </linearGradient>
+              </defs>
+              {Array.from({length: 5}).map((_, i) => (
+                <circle key={i} 
+                  cx={300 + Math.sin(Date.now() * 0.001 + i) * 50} 
+                  cy={90 + Math.cos(Date.now() * 0.0008 + i) * 15} 
+                  r={20 + i * 8} 
+                  fill="none" 
+                  stroke="url(#waveNet1)" 
+                  strokeWidth={1}
+                  className="animate-pulse"
+                  style={{animationDelay: `${i * 0.5}s`}}
+                />
+              ))}
+            </svg>
+          </div>
 
           {/* Outer ripple rings - centered */}
           <div className="absolute inset-0 flex items-center justify-center">
@@ -652,11 +620,6 @@ export default function HomePageTealV2() {
                 />
               ))}
             </svg>
-          </div>
-
-          {/* Wave net overlay - centered */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <WaveNet />
           </div>
 
           {/* Floating particles - centered */}
