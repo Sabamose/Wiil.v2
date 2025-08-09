@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis, Bar, BarChart } from "recharts";
+import { PhoneIncoming, PhoneOutgoing } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 // Tailwind-first, teal-600 accents. This is a self-contained homepage.
@@ -493,10 +494,12 @@ function AnalyticsModalContent() {
       <Tabs defaultValue="incoming" className="w-full">
         <TabsList className="grid w-full grid-cols-2 mb-6">
           <TabsTrigger value="incoming" className="flex items-center gap-2">
-            📞 Incoming Calls
+            <PhoneIncoming size={16} />
+            Incoming Calls
           </TabsTrigger>
           <TabsTrigger value="outgoing" className="flex items-center gap-2">
-            📞 Outgoing calls
+            <PhoneOutgoing size={16} />
+            Outgoing calls
           </TabsTrigger>
         </TabsList>
         
