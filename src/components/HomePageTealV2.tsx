@@ -7,7 +7,7 @@ import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YA
 import { PhoneIncoming, PhoneOutgoing } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import TealVortexRing from "./TealVortexRing";
-import EmphasizedChatAndCTAs from "./EmphasizedChatAndCTAs";
+import SeamlessLovableChatSection from "./SeamlessLovableChatSection";
 import { useResponsive } from "@/hooks/use-responsive";
 
 // Tailwind-first, teal-600 accents. This is a self-contained homepage.
@@ -601,18 +601,26 @@ export default function HomePageTealV2() {
 
         {/* Primary actions */}
         <div className="mt-8 flex items-center justify-center gap-3">
-          {/* Enhanced Chat Section with CTAs */}
+          {/* Seamless Chat Section with CTAs */}
           <div className="mt-8">
-            <EmphasizedChatAndCTAs
+            <SeamlessLovableChatSection
+              prompts={[
+                "What can I build with Will?",
+                "How is pricing structured?", 
+                "Show me a quick demo."
+              ]}
+              autoStart={true}
               onSend={(message) => {
                 console.log("Chat message:", message);
                 // Handle chat message here - could integrate with assistant or support
               }}
-              onCreate={() => {
+              onPrimary={() => {
                 navigate("/");
                 setTimeout(() => window.dispatchEvent(new Event("create-assistant")), 75);
               }}
-              onAnalytics={() => setAnalyticsOpen(true)}
+              onSecondary={() => setAnalyticsOpen(true)}
+              primaryText="+ Create Assistant"
+              secondaryText="See Analytics"
             />
           </div>
         </div>
