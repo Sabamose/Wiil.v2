@@ -71,10 +71,8 @@ const Navigation = () => {
               </SheetContent>
             </Sheet>}
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-teal-600 rounded-lg flex items-center justify-center">
-              <svg viewBox="0 0 24 24" className="w-6 h-6 text-white fill-current">
-                <path d="M3 4v16l5-4 4 4 4-4 5 4V4l-5 4-4-4-4 4-5-4z"/>
-              </svg>
+            <div className="w-10 h-10 bg-teal-600 rounded-lg flex items-center justify-center text-white font-bold text-lg">
+              W
             </div>
             <div className="flex flex-col">
               <span className="text-lg font-semibold text-gray-900">Wiil</span>
