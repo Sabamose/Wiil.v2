@@ -580,16 +580,16 @@ IMPORTANT GUIDELINES:
   return (
     <div className="min-h-screen bg-[linear-gradient(to_bottom,rgba(0,0,0,0)_23px,rgba(0,0,0,0)_23px),linear-gradient(to_right,hsl(var(--brand-teal)/0.06)_1px,transparent_1px)] bg-[size:100%_24px,24px_100%]">
       {/* Header */}
-      <div className="border-b border-gray-200 px-8 py-6">
+      <div className="border-b border-brand-teal/20 px-8 py-6 bg-transparent">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <button 
               onClick={onBack}
-              className="p-2 hover:bg-gray-100 rounded-md"
+              className="p-2 hover:bg-brand-teal/10 rounded-md transition-colors"
             >
-              <ArrowLeft className="w-5 h-5" />
+              <ArrowLeft className="w-5 h-5 text-brand-teal" />
             </button>
-            <div className="flex items-center gap-2 text-gray-500">
+            <div className="flex items-center gap-2">
               <span className="text-muted-foreground">Assistants</span>
               <span className="text-muted-foreground">/</span>
               <span className="text-2xl font-semibold text-brand-teal">Assistant Settings</span>
@@ -601,7 +601,7 @@ IMPORTANT GUIDELINES:
               onClick={() => setIsTestModalOpen(true)}
               variant="outline"
               size="sm"
-              className="border-teal-600 text-teal-600 hover:bg-teal-50 hover:text-teal-700"
+              className="border-brand-teal text-brand-teal hover:bg-brand-teal/10 hover:text-brand-teal"
             >
               <TestTube className="w-4 h-4 mr-2" />
               Test Assistant
@@ -618,16 +618,16 @@ IMPORTANT GUIDELINES:
       </div>
 
       {/* Tab Navigation */}
-      <div className="border-b border-gray-200 px-8">
+      <div className="border-b border-brand-teal/20 px-8 bg-transparent">
         <div className="flex space-x-8">
           {(['Industry', 'Type', 'Voice', 'Role', 'Actions', 'Instructions', 'Knowledge', 'Phone'] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`py-4 px-1 border-b-2 text-sm font-medium ${
+              className={`py-4 px-1 border-b-2 text-sm font-medium transition-colors ${
                 activeTab === tab
-                  ? 'border-black text-black'
-                  : 'border-transparent text-gray-500 hover:text-gray-800 hover:border-gray-300'
+                  ? 'border-brand-teal text-brand-teal'
+                  : 'border-transparent text-muted-foreground hover:text-brand-teal hover:border-brand-teal/50'
               }`}
               aria-current={activeTab === tab ? 'page' : undefined}
             >
