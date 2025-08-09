@@ -74,6 +74,10 @@ export default function SeamlessLovableChatSection({
         @keyframes caretBlink { 0%,49%{opacity:1} 50%,100%{opacity:0} }
         @keyframes btnPulse { 0%,100%{ transform: translateY(0); box-shadow: 0 8px 20px rgba(13,148,136,.15)} 50%{ transform: translateY(-2px); box-shadow: 0 16px 32px rgba(13,148,136,.22)} }
         @keyframes shine { 0%{ transform: translateX(-120%) rotate(12deg)} 100%{ transform: translateX(120%) rotate(12deg)} }
+        @keyframes gradientShift { 0%{ background-position: 0% 50% } 50%{ background-position: 100% 50% } 100%{ background-position: 0% 50% } }
+        @keyframes pulseGlow { 0%{ box-shadow: 0 20px 40px rgba(13,148,136,.4), 0 0 0 1px rgba(13,148,136,.2), inset 0 1px 0 rgba(255,255,255,.3) } 100%{ box-shadow: 0 25px 50px rgba(13,148,136,.5), 0 0 20px rgba(13,148,136,.3), inset 0 1px 0 rgba(255,255,255,.4) } }
+        .enhanced-primary:hover { transform: scale(1.05) translateY(-2px) !important; }
+        .enhanced-secondary:hover { transform: scale(1.02) !important; background: rgba(13,148,136,0.05) !important; }
       `;
       document.head.appendChild(s);
     }
@@ -190,9 +194,40 @@ export default function SeamlessLovableChatSection({
     },
     shineWrap: { position: "absolute", inset: 0, overflow: "hidden", borderRadius: 18, pointerEvents: "none" },
     shine: { position: "absolute", top: 0, left: "-50%", width: "50%", height: "100%", background: "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.35) 50%, rgba(255,255,255,0) 100%)", filter: "blur(6px)", animation: "shine 2.6s linear infinite" },
-    ctaRow: { display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginTop: 14 },
-    primary: { position: "relative", padding: "12px 20px", borderRadius: 16, color: "#fff", fontWeight: 600, background: `linear-gradient(180deg, ${lighten(accent, .1)} 0%, ${accent} 100%)`, boxShadow: "0 12px 24px rgba(13,148,136,.18)", border: 0, cursor: "pointer" },
-    secondary: { padding: "12px 20px", borderRadius: 16, background: "#fff", color: accent, border: `1px solid ${hexWithAlpha(accent, .35)}`, boxShadow: "0 4px 10px rgba(0,0,0,.06)", cursor: "pointer", fontWeight: 500 },
+    ctaRow: { display: "flex", alignItems: "center", justifyContent: "center", gap: 16, marginTop: 20, flexWrap: "wrap" },
+    primary: { 
+      position: "relative", 
+      padding: "16px 32px", 
+      borderRadius: 20, 
+      color: "#fff", 
+      fontWeight: 700, 
+      fontSize: 16,
+      background: `linear-gradient(135deg, ${accent} 0%, ${lighten(accent, .2)} 50%, ${accent} 100%)`,
+      boxShadow: `0 20px 40px ${hexWithAlpha(accent, .4)}, 0 0 0 1px ${hexWithAlpha(accent, .2)}, inset 0 1px 0 rgba(255,255,255,.3)`,
+      border: 0, 
+      cursor: "pointer",
+      transform: "scale(1)",
+      transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+      overflow: "hidden",
+      backgroundSize: "200% 200%",
+      animation: "gradientShift 3s ease infinite, pulseGlow 2s ease-in-out infinite alternate"
+    },
+    secondary: { 
+      position: "relative",
+      padding: "16px 32px", 
+      borderRadius: 20, 
+      background: "rgba(255,255,255,0.9)", 
+      color: accent, 
+      border: `2px solid ${accent}`, 
+      boxShadow: `0 12px 24px ${hexWithAlpha(accent, .15)}, inset 0 1px 0 rgba(255,255,255,.8)`,
+      cursor: "pointer", 
+      fontWeight: 600,
+      fontSize: 16,
+      transform: "scale(1)",
+      transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+      overflow: "hidden",
+      backdropFilter: "blur(10px)"
+    },
   };
 
   return (
@@ -238,8 +273,8 @@ export default function SeamlessLovableChatSection({
 
       {/* CTA buttons (below chat) */}
       <div style={styles.ctaRow}>
-        <button style={styles.primary} onClick={onPrimary}>{primaryText}</button>
-        <button style={styles.secondary} onClick={onSecondary}>{secondaryText}</button>
+        <button style={styles.primary} className="enhanced-primary" onClick={onPrimary}>{primaryText}</button>
+        <button style={styles.secondary} className="enhanced-secondary" onClick={onSecondary}>{secondaryText}</button>
       </div>
     </section>
   );
