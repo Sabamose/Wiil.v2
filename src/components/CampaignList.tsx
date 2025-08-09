@@ -61,7 +61,7 @@ const CampaignList = ({ campaigns, onCampaignClick, onCreateCampaign, onBack }: 
           </Button>
           <h1 className="text-2xl font-bold">Batch Calls</h1>
         </div>
-        <Button onClick={onCreateCampaign}>+ New Batch</Button>
+        <Button onClick={onCreateCampaign}>+ Make Calls</Button>
       </div>
 
       <div className="relative">
