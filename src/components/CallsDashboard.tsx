@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Phone, Search, Users } from "lucide-react";
+import { Phone, Search, Users, PhoneIncoming, PhoneOutgoing } from "lucide-react";
 import CallDetails from "./CallDetails";
 import CampaignList from "./CampaignList";
 import CampaignDetails from "./CampaignDetails";
@@ -382,6 +382,39 @@ const CallsDashboard = () => {
           </Table>
         </CardContent>
       </Card>
+
+      {/* Liquid Glass Dock */}
+      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 px-3">
+        <div className="relative flex items-center gap-2 rounded-full border border-border bg-background/80 backdrop-blur-xl shadow-lg px-2 py-1">
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-0 rounded-full opacity-70 blur-lg"
+            style={{
+              background:
+                "radial-gradient(120% 80% at 0% 50%, hsl(var(--primary) / .22) 0%, transparent 60%)",
+              animation: "liquidPan 6s ease-in-out infinite",
+            }}
+          />
+
+          <Button
+            size="sm"
+            onClick={() => setView('incoming')}
+            className={`rounded-full px-4 ${view === 'incoming' ? 'bg-primary text-primary-foreground shadow hover:bg-primary/90' : 'bg-background text-foreground hover:bg-primary/10 hover:text-primary border border-border'}`}
+          >
+            <PhoneIncoming className="mr-2 h-4 w-4" /> Incoming
+          </Button>
+
+          <Button
+            size="sm"
+            onClick={() => setView('campaigns')}
+            className={`rounded-full px-4 ${['campaigns','create-campaign','campaign-details'].includes(view) ? 'bg-primary text-primary-foreground shadow hover:bg-primary/90' : 'bg-background text-foreground hover:bg-primary/10 hover:text-primary border border-border'}`}
+          >
+            <PhoneOutgoing className="mr-2 h-4 w-4" /> Outgoing
+          </Button>
+        </div>
+      </div>
+
+      <style>{`@keyframes liquidPan { 0% { transform: translateX(-15%);} 50% { transform: translateX(15%);} 100% { transform: translateX(-15%);} }`}</style>
     </div>
   );
 };
