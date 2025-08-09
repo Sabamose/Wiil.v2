@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import Navigation from "./Navigation";
 
 // Tailwind-first, teal-600 accents. This is a self-contained homepage.
 // NEW: more teal in the widget + subtle "breathing" + energy-reactive waves.
@@ -229,7 +230,9 @@ export default function HomePageTealV2() {
   }, [state]);
 
   return (
-    <main className="min-h-screen bg-white text-neutral-900">
+    <>
+      <Navigation />
+      <main className="min-h-screen bg-white text-neutral-900">
       {/* Topbar */}
       <header className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
         <div className="flex items-center gap-2 text-xl font-semibold"><span className="inline-grid place-items-center w-8 h-8 rounded-lg bg-teal-600 text-white">W</span> Will</div>
@@ -266,5 +269,6 @@ export default function HomePageTealV2() {
 
       <footer className="max-w-7xl mx-auto px-6 py-14 text-sm text-neutral-500">© {new Date().getFullYear()} Will — minimal, modern, and fast.</footer>
     </main>
+    </>
   );
 }
