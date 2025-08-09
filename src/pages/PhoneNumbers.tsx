@@ -130,19 +130,20 @@ const PhoneNumbers = () => {
   return (
     <div>
       <Navigation />
-      <div className={`${isMobile ? 'ml-0' : 'ml-60'} pt-16 min-h-screen bg-gray-50`}>
+      <div className={`${isMobile ? 'ml-0' : 'ml-60'} pt-16 min-h-screen bg-[linear-gradient(to_bottom,rgba(0,0,0,0)_23px,rgba(0,0,0,0)_23px),linear-gradient(to_right,hsl(var(--brand-teal)/0.06)_1px,transparent_1px)] bg-[size:100%_24px,24px_100%]`}>
         <div className="p-4 md:p-8">
+          <header className="mb-4 md:mb-6">
+            <h1 className="text-xl md:text-2xl font-semibold text-brand-teal">Phone Numbers</h1>
+            <div className="h-0.5 w-24 bg-brand-teal/30 rounded-full mt-2" />
+            <p className="text-gray-600 mt-3">Manage your purchased phone numbers and assistant assignments</p>
+          </header>
           <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center mb-8 gap-4">
-            <div>
-              <h1 className="text-2xl font-semibold text-gray-900">Phone Numbers</h1>
-              <p className="text-gray-600 mt-1">Manage your purchased phone numbers and assistant assignments</p>
-            </div>
             <Button 
               onClick={() => setIsPurchaseModalOpen(true)}
               className="flex items-center justify-center gap-2 w-full lg:w-auto bg-teal-600 hover:bg-teal-700 text-white"
             >
-              <Plus className="w-4 h-4" />
-              Buy Phone Number
+               <Plus className="w-4 h-4 text-white" />
+               Buy Phone Number
             </Button>
           </div>
 
@@ -161,15 +162,15 @@ const PhoneNumbers = () => {
                 </TableHeader>
               <TableBody>
                 {phoneNumbers.map((phoneNumber) => (
-                  <TableRow 
-                    key={phoneNumber.id}
-                    className="cursor-pointer hover:bg-gray-50 transition-colors duration-200"
+                   <TableRow 
+                     key={phoneNumber.id}
+                     className="cursor-pointer hover:bg-teal-600/10 transition-colors duration-200"
                     onClick={() => handlePhoneNumberClick(phoneNumber)}
                   >
                     <TableCell className="font-medium">
                       <div className="flex flex-col gap-1">
-                        <span className="hover:text-blue-600 transition-colors duration-200 text-sm">
-                          {phoneNumber.number}
+                         <span className="hover:text-teal-600 transition-colors duration-200 text-sm">
+                           {phoneNumber.number}
                         </span>
                         <span className="md:hidden text-xs text-gray-500">
                           {phoneNumber.provider}
@@ -206,7 +207,7 @@ const PhoneNumbers = () => {
                             size="sm"
                             onClick={(e) => e.stopPropagation()}
                           >
-                            <MoreHorizontal className="w-4 h-4" />
+                            <MoreHorizontal className="w-4 h-4 text-teal-600" />
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="bg-white border shadow-lg z-50">
