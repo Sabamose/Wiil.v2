@@ -1,4 +1,5 @@
-import { Home, MessageCircle, Bot, Phone, Globe, Calendar, Menu, X } from "lucide-react";
+import { Home, MessageCircle, Bot, Phone, Globe, Calendar, Menu, X, Moon } from "lucide-react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useLocation, Link } from "react-router-dom";
 import { useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -76,7 +77,10 @@ const Navigation = () => {
           <span className="hidden sm:inline text-xs text-gray-500 font-normal">Preview Version</span>
         </div>
         <div className="flex items-center gap-2 md:gap-4 text-sm text-gray-600">
-          <span className="w-5 h-5 text-gray-600">🌙</span>
+          <Moon className="w-5 h-5" />
+          <Avatar className="w-8 h-8">
+            <AvatarFallback className="text-sm font-medium">D</AvatarFallback>
+          </Avatar>
         </div>
       </div>
 
