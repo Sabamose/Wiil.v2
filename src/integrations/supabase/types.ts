@@ -154,10 +154,7 @@ export type Database = {
       bookings: {
         Row: {
           assistant_id: string
-          booking_context: Json | null
           cal_event_id: string | null
-          campaign_id: string | null
-          conversation_id: string | null
           created_at: string
           customer_email: string | null
           customer_name: string | null
@@ -175,10 +172,7 @@ export type Database = {
         }
         Insert: {
           assistant_id: string
-          booking_context?: Json | null
           cal_event_id?: string | null
-          campaign_id?: string | null
-          conversation_id?: string | null
           created_at?: string
           customer_email?: string | null
           customer_name?: string | null
@@ -196,10 +190,7 @@ export type Database = {
         }
         Update: {
           assistant_id?: string
-          booking_context?: Json | null
           cal_event_id?: string | null
-          campaign_id?: string | null
-          conversation_id?: string | null
           created_at?: string
           customer_email?: string | null
           customer_name?: string | null

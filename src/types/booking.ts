@@ -13,15 +13,6 @@ export interface Booking {
   timezone: string;
   notes?: string;
   user_id: string;
-  conversation_id?: string;
-  campaign_id?: string;
-  booking_context?: {
-    interaction_type?: string;
-    call_duration?: number;
-    follow_up_reason?: string;
-    customer_satisfaction?: number;
-    appointment_type?: string;
-  };
   created_at: string;
   updated_at: string;
 }
