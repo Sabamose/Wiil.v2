@@ -151,7 +151,7 @@ const OutboundCallDetails = ({ call, onBack }: OutboundCallDetailsProps) => {
         {/* Overview Tab */}
         <TabsContent value="overview" className="space-y-6 mt-6">
           <div>
-            <h3 className="text-lg font-semibold mb-3">Summary</h3>
+            <h3 className="text-lg font-semibold mb-3">Conversation Summary</h3>
             <div className="bg-muted/50 p-4 rounded-lg">
               <p className="text-sm leading-relaxed">
                 {call.summary}
