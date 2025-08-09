@@ -1,5 +1,5 @@
 import { Home, MessageCircle, Bot, Phone, Globe, Calendar, Menu, X } from "lucide-react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -21,7 +21,7 @@ const Navigation = () => {
   };
 
   const navigationItems = [
-    { href: "#", path: "/home", icon: Home, label: "Home" },
+    { href: "/home", path: "/home", icon: Home, label: "Home" },
     { href: "/conversations", path: "/conversations", icon: MessageCircle, label: "Conversations" },
     { href: "/", path: "/", icon: Bot, label: "My Assistants" },
     { href: "/bookings", path: "/bookings", icon: Calendar, label: "Bookings" },
@@ -31,19 +31,19 @@ const Navigation = () => {
   const NavigationContent = () => (
     <>
       {navigationItems.slice(0, 4).map((item) => (
-        <a key={item.path} href={item.href} className={getNavItemClass(item.path)} onClick={() => setIsOpen(false)}>
+        <Link key={item.path} to={item.href} className={getNavItemClass(item.path)} onClick={() => setIsOpen(false)}>
           <item.icon className="w-5 h-5" />
           {item.label}
-        </a>
+        </Link>
       ))}
       
       {/* Separator */}
       <div className="border-t border-gray-200 my-4 mx-6"></div>
       
-      <a href="/phone-numbers" className={getNavItemClass("/phone-numbers")} onClick={() => setIsOpen(false)}>
+      <Link to="/phone-numbers" className={getNavItemClass("/phone-numbers")} onClick={() => setIsOpen(false)}>
         <Phone className="w-5 h-5" />
         Phone Numbers
-      </a>
+      </Link>
     </>
   );
 

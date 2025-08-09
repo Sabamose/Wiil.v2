@@ -10,6 +10,7 @@ import Bookings from "./pages/Bookings";
 import Conversations from "./pages/Conversations";
 import Campaigns from "./pages/Campaigns";
 import NotFound from "./pages/NotFound";
+import HomePageTealV2 from "./components/HomePageTealV2";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,7 @@ const App = () => (
       <AuthWrapper>
         <BrowserRouter>
           <Routes>
+            <Route path="/home" element={<HomePageTealV2 />} />
             <Route path="/" element={<Index />} />
             <Route path="/bookings" element={<Bookings />} />
             <Route path="/conversations" element={<Conversations />} />
