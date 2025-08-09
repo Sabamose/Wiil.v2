@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { InboundCall, DataVariable, Customer } from "@/types/call";
-import { Campaign, CampaignRecipient } from "@/types/campaign";
+import { Campaign, CampaignRecipient, CampaignAction } from "@/types/campaign";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -87,6 +87,7 @@ const mockCampaigns: Campaign[] = [
     duration: "0:15",
     phoneNumber: "+1234567890",
     createdAt: new Date(),
+    actions: ['booking_calls', 'sms_follow_up'],
     csvData: [
       { id: "1", phone_number: "+1 310 417 8775", website: "https://fijiiseafood.com/", address: "10402 S La Cienega Blvd", company_name: "Fiji Seafood Marketing LLC", status: "completed" },
       { id: "2", phone_number: "+1 657 859 3474", website: "http://kingsseafooddistribution.com/", address: "2615 S Rousselle St", company_name: "King's Seafood Distribution", status: "completed" }
@@ -102,6 +103,7 @@ const mockCampaigns: Campaign[] = [
     duration: "167:10:39",
     phoneNumber: "+1234567890",
     createdAt: new Date(),
+    actions: ['call_transfer', 'sms_follow_up'],
     csvData: [
       { id: "1", phone_number: "+1 555 123 4567", business_name: "Mario's Pizza", address: "123 Main St", city: "Los Angeles", status: "completed" },
       { id: "2", phone_number: "+1 555 987 6543", business_name: "Taco Bell", address: "456 Oak Ave", city: "Beverly Hills", status: "no-answer" }
@@ -117,6 +119,7 @@ const mockCampaigns: Campaign[] = [
     duration: "11:13",
     phoneNumber: "+1234567890",
     createdAt: new Date(),
+    actions: ['booking_calls', 'call_transfer', 'sms_follow_up'],
     csvData: [
       { id: "1", phone_number: "+1 555 111 2222", company: "StartupXYZ", founder: "John Doe", industry: "SaaS", funding: "Series A", status: "completed" },
       { id: "2", phone_number: "+1 555 333 4444", company: "TechCorp", founder: "Jane Smith", industry: "AI", funding: "Seed", status: "completed" }
@@ -159,6 +162,7 @@ const CallsDashboard = () => {
     agent: string;
     csvData: any[];
     timing: 'immediate' | 'scheduled';
+    actions: CampaignAction[];
   }) => {
     const newCampaign: Campaign = {
       id: Date.now().toString(),
@@ -170,6 +174,7 @@ const CallsDashboard = () => {
       duration: "0:30",
       phoneNumber: data.phoneNumber,
       createdAt: new Date(),
+      actions: data.actions,
       csvData: data.csvData.map((row, index) => ({
         id: index.toString(),
         ...row,
@@ -213,7 +218,9 @@ const CallsDashboard = () => {
         address: recipient.address || null,
         companyName: recipient.company_name || null
       },
-      transcript: `Agent: Hello, this is calling from Armstrong Transport. May I speak with someone regarding your logistics needs?\n\nContact: Yes, this is [Contact Name].\n\nAgent: Great! I wanted to discuss our freight solutions that might benefit your business...\n\n[Call continues...]`
+      transcript: `Agent: Hello, this is calling from Armstrong Transport. May I speak with someone regarding your logistics needs?\n\nContact: Yes, this is [Contact Name].\n\nAgent: Great! I wanted to discuss our freight solutions that might benefit your business...\n\n[Call continues...]`,
+      actions: selectedCampaign?.actions || []
+    };
     };
     
     setSelectedOutboundCall(mockOutboundCall);

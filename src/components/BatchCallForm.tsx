@@ -5,7 +5,9 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Upload, Download, ArrowLeft, Users } from "lucide-react";
+import { Upload, Download, ArrowLeft, Users, CalendarCheck, PhoneForwarded, MessageSquare } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import type { CampaignAction } from "@/types/campaign";
 import TestOutboundCallModal from "./TestOutboundCallModal";
 
 interface BatchCallFormProps {
@@ -16,6 +18,7 @@ interface BatchCallFormProps {
     agent: string;
     csvData: any[];
     timing: 'immediate' | 'scheduled';
+    actions: CampaignAction[];
   }) => void;
 }
 
@@ -26,6 +29,7 @@ const BatchCallForm = ({ onBack, onSubmit }: BatchCallFormProps) => {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [csvData, setCsvData] = useState<any[]>([]);
   const [timing, setTiming] = useState<'immediate' | 'scheduled'>('immediate');
+  const [selectedActions, setSelectedActions] = useState<CampaignAction[]>([]);
   const [testModalOpen, setTestModalOpen] = useState(false);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,7 +52,8 @@ const BatchCallForm = ({ onBack, onSubmit }: BatchCallFormProps) => {
       phoneNumber: selectedPhoneNumber,
       agent: selectedAgent,
       csvData,
-      timing
+      timing,
+      actions: selectedActions,
     });
   };
 
@@ -141,11 +146,12 @@ const BatchCallForm = ({ onBack, onSubmit }: BatchCallFormProps) => {
                         <div className="text-left">
                           <h4 className="font-medium mb-2">Formatting</h4>
                           <p className="text-sm text-gray-600 mb-2">
-                            The <code className="bg-gray-100 px-1 rounded">phone_number</code> column is required. You can also pass certain <code className="bg-gray-100 px-1 rounded">overrides</code>. Any other columns will be passed as dynamic variables.
+                            The <code className="bg-gray-100 px-1 rounded">phone_number</code> column is required. Any other columns are optional context for your calls. Select desired actions above.
                           </p>
                           <Button variant="outline" size="sm" className="flex items-center gap-2">
                             <Download className="h-4 w-4" />
                             Template
+                          </Button>
                           </Button>
                         </div>
                         
