@@ -189,30 +189,6 @@ const OutboundCallDetails = ({ call, onBack }: OutboundCallDetailsProps) => {
             </div>
           </div>
 
-          {/* Criteria Details */}
-          <div>
-            <h4 className="font-medium mb-3">Criteria Details</h4>
-            <div className="space-y-3">
-              {call.criteria.map((criterion, index) => (
-                <div key={index} className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
-                  <div className="flex items-center gap-3">
-                    {getStatusIcon(criterion.status)}
-                    <div>
-                      <span className="font-medium">{criterion.name}</span>
-                      <p className="text-sm text-muted-foreground mt-1">{criterion.description}</p>
-                    </div>
-                  </div>
-                  <Badge 
-                    variant={criterion.status === 'success' ? 'default' : criterion.status === 'failure' ? 'destructive' : 'secondary'}
-                  >
-                    {criterion.status === 'success' ? 'Success' : 
-                     criterion.status === 'failure' ? 'Failure' : 'Unknown'}
-                  </Badge>
-                </div>
-              ))}
-            </div>
-          </div>
-
           {/* Data Collection */}
           <div>
             <h4 className="font-medium mb-3">Data Collection</h4>
