@@ -70,6 +70,9 @@ const Navigation = () => {
                 </div>
               </SheetContent>
             </Sheet>}
+          <div className="w-8 h-8 bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg flex items-center justify-center text-white font-bold">
+            W
+          </div>
           <span className="text-lg font-semibold">Wiil</span>
           <span className="hidden sm:inline text-xs text-gray-500 font-normal">Preview Version</span>
         </div>
