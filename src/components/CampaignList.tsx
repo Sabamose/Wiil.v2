@@ -89,9 +89,6 @@ const CampaignList = ({ campaigns, onCampaignClick, onCreateCampaign, onBack }: 
               <CardContent className="p-4 space-y-3">
                 <div className="space-y-2">
                   <div className="flex items-start gap-2">
-                    <div className="p-1.5 rounded-md bg-brand-teal/10">
-                      <IconComponent className="h-4 w-4 text-brand-teal" />
-                    </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="font-semibold text-lg truncate">{campaign.name}</h3>
                       <p className="text-sm text-brand-teal font-medium">{campaignType.type}</p>
