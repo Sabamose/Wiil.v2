@@ -18,6 +18,15 @@ export default function SeamlessLovableChatSection({
     "What can I build with Will?",
     "How is pricing structured?",
     "Show me a quick demo.",
+    "Can I create a customer support assistant?",
+    "How do I integrate with my existing CRM?",
+    "What industries does Will work best for?",
+    "Can assistants handle multiple languages?",
+    "How quickly can I deploy an assistant?",
+    "What's the difference between inbound and outbound calls?",
+    "Can I customize the voice and personality?",
+    "How does Will handle complex conversations?",
+    "What analytics and reporting are available?"
   ],
   autoStart = true,
   accent = "#0d9488", // teal-600
