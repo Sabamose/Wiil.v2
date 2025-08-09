@@ -93,10 +93,10 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
   const EventComponent = ({ event }: { event: CalendarEvent }) => {
     const booking = event.resource;
     return (
-      <div className="p-1 text-xs">
+      <div className="p-1 text-xs hover:bg-white/20 hover:scale-105 transition-all duration-200 rounded cursor-pointer">
         <div className="font-medium truncate">{booking.title}</div>
         {booking.customer_name && (
-          <div className="truncate opacity-90">{booking.customer_name}</div>
+          <div className="truncate opacity-90 hover:opacity-100 transition-opacity duration-200">{booking.customer_name}</div>
         )}
       </div>
     );
