@@ -660,7 +660,7 @@ export default function HomePageTealV2() {
             className="px-5 py-3 rounded-2xl border border-brand-teal text-neutral-800 hover:bg-neutral-50"
             onClick={() => setAnalyticsOpen(true)}
           >
-            See analytics demo
+            See Analytics
           </button>
         </div>
       </section>
