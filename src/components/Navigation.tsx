@@ -2,13 +2,13 @@ import { Home, MessageCircle, Bot, Phone, Globe, Calendar, Menu, X, Moon, Credit
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useLocation, Link } from "react-router-dom";
 import { useState } from "react";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useResponsive } from "@/hooks/use-responsive";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 const Navigation = () => {
   const location = useLocation();
   const currentPath = location.pathname;
-  const isMobile = useIsMobile();
+  const { isMobile, isTablet } = useResponsive();
   const [isOpen, setIsOpen] = useState(false);
   const getNavItemClass = (path: string) => {
     const isActive = currentPath === path;

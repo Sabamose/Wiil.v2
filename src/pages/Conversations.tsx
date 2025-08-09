@@ -1,11 +1,11 @@
 import Navigation from "@/components/Navigation";
 import CallsDashboard from "@/components/CallsDashboard";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useResponsive } from "@/hooks/use-responsive";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Conversations = () => {
-  const isMobile = useIsMobile();
+  const { isMobile } = useResponsive();
   const navigate = useNavigate();
   
   return (

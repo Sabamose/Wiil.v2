@@ -8,7 +8,7 @@ import { PhoneIncoming, PhoneOutgoing } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import TealVortexRing from "./TealVortexRing";
 import SeamlessLovableChatSection from "./SeamlessLovableChatSection";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useResponsive } from "@/hooks/use-responsive";
 
 // Tailwind-first, teal-600 accents. This is a self-contained homepage.
 // NEW: more teal in the widget + subtle "breathing" + energy-reactive waves.
@@ -523,7 +523,7 @@ export default function HomePageTealV2() {
   const [energy, setEnergy] = useState(0); // 0..1 — hook this to your backend later
   const [analyticsOpen, setAnalyticsOpen] = useState(false);
   const navigate = useNavigate();
-  const isMobile = useIsMobile();
+  const { isMobile } = useResponsive();
 
   useEffect(() => {
     document.title = "Chat with an AI Assistant – Instant Demo";

@@ -1,5 +1,5 @@
 import Navigation from "@/components/Navigation";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useResponsive } from "@/hooks/use-responsive";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,7 +13,7 @@ import { useAssistants } from "@/hooks/useAssistants";
 import { useToast } from "@/hooks/use-toast";
 
 const Campaigns = () => {
-  const isMobile = useIsMobile();
+  const { isMobile } = useResponsive();
   const { assistants } = useAssistants();
   const { toast } = useToast();
   const [isCreating, setIsCreating] = useState(false);

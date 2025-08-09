@@ -1,10 +1,10 @@
 import React from "react";
 import Navigation from "@/components/Navigation";
 import PricingPlans from "@/components/PricingPlans";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useResponsive } from "@/hooks/use-responsive";
 
 const Billing = () => {
-  const isMobile = useIsMobile();
+  const { isMobile } = useResponsive();
 
   const handlePlanSelect = (planId: string, estimate: any) => {
     console.log("Selected plan:", planId, estimate);

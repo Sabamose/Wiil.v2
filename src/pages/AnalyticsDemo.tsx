@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useResponsive } from "@/hooks/use-responsive";
 
 const series = Array.from({ length: 14 }).map((_, i) => ({
   day: `Day ${i + 1}`,
@@ -32,7 +32,7 @@ export default function AnalyticsDemo() {
     }
   }, []);
 
-  const isMobile = useIsMobile();
+  const { isMobile } = useResponsive();
 
   return (
     <div className="min-h-screen bg-background">

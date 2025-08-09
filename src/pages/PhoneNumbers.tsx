@@ -5,7 +5,7 @@ import PhoneNumberPurchaseModal from "@/components/PhoneNumberPurchaseModal";
 import AssignAssistantModal from "@/components/AssignAssistantModal";
 import { PhoneNumber } from "@/types/phoneNumber";
 import { Button } from "@/components/ui/button";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useResponsive } from "@/hooks/use-responsive";
 import { useToast } from "@/hooks/use-toast";
 import {
   Table,
@@ -26,7 +26,7 @@ const PhoneNumbers = () => {
   const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [selectedPhoneNumber, setSelectedPhoneNumber] = useState<PhoneNumber | null>(null);
-  const isMobile = useIsMobile();
+  const { isMobile } = useResponsive();
   const { toast } = useToast();
   const [phoneNumbers, setPhoneNumbers] = useState<PhoneNumber[]>([
     {

@@ -8,7 +8,7 @@ import VoiceConversationInterface from "@/components/VoiceConversationInterface"
 import EnhancedVoiceInterface from "@/components/EnhancedVoiceInterface";
 import { BaseAssistant } from "@/types/assistant";
 import { useAssistants, StoredAssistant } from "@/hooks/useAssistants";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useResponsive } from "@/hooks/use-responsive";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Index = () => {
@@ -16,7 +16,7 @@ const Index = () => {
   const [selectedAssistant, setSelectedAssistant] = useState<any>(null);
   const [currentView, setCurrentView] = useState<"list" | "settings">("list");
   const { assistants, loading, fetchAssistants } = useAssistants();
-  const isMobile = useIsMobile();
+  const { isMobile } = useResponsive();
 
   useEffect(() => {
     const handleCreateAssistant = () => {
