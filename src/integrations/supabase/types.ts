@@ -14,6 +14,41 @@ export type Database = {
   }
   public: {
     Tables: {
+      assistant_calendars: {
+        Row: {
+          assistant_id: string
+          cal_username: string | null
+          created_at: string
+          default_event_type: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          assistant_id: string
+          cal_username?: string | null
+          created_at?: string
+          default_event_type?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Update: {
+          assistant_id?: string
+          cal_username?: string | null
+          created_at?: string
+          default_event_type?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assistant_calendars_assistant_id_fkey"
+            columns: ["assistant_id"]
+            isOneToOne: true
+            referencedRelation: "assistants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       assistant_knowledge: {
         Row: {
           assistant_id: string
@@ -115,6 +150,71 @@ export type Database = {
           voice_name?: string
         }
         Relationships: []
+      }
+      bookings: {
+        Row: {
+          assistant_id: string
+          cal_event_id: string | null
+          created_at: string
+          customer_email: string | null
+          customer_name: string | null
+          customer_phone: string | null
+          end_time: string
+          id: string
+          notes: string | null
+          source: string | null
+          start_time: string
+          status: string
+          timezone: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          assistant_id: string
+          cal_event_id?: string | null
+          created_at?: string
+          customer_email?: string | null
+          customer_name?: string | null
+          customer_phone?: string | null
+          end_time: string
+          id?: string
+          notes?: string | null
+          source?: string | null
+          start_time: string
+          status?: string
+          timezone?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          assistant_id?: string
+          cal_event_id?: string | null
+          created_at?: string
+          customer_email?: string | null
+          customer_name?: string | null
+          customer_phone?: string | null
+          end_time?: string
+          id?: string
+          notes?: string | null
+          source?: string | null
+          start_time?: string
+          status?: string
+          timezone?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_assistant_id_fkey"
+            columns: ["assistant_id"]
+            isOneToOne: false
+            referencedRelation: "assistants"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       conversations: {
         Row: {
