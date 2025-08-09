@@ -211,14 +211,17 @@ const PhoneNumbers = () => {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="bg-white border shadow-lg z-50">
-                          {phoneNumber.assignedAssistant && (
-                            <DropdownMenuItem onClick={(e) => {
+                          <DropdownMenuItem 
+                            onClick={(e) => {
                               e.stopPropagation();
-                              handleUnassign(phoneNumber.id);
-                            }}>
-                              Disconnect Assistant
-                            </DropdownMenuItem>
-                          )}
+                              if (phoneNumber.assignedAssistant) {
+                                handleUnassign(phoneNumber.id);
+                              }
+                            }}
+                            className={!phoneNumber.assignedAssistant ? "text-gray-400 cursor-not-allowed" : ""}
+                          >
+                            Disconnect Assistant
+                          </DropdownMenuItem>
                           <DropdownMenuItem 
                             className="text-red-600"
                             onClick={(e) => e.stopPropagation()}
