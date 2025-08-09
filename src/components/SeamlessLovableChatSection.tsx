@@ -77,26 +77,24 @@ export default function SeamlessLovableChatSection({
         @keyframes shine { 0%{ transform: translateX(-120%) rotate(12deg)} 100%{ transform: translateX(120%) rotate(12deg)} }
         @keyframes gradientShift { 0%{ background-position: 0% 50% } 50%{ background-position: 100% 50% } 100%{ background-position: 0% 50% } }
         @keyframes pulseGlow { 0%{ box-shadow: 0 20px 40px rgba(13,148,136,.4), 0 0 0 1px rgba(13,148,136,.2), inset 0 1px 0 rgba(255,255,255,.3) } 100%{ box-shadow: 0 25px 50px rgba(13,148,136,.5), 0 0 20px rgba(13,148,136,.3), inset 0 1px 0 rgba(255,255,255,.4) } }
-        @keyframes contourMove { 0%{ background-position: 0% 50% } 100%{ background-position: 400% 50% } }
+        @keyframes moveParcel { 
+          0% { top: -3px; left: 0%; transform: translateX(0%); }
+          25% { top: -3px; left: 100%; transform: translateX(-100%); }
+          50% { top: 100%; left: 100%; transform: translateX(-100%) translateY(-100%); }
+          75% { top: 100%; left: 0%; transform: translateX(0%) translateY(-100%); }
+          100% { top: -3px; left: 0%; transform: translateX(0%); }
+        }
         .enhanced-primary:hover { transform: scale(1.05) translateY(-2px) !important; }
         .enhanced-secondary:hover { transform: scale(1.02) !important; background: rgba(13,148,136,0.05) !important; }
-        .chat-contour { 
+        .moving-parcel { 
           position: absolute !important; 
-          inset: -2px !important; 
-          border-radius: 26px !important; 
-          background: linear-gradient(90deg, rgba(13,148,136,0.3), rgba(20,184,166,0.4), rgba(6,182,212,0.3), rgba(13,148,136,0.3)) !important; 
-          background-size: 300% 100% !important; 
-          animation: contourMove 4s linear infinite !important;
-          z-index: 0 !important;
-          opacity: 0.8 !important;
-        }
-        .chat-contour::before { 
-          content: '' !important; 
-          position: absolute !important; 
-          inset: 2px !important; 
-          background: rgba(255,255,255,0.9) !important; 
-          border-radius: 24px !important; 
-          backdrop-filter: saturate(120%) blur(8px) !important;
+          width: 6px !important;
+          height: 6px !important;
+          background: #0d9488 !important;
+          border-radius: 50% !important;
+          box-shadow: 0 0 8px rgba(13,148,136,0.6) !important;
+          animation: moveParcel 4s linear infinite !important;
+          z-index: 2 !important;
         }
       `;
       document.head.appendChild(s);
@@ -274,7 +272,7 @@ export default function SeamlessLovableChatSection({
       
       {/* Chat bar */}
       <div style={{position: 'relative'}}>
-        <div className="chat-contour" />
+        <div className="moving-parcel" />
         <div style={{...styles.bar, position: 'relative', zIndex: 1}} role="form" aria-label="Ask Will">
         <input
           style={styles.inputText}
