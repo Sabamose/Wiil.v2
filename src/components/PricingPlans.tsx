@@ -164,7 +164,7 @@ function Control({ label, value, onChange, step = 1 }: {
 
 /* ---------- Helpers & Styles ---------- */
 
-const fmt = (n: number) => (n >= 1000 ? `${(n / 1000).toFixed(1)}k` : `${n}`);
+const fmt = (n: number) => n.toLocaleString();
 const safeInt = (v: any, d = 0) => {
   const n = parseInt(v, 10);
   return Number.isFinite(n) ? n : d;
