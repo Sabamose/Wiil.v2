@@ -423,7 +423,7 @@ const BatchCallForm = ({ onBack, onSubmit }: BatchCallFormProps) => {
               <Button
                 variant={timing === 'immediate' ? 'default' : 'outline'}
                 onClick={() => setTiming('immediate')}
-                className="flex-1"
+                className={`flex-1 ${timing === 'immediate' ? 'bg-teal-600 hover:bg-teal-700' : ''}`}
               >
                 Send immediately
               </Button>
