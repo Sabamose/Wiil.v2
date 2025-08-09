@@ -3,7 +3,8 @@ import Navigation from "./Navigation";
 import TemplateCard from "@/components/TemplateCard";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis, Bar, BarChart } from "recharts";
 import { useNavigate } from "react-router-dom";
 
 // Tailwind-first, teal-600 accents. This is a self-contained homepage.
@@ -182,41 +183,304 @@ function MiniAnalytics() {
 }
 
 // ---------- Analytics Modal Content ----------
-const series = Array.from({ length: 14 }).map((_, i) => ({
+// Incoming calls data (customer support focus)
+const incomingData = Array.from({ length: 14 }).map((_, i) => ({
   day: `Day ${i + 1}`,
-  calls: 40 + Math.round(Math.sin(i / 2) * 18) + Math.round(Math.random() * 8),
-  success: 70 + Math.round(Math.cos(i / 2) * 10),
+  calls: 45 + Math.round(Math.sin(i / 2) * 20) + Math.round(Math.random() * 10),
   satisfaction: 85 + Math.round(Math.sin(i / 3) * 8),
-  conversions: 15 + Math.round(Math.cos(i / 2.5) * 5),
+  resolved: 88 + Math.round(Math.cos(i / 2.5) * 6),
+  avgResponseTime: 1.2 + Math.sin(i / 4) * 0.3,
 }));
 
-const peakHours = [
-  { hour: '9 AM', calls: 45 },
-  { hour: '10 AM', calls: 62 },
-  { hour: '11 AM', calls: 78 },
-  { hour: '12 PM', calls: 55 },
-  { hour: '1 PM', calls: 48 },
-  { hour: '2 PM', calls: 71 },
-  { hour: '3 PM', calls: 82 },
-  { hour: '4 PM', calls: 67 }
+// Outgoing calls data (campaign/sales focus)
+const outgoingData = Array.from({ length: 14 }).map((_, i) => ({
+  day: `Day ${i + 1}`,
+  calls: 35 + Math.round(Math.cos(i / 2) * 15) + Math.round(Math.random() * 8),
+  contactRate: 65 + Math.round(Math.sin(i / 3) * 10),
+  conversions: 15 + Math.round(Math.cos(i / 2.5) * 5),
+  revenue: 2400 + Math.round(Math.sin(i / 2) * 800),
+}));
+
+const supportPeakHours = [
+  { hour: '9 AM', calls: 42 },
+  { hour: '10 AM', calls: 58 },
+  { hour: '11 AM', calls: 71 },
+  { hour: '12 PM', calls: 52 },
+  { hour: '1 PM', calls: 45 },
+  { hour: '2 PM', calls: 68 },
+  { hour: '3 PM', calls: 79 },
+  { hour: '4 PM', calls: 63 }
+];
+
+const campaignPerformance = [
+  { campaign: 'Holiday Sale', contacts: 156, conversions: 28, revenue: 4200 },
+  { campaign: 'Product Launch', contacts: 142, conversions: 22, revenue: 3600 },
+  { campaign: 'Renewal Reminder', contacts: 98, conversions: 45, revenue: 6750 },
+  { campaign: 'Survey Follow-up', contacts: 87, conversions: 12, revenue: 1800 }
 ];
 
 const costBreakdown = [
-  { day: 'Day 1', cost: 0.14 },
-  { day: 'Day 2', cost: 0.12 },
-  { day: 'Day 3', cost: 0.11 },
-  { day: 'Day 4', cost: 0.13 },
-  { day: 'Day 5', cost: 0.10 },
-  { day: 'Day 6', cost: 0.12 },
-  { day: 'Day 7', cost: 0.09 },
-  { day: 'Day 8', cost: 0.11 },
-  { day: 'Day 9', cost: 0.10 },
-  { day: 'Day 10', cost: 0.12 },
-  { day: 'Day 11', cost: 0.08 },
-  { day: 'Day 12', cost: 0.11 },
-  { day: 'Day 13', cost: 0.13 },
-  { day: 'Day 14', cost: 0.12 }
+  { day: 'Day 1', incomingCost: 0.08, outgoingCost: 0.14 },
+  { day: 'Day 2', incomingCost: 0.07, outgoingCost: 0.12 },
+  { day: 'Day 3', incomingCost: 0.09, outgoingCost: 0.11 },
+  { day: 'Day 4', incomingCost: 0.08, outgoingCost: 0.13 },
+  { day: 'Day 5', incomingCost: 0.06, outgoingCost: 0.10 },
+  { day: 'Day 6', incomingCost: 0.07, outgoingCost: 0.12 },
+  { day: 'Day 7', incomingCost: 0.05, outgoingCost: 0.09 }
 ];
+
+function IncomingCallsAnalytics() {
+  return (
+    <div className="space-y-6">
+      {/* Incoming Call KPIs */}
+      <section className="grid gap-4 md:grid-cols-4">
+        {[
+          { kpi: "Support Calls", v: "892", change: "+8%" },
+          { kpi: "Customer Satisfaction", v: "4.8★", change: "+0.2" },
+          { kpi: "First-Call Resolution", v: "89%", change: "+3%" },
+          { kpi: "Avg. Response Time", v: "1.1s", change: "-0.2s" }
+        ].map((x, i) => (
+          <Card key={x.kpi} className="animate-scale-in" style={{animationDelay: `${i * 0.1}s`}}>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm text-muted-foreground">{x.kpi}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-semibold text-foreground">{x.v}</div>
+              <div className="text-xs text-teal-600 mt-1">{x.change} vs last week</div>
+            </CardContent>
+          </Card>
+        ))}
+      </section>
+
+      {/* Charts section */}
+      <section className="grid gap-4 md:grid-cols-2">
+        {/* Daily Support Calls */}
+        <Card className="animate-fade-in" style={{animationDelay: '0.3s'}}>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm text-muted-foreground">Daily Support Calls</CardTitle>
+          </CardHeader>
+          <CardContent className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={incomingData} margin={{ left: 0, right: 0, top: 10, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="colorIncoming" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="hsl(var(--brand-teal))" stopOpacity={0.5} />
+                    <stop offset="95%" stopColor="hsl(var(--brand-teal))" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+                <XAxis dataKey="day" tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
+                <YAxis tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
+                <Tooltip contentStyle={{ background: "hsl(var(--background))", border: "1px solid hsl(var(--border))" }} />
+                <Area type="monotone" dataKey="calls" stroke="hsl(var(--brand-teal))" fillOpacity={1} fill="url(#colorIncoming)" />
+              </AreaChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        {/* Customer Satisfaction Trend */}
+        <Card className="animate-fade-in" style={{animationDelay: '0.5s'}}>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm text-muted-foreground">Customer Satisfaction</CardTitle>
+          </CardHeader>
+          <CardContent className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={incomingData} margin={{ left: 0, right: 0, top: 10, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="colorSatisfaction" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="hsl(var(--brand-teal))" stopOpacity={0.5} />
+                    <stop offset="95%" stopColor="hsl(var(--brand-teal))" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+                <XAxis dataKey="day" tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
+                <YAxis domain={[75, 95]} tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
+                <Tooltip contentStyle={{ background: "hsl(var(--background))", border: "1px solid hsl(var(--border))" }} />
+                <Area type="monotone" dataKey="satisfaction" stroke="hsl(var(--brand-teal))" fillOpacity={1} fill="url(#colorSatisfaction)" />
+              </AreaChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        {/* Support Peak Hours */}
+        <Card className="animate-fade-in" style={{animationDelay: '0.7s'}}>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm text-muted-foreground">Support Peak Hours</CardTitle>
+          </CardHeader>
+          <CardContent className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={supportPeakHours} margin={{ left: 0, right: 0, top: 10, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="colorPeakSupport" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="hsl(var(--brand-teal))" stopOpacity={0.8} />
+                    <stop offset="95%" stopColor="hsl(var(--brand-teal))" stopOpacity={0.3} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+                <XAxis dataKey="hour" tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
+                <YAxis tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
+                <Tooltip contentStyle={{ background: "hsl(var(--background))", border: "1px solid hsl(var(--border))" }} />
+                <Bar dataKey="calls" fill="url(#colorPeakSupport)" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        {/* Resolution Rate Trend */}
+        <Card className="animate-fade-in" style={{animationDelay: '0.9s'}}>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm text-muted-foreground">Issue Resolution Rate</CardTitle>
+          </CardHeader>
+          <CardContent className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={incomingData} margin={{ left: 0, right: 0, top: 10, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="colorResolved" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="hsl(var(--brand-teal))" stopOpacity={0.4} />
+                    <stop offset="95%" stopColor="hsl(var(--brand-teal))" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+                <XAxis dataKey="day" tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
+                <YAxis domain={[80, 95]} tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
+                <Tooltip contentStyle={{ background: "hsl(var(--background))", border: "1px solid hsl(var(--border))" }} />
+                <Area type="monotone" dataKey="resolved" stroke="hsl(var(--brand-teal))" fillOpacity={1} fill="url(#colorResolved)" />
+              </AreaChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+      </section>
+    </div>
+  );
+}
+
+function OutgoingCallsAnalytics() {
+  return (
+    <div className="space-y-6">
+      {/* Outgoing Call KPIs */}
+      <section className="grid gap-4 md:grid-cols-4">
+        {[
+          { kpi: "Campaign Calls", v: "1,547", change: "+18%" },
+          { kpi: "Contact Rate", v: "68%", change: "+5%" },
+          { kpi: "Conversion Rate", v: "16.2%", change: "+2.1%" },
+          { kpi: "Revenue Generated", v: "$28.4K", change: "+23%" }
+        ].map((x, i) => (
+          <Card key={x.kpi} className="animate-scale-in" style={{animationDelay: `${i * 0.1}s`}}>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm text-muted-foreground">{x.kpi}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-semibold text-foreground">{x.v}</div>
+              <div className="text-xs text-teal-600 mt-1">{x.change} vs last week</div>
+            </CardContent>
+          </Card>
+        ))}
+      </section>
+
+      {/* Charts section */}
+      <section className="grid gap-4 md:grid-cols-2">
+        {/* Daily Campaign Calls */}
+        <Card className="animate-fade-in" style={{animationDelay: '0.3s'}}>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm text-muted-foreground">Daily Campaign Calls</CardTitle>
+          </CardHeader>
+          <CardContent className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={outgoingData} margin={{ left: 0, right: 0, top: 10, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="colorOutgoing" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="hsl(var(--brand-teal))" stopOpacity={0.5} />
+                    <stop offset="95%" stopColor="hsl(var(--brand-teal))" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+                <XAxis dataKey="day" tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
+                <YAxis tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
+                <Tooltip contentStyle={{ background: "hsl(var(--background))", border: "1px solid hsl(var(--border))" }} />
+                <Area type="monotone" dataKey="calls" stroke="hsl(var(--brand-teal))" fillOpacity={1} fill="url(#colorOutgoing)" />
+              </AreaChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        {/* Contact Rate Trend */}
+        <Card className="animate-fade-in" style={{animationDelay: '0.5s'}}>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm text-muted-foreground">Contact Rate</CardTitle>
+          </CardHeader>
+          <CardContent className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={outgoingData} margin={{ left: 0, right: 0, top: 10, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="colorContactRate" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="hsl(var(--brand-teal))" stopOpacity={0.5} />
+                    <stop offset="95%" stopColor="hsl(var(--brand-teal))" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+                <XAxis dataKey="day" tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
+                <YAxis domain={[50, 80]} tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
+                <Tooltip contentStyle={{ background: "hsl(var(--background))", border: "1px solid hsl(var(--border))" }} />
+                <Area type="monotone" dataKey="contactRate" stroke="hsl(var(--brand-teal))" fillOpacity={1} fill="url(#colorContactRate)" />
+              </AreaChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        {/* Campaign Performance */}
+        <Card className="animate-fade-in" style={{animationDelay: '0.7s'}}>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm text-muted-foreground">Campaign Performance</CardTitle>
+          </CardHeader>
+          <CardContent className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={campaignPerformance} margin={{ left: 0, right: 0, top: 10, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="colorCampaign" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="hsl(var(--brand-teal))" stopOpacity={0.8} />
+                    <stop offset="95%" stopColor="hsl(var(--brand-teal))" stopOpacity={0.3} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+                <XAxis dataKey="campaign" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} tickLine={false} axisLine={false} />
+                <YAxis tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
+                <Tooltip contentStyle={{ background: "hsl(var(--background))", border: "1px solid hsl(var(--border))" }} />
+                <Bar dataKey="conversions" fill="url(#colorCampaign)" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        {/* Revenue Trend */}
+        <Card className="animate-fade-in" style={{animationDelay: '0.9s'}}>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm text-muted-foreground">Revenue Generated</CardTitle>
+          </CardHeader>
+          <CardContent className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={outgoingData} margin={{ left: 0, right: 0, top: 10, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="hsl(var(--brand-teal))" stopOpacity={0.4} />
+                    <stop offset="95%" stopColor="hsl(var(--brand-teal))" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+                <XAxis dataKey="day" tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
+                <YAxis tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
+                <Tooltip 
+                  contentStyle={{ background: "hsl(var(--background))", border: "1px solid hsl(var(--border))" }}
+                  formatter={(value) => [`$${value}`, 'Revenue']}
+                />
+                <Area type="monotone" dataKey="revenue" stroke="hsl(var(--brand-teal))" fillOpacity={1} fill="url(#colorRevenue)" />
+              </AreaChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+      </section>
+    </div>
+  );
+}
 
 function AnalyticsModalContent() {
   return (
@@ -226,156 +490,24 @@ function AnalyticsModalContent() {
         <p className="text-sm text-muted-foreground mt-1">Static, UI-only example to feel the experience.</p>
       </DialogHeader>
 
-      <div className="space-y-6">
-        {/* Primary KPIs - Business focused */}
-        <section className="grid gap-4 md:grid-cols-4">
-          {[
-            { kpi: "Total Conversations", v: "1,284", change: "+12%" },
-            { kpi: "Customer Satisfaction", v: "4.7★", change: "+0.3" },
-            { kpi: "Issues Resolved", v: "92%", change: "+5%" },
-            { kpi: "Avg. Response Time", v: "1.2s", change: "-0.3s" }
-          ].map((x, i) => (
-            <Card key={x.kpi} className="animate-scale-in" style={{animationDelay: `${i * 0.1}s`}}>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm text-muted-foreground">{x.kpi}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-semibold text-foreground">{x.v}</div>
-                <div className="text-xs text-teal-600 mt-1">{x.change} vs last week</div>
-              </CardContent>
-            </Card>
-          ))}
-        </section>
-
-        {/* Secondary metrics */}
-        <section className="grid gap-4 md:grid-cols-3">
-          {[
-            { kpi: "Cost per Conversation", v: "$0.12" },
-            { kpi: "Peak Hours", v: "2-4 PM" },
-            { kpi: "Conversion Rate", v: "18.5%" }
-          ].map((x, i) => (
-            <Card key={x.kpi} className="animate-fade-in" style={{animationDelay: `${0.3 + i * 0.1}s`}}>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm text-muted-foreground">{x.kpi}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-xl font-semibold text-foreground">{x.v}</div>
-              </CardContent>
-            </Card>
-          ))}
-        </section>
-
-        {/* Charts section - 2x2 grid */}
-        <section className="grid gap-4 md:grid-cols-2">
-          {/* Conversation Volume */}
-          <Card className="animate-fade-in" style={{animationDelay: '0.6s'}}>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm text-muted-foreground">Daily Conversations</CardTitle>
-            </CardHeader>
-            <CardContent className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={series} margin={{ left: 0, right: 0, top: 10, bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="colorCalls" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="hsl(var(--brand-teal))" stopOpacity={0.5} />
-                      <stop offset="95%" stopColor="hsl(var(--brand-teal))" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
-                  <XAxis dataKey="day" tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
-                  <YAxis tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
-                  <Tooltip contentStyle={{ background: "hsl(var(--background))", border: "1px solid hsl(var(--border))" }} />
-                  <Area type="monotone" dataKey="calls" stroke="hsl(var(--brand-teal))" fillOpacity={1} fill="url(#colorCalls)" />
-                </AreaChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-
-          {/* Customer Satisfaction Trend */}
-          <Card className="animate-fade-in" style={{animationDelay: '0.8s'}}>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm text-muted-foreground">Customer Satisfaction Trend</CardTitle>
-            </CardHeader>
-            <CardContent className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={series} margin={{ left: 0, right: 0, top: 10, bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="colorSatisfaction" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="hsl(var(--brand-teal))" stopOpacity={0.5} />
-                      <stop offset="95%" stopColor="hsl(var(--brand-teal))" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
-                  <XAxis dataKey="day" tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
-                  <YAxis domain={[75, 95]} tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
-                  <Tooltip contentStyle={{ background: "hsl(var(--background))", border: "1px solid hsl(var(--border))" }} />
-                  <Area type="monotone" dataKey="satisfaction" stroke="hsl(var(--brand-teal))" fillOpacity={1} fill="url(#colorSatisfaction)" />
-                </AreaChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-
-          {/* Cost per Conversation Breakdown */}
-          <Card className="animate-fade-in" style={{animationDelay: '1.2s'}}>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm text-muted-foreground">Cost per Conversation Breakdown</CardTitle>
-            </CardHeader>
-            <CardContent className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={costBreakdown} margin={{ left: 0, right: 0, top: 10, bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="colorCost" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="hsl(var(--brand-teal))" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="hsl(var(--brand-teal))" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
-                  <XAxis dataKey="day" tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
-                  <YAxis 
-                    domain={[0.05, 0.15]} 
-                    tick={{ fill: "hsl(var(--muted-foreground))" }} 
-                    tickLine={false} 
-                    axisLine={false}
-                    tickFormatter={(value) => `$${value.toFixed(2)}`}
-                  />
-                  <Tooltip 
-                    contentStyle={{ background: "hsl(var(--background))", border: "1px solid hsl(var(--border))" }}
-                    formatter={(value) => [`$${value}`, 'Cost per Conversation']}
-                  />
-                  <Area type="monotone" dataKey="cost" stroke="hsl(var(--brand-teal))" fillOpacity={1} fill="url(#colorCost)" />
-                </AreaChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Additional insights section */}
-        <section className="grid gap-4 md:grid-cols-1">
-          {/* Peak Hours Chart */}
-          <Card className="animate-fade-in" style={{animationDelay: '1.4s'}}>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm text-muted-foreground">Peak Hours Analysis</CardTitle>
-            </CardHeader>
-            <CardContent className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={peakHours} margin={{ left: 0, right: 0, top: 10, bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="colorPeakHours" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="hsl(var(--brand-teal))" stopOpacity={0.4} />
-                      <stop offset="95%" stopColor="hsl(var(--brand-teal))" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
-                  <XAxis dataKey="hour" tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
-                  <YAxis tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
-                  <Tooltip contentStyle={{ background: "hsl(var(--background))", border: "1px solid hsl(var(--border))" }} />
-                  <Area type="monotone" dataKey="calls" stroke="hsl(var(--brand-teal))" fillOpacity={1} fill="url(#colorPeakHours)" />
-                </AreaChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-        </section>
-      </div>
+      <Tabs defaultValue="incoming" className="w-full">
+        <TabsList className="grid w-full grid-cols-2 mb-6">
+          <TabsTrigger value="incoming" className="flex items-center gap-2">
+            📞 Incoming Calls
+          </TabsTrigger>
+          <TabsTrigger value="outgoing" className="flex items-center gap-2">
+            📈 Campaigns
+          </TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="incoming" className="space-y-6">
+          <IncomingCallsAnalytics />
+        </TabsContent>
+        
+        <TabsContent value="outgoing" className="space-y-6">
+          <OutgoingCallsAnalytics />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
