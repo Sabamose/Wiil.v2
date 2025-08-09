@@ -299,7 +299,7 @@ export default function HomePageTealV2() {
 
 
 
-      <footer className="max-w-7xl mx-auto px-6 py-14 text-sm text-neutral-500">© {new Date().getFullYear()} Will — minimal, modern, and fast.</footer>
+      
     </main>
     </>
   );
