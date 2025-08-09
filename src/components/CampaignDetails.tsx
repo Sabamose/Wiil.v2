@@ -49,10 +49,6 @@ const CampaignDetails = ({ campaign, onBack, onRecipientClick }: CampaignDetails
         </div>
         <div className="flex items-center gap-2">
           <Button variant="outline" className="flex items-center gap-2">
-            <X className="h-4 w-4" />
-            Cancel
-          </Button>
-          <Button variant="outline" className="flex items-center gap-2">
             <RotateCcw className="h-4 w-4" />
             Retry
           </Button>
