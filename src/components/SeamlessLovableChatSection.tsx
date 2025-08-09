@@ -77,11 +77,26 @@ export default function SeamlessLovableChatSection({
         @keyframes shine { 0%{ transform: translateX(-120%) rotate(12deg)} 100%{ transform: translateX(120%) rotate(12deg)} }
         @keyframes gradientShift { 0%{ background-position: 0% 50% } 50%{ background-position: 100% 50% } 100%{ background-position: 0% 50% } }
         @keyframes pulseGlow { 0%{ box-shadow: 0 20px 40px rgba(13,148,136,.4), 0 0 0 1px rgba(13,148,136,.2), inset 0 1px 0 rgba(255,255,255,.3) } 100%{ box-shadow: 0 25px 50px rgba(13,148,136,.5), 0 0 20px rgba(13,148,136,.3), inset 0 1px 0 rgba(255,255,255,.4) } }
-        @keyframes movingContour { 0%{ stroke-dashoffset: 100 } 100%{ stroke-dashoffset: 0 } }
+        @keyframes contourMove { 0%{ background-position: 0% 50% } 100%{ background-position: 200% 50% } }
         .enhanced-primary:hover { transform: scale(1.05) translateY(-2px) !important; }
         .enhanced-secondary:hover { transform: scale(1.02) !important; background: rgba(13,148,136,0.05) !important; }
-        .chat-contour { position: absolute; inset: -2px; border-radius: 26px; background: linear-gradient(90deg, #0d9488, #14b8a6, #0d9488); background-size: 200% 100%; animation: gradientShift 3s ease infinite; padding: 2px; }
-        .chat-contour::before { content: ''; position: absolute; inset: 2px; background: rgba(255,255,255,0.85); border-radius: 24px; }
+        .chat-contour { 
+          position: absolute; 
+          inset: -3px; 
+          border-radius: 27px; 
+          background: linear-gradient(90deg, #0d9488, #5eead4, #0d9488, #5eead4, #0d9488); 
+          background-size: 300% 100%; 
+          animation: contourMove 3s linear infinite;
+          z-index: 0;
+        }
+        .chat-contour::before { 
+          content: ''; 
+          position: absolute; 
+          inset: 3px; 
+          background: rgba(255,255,255,0.9); 
+          border-radius: 24px; 
+          backdrop-filter: saturate(120%) blur(8px);
+        }
       `;
       document.head.appendChild(s);
     }
@@ -259,7 +274,7 @@ export default function SeamlessLovableChatSection({
       {/* Chat bar */}
       <div style={{position: 'relative'}}>
         <div className="chat-contour" />
-        <div style={styles.bar} role="form" aria-label="Ask Will">
+        <div style={{...styles.bar, position: 'relative', zIndex: 1}} role="form" aria-label="Ask Will">
         <input
           style={styles.inputText}
           value={userInput}
