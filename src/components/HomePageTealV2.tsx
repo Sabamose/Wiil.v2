@@ -324,38 +324,6 @@ function AnalyticsModalContent() {
               </ResponsiveContainer>
             </CardContent>
           </Card>
-
-          {/* Quick Insights */}
-          <Card className="animate-fade-in" style={{animationDelay: '1.2s'}}>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm text-muted-foreground">Key Insights</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between p-3 bg-teal-50 rounded-lg">
-                <div>
-                  <div className="font-medium text-sm">Most Active Day</div>
-                  <div className="text-xs text-muted-foreground">Wednesday generates 23% more conversations</div>
-                </div>
-                <div className="text-lg font-semibold text-teal-600">📈</div>
-              </div>
-              
-              <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
-                <div>
-                  <div className="font-medium text-sm">Top Performing Feature</div>
-                  <div className="text-xs text-muted-foreground">Appointment booking has 94% success rate</div>
-                </div>
-                <div className="text-lg font-semibold text-green-600">⭐</div>
-              </div>
-              
-              <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
-                <div>
-                  <div className="font-medium text-sm">Cost Efficiency</div>
-                  <div className="text-xs text-muted-foreground">15% cheaper than human agents</div>
-                </div>
-                <div className="text-lg font-semibold text-blue-600">💰</div>
-              </div>
-            </CardContent>
-          </Card>
         </section>
       </div>
     </div>
