@@ -1,5 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Navigation from "./Navigation";
+import ChatPanel from "./ChatPanel";
+import TemplateCard from "@/components/TemplateCard";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useNavigate } from "react-router-dom";
 
 // Tailwind-first, teal-600 accents. This is a self-contained homepage.
 // NEW: more teal in the widget + subtle "breathing" + energy-reactive waves.
@@ -182,6 +186,28 @@ function MiniAnalytics() {
 export default function HomePageTealV2() {
   const [state, setState] = useState<VoiceState>("idle");
   const [energy, setEnergy] = useState(0); // 0..1 — hook this to your backend later
+  const [templatesOpen, setTemplatesOpen] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = "Chat with an AI Assistant – Instant Demo";
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute("content", "Try a unique voice + chat assistant demo, explore templates, and see analytics UI.");
+    else {
+      const m = document.createElement("meta");
+      m.name = "description";
+      m.content = "Try a unique voice + chat assistant demo, explore templates, and see analytics UI.";
+      document.head.appendChild(m);
+    }
+    const link = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    if (link) link.href = window.location.href;
+    else {
+      const l = document.createElement("link");
+      l.rel = "canonical";
+      l.href = window.location.href;
+      document.head.appendChild(l);
+    }
+  }, []);
 
   // Simulate conversation energy while speaking/listening
   useEffect(() => {
@@ -286,20 +312,89 @@ export default function HomePageTealV2() {
           </div>
         </div>
 
+        {/* Chat demo (UI-only) */}
+        <div className="mt-8 flex items-center justify-center">
+          <ChatPanel />
+        </div>
+
         {/* Primary actions */}
         <div className="mt-8 flex items-center justify-center gap-3">
-          <button className="px-5 py-3 rounded-2xl bg-teal-600 text-white font-medium shadow-sm hover:bg-teal-700 transition" onClick={() => alert("Create assistant")}>Create my assistant</button>
-          <button className="px-5 py-3 rounded-2xl border border-teal-200 text-teal-700 hover:bg-teal-50" onClick={() => alert("Explore templates")}>Explore templates</button>
-          <button className="px-5 py-3 rounded-2xl border border-neutral-200 text-neutral-800 hover:bg-neutral-50" onClick={() => alert("See analytics")}>See analytics demo</button>
+          <button
+            className="px-5 py-3 rounded-2xl bg-teal-600 text-white font-medium shadow-sm hover:bg-teal-700 transition"
+            onClick={() => {
+              navigate("/");
+              setTimeout(() => window.dispatchEvent(new Event("create-assistant")), 75);
+            }}
+          >
+            Create my assistant
+          </button>
+          <button
+            className="px-5 py-3 rounded-2xl border border-teal-200 text-teal-700 hover:bg-teal-50"
+            onClick={() => setTemplatesOpen(true)}
+          >
+            Explore templates
+          </button>
+          <button
+            className="px-5 py-3 rounded-2xl border border-neutral-200 text-neutral-800 hover:bg-neutral-50"
+            onClick={() => window.open("/analytics", "_blank")}
+          >
+            See analytics demo
+          </button>
         </div>
       </section>
 
       {/* Immediate value row */}
       <MiniAnalytics />
 
+      {/* Templates modal */}
+      <Dialog open={templatesOpen} onOpenChange={setTemplatesOpen}>
+        <DialogContent className="max-w-3xl">
+          <DialogHeader>
+            <DialogTitle>Explore Templates</DialogTitle>
+          </DialogHeader>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <TemplateCard
+              title="Customer Support"
+              icon="🤖"
+              description="Answer FAQs and route complex issues."
+              features={["24/7 availability", "Escalation hints", "Polite tone"]}
+              demoNumber="(555) 123-4567"
+            />
+            <TemplateCard
+              title="Booking Assistant"
+              icon="📅"
+              description="Schedule appointments with confirmations."
+              features={["Calendar-friendly", "Time zone aware", "Reschedule flow"]}
+              demoNumber="(555) 987-6543"
+            />
+            <TemplateCard
+              title="Sales Qualifier"
+              icon="💼"
+              description="Qualify leads and capture intent."
+              features={["Lead scoring", "Qualification questions", "Handoff notes"]}
+            />
+            <TemplateCard
+              title="Onboarding Guide"
+              icon="🧭"
+              description="Guide new users through setup."
+              features={["Step-by-step", "Progress checks", "Friendly tone"]}
+            />
+          </div>
+          <div className="flex justify-end pt-2">
+            <button
+              className="px-4 py-2 rounded-xl bg-teal-600 text-white hover:bg-teal-700"
+              onClick={() => {
+                setTemplatesOpen(false);
+                navigate("/");
+                setTimeout(() => window.dispatchEvent(new Event("create-assistant")), 75);
+              }}
+            >
+              Use a template
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
-
-      
     </main>
     </>
   );

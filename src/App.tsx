@@ -11,6 +11,7 @@ import Conversations from "./pages/Conversations";
 import Campaigns from "./pages/Campaigns";
 import NotFound from "./pages/NotFound";
 import HomePageTealV2 from "./components/HomePageTealV2";
+import AnalyticsDemo from "./pages/AnalyticsDemo";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ const App = () => (
             <Route path="/conversations" element={<Conversations />} />
             <Route path="/campaigns" element={<Campaigns />} />
             <Route path="/phone-numbers" element={<PhoneNumbers />} />
+            <Route path="/analytics" element={<AnalyticsDemo />} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
