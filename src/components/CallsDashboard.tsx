@@ -302,7 +302,7 @@ const CallsDashboard = () => {
             onClick={() => setView('campaigns')}
             className={['campaigns', 'create-campaign', 'campaign-details'].includes(view) ? 'bg-brand-teal hover:bg-brand-teal/90 text-white' : 'hover:bg-brand-teal/10 hover:text-brand-teal'}
           >
-            Batch Calls
+            Outgoing Calls
           </Button>
         </div>
       </div>
