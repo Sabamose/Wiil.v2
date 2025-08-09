@@ -18,7 +18,7 @@ const CampaignList = ({ campaigns, onCampaignClick, onCreateCampaign, onBack }: 
 
   const filteredCampaigns = campaigns.filter(campaign =>
     campaign.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    campaign.agent.toLowerCase().includes(searchTerm.toLowerCase())
+    campaign.assistant.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const getCampaignType = (csvData: any[]) => {

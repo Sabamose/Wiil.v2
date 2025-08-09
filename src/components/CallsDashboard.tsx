@@ -81,11 +81,14 @@ const mockCampaigns: Campaign[] = [
     id: "1",
     name: "SEO Audit Services",
     recipients: 6,
-    agent: "Valeria_follow up",
+    assistant: {
+      id: "1",
+      name: "Valeria_follow up",
+      phoneNumber: "+1234567890"
+    },
     status: "completed",
     completionPercentage: 100,
     duration: "0:15",
-    phoneNumber: "+1234567890",
     createdAt: new Date(),
     csvData: [
       { id: "1", phone_number: "+1 310 417 8775", website: "https://fijiiseafood.com/", address: "10402 S La Cienega Blvd", company_name: "Fiji Seafood Marketing LLC", status: "completed" },
@@ -96,11 +99,14 @@ const mockCampaigns: Campaign[] = [
     id: "2",
     name: "Food Delivery Partnership",
     recipients: 12,
-    agent: "Valeria",
+    assistant: {
+      id: "1",
+      name: "Valeria",
+      phoneNumber: "+1234567890"
+    },
     status: "completed",
     completionPercentage: 100,
     duration: "167:10:39",
-    phoneNumber: "+1234567890",
     createdAt: new Date(),
     csvData: [
       { id: "1", phone_number: "+1 555 123 4567", business_name: "Mario's Pizza", address: "123 Main St", city: "Los Angeles", status: "completed" },
@@ -111,11 +117,14 @@ const mockCampaigns: Campaign[] = [
     id: "3",
     name: "Cloud Software Demo",
     recipients: 28,
-    agent: "Valeria",
+    assistant: {
+      id: "1",
+      name: "Valeria",
+      phoneNumber: "+1234567890"
+    },
     status: "completed",
     completionPercentage: 100,
     duration: "11:13",
-    phoneNumber: "+1234567890",
     createdAt: new Date(),
     csvData: [
       { id: "1", phone_number: "+1 555 111 2222", company: "StartupXYZ", founder: "John Doe", industry: "SaaS", funding: "Series A", status: "completed" },
@@ -155,8 +164,11 @@ const CallsDashboard = () => {
 
   const handleCreateCampaign = (data: {
     batchName: string;
-    phoneNumber: string;
-    agent: string;
+    assistant: {
+      id: string;
+      name: string;
+      phoneNumber?: string;
+    };
     csvData: any[];
     timing: 'immediate' | 'scheduled';
   }) => {
@@ -164,11 +176,10 @@ const CallsDashboard = () => {
       id: Date.now().toString(),
       name: data.batchName,
       recipients: data.csvData.length,
-      agent: data.agent,
+      assistant: data.assistant,
       status: 'completed',
       completionPercentage: 100,
       duration: "0:30",
-      phoneNumber: data.phoneNumber,
       createdAt: new Date(),
       csvData: data.csvData.map((row, index) => ({
         id: index.toString(),

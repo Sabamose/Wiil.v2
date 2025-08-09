@@ -12,8 +12,11 @@ interface BatchCallFormProps {
   onBack: () => void;
   onSubmit: (data: {
     batchName: string;
-    phoneNumber: string;
-    agent: string;
+    assistant: {
+      id: string;
+      name: string;
+      phoneNumber?: string;
+    };
     csvData: any[];
     timing: 'immediate' | 'scheduled';
   }) => void;
@@ -21,12 +24,18 @@ interface BatchCallFormProps {
 
 const BatchCallForm = ({ onBack, onSubmit }: BatchCallFormProps) => {
   const [batchName, setBatchName] = useState("Untitled Batch");
-  const [selectedPhoneNumber, setSelectedPhoneNumber] = useState("");
-  const [selectedAgent, setSelectedAgent] = useState("");
+  const [selectedAssistant, setSelectedAssistant] = useState("");
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [csvData, setCsvData] = useState<any[]>([]);
   const [timing, setTiming] = useState<'immediate' | 'scheduled'>('immediate');
   const [testModalOpen, setTestModalOpen] = useState(false);
+
+  // Mock assistants data - would come from useAssistants hook in real implementation
+  const mockAssistants = [
+    { id: "1", name: "Valeria", phoneNumber: "+1 (234) 567-890" },
+    { id: "2", name: "Sales Agent 2", phoneNumber: "+1 (987) 654-321" },
+    { id: "3", name: "Support Agent 1", phoneNumber: undefined }, // No phone number
+  ];
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -43,10 +52,16 @@ const BatchCallForm = ({ onBack, onSubmit }: BatchCallFormProps) => {
   };
 
   const handleSubmit = () => {
+    const assistant = mockAssistants.find(a => a.id === selectedAssistant);
+    if (!assistant) return;
+
     onSubmit({
       batchName,
-      phoneNumber: selectedPhoneNumber,
-      agent: selectedAgent,
+      assistant: {
+        id: assistant.id,
+        name: assistant.name,
+        phoneNumber: assistant.phoneNumber,
+      },
       csvData,
       timing
     });
@@ -74,33 +89,51 @@ const BatchCallForm = ({ onBack, onSubmit }: BatchCallFormProps) => {
             />
           </div>
 
-          {/* Phone Number */}
+          {/* Select Assistant */}
           <div className="space-y-2">
-            <label className="text-sm font-medium">Phone Number</label>
-            <Select value={selectedPhoneNumber} onValueChange={setSelectedPhoneNumber}>
+            <label className="text-sm font-medium">Select Assistant</label>
+            <Select value={selectedAssistant} onValueChange={setSelectedAssistant}>
               <SelectTrigger>
-                <SelectValue placeholder="Select a phone number" />
+                <SelectValue placeholder="Select an assistant" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="+1234567890">+1 (234) 567-890</SelectItem>
-                <SelectItem value="+1987654321">+1 (987) 654-321</SelectItem>
+                {mockAssistants.map((assistant) => (
+                  <SelectItem key={assistant.id} value={assistant.id}>
+                    <div className="flex flex-col">
+                      <span>{assistant.name}</span>
+                      {assistant.phoneNumber && (
+                        <span className="text-xs text-muted-foreground">{assistant.phoneNumber}</span>
+                      )}
+                      {!assistant.phoneNumber && (
+                        <span className="text-xs text-orange-500">No phone number</span>
+                      )}
+                    </div>
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
-          </div>
-
-          {/* Select Agent */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Select Agent</label>
-            <Select value={selectedAgent} onValueChange={setSelectedAgent}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select an agent" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Valeria">Valeria</SelectItem>
-                <SelectItem value="Sales Agent 2">Sales Agent 2</SelectItem>
-                <SelectItem value="Support Agent 1">Support Agent 1</SelectItem>
-              </SelectContent>
-            </Select>
+            {selectedAssistant && (() => {
+              const assistant = mockAssistants.find(a => a.id === selectedAssistant);
+              if (!assistant?.phoneNumber) {
+                return (
+                  <div className="p-3 bg-orange-50 border border-orange-200 rounded-lg">
+                    <p className="text-sm text-orange-700 mb-2">
+                      This assistant needs a phone number to make calls.
+                    </p>
+                    <Button variant="outline" size="sm" className="text-orange-700 border-orange-300 hover:bg-orange-100">
+                      Buy & connect number
+                    </Button>
+                  </div>
+                );
+              }
+              return (
+                <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+                  <p className="text-sm text-green-700">
+                    <strong>Phone number:</strong> {assistant.phoneNumber}
+                  </p>
+                </div>
+              );
+            })()}
           </div>
 
           {/* Recipients */}

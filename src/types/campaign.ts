@@ -2,11 +2,14 @@ export interface Campaign {
   id: string;
   name: string;
   recipients: number;
-  agent: string;
+  assistant: {
+    id: string;
+    name: string;
+    phoneNumber?: string;
+  };
   status: 'completed' | 'in-progress' | 'pending';
   completionPercentage: number;
   duration: string;
-  phoneNumber: string;
   createdAt: Date;
   csvData: CampaignRecipient[];
 }

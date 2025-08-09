@@ -43,8 +43,17 @@ const CampaignDetails = ({ campaign, onBack, onRecipientClick }: CampaignDetails
             <span>/</span>
             <span>{campaign.name}</span>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <h1 className="text-2xl font-bold">{campaign.name}</h1>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <span>{campaign.assistant.name}</span>
+              {campaign.assistant.phoneNumber && (
+                <>
+                  <span>•</span>
+                  <span>{campaign.assistant.phoneNumber}</span>
+                </>
+              )}
+            </div>
           </div>
         </div>
         <div className="flex items-center gap-2">
