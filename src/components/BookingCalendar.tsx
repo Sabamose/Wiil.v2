@@ -152,7 +152,7 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
               variant={view === 'month' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setView('month')}
-              className="bg-teal-600 hover:bg-teal-700 text-white"
+              className="bg-white text-teal-600 border border-teal-600 hover:bg-teal-50"
             >
               Month
             </Button>
