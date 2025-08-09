@@ -7,6 +7,8 @@ import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YA
 import { PhoneIncoming, PhoneOutgoing } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import TealVortexRing from "./TealVortexRing";
+import { AttentionButtons } from "./AttentionButtons";
+import { ChatDock } from "./ChatDock";
 
 // Tailwind-first, teal-600 accents. This is a self-contained homepage.
 // NEW: more teal in the widget + subtle "breathing" + energy-reactive waves.
@@ -607,22 +609,31 @@ export default function HomePageTealV2() {
 
         {/* Primary actions */}
         <div className="mt-8 flex items-center justify-center gap-3">
-          <button
-            className="px-5 py-3 rounded-2xl bg-gradient-to-r from-brand-teal to-brand-teal-hover text-brand-teal-foreground font-semibold shadow-lg shadow-brand-teal/20 hover:shadow-xl hover:shadow-brand-teal/30 hover:scale-105 transition-all duration-300 relative overflow-hidden group"
-            onClick={() => {
-              navigate("/");
-              setTimeout(() => window.dispatchEvent(new Event("create-assistant")), 75);
-            }}
-          >
-            <span className="relative z-10">+ Create Assistant</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          </button>
-          <button
-            className="px-5 py-3 rounded-2xl border border-brand-teal text-neutral-800 hover:bg-neutral-50 hover-scale"
-            onClick={() => setAnalyticsOpen(true)}
-          >
-            See Analytics
-          </button>
+          {/* Enhanced CTA Buttons */}
+          <div className="mt-6">
+            <AttentionButtons
+              onPrimary={() => {
+                navigate("/");
+                setTimeout(() => window.dispatchEvent(new Event("create-assistant")), 75);
+              }}
+              onSecondary={() => setAnalyticsOpen(true)}
+              primaryText="+ Create Assistant"
+              secondaryText="See Analytics"
+              pulse={true}
+            />
+          </div>
+
+          {/* Chat Integration */}
+          <div className="mt-6">
+            <ChatDock
+              onSend={(message) => {
+                console.log("Chat message:", message);
+                // Handle chat message here - could integrate with assistant or support
+              }}
+              suggestions={["What can I build?", "Show pricing", "Quick demo"]}
+              placeholder="Ask anything about AI assistants..."
+            />
+          </div>
         </div>
       </section>
 
