@@ -128,6 +128,9 @@
     --brand-teal: 174 84% 32%;
     --brand-teal-hover: 174 84% 26%;
     --brand-teal-foreground: 0 0% 98%;
+    
+    /* Amber for pending states */
+    --amber-500: 45 93% 58%;
 
     --radius: 0.5rem;
 
@@ -179,6 +182,9 @@
     --brand-teal: 174 84% 32%;
     --brand-teal-hover: 174 84% 26%;
     --brand-teal-foreground: 0 0% 98%;
+    
+    /* Amber for pending states */
+    --amber-500: 45 93% 58%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary-foreground: 0 0% 100%;

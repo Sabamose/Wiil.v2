@@ -74,6 +74,9 @@ export default {
 					DEFAULT: 'hsl(var(--brand-teal))',
 					hover: 'hsl(var(--brand-teal-hover))',
 					foreground: 'hsl(var(--brand-teal-foreground))'
+				},
+				amber: {
+					500: 'hsl(var(--amber-500))'
 				}
 			},
 			borderRadius: {

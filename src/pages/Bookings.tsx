@@ -43,18 +43,18 @@ const Bookings = () => {
       <main className="container mx-auto px-4 py-8 relative">
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
-            <h1 className="text-4xl font-bold text-teal-600">Bookings</h1>
-            <div className="h-1 w-20 bg-gradient-to-r from-teal-600 to-teal-400 rounded-full" />
+            <h1 className="text-4xl font-bold text-brand-teal">Bookings</h1>
+            <div className="h-1 w-20 bg-gradient-to-r from-brand-teal to-brand-teal/60 rounded-full" />
           </div>
           <p className="text-muted-foreground">Manage your appointment bookings and schedule with Cal.com integration</p>
         </div>
 
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card className="border-border/50 hover:shadow-lg transition-all duration-300 hover:border-teal-600/20">
+          <Card className="border-border/50 hover:shadow-lg transition-all duration-300 hover:border-brand-teal/20">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Today's Bookings</CardTitle>
-              <Calendar className="h-4 w-4 text-teal-600" />
+              <Calendar className="h-4 w-4 text-brand-teal" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{todaysBookings.length}</div>
@@ -62,10 +62,10 @@ const Bookings = () => {
             </CardContent>
           </Card>
           
-          <Card className="border-border/50 hover:shadow-lg transition-all duration-300 hover:border-teal-600/20">
+          <Card className="border-border/50 hover:shadow-lg transition-all duration-300 hover:border-brand-teal/20">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Bookings</CardTitle>
-              <Users className="h-4 w-4 text-teal-600" />
+              <Users className="h-4 w-4 text-brand-teal" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{bookings.length}</div>
@@ -73,10 +73,10 @@ const Bookings = () => {
             </CardContent>
           </Card>
 
-          <Card className="border-border/50 hover:shadow-lg transition-all duration-300 hover:border-teal-600/20">
+          <Card className="border-border/50 hover:shadow-lg transition-all duration-300 hover:border-brand-teal/20">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Confirmed</CardTitle>
-              <Phone className="h-4 w-4 text-teal-600" />
+              <Phone className="h-4 w-4 text-brand-teal" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{confirmedBookings.length}</div>
@@ -84,15 +84,15 @@ const Bookings = () => {
             </CardContent>
           </Card>
 
-          <Card className="border-border/50 hover:shadow-lg transition-all duration-300 hover:border-teal-600/20">
+          <Card className="border-border/50 hover:shadow-lg transition-all duration-300 hover:border-brand-teal/20">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Quick Action</CardTitle>
-              <Plus className="h-4 w-4 text-teal-600" />
+              <Plus className="h-4 w-4 text-brand-teal" />
             </CardHeader>
             <CardContent>
               <Button 
                 size="sm" 
-                className="w-full bg-teal-600 hover:bg-teal-700"
+                className="w-full bg-brand-teal hover:bg-brand-teal-hover text-brand-teal-foreground"
                 onClick={() => window.open('https://cal.com', '_blank')}
               >
                 Open Cal.com
@@ -106,7 +106,7 @@ const Bookings = () => {
           <Card>
             <CardContent className="flex items-center justify-center py-12">
               <div className="text-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600 mx-auto mb-4"></div>
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-teal mx-auto mb-4"></div>
                 <p className="text-muted-foreground">Loading calendar...</p>
               </div>
             </CardContent>

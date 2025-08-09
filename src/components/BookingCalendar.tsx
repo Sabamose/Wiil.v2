@@ -24,10 +24,10 @@ interface CalendarEvent extends Event {
 }
 
 const statusColors = {
-  confirmed: 'bg-emerald-500',
-  pending: 'bg-yellow-500',
-  cancelled: 'bg-red-500',
-  completed: 'bg-blue-500',
+  confirmed: 'bg-success',
+  pending: 'bg-amber-500',
+  cancelled: 'bg-destructive',
+  completed: 'bg-brand-teal',
 };
 
 const statusVariants = {
@@ -72,9 +72,15 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
 
   const eventStyleGetter = (event: CalendarEvent) => {
     const status = event.resource.status;
+    let bgColor = 'hsl(var(--brand-teal))';
+    
+    if (status === 'cancelled') bgColor = 'hsl(var(--destructive))';
+    else if (status === 'pending') bgColor = 'hsl(var(--amber-500) / 0.9)';
+    else if (status === 'completed') bgColor = 'hsl(var(--success))';
+    
     return {
       style: {
-        backgroundColor: 'hsl(var(--teal-600))',
+        backgroundColor: bgColor,
         borderRadius: '4px',
         opacity: status === 'cancelled' ? 0.6 : 1,
         color: 'white',
@@ -189,6 +195,7 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
             eventPropGetter={eventStyleGetter}
             components={{
               event: EventComponent,
+              toolbar: () => null, // Hide default toolbar to prevent duplicates
             }}
             onSelectEvent={(event) => onBookingSelect(event.resource)}
             className="rbc-calendar"
@@ -243,7 +250,7 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
         }
         
         .rbc-today {
-          background-color: hsl(var(--teal-50));
+          background-color: hsl(var(--brand-teal) / 0.1);
         }
         
         .rbc-event {
@@ -252,7 +259,7 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
         }
         
         .rbc-slot-selection {
-          background-color: hsl(var(--teal-600) / 0.2);
+          background-color: hsl(var(--brand-teal) / 0.2);
         }
         
         .rbc-day-slot .rbc-time-slot {
@@ -264,7 +271,7 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
         }
         
         .rbc-current-time-indicator {
-          background-color: hsl(var(--teal-600));
+          background-color: hsl(var(--brand-teal));
         }
         
         .rbc-agenda-view {
