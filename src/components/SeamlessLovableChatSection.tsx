@@ -16,6 +16,9 @@ import React, { useEffect, useRef, useState } from "react";
 export default function SeamlessLovableChatSection({
   prompts = [
     "What can I build with Will?",
+    "What kind of assistants can I build?",
+    "How can I use these assistants?",
+    "How are assistants helpful for my business?",
     "How much does it cost to run an AI assistant?",
     "Can I create a sales assistant that books meetings?",
     "How do I train my assistant with my company data?", 
