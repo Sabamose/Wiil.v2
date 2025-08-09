@@ -77,8 +77,6 @@ const Navigation = () => {
         </div>
         <div className="flex items-center gap-2 md:gap-4 text-sm text-gray-600">
           <span className="w-5 h-5 text-gray-600">🌙</span>
-          <span className="hidden sm:inline">Currrent balance: $3.00</span>
-          <span className="sm:hidden">$3.00</span>
         </div>
       </div>
 
