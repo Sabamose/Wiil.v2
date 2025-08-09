@@ -46,28 +46,31 @@ const Navigation = () => {
     label: "Billing"
   }];
   const NavigationContent = () => <>
-      {navigationItems.slice(0, 4).map(item => <Link key={item.path} to={item.href} className={getNavItemClass(item.path)} onClick={() => setIsOpen(false)}>
-          <item.icon className="w-5 h-5" />
-          {item.label}
-        </Link>)}
-      
-      {/* Separator */}
-      <div className="border-t border-gray-200 my-4 mx-6"></div>
-      
-      <Link to="/phone-numbers" className={getNavItemClass("/phone-numbers")} onClick={() => setIsOpen(false)}>
-        <Phone className="w-5 h-5" />
-        Phone Numbers
-      </Link>
-
-      {/* Account Section */}
-      <div className="mt-8 mb-2 mx-6">
-        <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">Account</span>
+      <div className="flex-1">
+        {navigationItems.slice(0, 4).map(item => <Link key={item.path} to={item.href} className={getNavItemClass(item.path)} onClick={() => setIsOpen(false)}>
+            <item.icon className="w-5 h-5" />
+            {item.label}
+          </Link>)}
+        
+        {/* Separator */}
+        <div className="border-t border-gray-200 my-4 mx-6"></div>
+        
+        <Link to="/phone-numbers" className={getNavItemClass("/phone-numbers")} onClick={() => setIsOpen(false)}>
+          <Phone className="w-5 h-5" />
+          Phone Numbers
+        </Link>
       </div>
 
-      <Link to="/billing" className={getNavItemClass("/billing")} onClick={() => setIsOpen(false)}>
-        <CreditCard className="w-5 h-5" />
-        Billing
-      </Link>
+      {/* Account Section - Fixed at bottom */}
+      <div className="mt-auto pt-4">
+        <div className="mb-2 mx-6">
+          <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">Account</span>
+        </div>
+        <Link to="/billing" className={getNavItemClass("/billing")} onClick={() => setIsOpen(false)}>
+          <CreditCard className="w-5 h-5" />
+          Billing
+        </Link>
+      </div>
     </>;
   return <>
       {/* Header */}
@@ -80,7 +83,7 @@ const Navigation = () => {
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="w-60 p-0 bg-teal-600/4">
-                <div className="py-6">
+                <div className="py-6 h-full flex flex-col">
                   <NavigationContent />
                 </div>
               </SheetContent>
@@ -104,7 +107,7 @@ const Navigation = () => {
       </div>
 
       {/* Desktop Sidebar Navigation */}
-      {!isMobile && <nav className="fixed left-0 top-16 w-60 h-[calc(100vh-4rem)] bg-teal-600/4 border-r border-teal-600/10 py-6 overflow-y-auto">
+      {!isMobile && <nav className="fixed left-0 top-16 w-60 h-[calc(100vh-4rem)] bg-teal-600/4 border-r border-teal-600/10 py-6 overflow-y-auto flex flex-col">
           <NavigationContent />
         </nav>}
     </>;
