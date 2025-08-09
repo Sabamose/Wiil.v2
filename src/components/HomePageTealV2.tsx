@@ -653,7 +653,7 @@ export default function HomePageTealV2() {
               setTimeout(() => window.dispatchEvent(new Event("create-assistant")), 75);
             }}
           >
-            <span className="relative z-10">Create my assistant</span>
+            <span className="relative z-10">+ Create Assistant</span>
             <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </button>
           <button
