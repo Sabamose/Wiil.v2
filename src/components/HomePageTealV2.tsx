@@ -239,71 +239,82 @@ export default function HomePageTealV2() {
           <p className="mt-3 text-neutral-600">No docs. Tap the orb, feel it respond, then create yours.</p>
         </div>
 
-        <div className="relative grid place-items-center">
-          {/* Multiple overlapping wave layers */}
-          <ExtendedWavesTeal running={state === "speaking" || state === "listening"} />
+        <div className="relative flex items-center justify-center min-h-[500px]">
+          {/* Main background waves - centered */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <ExtendedWavesTeal running={state === "speaking" || state === "listening"} />
+          </div>
           
-          {/* Additional wave nets */}
-          <svg className="absolute inset-x-0 top-1/2 -translate-y-1/2 pointer-events-none opacity-40" height={180} width="100%" viewBox="0 0 1200 180">
-            <defs>
-              <linearGradient id="waveNet1" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#5eead4" stopOpacity="0.3" />
-                <stop offset="50%" stopColor="#14b8a6" stopOpacity="0.6" />
-                <stop offset="100%" stopColor="#0f766e" stopOpacity="0.3" />
-              </linearGradient>
-            </defs>
-            {Array.from({length: 5}).map((_, i) => (
-              <circle key={i} 
-                cx={600 + Math.sin(Date.now() * 0.001 + i) * 100} 
-                cy={90 + Math.cos(Date.now() * 0.0008 + i) * 30} 
-                r={20 + i * 8} 
-                fill="none" 
-                stroke="url(#waveNet1)" 
-                strokeWidth={1}
-                className="animate-pulse"
-                style={{animationDelay: `${i * 0.5}s`}}
-              />
-            ))}
-          </svg>
+          {/* Additional wave nets - centered */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <svg className="pointer-events-none opacity-40" height={180} width={600} viewBox="0 0 600 180">
+              <defs>
+                <linearGradient id="waveNet1" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#5eead4" stopOpacity="0.3" />
+                  <stop offset="50%" stopColor="#14b8a6" stopOpacity="0.6" />
+                  <stop offset="100%" stopColor="#0f766e" stopOpacity="0.3" />
+                </linearGradient>
+              </defs>
+              {Array.from({length: 5}).map((_, i) => (
+                <circle key={i} 
+                  cx={300 + Math.sin(Date.now() * 0.001 + i) * 50} 
+                  cy={90 + Math.cos(Date.now() * 0.0008 + i) * 15} 
+                  r={20 + i * 8} 
+                  fill="none" 
+                  stroke="url(#waveNet1)" 
+                  strokeWidth={1}
+                  className="animate-pulse"
+                  style={{animationDelay: `${i * 0.5}s`}}
+                />
+              ))}
+            </svg>
+          </div>
 
-          {/* Outer ripple rings */}
-          <svg className="absolute inset-x-0 top-1/2 -translate-y-1/2 pointer-events-none opacity-25" height={400} width="100%" viewBox="0 0 1200 400">
-            <defs>
-              <radialGradient id="ripple" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#14b8a6" stopOpacity="0" />
-                <stop offset="70%" stopColor="#14b8a6" stopOpacity="0.4" />
-                <stop offset="100%" stopColor="#0f766e" stopOpacity="0" />
-              </radialGradient>
-            </defs>
-            {[150, 200, 250, 300].map((r, i) => (
-              <circle key={i} 
-                cx={600} 
-                cy={200} 
-                r={r} 
-                fill="none" 
-                stroke="url(#ripple)" 
-                strokeWidth={2}
-                className="animate-pulse"
-                style={{animationDelay: `${i * 0.8}s`, animationDuration: '3s'}}
-              />
-            ))}
-          </svg>
+          {/* Outer ripple rings - centered */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <svg className="pointer-events-none opacity-25" height={400} width={400} viewBox="0 0 400 400">
+              <defs>
+                <radialGradient id="ripple" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#14b8a6" stopOpacity="0" />
+                  <stop offset="70%" stopColor="#14b8a6" stopOpacity="0.4" />
+                  <stop offset="100%" stopColor="#0f766e" stopOpacity="0" />
+                </radialGradient>
+              </defs>
+              {[80, 120, 160, 200].map((r, i) => (
+                <circle key={i} 
+                  cx={200} 
+                  cy={200} 
+                  r={r} 
+                  fill="none" 
+                  stroke="url(#ripple)" 
+                  strokeWidth={2}
+                  className="animate-pulse"
+                  style={{animationDelay: `${i * 0.8}s`, animationDuration: '3s'}}
+                />
+              ))}
+            </svg>
+          </div>
 
-          {/* Floating particles */}
-          <svg className="absolute inset-x-0 top-1/2 -translate-y-1/2 pointer-events-none opacity-60" height={300} width="100%" viewBox="0 0 1200 300">
-            {Array.from({length: 12}).map((_, i) => (
-              <circle key={i} 
-                cx={200 + i * 80 + Math.sin(Date.now() * 0.002 + i) * 40} 
-                cy={150 + Math.cos(Date.now() * 0.0015 + i) * 60} 
-                r={2 + Math.sin(Date.now() * 0.003 + i) * 1} 
-                fill="#14b8a6" 
-                opacity={0.4 + Math.sin(Date.now() * 0.004 + i) * 0.3}
-                className="animate-fade-in"
-              />
-            ))}
-          </svg>
+          {/* Floating particles - centered */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <svg className="pointer-events-none opacity-60" height={300} width={500} viewBox="0 0 500 300">
+              {Array.from({length: 12}).map((_, i) => (
+                <circle key={i} 
+                  cx={100 + i * 30 + Math.sin(Date.now() * 0.002 + i) * 20} 
+                  cy={150 + Math.cos(Date.now() * 0.0015 + i) * 40} 
+                  r={2 + Math.sin(Date.now() * 0.003 + i) * 1} 
+                  fill="#14b8a6" 
+                  opacity={0.4 + Math.sin(Date.now() * 0.004 + i) * 0.3}
+                  className="animate-fade-in"
+                />
+              ))}
+            </svg>
+          </div>
 
-          <TealBreathingOrb state={state} energy={energy} simulate onStateChange={setState} />
+          {/* Voice orb - centered */}
+          <div className="relative z-10">
+            <TealBreathingOrb state={state} energy={energy} simulate onStateChange={setState} />
+          </div>
         </div>
 
         {/* Primary actions */}
