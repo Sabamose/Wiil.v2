@@ -189,18 +189,6 @@ const OutboundCallDetails = ({ call, onBack }: OutboundCallDetailsProps) => {
             </div>
           </div>
 
-          {/* Data Collection */}
-          <div>
-            <h4 className="font-medium mb-3">Data Collection</h4>
-            <div className="space-y-3">
-              {Object.entries(call.dataCollected).map(([key, value]) => (
-                <div key={key} className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
-                  <span className="font-medium capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
-                  <span className="text-muted-foreground">{value || 'null'}</span>
-                </div>
-              ))}
-            </div>
-          </div>
         </TabsContent>
 
         {/* Transcription Tab */}
