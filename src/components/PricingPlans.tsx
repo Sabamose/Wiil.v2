@@ -73,38 +73,35 @@ export default function PricingPlans({
             }}
             aria-label={`${p.name} plan`}
           >
+            {/* Plan header with price */}
             <div style={s.cardHead}>
               <div style={s.planNameRow}>
-                <span style={s.planName}>{p.name}</span>
-                {p.id === bestId && <span style={s.badge}>Best value</span>}
+                <h3 style={s.planName}>{p.name}</h3>
+                {p.id === bestId && <span style={s.badge}>Most popular</span>}
               </div>
               <div style={s.priceRow}>
                 <span style={s.price}>${p.price}</span>
-                <span style={s.per}>/mo</span>
+                <span style={s.per}>/month</span>
               </div>
             </div>
 
+            {/* Key features - simplified */}
             <ul style={s.features}>
-              <li style={s.li}>
-                <strong>{fmt(p.mins)}</strong> minutes included
+              <li style={s.featureItem}>
+                <span style={s.featureValue}>{fmt(p.mins)}</span> minutes
               </li>
-              <li style={s.li}>
-                <strong>{p.assistants}</strong> assistants
+              <li style={s.featureItem}>
+                <span style={s.featureValue}>{p.assistants}</span> {p.assistants === 1 ? 'assistant' : 'assistants'}
               </li>
-              <li style={s.li}>
-                <strong>{p.numbers}</strong> numbers included (US)
+              <li style={s.featureItem}>
+                <span style={s.featureValue}>{p.numbers}</span> {p.numbers === 1 ? 'phone number' : 'phone numbers'}
               </li>
-              <li style={s.li}>
-                Overage <b>${OVERAGE_PER_MIN.toFixed(2)}/min</b>
-              </li>
-              <li style={s.li}>
-                Extra number <b>${EXTRA_NUMBER_PM.toFixed(2)}/mo</b>
-              </li>
-              <li style={s.li}>
-                Extra assistant <b>${EXTRA_ASSISTANT_PM.toFixed(2)}/mo</b>
+              <li style={s.featureItem}>
+                ${OVERAGE_PER_MIN.toFixed(2)}/min overage
               </li>
             </ul>
 
+            {/* CTA Button */}
             <button
               onClick={() => onSelect && onSelect(p.id, p)}
               style={{
@@ -113,7 +110,7 @@ export default function PricingPlans({
               }}
               aria-label={`Choose ${p.name}`}
             >
-              {p.id === "free" ? "Start free" : `Choose ${p.name}`}
+              {p.id === "free" ? "Get started" : `Choose ${p.name}`}
             </button>
           </div>
         ))}
@@ -175,92 +172,97 @@ const safeInt = (v: any, d = 0) => {
 
 function styles(accent: string) {
   return {
-    wrap: { maxWidth: 1100, margin: "0 auto", padding: "8px 16px 32px" },
-    estimator: {
-      border: "1px solid rgba(0,0,0,.06)",
-      background: "rgba(255,255,255,.9)",
-      backdropFilter: "saturate(120%) blur(6px)",
-      borderRadius: 16,
-      padding: 16,
-      marginBottom: 16,
-      boxShadow: "0 8px 24px rgba(0,0,0,.04)",
-    },
-    row: { display: "flex", gap: 12, flexWrap: "wrap" as const },
-    help: { marginTop: 6, fontSize: 12, color: "#64748b" },
+    wrap: { maxWidth: 1000, margin: "0 auto", padding: "0 16px 32px" },
 
     cards: {
       display: "flex",
-      gap: 16,
+      gap: 24,
       flexWrap: "wrap" as const,
       alignItems: "stretch",
       justifyContent: "center",
     },
     card: {
-      flex: "1 1 240px",
-      maxWidth: 260,
-      border: "1px solid rgba(0,0,0,.06)",
+      flex: "1 1 260px",
+      maxWidth: 280,
       background: "#fff",
-      borderRadius: 20,
-      padding: 16,
-      boxShadow: "0 8px 24px rgba(0,0,0,.04)",
+      borderRadius: 24,
+      padding: 32,
       display: "flex",
       flexDirection: "column" as const,
       justifyContent: "space-between",
+      transition: "all 0.2s ease",
+      cursor: "pointer",
     },
     cardBest: {
-      outline: `2px solid ${accent}`,
-      boxShadow: "0 20px 36px rgba(13,148,136,.15)",
-      transform: "translateY(-2px)",
+      background: "linear-gradient(135deg, rgba(13,148,136,0.02) 0%, rgba(13,148,136,0.08) 100%)",
+      border: `1px solid ${accent}20`,
+      transform: "translateY(-4px)",
+      boxShadow: "0 16px 40px rgba(13,148,136,.12)",
     },
-    cardHead: { marginBottom: 6 },
-    planNameRow: { display: "flex", justifyContent: "space-between", alignItems: "center" },
-    planName: { fontWeight: 700, fontSize: 16, color: "#0f172a" },
+    cardHead: { marginBottom: 24 },
+    planNameRow: { 
+      display: "flex", 
+      justifyContent: "space-between", 
+      alignItems: "center", 
+      marginBottom: 8 
+    },
+    planName: { 
+      fontWeight: 600, 
+      fontSize: 20, 
+      color: "#0f172a",
+      margin: 0 
+    },
     badge: {
       fontSize: 11,
+      fontWeight: 500,
       color: accent,
-      background: "rgba(13,148,136,.08)",
-      border: `1px solid ${accent}33`,
-      padding: "3px 6px",
-      borderRadius: 999,
-    },
-    priceRow: { display: "flex", alignItems: "baseline", gap: 4, marginTop: 8 },
-    price: { fontSize: 28, fontWeight: 700, color: "#0f172a" },
-    per: { fontSize: 12, color: "#64748b" },
-
-    features: { listStyle: "none", padding: 0, margin: "10px 0 12px" },
-    li: { fontSize: 14, color: "#334155", margin: "6px 0" },
-
-    divider: { height: 1, background: "rgba(0,0,0,.06)", margin: "8px 0 10px" },
-
-    estimateBox: {
-      background: "rgba(13,148,136,.05)",
-      border: `1px solid ${accent}22`,
+      background: `${accent}15`,
+      padding: "4px 8px",
       borderRadius: 12,
-      padding: "8px 10px",
-      marginBottom: 12,
     },
-    estimateLine: { fontSize: 13, color: "#0f172a", display: "flex", justifyContent: "space-between" },
-    estimateCost: { fontWeight: 700, color: accent, marginLeft: 8 },
-    estimateNote: { marginTop: 4, fontSize: 12, color: "#475569" },
+    priceRow: { display: "flex", alignItems: "baseline", gap: 4 },
+    price: { fontSize: 36, fontWeight: 700, color: "#0f172a" },
+    per: { fontSize: 14, color: "#64748b", fontWeight: 500 },
+
+    features: { 
+      listStyle: "none", 
+      padding: 0, 
+      margin: "0 0 32px", 
+      flex: 1 
+    },
+    featureItem: { 
+      fontSize: 15, 
+      color: "#475569", 
+      margin: "12px 0",
+      display: "flex",
+      alignItems: "center"
+    },
+    featureValue: { 
+      fontWeight: 600, 
+      color: "#0f172a", 
+      marginRight: 6,
+      minWidth: "fit-content"
+    },
 
     btn: {
       width: "100%",
-      padding: "10px 12px",
-      borderRadius: 12,
+      padding: "14px 20px",
+      borderRadius: 16,
       fontWeight: 600,
+      fontSize: 15,
       cursor: "pointer",
-      border: "1px solid rgba(0,0,0,.06)",
+      border: "none",
+      transition: "all 0.2s ease",
     },
     btnPrimary: {
-      background: `linear-gradient(180deg, ${lighten(accent, .1)} 0%, ${accent} 100%)`,
+      background: `linear-gradient(135deg, ${accent} 0%, ${lighten(accent, -0.1)} 100%)`,
       color: "#fff",
-      boxShadow: "0 12px 24px rgba(13,148,136,.18)",
-      border: "0",
+      boxShadow: "0 8px 24px rgba(13,148,136,.25)",
     },
     btnSecondary: {
-      background: "#fff",
+      background: "#f8fafc",
       color: accent,
-      border: `1px solid ${accent}55`,
+      border: `1px solid ${accent}30`,
     },
   };
 }
