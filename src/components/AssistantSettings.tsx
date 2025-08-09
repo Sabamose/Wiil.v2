@@ -619,21 +619,37 @@ IMPORTANT GUIDELINES:
 
       {/* Tab Navigation */}
       <div className="border-b border-brand-teal/20 px-8 bg-transparent">
-        <div className="flex space-x-8">
-          {(['Industry', 'Type', 'Voice', 'Role', 'Actions', 'Instructions', 'Knowledge', 'Phone'] as const).map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`py-4 px-1 border-b-2 text-sm font-medium transition-colors ${
-                activeTab === tab
-                  ? 'border-brand-teal text-brand-teal'
-                  : 'border-transparent text-muted-foreground hover:text-brand-teal hover:border-brand-teal/50'
-              }`}
-              aria-current={activeTab === tab ? 'page' : undefined}
-            >
-              {tab}
-            </button>
-          ))}
+        <div className="flex space-x-2">
+          {([
+            { id: 'Industry', icon: User, label: 'Industry' },
+            { id: 'Type', icon: PhoneIncoming, label: 'Type' },
+            { id: 'Voice', icon: Volume2, label: 'Voice' },
+            { id: 'Role', icon: Brain, label: 'Role' },
+            { id: 'Actions', icon: Settings2, label: 'Actions' },
+            { id: 'Instructions', icon: MessageSquare, label: 'Instructions' },
+            { id: 'Knowledge', icon: FileText, label: 'Knowledge' },
+            { id: 'Phone', icon: Phone, label: 'Phone' }
+          ] as const).map((tab) => {
+            const Icon = tab.icon;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`relative flex items-center gap-2 py-3 px-4 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  activeTab === tab.id
+                    ? 'bg-brand-teal text-white shadow-md border-2 border-brand-teal'
+                    : 'bg-background/50 text-muted-foreground hover:text-brand-teal hover:bg-brand-teal/10 border-2 border-transparent hover:border-brand-teal/30'
+                }`}
+                aria-current={activeTab === tab.id ? 'page' : undefined}
+              >
+                <Icon className={`w-4 h-4 ${activeTab === tab.id ? 'text-white' : 'text-muted-foreground'}`} />
+                <span>{tab.label}</span>
+                {activeTab === tab.id && (
+                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-brand-teal rounded-full" />
+                )}
+              </button>
+            );
+          })}
         </div>
       </div>
 
