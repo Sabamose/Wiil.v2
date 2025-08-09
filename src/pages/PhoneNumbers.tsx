@@ -110,7 +110,7 @@ const PhoneNumbers = () => {
           <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center mb-8 gap-4">
             <div>
               <h1 className="text-2xl font-semibold text-gray-900">Phone Numbers</h1>
-              <p className="text-gray-600 mt-1">Manage your purchased phone numbers & connect Assistants</p>
+              <p className="text-gray-600 mt-1">Manage your purchased phone numbers and connect Assistant to it</p>
             </div>
             <Button onClick={() => setIsPurchaseModalOpen(true)} className="flex items-center justify-center gap-2 w-full lg:w-auto bg-teal-600 hover:bg-teal-700 text-white">
               <Plus className="w-4 h-4" />
