@@ -173,7 +173,7 @@ function MiniAnalytics() {
   return (
     <div className="max-w-5xl mx-auto px-6 grid sm:grid-cols-3 gap-3">
       {[{t:"Calls handled today",v:n1},{t:"Success rate",v:`${Math.round(n2*100)}%`},{t:"Avg. seconds to answer",v:n3}].map((x,i)=>(
-        <div key={i} className="rounded-3xl border border-neutral-200 p-5 flex items-center justify-between">
+        <div key={i} className="rounded-3xl border border-neutral-200 p-5 flex flex-col items-center justify-center text-center gap-1">
           <div className="text-sm text-neutral-500">{x.t}</div>
           <div className="text-2xl font-semibold text-teal-600">{x.v}</div>
         </div>
