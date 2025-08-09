@@ -105,38 +105,6 @@ export default function PricingPlans({
               </li>
             </ul>
 
-            <div style={s.divider} />
-
-            <div style={s.estimateBox} aria-live="polite">
-              <div style={s.estimateLine}>
-                Est. monthly with your inputs:
-                <span style={s.estimateCost}>${p.cost.toFixed(2)}</span>
-              </div>
-              {p.overageMins > 0 && (
-                <div style={s.estimateNote}>
-                  {fmt(p.overageMins)} mins overage • $
-                  {(p.overageMins * OVERAGE_PER_MIN).toFixed(2)}
-                </div>
-              )}
-              {(p.extraNumbers > 0 || p.extraAssist > 0) && (
-                <div style={s.estimateNote}>
-                  {!!p.extraNumbers && (
-                    <>
-                      {p.extraNumbers} extra numbers • $
-                      {(p.extraNumbers * EXTRA_NUMBER_PM).toFixed(2)}
-                    </>
-                  )}
-                  {!!p.extraNumbers && !!p.extraAssist && "  ·  "}
-                  {!!p.extraAssist && (
-                    <>
-                      {p.extraAssist} extra assistants • $
-                      {(p.extraAssist * EXTRA_ASSISTANT_PM).toFixed(2)}
-                    </>
-                  )}
-                </div>
-              )}
-            </div>
-
             <button
               onClick={() => onSelect && onSelect(p.id, p)}
               style={{
