@@ -210,19 +210,6 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
         </div>
       </Card>
 
-      {/* Quick Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {Object.entries(statusColors).map(([status, color]) => {
-          const count = filteredBookings.filter(b => b.status === status).length;
-          return (
-            <Card key={status} className="p-4 text-center">
-              <div className={cn("w-3 h-3 rounded-full mx-auto mb-2", color)} />
-              <div className="text-2xl font-bold">{count}</div>
-              <div className="text-sm text-muted-foreground capitalize">{status}</div>
-            </Card>
-          );
-        })}
-      </div>
 
       <style>{`
         /* Complete override of react-big-calendar styles */
