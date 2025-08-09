@@ -598,46 +598,6 @@ export default function HomePageTealV2() {
             </svg>
           </div>
 
-          {/* Outer ripple rings - centered */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <svg className="pointer-events-none opacity-25" height={400} width={400} viewBox="0 0 400 400">
-              <defs>
-                <radialGradient id="ripple" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#14b8a6" stopOpacity="0" />
-                  <stop offset="70%" stopColor="#14b8a6" stopOpacity="0.4" />
-                  <stop offset="100%" stopColor="#0f766e" stopOpacity="0" />
-                </radialGradient>
-              </defs>
-              {[80, 120, 160, 200].map((r, i) => (
-                <circle key={i} 
-                  cx={200} 
-                  cy={200} 
-                  r={r} 
-                  fill="none" 
-                  stroke="url(#ripple)" 
-                  strokeWidth={2}
-                  className="animate-pulse"
-                  style={{animationDelay: `${i * 0.8}s`, animationDuration: '3s'}}
-                />
-              ))}
-            </svg>
-          </div>
-
-          {/* Floating particles - centered */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <svg className="pointer-events-none opacity-60" height={300} width={500} viewBox="0 0 500 300">
-              {Array.from({length: 12}).map((_, i) => (
-                <circle key={i} 
-                  cx={100 + i * 30 + Math.sin(Date.now() * 0.002 + i) * 20} 
-                  cy={150 + Math.cos(Date.now() * 0.0015 + i) * 40} 
-                  r={2 + Math.sin(Date.now() * 0.003 + i) * 1} 
-                  fill="#14b8a6" 
-                  opacity={0.4 + Math.sin(Date.now() * 0.004 + i) * 0.3}
-                  className="animate-fade-in"
-                />
-              ))}
-            </svg>
-          </div>
 
           {/* Voice orb - centered */}
           <div className="relative z-10">
