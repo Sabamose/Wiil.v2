@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Navigation from "./Navigation";
-import ChatPanel from "./ChatPanel";
 import TemplateCard from "@/components/TemplateCard";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useNavigate } from "react-router-dom";
@@ -310,11 +309,6 @@ export default function HomePageTealV2() {
           <div className="relative z-10">
             <TealBreathingOrb state={state} energy={energy} simulate onStateChange={setState} />
           </div>
-        </div>
-
-        {/* Chat demo (UI-only) */}
-        <div className="mt-8 flex items-center justify-center">
-          <ChatPanel />
         </div>
 
         {/* Primary actions */}
