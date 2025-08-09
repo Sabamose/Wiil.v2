@@ -78,10 +78,10 @@ const CampaignDetails = ({ campaign, onBack, onRecipientClick }: CampaignDetails
                   </TableHead>
                   {dynamicKeys.map((key) => (
                     <TableHead key={key} className="px-4 py-3">
-                      <div className="flex items-center gap-2">
-                        <span>{ }</span>
-                        Dynamic Variable
-                      </div>
+                       <div className="flex items-center gap-2">
+                         <span>📋</span>
+                         Data
+                       </div>
                       <div className="text-xs text-gray-500">{key}</div>
                     </TableHead>
                   ))}
