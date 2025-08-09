@@ -57,6 +57,14 @@ const Index = () => {
               <h1 className="text-xl md:text-2xl font-semibold text-brand-teal">My Assistants</h1>
               <div className="h-0.5 w-24 bg-brand-teal/30 rounded-full mt-2" />
             </header>
+            <div className="mb-4">
+              <button 
+                onClick={() => setIsCreationFlowOpen(true)} 
+                className="px-4 py-2 bg-teal-600 text-white rounded-md text-sm font-medium hover:bg-teal-700 transition-colors"
+              >
+                + Create Assistant
+              </button>
+            </div>
             <section className="rounded-xl border border-brand-teal/20 bg-background shadow-sm">
               <div className="p-2 md:p-4">
                 <ExistingAssistantsSection assistants={assistants} loading={loading} onRefresh={fetchAssistants} />
