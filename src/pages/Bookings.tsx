@@ -7,6 +7,7 @@ import { BookingCalendar } from '@/components/BookingCalendar';
 import { BookingDetailsModal } from '@/components/BookingDetailsModal';
 import { useBookings } from '@/hooks/useBookings';
 import { useAssistants } from '@/hooks/useAssistants';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { Booking } from '@/types/booking';
 
 const Bookings = () => {
@@ -14,7 +15,7 @@ const Bookings = () => {
   const { assistants } = useAssistants();
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const isMobile = useIsMobile();
   const handleBookingSelect = (booking: Booking) => {
     setSelectedBooking(booking);
     setIsModalOpen(true);
@@ -35,12 +36,11 @@ const Bookings = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Subtle grid background */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-20 pointer-events-none" />
+      {/* background grid moved to main for proper stacking */}
       
       <Navigation />
       
-      <main className="container mx-auto px-4 py-8 relative">
+      <main className={`${isMobile ? 'ml-0' : 'ml-60'} mt-16 p-4 md:p-8 relative animate-fade-in bg-[linear-gradient(to_bottom,rgba(0,0,0,0)_23px,rgba(0,0,0,0)_23px),linear-gradient(to_right,hsl(var(--brand-teal)/0.06)_1px,transparent_1px)] bg-[size:100%_24px,24px_100%]`}>
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
             <h1 className="text-4xl font-bold text-brand-teal">Bookings</h1>
