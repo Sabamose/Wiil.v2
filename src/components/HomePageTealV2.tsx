@@ -51,7 +51,7 @@ function ExtendedWavesTeal({ running = true }: { running?: boolean }) {
 }
 
 // ---------- WaveNet overlay (outer long waves) ----------
-function WaveNet({ width = 1000, height = 420, r = 170, speed = 0.3 }: { width?: number; height?: number; r?: number; speed?: number }) {
+function WaveNet({ width = 1000, height = 420, r = 170, speed = 0.6 }: { width?: number; height?: number; r?: number; speed?: number }) {
   const [t, setT] = React.useState(0);
   const id = React.useMemo(() => `net-${Math.random().toString(36).slice(2)}`, []);
   React.useEffect(() => {
@@ -94,7 +94,7 @@ function WaveNet({ width = 1000, height = 420, r = 170, speed = 0.3 }: { width?:
         {offsets.map((off, i) => (
           <path
             key={i}
-            d={build(off, 12 + i * 0.6, 0.010 + i * 0.0006, 0.4 + i * 0.01)}
+            d={build(off, 12 + i * 0.6, 0.010 + i * 0.0006, 0.7 + i * 0.015)}
             stroke={`url(#${id}-grad)`}
             strokeOpacity={0.45 - i * 0.02}
             strokeWidth={2.2}
