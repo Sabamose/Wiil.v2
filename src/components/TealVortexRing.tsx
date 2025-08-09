@@ -207,15 +207,6 @@ export default function TealVortexRing({
             <stop offset="100%" stopColor="#5eead4" />
           </linearGradient>
         </defs>
-        <g style={{ transformOrigin: `${cx}px ${cy}px` }} className="rib slow">
-          <path d={ribbons[0]} fill="none" stroke={`url(#${uid}-rib)`} strokeOpacity={0.22} strokeWidth={2.4} />
-        </g>
-        <g style={{ transformOrigin: `${cx}px ${cy}px` }} className="rib mid">
-          <path d={ribbons[1]} fill="none" stroke={`url(#${uid}-rib)`} strokeOpacity={0.3} strokeWidth={2.2} />
-        </g>
-        <g style={{ transformOrigin: `${cx}px ${cy}px` }} className="rib fast">
-          <path d={ribbons[2]} fill="none" stroke={`url(#${uid}-rib)`} strokeOpacity={0.28} strokeWidth={1.8} />
-        </g>
 
         {/* CTA pill at center */}
         <foreignObject x={cx - 160} y={cy - 22} width={320} height={44}>
