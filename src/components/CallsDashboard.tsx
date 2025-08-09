@@ -79,7 +79,7 @@ const mockDataVariables: DataVariable[] = [
 const mockCampaigns: Campaign[] = [
   {
     id: "1",
-    name: "follow up 1",
+    name: "SEO Audit Services",
     recipients: 6,
     agent: "Valeria_follow up",
     status: "completed",
@@ -94,7 +94,7 @@ const mockCampaigns: Campaign[] = [
   },
   {
     id: "2",
-    name: "Local Restaurant Outreach",
+    name: "Food Delivery Partnership",
     recipients: 12,
     agent: "Valeria",
     status: "completed",
@@ -109,7 +109,7 @@ const mockCampaigns: Campaign[] = [
   },
   {
     id: "3",
-    name: "Tech Startup Lead Gen",
+    name: "Cloud Software Demo",
     recipients: 28,
     agent: "Valeria",
     status: "completed",
