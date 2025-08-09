@@ -105,7 +105,7 @@ export default function SeamlessLovableChatSection({
 
   // --- styles ---
   const styles: Record<string, React.CSSProperties> = {
-    wrap: { maxWidth: 920, margin: "0 auto", padding: "4px 0" },
+    wrap: { maxWidth: 1200, margin: "0 auto", padding: "4px 0" },
     bar: {
       borderRadius: 24,
       border: "1px solid rgba(0,0,0,.06)",
