@@ -15,8 +15,8 @@ const Navigation = () => {
     return `flex items-center gap-3 px-6 py-3 transition-all relative ${isActive ? "text-brand-teal bg-brand-teal/8 font-medium before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-brand-teal before:rounded-r-full" : "text-gray-600 hover:bg-teal-600/4 hover:text-gray-900"}`;
   };
   const navigationItems = [{
-    href: "/",
-    path: "/",
+    href: "/home",
+    path: "/home",
     icon: Home,
     label: "Home"
   }, {
@@ -25,8 +25,8 @@ const Navigation = () => {
     icon: MessageCircle,
     label: "Conversations"
   }, {
-    href: "/assistants",
-    path: "/assistants",
+    href: "/",
+    path: "/",
     icon: Bot,
     label: "My Assistants"
   }, {
