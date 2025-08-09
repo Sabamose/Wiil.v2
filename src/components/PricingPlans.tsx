@@ -71,7 +71,31 @@ export default function PricingPlans({
               ...s.card,
               ...(p.id === bestId ? s.cardBest : null),
             }}
-            aria-label={`${p.name} plan`}
+            onMouseEnter={(e) => {
+              const target = e.currentTarget;
+              Object.assign(target.style, {
+                ...s.card,
+                ...(p.id === bestId ? s.cardBest : null),
+                ...(p.id === bestId ? s.cardBestHover : s.cardHover),
+              });
+            }}
+            onMouseLeave={(e) => {
+              const target = e.currentTarget;
+              Object.assign(target.style, {
+                ...s.card,
+                ...(p.id === bestId ? s.cardBest : null),
+              });
+            }}
+            onClick={() => onSelect && onSelect(p.id, p)}
+            aria-label={`Choose ${p.name} plan`}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onSelect && onSelect(p.id, p);
+              }
+            }}
           >
             {/* Plan header with price */}
             <div style={s.cardHead}>
@@ -103,7 +127,10 @@ export default function PricingPlans({
 
             {/* CTA Button */}
             <button
-              onClick={() => onSelect && onSelect(p.id, p)}
+              onClick={(e) => {
+                e.stopPropagation();
+                onSelect && onSelect(p.id, p);
+              }}
               style={{
                 ...s.btn,
                 ...(p.id === bestId ? s.btnPrimary : s.btnSecondary),
@@ -192,14 +219,25 @@ function styles(accent: string) {
       display: "flex",
       flexDirection: "column" as const,
       justifyContent: "space-between",
-      transition: "all 0.2s ease",
+      transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
       cursor: "pointer",
+      border: "1px solid rgba(0,0,0,0.04)",
+      boxShadow: "0 4px 12px rgba(0,0,0,0.02)",
+    },
+    cardHover: {
+      transform: "translateY(-8px) scale(1.02)",
+      boxShadow: "0 20px 40px rgba(13,148,136,0.15)",
+      borderColor: `${accent}20`,
     },
     cardBest: {
       background: "linear-gradient(135deg, rgba(13,148,136,0.02) 0%, rgba(13,148,136,0.08) 100%)",
       border: `1px solid ${accent}20`,
       transform: "translateY(-4px)",
       boxShadow: "0 16px 40px rgba(13,148,136,.12)",
+    },
+    cardBestHover: {
+      transform: "translateY(-12px) scale(1.02)",
+      boxShadow: "0 24px 48px rgba(13,148,136,0.25)",
     },
     cardHead: { marginBottom: 24 },
     planNameRow: { 
