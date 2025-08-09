@@ -47,12 +47,12 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-br from-teal-50/30 to-white">
         {currentView === "list" && <Navigation />}
         
         {/* Main Content */}
         {currentView === "list" ? (
-          <main className={`${isMobile ? 'ml-0' : 'ml-60'} mt-16 p-4 md:p-8 relative animate-fade-in bg-gradient-to-br from-teal-50/30 to-white`}>
+          <main className={`${isMobile ? 'ml-0' : 'ml-60'} mt-16 p-4 md:p-8 relative animate-fade-in`}>
             <header className="mb-6 md:mb-8">
               <h1 className="text-xl md:text-2xl font-semibold text-brand-teal">My Assistants</h1>
               <div className="h-0.5 w-24 bg-brand-teal/30 rounded-full mt-2" />
