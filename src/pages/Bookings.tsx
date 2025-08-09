@@ -1,21 +1,26 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calendar, Users, Plus, Phone } from 'lucide-react';
+import { Calendar, Users, Plus, Phone, Database, Trash2 } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import { BookingCalendar } from '@/components/BookingCalendar';
 import { BookingDetailsModal } from '@/components/BookingDetailsModal';
 import { useBookings } from '@/hooks/useBookings';
 import { useAssistants } from '@/hooks/useAssistants';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useToast } from '@/hooks/use-toast';
 import { Booking } from '@/types/booking';
+import { generateSimulatedBookings, clearSimulatedBookings } from '@/lib/bookingSimulation';
 
 const Bookings = () => {
   const { bookings, isLoading, updateBooking } = useBookings();
   const { assistants } = useAssistants();
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [isClearing, setIsClearing] = useState(false);
   const isMobile = useIsMobile();
+  const { toast } = useToast();
   const handleBookingSelect = (booking: Booking) => {
     setSelectedBooking(booking);
     setIsModalOpen(true);
@@ -34,6 +39,53 @@ const Bookings = () => {
 
   const confirmedBookings = bookings.filter(b => b.status === 'confirmed');
 
+  const handleGenerateBookings = async () => {
+    if (!assistants.length) {
+      toast({
+        title: "No assistants found",
+        description: "Create some assistants first to generate bookings.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsGenerating(true);
+    try {
+      await generateSimulatedBookings(assistants);
+      toast({
+        title: "Bookings generated",
+        description: "Sample bookings have been created successfully.",
+      });
+    } catch (error) {
+      toast({
+        title: "Error generating bookings",
+        description: error instanceof Error ? error.message : "Failed to generate bookings",
+        variant: "destructive",
+      });
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const handleClearBookings = async () => {
+    setIsClearing(true);
+    try {
+      await clearSimulatedBookings();
+      toast({
+        title: "Bookings cleared",
+        description: "All simulated bookings have been removed.",
+      });
+    } catch (error) {
+      toast({
+        title: "Error clearing bookings",
+        description: error instanceof Error ? error.message : "Failed to clear bookings",
+        variant: "destructive",
+      });
+    } finally {
+      setIsClearing(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* background grid moved to main for proper stacking */}
@@ -50,7 +102,7 @@ const Bookings = () => {
         </div>
 
         {/* Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
           <Card className="border-border/50 hover:shadow-lg transition-all duration-300 hover:border-brand-teal/20">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Today's Bookings</CardTitle>
@@ -86,16 +138,35 @@ const Bookings = () => {
 
           <Card className="border-border/50 hover:shadow-lg transition-all duration-300 hover:border-brand-teal/20">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Quick Action</CardTitle>
-              <Plus className="h-4 w-4 text-brand-teal" />
+              <CardTitle className="text-sm font-medium">Generate Data</CardTitle>
+              <Database className="h-4 w-4 text-brand-teal" />
             </CardHeader>
             <CardContent>
               <Button 
                 size="sm" 
-                className="w-full bg-brand-teal hover:bg-brand-teal-hover text-brand-teal-foreground"
-                onClick={() => window.open('https://cal.com', '_blank')}
+                className="w-full bg-brand-teal hover:bg-brand-teal-hover text-brand-teal-foreground mb-2"
+                onClick={handleGenerateBookings}
+                disabled={isGenerating}
               >
-                Open Cal.com
+                {isGenerating ? "Generating..." : "Sample Bookings"}
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="border-border/50 hover:shadow-lg transition-all duration-300 hover:border-brand-teal/20">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Clear Data</CardTitle>
+              <Trash2 className="h-4 w-4 text-brand-teal" />
+            </CardHeader>
+            <CardContent>
+              <Button 
+                size="sm" 
+                variant="outline"
+                className="w-full"
+                onClick={handleClearBookings}
+                disabled={isClearing}
+              >
+                {isClearing ? "Clearing..." : "Clear All"}
               </Button>
             </CardContent>
           </Card>
