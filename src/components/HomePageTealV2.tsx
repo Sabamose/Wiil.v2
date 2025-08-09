@@ -565,7 +565,7 @@ export default function HomePageTealV2() {
       <section className="relative max-w-6xl mx-auto px-6 pt-6 pb-14">
         <div className="text-center mb-8">
           <h1 className="text-4xl md:text-5xl font-semibold tracking-tight">Welcome back, Saba! 👋</h1>
-          <p className="mt-3 text-neutral-600">Create, maage and deploy intelligent AI Assistants</p>
+          <p className="mt-3 text-neutral-600">Create, manage and deploy intelligent AI Assistants</p>
         </div>
 
         <div className="relative flex items-center justify-center min-h-[500px]">
