@@ -384,37 +384,65 @@ const CallsDashboard = () => {
       </Card>
 
       {/* Liquid Glass Dock */}
-      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 px-3">
-        <div className="relative flex items-center gap-2 rounded-full border border-border bg-background/80 backdrop-blur-xl shadow-lg px-2 py-1">
-          <span
-            aria-hidden
-            className="pointer-events-none absolute inset-0 rounded-full opacity-70 blur-lg"
-            style={{
-              background:
-                "radial-gradient(120% 80% at 0% 50%, hsl(var(--primary) / .22) 0%, transparent 60%)",
-              animation: "liquidPan 6s ease-in-out infinite",
-            }}
-          />
-
-          <Button
-            size="sm"
+      <div 
+        className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50"
+        style={{
+          background: 'rgba(255, 255, 255, 0.15)',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          borderRadius: '50px',
+          padding: '8px',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+          position: 'relative',
+          overflow: 'hidden'
+        }}
+      >
+        {/* Animated liquid highlight */}
+        <div 
+          className="absolute inset-0 opacity-30"
+          style={{
+            background: 'radial-gradient(circle at 30% 50%, rgba(13, 148, 136, 0.4) 0%, transparent 70%)',
+            borderRadius: '50px',
+            animation: 'liquidMove 4s ease-in-out infinite'
+          }}
+        />
+        
+        <div className="relative flex items-center gap-3">
+          <button
             onClick={() => setView('incoming')}
-            className={`rounded-full px-4 ${view === 'incoming' ? 'bg-primary text-primary-foreground shadow hover:bg-primary/90' : 'bg-background text-foreground hover:bg-primary/10 hover:text-primary border border-border'}`}
+            className={`flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+              view === 'incoming' 
+                ? 'bg-teal-600 text-white shadow-lg transform scale-105' 
+                : 'bg-white/20 text-gray-800 hover:bg-white/30 hover:transform hover:scale-105'
+            }`}
+            style={{ minWidth: '140px', justifyContent: 'center' }}
           >
-            <PhoneIncoming className="mr-2 h-4 w-4" /> Incoming
-          </Button>
-
-          <Button
-            size="sm"
+            <PhoneIncoming className="h-5 w-5" />
+            Incoming
+          </button>
+          
+          <button
             onClick={() => setView('campaigns')}
-            className={`rounded-full px-4 ${['campaigns','create-campaign','campaign-details'].includes(view) ? 'bg-primary text-primary-foreground shadow hover:bg-primary/90' : 'bg-background text-foreground hover:bg-primary/10 hover:text-primary border border-border'}`}
+            className={`flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+              ['campaigns', 'create-campaign', 'campaign-details'].includes(view)
+                ? 'bg-teal-600 text-white shadow-lg transform scale-105' 
+                : 'bg-white/20 text-gray-800 hover:bg-white/30 hover:transform hover:scale-105'
+            }`}
+            style={{ minWidth: '140px', justifyContent: 'center' }}
           >
-            <PhoneOutgoing className="mr-2 h-4 w-4" /> Outgoing
-          </Button>
+            <PhoneOutgoing className="h-5 w-5" />
+            Outgoing
+          </button>
         </div>
       </div>
 
-      <style>{`@keyframes liquidPan { 0% { transform: translateX(-15%);} 50% { transform: translateX(15%);} 100% { transform: translateX(-15%);} }`}</style>
+      <style>{`
+        @keyframes liquidMove {
+          0% { transform: translateX(-20px); }
+          50% { transform: translateX(20px); }
+          100% { transform: translateX(-20px); }
+        }
+      `}</style>
     </div>
   );
 };
