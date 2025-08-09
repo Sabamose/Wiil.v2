@@ -149,12 +149,6 @@ function TealBreathingOrb({ width = 480, height = 400, orb = 330, state = "idle"
         </foreignObject>
       </svg>
 
-      {/* Accessible label below */}
-      <div role="status" aria-live="polite" className="absolute left-1/2" style={{ top: cy + r + 24, transform: "translateX(-50%)" }}>
-        <div className="px-3 py-1 rounded-full text-white bg-black/60 border border-white/10 text-sm font-medium whitespace-nowrap">
-          {label}
-        </div>
-      </div>
     </div>
   );
 }
