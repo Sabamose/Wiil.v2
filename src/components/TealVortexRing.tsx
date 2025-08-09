@@ -20,7 +20,7 @@ export default function TealVortexRing({
   state = "idle",
   energy = 0,
   accent = "#0d9488", // teal-600
-  label = "Tap to start",
+  label = "Tap to conversate",
   onTap,
 }: {
   width?: number;
@@ -233,7 +233,7 @@ export default function TealVortexRing({
 
 function niceState(s: VoiceState) {
   switch (s) {
-    case "idle": return "Tap to start";
+    case "idle": return "Tap to conversate";
     case "listening": return "Listening…";
     case "thinking": return "Thinking…";
     case "speaking": return "Talk to interrupt";

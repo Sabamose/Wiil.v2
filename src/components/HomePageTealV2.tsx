@@ -84,7 +84,7 @@ function TealBreathingOrb({ width = 480, height = 400, orb = 330, state = "idle"
 
   const label = useMemo(() => {
     switch (state) {
-      case "idle": return "Tap to start";
+      case "idle": return "Tap to conversate";
       case "listening": return "Listening…";
       case "thinking": return "Thinking…";
       case "speaking": return "Talk to interrupt";
