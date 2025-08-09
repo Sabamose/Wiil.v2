@@ -97,7 +97,7 @@ const ExistingAssistantsSection = ({
   };
 
   return <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-      <button onClick={handleCreate} className="absolute top-4 right-4 px-4 py-2 bg-teal-600 text-white rounded-md text-sm font-medium hover:bg-teal-700 transition-colors z-10">
+      <button onClick={handleCreate} className="absolute top-8 right-6 px-4 py-2 bg-teal-600 text-white rounded-md text-sm font-medium hover:bg-teal-700 transition-colors z-10">
         + Create Assistant
       </button>
 
