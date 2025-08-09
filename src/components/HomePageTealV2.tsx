@@ -233,11 +233,6 @@ export default function HomePageTealV2() {
       {/* Topbar */}
       <header className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
         <div className="flex items-center gap-2 text-xl font-semibold"><span className="inline-grid place-items-center w-8 h-8 rounded-lg bg-teal-600 text-white">W</span> Will</div>
-        <nav className="hidden md:flex gap-6 text-sm text-neutral-600">
-          <a className="hover:text-neutral-900" href="#features">Features</a>
-          <a className="hover:text-neutral-900" href="#pricing">Pricing</a>
-          <a className="hover:text-neutral-900" href="#docs">Docs</a>
-        </nav>
       </header>
 
       {/* Hero */}
