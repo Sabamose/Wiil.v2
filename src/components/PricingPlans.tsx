@@ -62,33 +62,6 @@ export default function PricingPlans({
 
   return (
     <section style={s.wrap} aria-label="Pricing">
-      {/* Estimator Controls */}
-      <div style={s.estimator}>
-        <div style={s.row}>
-          <Control
-            label="Expected minutes / month"
-            value={expectedMins}
-            onChange={(v) => setExpectedMins(safeInt(v, 0))}
-            step={100}
-          />
-          <Control
-            label="Phone numbers"
-            value={neededNumbers}
-            onChange={(v) => setNeededNumbers(safeInt(v, 0))}
-          />
-          <Control
-            label="Assistants"
-            value={neededAssistants}
-            onChange={(v) => setNeededAssistants(safeInt(v, 0))}
-          />
-        </div>
-        <div style={s.help}>
-          Overage for all plans: <b>${OVERAGE_PER_MIN.toFixed(2)}/min</b>. Extra
-          numbers: <b>${EXTRA_NUMBER_PM.toFixed(2)}/mo</b>. Extra assistants:{" "}
-          <b>${EXTRA_ASSISTANT_PM.toFixed(2)}/mo</b>.
-        </div>
-      </div>
-
       {/* Cards */}
       <div style={s.cards}>
         {estimates.map((p) => (
