@@ -100,57 +100,41 @@ const Bookings = () => {
         </div>
 
         {/* Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
-          <Card className="border-border/50 hover:shadow-lg transition-all duration-300 hover:border-brand-teal/20">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Today's Bookings</CardTitle>
-              <Calendar className="h-4 w-4 text-brand-teal" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{todaysBookings.length}</div>
-              <p className="text-xs text-muted-foreground">Scheduled for today</p>
-            </CardContent>
-          </Card>
-          
-          <Card className="border-border/50 hover:shadow-lg transition-all duration-300 hover:border-brand-teal/20">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Bookings</CardTitle>
-              <Users className="h-4 w-4 text-brand-teal" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{bookings.length}</div>
-              <p className="text-xs text-muted-foreground">All appointments</p>
-            </CardContent>
-          </Card>
+        <div className="flex justify-center mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl">
+            <Card className="border-border/50 hover:shadow-lg transition-all duration-300 hover:border-brand-teal/20">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Today's Bookings</CardTitle>
+                <Calendar className="h-4 w-4 text-brand-teal" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{todaysBookings.length}</div>
+                <p className="text-xs text-muted-foreground">Scheduled for today</p>
+              </CardContent>
+            </Card>
+            
+            <Card className="border-border/50 hover:shadow-lg transition-all duration-300 hover:border-brand-teal/20">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Total Bookings</CardTitle>
+                <Users className="h-4 w-4 text-brand-teal" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{bookings.length}</div>
+                <p className="text-xs text-muted-foreground">All appointments</p>
+              </CardContent>
+            </Card>
 
-          <Card className="border-border/50 hover:shadow-lg transition-all duration-300 hover:border-brand-teal/20">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Confirmed</CardTitle>
-              <Phone className="h-4 w-4 text-brand-teal" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{confirmedBookings.length}</div>
-              <p className="text-xs text-muted-foreground">Ready to go</p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-border/50 hover:shadow-lg transition-all duration-300 hover:border-brand-teal/20">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Generate Data</CardTitle>
-              <Database className="h-4 w-4 text-brand-teal" />
-            </CardHeader>
-            <CardContent>
-              <Button 
-                size="sm" 
-                className="w-full bg-brand-teal hover:bg-brand-teal-hover text-brand-teal-foreground mb-2"
-                onClick={handleGenerateBookings}
-                disabled={isGenerating}
-              >
-                {isGenerating ? "Generating..." : "Sample Bookings"}
-              </Button>
-            </CardContent>
-          </Card>
-
+            <Card className="border-border/50 hover:shadow-lg transition-all duration-300 hover:border-brand-teal/20">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Confirmed</CardTitle>
+                <Phone className="h-4 w-4 text-brand-teal" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{confirmedBookings.length}</div>
+                <p className="text-xs text-muted-foreground">Ready to go</p>
+              </CardContent>
+            </Card>
+          </div>
         </div>
 
         {/* Calendar Component */}
