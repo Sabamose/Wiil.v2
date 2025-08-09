@@ -184,7 +184,7 @@ const PhoneNumbers = () => {
                       {phoneNumber.assignedAssistant ? (
                         <span className="text-gray-900 text-sm">{phoneNumber.assignedAssistant.name}</span>
                       ) : (
-                        <span className="text-teal-600 text-sm">
+                        <span className="text-teal-600 text-sm cursor-pointer hover:text-teal-700 hover:scale-105 transition-all duration-200 hover:font-semibold hover:underline inline-block">
                           {isMobile ? "Connect" : "Click here to Connect Assistant"}
                         </span>
                       )}
