@@ -82,18 +82,18 @@ export default function SeamlessLovableChatSection({
         .enhanced-secondary:hover { transform: scale(1.02) !important; background: rgba(13,148,136,0.05) !important; }
         .chat-contour { 
           position: absolute !important; 
-          inset: -4px !important; 
-          border-radius: 28px !important; 
-          background: linear-gradient(90deg, #0d9488, #14b8a6, #06b6d4, #0d9488, #14b8a6) !important; 
-          background-size: 400% 100% !important; 
+          inset: -2px !important; 
+          border-radius: 26px !important; 
+          background: linear-gradient(90deg, rgba(13,148,136,0.3), rgba(20,184,166,0.4), rgba(6,182,212,0.3), rgba(13,148,136,0.3)) !important; 
+          background-size: 300% 100% !important; 
           animation: contourMove 4s linear infinite !important;
           z-index: 0 !important;
-          opacity: 1 !important;
+          opacity: 0.8 !important;
         }
         .chat-contour::before { 
           content: '' !important; 
           position: absolute !important; 
-          inset: 4px !important; 
+          inset: 2px !important; 
           background: rgba(255,255,255,0.9) !important; 
           border-radius: 24px !important; 
           backdrop-filter: saturate(120%) blur(8px) !important;
