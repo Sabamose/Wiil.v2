@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { StoredAssistant } from "@/hooks/useAssistants";
-import VoiceOrbSigma from "./VoiceOrbSigma";
+import TealVortexRing from "./TealVortexRing";
 interface CallTestingInterfaceProps {
   assistant: StoredAssistant;
 }
@@ -60,7 +60,7 @@ const CallTestingInterface = ({
   return <div className="flex flex-col items-center justify-center min-h-[500px] p-8">
       {/* Voice Orb Widget */}
       <div className="relative mb-8">
-        <VoiceOrbSigma width={400} height={400} orb={300} state={uiState} muted={false} />
+        <TealVortexRing width={400} height={400} orb={300} state={uiState} energy={isActive ? 0.7 : 0} />
 
         {/* Microphone button for active calls */}
         {isActive && <button onClick={handleEndCall} className="absolute bottom-8 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-colors bg-destructive text-destructive-foreground hover:bg-destructive/90 z-10" aria-label="End test call">
