@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const series = Array.from({ length: 14 }).map((_, i) => ({
   day: `Day ${i + 1}`,
@@ -31,10 +32,12 @@ export default function AnalyticsDemo() {
     }
   }, []);
 
+  const isMobile = useIsMobile();
+
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <main className="ml-0 md:ml-60 mt-16 p-4 md:p-8 animate-fade-in">
+      <main className={`${isMobile ? 'ml-0' : 'ml-60'} mt-16 p-4 md:p-8 animate-fade-in`}>
         <header className="mb-6">
           <h1 className="text-2xl font-semibold text-brand-teal">Analytics (Demo)</h1>
           <p className="text-sm text-muted-foreground mt-1">Static, UI-only example to feel the experience.</p>
