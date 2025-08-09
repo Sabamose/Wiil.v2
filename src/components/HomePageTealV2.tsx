@@ -644,87 +644,28 @@ export default function HomePageTealV2() {
           </div>
         </div>
 
-        {/* Social proof section - reordered above buttons */}
-        <div className="mt-12 animate-fade-in">
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-semibold text-neutral-800 mb-2">
-              Join thousands of businesses already using AI assistants
-            </h3>
-            <p className="text-neutral-600 text-sm">
-              Real-time performance data from our platform
-            </p>
-          </div>
-          <MiniAnalytics />
-        </div>
-
-        {/* Enhanced primary actions */}
-        <div className="mt-12 flex flex-col items-center gap-6">
-          <div className="text-center space-y-2">
-            <h2 className="text-3xl font-bold text-neutral-900">
-              Ready to transform your business?
-            </h2>
-            <p className="text-neutral-600 max-w-md mx-auto">
-              Get started in under 2 minutes. No credit card required.
-            </p>
-          </div>
-          
-          <div className="flex items-center justify-center gap-4 flex-wrap">
-            <button
-              className="group relative px-8 py-4 rounded-2xl bg-gradient-to-r from-teal-600 to-teal-700 text-white font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 ease-out overflow-hidden"
-              onClick={() => {
-                navigate("/");
-                setTimeout(() => window.dispatchEvent(new Event("create-assistant")), 75);
-              }}
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-teal-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="relative flex items-center gap-2">
-                <span>Create my assistant</span>
-                <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center group-hover:translate-x-1 transition-transform duration-300">
-                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                </div>
-              </div>
-              <div className="absolute bottom-0 left-0 w-full h-1 bg-white/30 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-            </button>
-            
-            <button
-              className="group px-6 py-4 rounded-2xl border-2 border-neutral-200 text-neutral-700 font-medium hover:border-teal-300 hover:bg-teal-50 hover:text-teal-700 transition-all duration-300 hover-scale"
-              onClick={() => setAnalyticsOpen(true)}
-            >
-              <div className="flex items-center gap-2">
-                <svg className="w-4 h-4 group-hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>
-                <span>See analytics demo</span>
-              </div>
-            </button>
-          </div>
-          
-          <div className="flex items-center gap-4 text-sm text-neutral-500 mt-4">
-            <div className="flex items-center gap-1">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span>Free trial</span>
-            </div>
-            <div className="w-1 h-1 bg-neutral-300 rounded-full"></div>
-            <div className="flex items-center gap-1">
-              <svg className="w-4 h-4 text-teal-600" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-              <span>Setup in 2 minutes</span>
-            </div>
-            <div className="w-1 h-1 bg-neutral-300 rounded-full"></div>
-            <div className="flex items-center gap-1">
-              <svg className="w-4 h-4 text-teal-600" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-              <span>No credit card</span>
-            </div>
-          </div>
+        {/* Primary actions */}
+        <div className="mt-8 flex items-center justify-center gap-3">
+          <button
+            className="px-5 py-3 rounded-2xl bg-teal-600 text-white font-medium shadow-sm hover:bg-teal-700 transition"
+            onClick={() => {
+              navigate("/");
+              setTimeout(() => window.dispatchEvent(new Event("create-assistant")), 75);
+            }}
+          >
+            Create my assistant
+          </button>
+          <button
+            className="px-5 py-3 rounded-2xl border border-neutral-200 text-neutral-800 hover:bg-neutral-50"
+            onClick={() => setAnalyticsOpen(true)}
+          >
+            See analytics demo
+          </button>
         </div>
       </section>
 
-      {/* Remove the separate MiniAnalytics call since it's now embedded above */}
+      {/* Immediate value row */}
+      <MiniAnalytics />
 
       {/* Analytics modal */}
       <Dialog open={analyticsOpen} onOpenChange={setAnalyticsOpen}>
