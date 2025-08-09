@@ -47,7 +47,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50/30 to-white">
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 to-white">
         {currentView === "list" && <Navigation />}
         
         {/* Main Content */}
@@ -65,7 +65,7 @@ const Index = () => {
                 + Create Assistant
               </button>
             </div>
-            <section className="rounded-xl border border-brand-teal/20 bg-background shadow-sm hover:bg-teal-50/20 transition-colors">
+            <section className="rounded-xl border border-brand-teal/20 bg-background shadow-sm hover:bg-teal-50 transition-colors">
               <div className="p-2 md:p-4">
                 <ExistingAssistantsSection assistants={assistants} loading={loading} onRefresh={fetchAssistants} />
               </div>

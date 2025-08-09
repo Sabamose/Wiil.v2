@@ -77,6 +77,11 @@ export default {
 				},
 				amber: {
 					500: 'hsl(var(--amber-500))'
+				},
+				teal: {
+					50: 'hsl(var(--teal-50))',
+					100: 'hsl(var(--teal-100))',
+					600: 'hsl(var(--teal-600))'
 				}
 			},
 			borderRadius: {
