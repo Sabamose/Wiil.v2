@@ -324,20 +324,20 @@ const CallsDashboard = () => {
 
       {/* Search */}
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-teal-600 h-4 w-4" />
         <Input
           placeholder="Search customers by name, phone, email, or company..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="pl-10"
+          className="pl-10 focus:ring-teal-600/20 focus:border-teal-600/50"
         />
       </div>
 
       {/* Customer List Table */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Users className="h-5 w-5" />
+          <CardTitle className="flex items-center gap-2 text-brand-teal">
+            <Users className="h-5 w-5 text-teal-600" />
             Customer List
           </CardTitle>
         </CardHeader>
@@ -369,7 +369,11 @@ const CallsDashboard = () => {
                   <TableCell>{customer.email || '-'}</TableCell>
                   <TableCell>{customer.company || '-'}</TableCell>
                   <TableCell>
-                    <Button variant="outline" size="sm">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      className="hover:bg-teal-600/10 hover:text-teal-600 hover:border-teal-600/30"
+                    >
                       View Details
                     </Button>
                   </TableCell>
