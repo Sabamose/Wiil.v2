@@ -301,7 +301,6 @@ const CallsDashboard = () => {
     <div className="space-y-6">
       {/* Header with Toggle */}
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Customer Management</h1>
         <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
           <Button
             variant={view === 'incoming' ? 'default' : 'ghost'}
