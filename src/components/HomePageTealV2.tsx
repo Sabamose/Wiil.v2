@@ -90,14 +90,14 @@ function WaveNet({ width = 1000, height = 420, r = 170, speed = 0.9 }: { width?:
           <circle cx={width / 2} cy={height / 2} r={r} fill="black" />
         </mask>
       </defs>
-      <g transform={`translate(0 ${height / 2})`} mask={`url(#${id}-mask)`} opacity={0.45}>
+      <g transform={`translate(0 ${height / 2})`} mask={`url(#${id}-mask)`} opacity={0.75}>
         {offsets.map((off, i) => (
           <path
             key={i}
             d={build(off, 12 + i * 0.6, 0.010 + i * 0.0006, 0.9 + i * 0.02)}
             stroke={`url(#${id}-grad)`}
-            strokeOpacity={0.22 - i * 0.01}
-            strokeWidth={1.6}
+            strokeOpacity={0.45 - i * 0.02}
+            strokeWidth={2.2}
             fill="none"
           />
         ))}
