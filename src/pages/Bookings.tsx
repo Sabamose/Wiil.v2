@@ -96,7 +96,7 @@ const Bookings = () => {
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-brand-teal">Bookings</h1>
           <div className="h-1 w-20 bg-gradient-to-r from-brand-teal to-brand-teal/60 rounded-full mb-2" />
-          <p className="text-muted-foreground">Manage your bookings made by your AI assistants</p>
+          <p className="text-muted-foreground">Manage bookings made by AI assistants</p>
         </div>
 
         {/* Summary Cards */}
