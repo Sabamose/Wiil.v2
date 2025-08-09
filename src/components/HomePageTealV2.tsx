@@ -176,18 +176,6 @@ function MiniAnalytics() {
   );
 }
 
-// ---------- Simple video block (drop your mp4/loom later) ----------
-function DemoVideo() {
-  return (
-    <div className="max-w-4xl mx-auto px-6 mt-10">
-      <div className="rounded-3xl overflow-hidden border border-neutral-200">
-        <div className="aspect-video bg-neutral-50 grid place-items-center">
-          <button className="px-4 py-2 rounded-full bg-teal-600 text-white font-medium shadow-sm">Play 30‑sec demo</button>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 
 // ---------- Page ----------
@@ -309,8 +297,6 @@ export default function HomePageTealV2() {
       {/* Immediate value row */}
       <MiniAnalytics />
 
-      {/* Demo video */}
-      <DemoVideo />
 
 
       <footer className="max-w-7xl mx-auto px-6 py-14 text-sm text-neutral-500">© {new Date().getFullYear()} Will — minimal, modern, and fast.</footer>
