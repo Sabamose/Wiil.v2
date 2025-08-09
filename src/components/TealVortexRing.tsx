@@ -84,18 +84,6 @@ export default function TealVortexRing({
       t += 0.016 * params.speed;
       ctx.clearRect(0, 0, W, H);
 
-      // --- single subtle background wave ---
-      ctx.save();
-      ctx.beginPath();
-      const yBase = cy + r + 26; const w = W; const ampWave = 18;
-      for (let i = 0; i <= 240; i++) {
-        const x = (i / 240) * w;
-        const y = yBase + Math.sin(i * 0.08 + t * 0.8) * ampWave * 0.55 + Math.sin(i * 0.022 + t * 0.56) * ampWave * 0.25;
-        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-      }
-      const grd = ctx.createLinearGradient(0, 0, W, 0);
-      grd.addColorStop(0, "#99f6e4"); grd.addColorStop(0.5, accent); grd.addColorStop(1, "#5eead4");
-      ctx.strokeStyle = grd; ctx.globalAlpha = 0.25; ctx.lineWidth = 2; ctx.stroke(); ctx.restore();
 
       // --- aurora pulse (soft radial wash) ---
       const breathe = 1 + 0.02 * Math.sin(t * 0.9);
@@ -230,8 +218,6 @@ export default function TealVortexRing({
           </div>
         </foreignObject>
 
-        {/* Accessible status below (visual only; wire externally if needed) */}
-        <text x={cx} y={cy + r + 40} textAnchor="middle" fill="#0f172a" fillOpacity="0.65" fontFamily="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto" fontSize="12">{niceState(state)}</text>
       </svg>
 
       {/* Local styles for rotation (energy-reaction) */}
