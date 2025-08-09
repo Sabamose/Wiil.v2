@@ -216,11 +216,12 @@ const PhoneNumbers = () => {
                               e.stopPropagation();
                               if (phoneNumber.assignedAssistant) {
                                 handleUnassign(phoneNumber.id);
+                              } else {
+                                handlePhoneNumberClick(phoneNumber);
                               }
                             }}
-                            className={!phoneNumber.assignedAssistant ? "text-gray-400 cursor-not-allowed" : ""}
                           >
-                            Disconnect Assistant
+                            {phoneNumber.assignedAssistant ? "Disconnect" : "Connect"}
                           </DropdownMenuItem>
                           <DropdownMenuItem 
                             className="text-red-600"
