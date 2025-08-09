@@ -50,6 +50,61 @@ function ExtendedWavesTeal({ running = true }: { running?: boolean }) {
   );
 }
 
+// ---------- WaveNet overlay (outer long waves) ----------
+function WaveNet({ width = 900, height = 360 }: { width?: number; height?: number }) {
+  const [t, setT] = React.useState(0);
+  React.useEffect(() => {
+    let raf = 0;
+    const loop = () => { setT((p) => p + 0.016); raf = requestAnimationFrame(loop); };
+    raf = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  const build = (y: number, amp = 16, freq = 0.012, speed = 1) => {
+    const pts = 200, step = width / (pts - 1);
+    let d = "";
+    for (let i = 0; i < pts; i++) {
+      const x = i * step;
+      const yy = y
+        + Math.sin(x * freq + t * 2.0 * speed) * amp
+        + Math.sin(x * (freq * 0.6) + t * (1.4 * speed)) * (amp * 0.5);
+      d += i ? ` L ${x.toFixed(1)} ${yy.toFixed(1)}` : `M ${x.toFixed(1)} ${yy.toFixed(1)}`;
+    }
+    return d;
+  };
+
+  const offsets = Array.from({ length: 10 }, (_, i) => -180 + i * 40);
+
+  return (
+    <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} className="pointer-events-none opacity-50">
+      <g transform={`translate(0 ${height / 2})`}>
+        {offsets.map((off, i) => (
+          <path
+            key={i}
+            d={build(off, 18 + i * 1.2, 0.012 + i * 0.0008, 1 + i * 0.03)}
+            stroke="hsl(var(--brand-teal))"
+            strokeOpacity={0.18 + i * 0.03}
+            strokeWidth={1.2}
+            fill="none"
+          />
+        ))}
+      </g>
+      <g transform={`translate(0 ${height / 2}) rotate(90 ${width / 2} 0)`}>
+        {offsets.map((off, i) => (
+          <path
+            key={`v-${i}`}
+            d={build(off, 18 + i * 1.2, 0.012 + i * 0.0008, 1.1 + i * 0.03)}
+            stroke="hsl(var(--brand-teal))"
+            strokeOpacity={0.12 + i * 0.025}
+            strokeWidth={1}
+            fill="none"
+          />
+        ))}
+      </g>
+    </svg>
+  );
+}
+
 // ---------- Orb widget (more teal + breathing + energy hook) ----------
 function TealBreathingOrb({ width = 480, height = 400, orb = 330, state = "idle", energy = 0, simulate = false, onStateChange, }: {
   width?: number; height?: number; orb?: number; state?: VoiceState; energy?: number; simulate?: boolean; onStateChange?: (s: VoiceState) => void;
@@ -620,6 +675,11 @@ export default function HomePageTealV2() {
                 />
               ))}
             </svg>
+          </div>
+
+          {/* Wave net overlay - centered */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <WaveNet />
           </div>
 
           {/* Floating particles - centered */}
