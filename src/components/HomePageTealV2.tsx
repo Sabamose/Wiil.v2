@@ -609,6 +609,18 @@ export default function HomePageTealV2() {
 
         {/* Primary actions */}
         <div className="mt-8 flex items-center justify-center gap-3">
+          {/* Chat Integration */}
+          <div className="mt-8">
+            <ChatDock
+              onSend={(message) => {
+                console.log("Chat message:", message);
+                // Handle chat message here - could integrate with assistant or support
+              }}
+              suggestions={["What can I build?", "Show pricing", "Quick demo"]}
+              placeholder="Ask anything about AI assistants..."
+            />
+          </div>
+
           {/* Enhanced CTA Buttons */}
           <div className="mt-6">
             <AttentionButtons
@@ -619,19 +631,7 @@ export default function HomePageTealV2() {
               onSecondary={() => setAnalyticsOpen(true)}
               primaryText="+ Create Assistant"
               secondaryText="See Analytics"
-              pulse={true}
-            />
-          </div>
-
-          {/* Chat Integration */}
-          <div className="mt-6">
-            <ChatDock
-              onSend={(message) => {
-                console.log("Chat message:", message);
-                // Handle chat message here - could integrate with assistant or support
-              }}
-              suggestions={["What can I build?", "Show pricing", "Quick demo"]}
-              placeholder="Ask anything about AI assistants..."
+              pulse={false}
             />
           </div>
         </div>
