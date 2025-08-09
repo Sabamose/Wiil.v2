@@ -16,17 +16,21 @@ import React, { useEffect, useRef, useState } from "react";
 export default function SeamlessLovableChatSection({
   prompts = [
     "What can I build with Will?",
-    "How is pricing structured?",
-    "Show me a quick demo.",
-    "Can I create a customer support assistant?",
-    "How do I integrate with my existing CRM?",
-    "What industries does Will work best for?",
-    "Can assistants handle multiple languages?",
-    "How quickly can I deploy an assistant?",
-    "What's the difference between inbound and outbound calls?",
-    "Can I customize the voice and personality?",
-    "How does Will handle complex conversations?",
-    "What analytics and reporting are available?"
+    "How much does it cost to run an AI assistant?",
+    "Can I create a sales assistant that books meetings?",
+    "How do I train my assistant with my company data?", 
+    "Can assistants handle customer support calls 24/7?",
+    "What's the setup time for a medical receptionist assistant?",
+    "How does voice AI compare to chatbots for conversions?",
+    "Can I integrate assistants with my CRM and calendar?",
+    "What industries see the best ROI with voice assistants?",
+    "How many concurrent calls can one assistant handle?",
+    "Can assistants transfer calls to human agents when needed?",
+    "What's included in the analytics dashboard?",
+    "How do I customize the voice, accent, and speaking style?",
+    "Can assistants work in multiple languages for global customers?",
+    "What's the difference between inbound and outbound campaigns?",
+    "How do I ensure data privacy and compliance with voice AI?"
   ],
   autoStart = true,
   accent = "#0d9488", // teal-600
@@ -78,7 +82,7 @@ export default function SeamlessLovableChatSection({
   useEffect(() => {
     if (phase !== "typing" || isUserTyping) return;
     const target = prompts[iPrompt] || "";
-    const delay = 26 + Math.random() * 40; // natural cadence
+    const delay = 45 + Math.random() * 35; // slower, more natural cadence
 
     typingRef.current = window.setTimeout(() => {
       const next = target.slice(0, text.length + 1);
