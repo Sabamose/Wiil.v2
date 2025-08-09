@@ -70,8 +70,6 @@ const Navigation = () => {
                 </div>
               </SheetContent>
             </Sheet>}
-          <span className="text-lg font-semibold">Wiil</span>
-          <span className="hidden sm:inline text-xs text-gray-500 font-normal">Preview Version</span>
         </div>
         <div className="flex items-center gap-2 md:gap-4 text-sm text-gray-600">
           <Moon className="w-5 h-5" />

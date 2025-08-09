@@ -39,7 +39,7 @@ const HeroSection = () => {
       {/* Hero Header */}
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold text-foreground mb-4">
-          Wiil AI Assistants
+          Create Your AI Assistant
         </h1>
         <p className="text-xl text-muted-foreground mb-8">
           Create and manage your AI workforce

@@ -557,7 +557,7 @@ export default function HomePageTealV2() {
       <main className="min-h-screen bg-white text-neutral-900">
       {/* Topbar */}
       <header className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
-        <div className="flex items-center gap-2 text-xl font-semibold">Will</div>
+        <div className="flex items-center gap-2 text-xl font-semibold"></div>
       </header>
 
       {/* Hero */}
