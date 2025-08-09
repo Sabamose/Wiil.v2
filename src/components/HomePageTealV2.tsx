@@ -2,6 +2,8 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import Navigation from "./Navigation";
 import TemplateCard from "@/components/TemplateCard";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { useNavigate } from "react-router-dom";
 
 // Tailwind-first, teal-600 accents. This is a self-contained homepage.
@@ -179,13 +181,93 @@ function MiniAnalytics() {
   );
 }
 
+// ---------- Analytics Modal Content ----------
+const series = Array.from({ length: 14 }).map((_, i) => ({
+  day: `Day ${i + 1}`,
+  calls: 40 + Math.round(Math.sin(i / 2) * 18) + Math.round(Math.random() * 8),
+  success: 70 + Math.round(Math.cos(i / 2) * 10),
+}));
 
+function AnalyticsModalContent() {
+  return (
+    <div className="animate-fade-in">
+      <DialogHeader className="mb-6">
+        <DialogTitle className="text-2xl font-semibold text-teal-700">Analytics (Demo)</DialogTitle>
+        <p className="text-sm text-muted-foreground mt-1">Static, UI-only example to feel the experience.</p>
+      </DialogHeader>
+
+      <div className="space-y-6">
+        <section className="grid gap-4 md:grid-cols-3">
+          {[{ kpi: "Calls", v: "1,284" }, { kpi: "Success Rate", v: "92%" }, { kpi: "Avg. Duration", v: "36s" }].map((x) => (
+            <Card key={x.kpi} className="animate-scale-in" style={{animationDelay: `${Math.random() * 0.3}s`}}>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm text-muted-foreground">{x.kpi}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-semibold text-foreground">{x.v}</div>
+              </CardContent>
+            </Card>
+          ))}
+        </section>
+
+        <section className="grid gap-4 md:grid-cols-2">
+          <Card className="animate-fade-in" style={{animationDelay: '0.2s'}}>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm text-muted-foreground">Daily Calls</CardTitle>
+            </CardHeader>
+            <CardContent className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={series} margin={{ left: 0, right: 0, top: 10, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="colorCalls" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="hsl(var(--brand-teal))" stopOpacity={0.5} />
+                      <stop offset="95%" stopColor="hsl(var(--brand-teal))" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+                  <XAxis dataKey="day" tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
+                  <YAxis tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
+                  <Tooltip contentStyle={{ background: "hsl(var(--background))", border: "1px solid hsl(var(--border))" }} />
+                  <Area type="monotone" dataKey="calls" stroke="hsl(var(--brand-teal))" fillOpacity={1} fill="url(#colorCalls)" />
+                </AreaChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+
+          <Card className="animate-fade-in" style={{animationDelay: '0.4s'}}>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm text-muted-foreground">Success Rate</CardTitle>
+            </CardHeader>
+            <CardContent className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={series} margin={{ left: 0, right: 0, top: 10, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="colorSuccess" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="hsl(var(--brand-teal))" stopOpacity={0.5} />
+                      <stop offset="95%" stopColor="hsl(var(--brand-teal))" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+                  <XAxis dataKey="day" tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
+                  <YAxis domain={[50, 100]} tick={{ fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
+                  <Tooltip contentStyle={{ background: "hsl(var(--background))", border: "1px solid hsl(var(--border))" }} />
+                  <Area type="monotone" dataKey="success" stroke="hsl(var(--brand-teal))" fillOpacity={1} fill="url(#colorSuccess)" />
+                </AreaChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </section>
+      </div>
+    </div>
+  );
+}
 
 // ---------- Page ----------
 export default function HomePageTealV2() {
   const [state, setState] = useState<VoiceState>("idle");
   const [energy, setEnergy] = useState(0); // 0..1 — hook this to your backend later
   const [templatesOpen, setTemplatesOpen] = useState(false);
+  const [analyticsOpen, setAnalyticsOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -330,7 +412,7 @@ export default function HomePageTealV2() {
           </button>
           <button
             className="px-5 py-3 rounded-2xl border border-neutral-200 text-neutral-800 hover:bg-neutral-50"
-            onClick={() => window.open("/analytics", "_blank")}
+            onClick={() => setAnalyticsOpen(true)}
           >
             See analytics demo
           </button>
@@ -386,6 +468,13 @@ export default function HomePageTealV2() {
               Use a template
             </button>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Analytics modal */}
+      <Dialog open={analyticsOpen} onOpenChange={setAnalyticsOpen}>
+        <DialogContent className="max-w-6xl max-h-[90vh] overflow-auto succession-modal">
+          <AnalyticsModalContent />
         </DialogContent>
       </Dialog>
 
