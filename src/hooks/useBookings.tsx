@@ -13,63 +13,93 @@ export const useBookings = () => {
     queryFn: async () => {
       const { data: user } = await supabase.auth.getUser();
       
-      // For demo mode, return sample booking data
+      // For demo mode, return comprehensive sample booking data
       if (!user.user) {
         const now = new Date();
-        const demoBookings: Booking[] = [
-          {
-            id: 'demo-booking-1',
-            user_id: 'demo-user',
-            assistant_id: 'demo-1',
-            title: 'Healthcare Consultation',
-            customer_name: 'John Smith',
-            customer_email: 'john@example.com',
-            customer_phone: '+1 (555) 123-4567',
-            start_time: new Date(now.getTime() + 24 * 60 * 60 * 1000).toISOString(), // Tomorrow
-            end_time: new Date(now.getTime() + 24 * 60 * 60 * 1000 + 60 * 60 * 1000).toISOString(), // Tomorrow + 1 hour
-            status: 'confirmed',
-            source: 'website',
-            notes: 'Initial consultation for new patient',
-            timezone: 'UTC',
-            created_at: now.toISOString(),
-            updated_at: now.toISOString(),
-          },
-          {
-            id: 'demo-booking-2',
-            user_id: 'demo-user',
-            assistant_id: 'demo-1',
-            title: 'Follow-up Appointment',
-            customer_name: 'Sarah Johnson',
-            customer_email: 'sarah@example.com',
-            customer_phone: '+1 (555) 987-6543',
-            start_time: new Date(now.getTime() + 48 * 60 * 60 * 1000).toISOString(), // Day after tomorrow
-            end_time: new Date(now.getTime() + 48 * 60 * 60 * 1000 + 30 * 60 * 1000).toISOString(), // Day after tomorrow + 30 min
-            status: 'confirmed',
-            source: 'phone',
-            notes: 'Follow-up after initial treatment',
-            timezone: 'UTC',
-            created_at: now.toISOString(),
-            updated_at: now.toISOString(),
-          },
-          {
-            id: 'demo-booking-3',
-            user_id: 'demo-user',
-            assistant_id: 'demo-1',
-            title: 'Routine Checkup',
-            customer_name: 'Michael Davis',
-            customer_email: 'michael@example.com',
-            customer_phone: '+1 (555) 456-7890',
-            start_time: new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString(), // Next week
-            end_time: new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000 + 45 * 60 * 1000).toISOString(), // Next week + 45 min
-            status: 'pending',
-            source: 'website',
-            notes: 'Annual routine checkup',
-            timezone: 'UTC',
-            created_at: now.toISOString(),
-            updated_at: now.toISOString(),
-          }
+        
+        const customerData = [
+          { name: "Sarah Johnson", phone: "+1 (555) 123-4567", email: "sarah.j@email.com" },
+          { name: "Michael Chen", phone: "+1 (555) 234-5678", email: "m.chen@business.com" },
+          { name: "Emily Rodriguez", phone: "+1 (555) 345-6789", email: "emily.r@company.co" },
+          { name: "David Thompson", phone: "+1 (555) 456-7890", email: "d.thompson@corp.net" },
+          { name: "Jessica Williams", phone: "+1 (555) 567-8901", email: "jessica.w@startup.io" },
+          { name: "Robert Davis", phone: "+1 (555) 678-9012", email: "robert.d@firm.com" },
+          { name: "Amanda Martinez", phone: "+1 (555) 789-0123", email: "a.martinez@tech.org" },
+          { name: "Christopher Lee", phone: "+1 (555) 890-1234", email: "chris.lee@agency.net" },
+          { name: "Lisa Anderson", phone: "+1 (555) 901-2345", email: "lisa.a@solutions.co" },
+          { name: "Kevin Brown", phone: "+1 (555) 012-3456", email: "k.brown@consulting.biz" },
+          { name: "Maria Garcia", phone: "+1 (555) 123-0987", email: "maria.garcia@health.com" },
+          { name: "James Wilson", phone: "+1 (555) 234-1098", email: "j.wilson@medical.org" }
         ];
-        return demoBookings;
+
+        const appointmentTypes = [
+          { title: "Initial Consultation", duration: 30, notes: "New patient consultation for health assessment" },
+          { title: "Follow-up Appointment", duration: 15, notes: "Follow-up on previous treatment plan" },
+          { title: "Health Screening", duration: 45, notes: "Annual health screening and wellness check" },
+          { title: "Prescription Review", duration: 20, notes: "Review current medications and adjustments" },
+          { title: "Wellness Coaching", duration: 60, notes: "Lifestyle and wellness guidance session" },
+          { title: "Discovery Call", duration: 30, notes: "Initial discussion about client needs and requirements" },
+          { title: "Product Demo", duration: 45, notes: "Comprehensive product demonstration and Q&A" },
+          { title: "Technical Support", duration: 30, notes: "Troubleshooting technical issues and solutions" },
+          { title: "Training Session", duration: 60, notes: "Platform training and best practices" },
+          { title: "Strategy Meeting", duration: 90, notes: "Comprehensive strategy development session" }
+        ];
+
+        const sources = ["Phone Call", "Website", "Referral", "Email", "Social Media", "Cal.com"];
+        const statuses: Array<'confirmed' | 'pending' | 'cancelled' | 'completed'> = ['confirmed', 'pending', 'cancelled', 'completed'];
+        
+        const getRandomStatus = () => {
+          const random = Math.random();
+          if (random < 0.65) return 'confirmed';
+          if (random < 0.85) return 'completed';
+          if (random < 0.96) return 'pending';
+          return 'cancelled';
+        };
+
+        const generateRandomDateTime = (daysOffset: number = 0): Date => {
+          const baseDate = new Date();
+          baseDate.setDate(baseDate.getDate() + daysOffset);
+          
+          // Business hours: 9 AM - 6 PM
+          const hour = Math.floor(Math.random() * 9) + 9; // 9-17
+          const minute = Math.random() < 0.5 ? 0 : 30; // :00 or :30
+          
+          baseDate.setHours(hour, minute, 0, 0);
+          return baseDate;
+        };
+
+        const demoBookings: Booking[] = [];
+        
+        // Generate 25-30 bookings across past 2 weeks, current week, and next 3 weeks
+        for (let i = 0; i < 28; i++) {
+          const customer = customerData[Math.floor(Math.random() * customerData.length)];
+          const appointmentType = appointmentTypes[Math.floor(Math.random() * appointmentTypes.length)];
+          
+          // Generate bookings across past 2 weeks, current week, and next 3 weeks
+          const daysOffset = Math.floor(Math.random() * 42) - 14; // -14 to +28 days
+          const startTime = generateRandomDateTime(daysOffset);
+          const endTime = new Date(startTime.getTime() + appointmentType.duration * 60000);
+
+          demoBookings.push({
+            id: `demo-booking-${i + 1}`,
+            user_id: 'demo-user',
+            assistant_id: `demo-${Math.floor(Math.random() * 3) + 1}`,
+            title: appointmentType.title,
+            customer_name: customer.name,
+            customer_email: customer.email,
+            customer_phone: customer.phone,
+            start_time: startTime.toISOString(),
+            end_time: endTime.toISOString(),
+            status: getRandomStatus(),
+            source: sources[Math.floor(Math.random() * sources.length)],
+            notes: appointmentType.notes,
+            timezone: 'UTC',
+            created_at: now.toISOString(),
+            updated_at: now.toISOString(),
+          });
+        }
+        
+        return demoBookings.sort((a, b) => new Date(a.start_time).getTime() - new Date(b.start_time).getTime());
       }
 
       const { data, error } = await supabase
