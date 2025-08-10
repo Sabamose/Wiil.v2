@@ -130,7 +130,7 @@ const PhoneNumbers = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-white">
       <Navigation />
-      <div className={`${isMobile ? 'ml-0' : 'ml-60'} pt-16 min-h-screen`}>
+      <div className={`${isMobile ? 'ml-0' : 'ml-60'} pt-16 min-h-screen bg-[linear-gradient(to_right,rgba(13,148,136,0.06)_1px,transparent_1px)] bg-[size:24px_100%]`}>
         <div className="p-4 md:p-8">
           <header className="mb-4 md:mb-6">
             <h1 className="text-xl md:text-2xl font-semibold text-brand-teal">Phone Numbers</h1>
