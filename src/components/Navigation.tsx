@@ -71,7 +71,7 @@ const Navigation = () => {
     </>;
   return <>
       {/* Header */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-teal-600/4 border-b border-teal-600/10 px-4 md:px-6 h-16 flex items-center justify-between">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-teal-600/10 px-4 md:px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-2">
           {isMobile && <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
