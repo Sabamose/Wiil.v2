@@ -1242,6 +1242,218 @@ IMPORTANT GUIDELINES:
                 </div>
               </Card>
 
+              {/* Audience */}
+              <Card className="p-6">
+                <div className="text-center space-y-6">
+                  <h3 className="text-xl font-semibold text-teal-600">Who will your assistant be talking to?</h3>
+                  <p className="text-gray-600">Describe your typical callers so your assistant knows how to connect with them</p>
+                  <div className="max-w-lg mx-auto">
+                    <Input 
+                      placeholder="e.g., small business owners, new customers, existing clients" 
+                      value={behavior.audience} 
+                      onChange={(e) => setBehavior(prev => ({ ...prev, audience: e.target.value }))} 
+                      className="text-center text-lg"
+                    />
+                  </div>
+                </div>
+              </Card>
+
+              {/* What TO Say */}
+              <Card className="p-6">
+                <div className="text-center space-y-6">
+                  <h3 className="text-xl font-semibold text-teal-600">What should your assistant always mention?</h3>
+                  
+                  {/* Input section */}
+                  <div className="max-w-lg mx-auto">
+                    <div className="flex gap-2">
+                      <Input 
+                        placeholder="Add something your assistant should always mention" 
+                        value=""
+                        className="text-center"
+                      />
+                      <Button type="button">Add</Button>
+                    </div>
+                  </div>
+                  
+                  {/* Categorized Examples */}
+                  <div className="space-y-6 max-w-3xl mx-auto">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="space-y-3">
+                        <div className="font-medium text-sm text-teal-600">💰 Offers & Benefits</div>
+                        <div className="space-y-2">
+                          {['Free consultation', '30-day money back guarantee', 'We price match competitors', 'Same-day service available'].map(ex => (
+                            <Button 
+                              key={ex} 
+                              variant="outline" 
+                              size="sm" 
+                              className="w-full text-xs border-teal-600/30 text-teal-600 hover:bg-teal-600/10" 
+                              type="button"
+                              onClick={() => {
+                                if (behavior.alwaysMention.length < 3 && !behavior.alwaysMention.includes(ex)) {
+                                  setBehavior(prev => ({ ...prev, alwaysMention: [...prev.alwaysMention, ex] }))
+                                }
+                              }}
+                              disabled={behavior.alwaysMention.length >= 3 || behavior.alwaysMention.includes(ex)}
+                            >
+                              + {ex}
+                            </Button>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-3">
+                        <div className="font-medium text-sm text-teal-600">🏆 Credentials & Trust</div>
+                        <div className="space-y-2">
+                          {['Licensed and insured', '10+ years in business', 'Family owned and operated', '5-star Google rating'].map(ex => (
+                            <Button 
+                              key={ex} 
+                              variant="outline" 
+                              size="sm" 
+                              className="w-full text-xs border-teal-600/30 text-teal-600 hover:bg-teal-600/10" 
+                              type="button"
+                              onClick={() => {
+                                if (behavior.alwaysMention.length < 3 && !behavior.alwaysMention.includes(ex)) {
+                                  setBehavior(prev => ({ ...prev, alwaysMention: [...prev.alwaysMention, ex] }))
+                                }
+                              }}
+                              disabled={behavior.alwaysMention.length >= 3 || behavior.alwaysMention.includes(ex)}
+                            >
+                              + {ex}
+                            </Button>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-3">
+                        <div className="font-medium text-sm text-teal-600">📞 Next Steps</div>
+                        <div className="space-y-2">
+                          {['Ask about your timeline', 'Schedule a site visit', 'Get a custom quote', 'Check our availability'].map(ex => (
+                            <Button 
+                              key={ex} 
+                              variant="outline" 
+                              size="sm" 
+                              className="w-full text-xs border-teal-600/30 text-teal-600 hover:bg-teal-600/10" 
+                              type="button"
+                              onClick={() => {
+                                if (behavior.alwaysMention.length < 3 && !behavior.alwaysMention.includes(ex)) {
+                                  setBehavior(prev => ({ ...prev, alwaysMention: [...prev.alwaysMention, ex] }))
+                                }
+                              }}
+                              disabled={behavior.alwaysMention.length >= 3 || behavior.alwaysMention.includes(ex)}
+                            >
+                              + {ex}
+                            </Button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Selected items */}
+                  {behavior.alwaysMention.length > 0 && (
+                    <div className="space-y-3">
+                      <div className="text-sm font-medium">Your assistant will mention:</div>
+                      <div className="flex flex-wrap gap-2 justify-center">
+                        {behavior.alwaysMention.map((item, idx) => (
+                          <Badge 
+                            key={idx} 
+                            className="cursor-pointer bg-teal-600/10 text-teal-600 border-teal-600/30 text-sm py-1 px-3" 
+                            onClick={() => setBehavior(prev => ({ ...prev, alwaysMention: prev.alwaysMention.filter((_, i) => i !== idx) }))}
+                          >
+                            ✓ {item} <span className="ml-2 opacity-60">×</span>
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </Card>
+
+              {/* What NOT to Say */}
+              <Card className="p-6">
+                <div className="text-center space-y-5">
+                  <h3 className="text-xl font-semibold text-teal-600">What should your assistant avoid mentioning?</h3>
+                  
+                  <div className="max-w-lg mx-auto space-y-4">
+                    <div className="flex gap-2">
+                      <Input 
+                        placeholder="Add topics to avoid (up to 3)" 
+                        className="text-center"
+                      />
+                      <Button type="button">Add</Button>
+                    </div>
+                    
+                    <div className="flex flex-wrap gap-2 justify-center">
+                      {['Pricing details','Internal policies','Personal advice','Competitor info'].map(ex => (
+                        <Button 
+                          key={ex} 
+                          variant="outline" 
+                          size="sm" 
+                          className="text-xs border-red-300 text-red-600 hover:bg-red-50" 
+                          type="button"
+                          onClick={() => {
+                            if (behavior.avoidMentioning.length < 3 && !behavior.avoidMentioning.includes(ex)) {
+                              setBehavior(prev => ({ ...prev, avoidMentioning: [...prev.avoidMentioning, ex] }))
+                            }
+                          }}
+                          disabled={behavior.avoidMentioning.length >= 3 || behavior.avoidMentioning.includes(ex)}
+                        >
+                          + {ex}
+                        </Button>
+                      ))}
+                    </div>
+                    
+                    {behavior.avoidMentioning.length > 0 && (
+                      <div className="space-y-2">
+                        <div className="text-sm font-medium">Will avoid:</div>
+                        <div className="flex flex-wrap gap-2 justify-center">
+                          {behavior.avoidMentioning.map((item, idx) => (
+                            <Badge 
+                              key={idx} 
+                              variant="destructive"
+                              className="cursor-pointer text-sm py-1 px-3" 
+                              onClick={() => setBehavior(prev => ({ ...prev, avoidMentioning: prev.avoidMentioning.filter((_, i) => i !== idx) }))}
+                            >
+                              ⚠️ {item} <span className="ml-2 opacity-60">×</span>
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </Card>
+
+              {/* Important Questions to Ask */}
+              <Card className="p-6">
+                <div className="text-center space-y-6">
+                  <h3 className="text-xl font-semibold text-teal-600">What questions should your assistant always ask?</h3>
+                  <p className="text-gray-600">Teach your assistant the most important questions to gather key information</p>
+                  <div className="max-w-2xl mx-auto space-y-4">
+                    <div className="flex gap-2">
+                      <Input 
+                        placeholder="e.g., What's your budget range?, When do you need this completed?" 
+                        className="text-center"
+                      />
+                      <Button type="button">Add</Button>
+                    </div>
+                    
+                    <div className="flex flex-wrap gap-2 justify-center">
+                      {behavior.questionsToAsk.map((item, idx) => (
+                        <Badge 
+                          key={idx} 
+                          className="cursor-pointer bg-blue-100 text-blue-700 border-blue-300 text-sm py-1 px-3" 
+                          onClick={() => setBehavior(prev => ({ ...prev, questionsToAsk: prev.questionsToAsk.filter((_, i) => i !== idx) }))}
+                        >
+                          ❓ {item} <span className="ml-2 opacity-60">×</span>
+                        </Badge>
+                      ))}
+                    </div>
+                    
+                  </div>
+                </div>
+              </Card>
+
               {/* Review & Customize */}
               <Card className="p-6">
                 <div className="space-y-6">
