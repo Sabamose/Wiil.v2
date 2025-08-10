@@ -299,27 +299,6 @@ const CallsDashboard = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header with Toggle */}
-      <div className="flex justify-between items-center">
-        <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
-          <Button
-            variant={view === 'incoming' ? 'default' : 'ghost'}
-            size="sm"
-            onClick={() => setView('incoming')}
-            className={view === 'incoming' ? 'bg-black hover:bg-black/90 text-white' : 'hover:bg-gray-200 text-black'}
-          >
-            Incoming Calls
-          </Button>
-          <Button
-            variant={['campaigns', 'create-campaign', 'campaign-details'].includes(view) ? 'default' : 'ghost'}
-            size="sm"
-            onClick={() => setView('campaigns')}
-            className={['campaigns', 'create-campaign', 'campaign-details'].includes(view) ? 'bg-black hover:bg-black/90 text-white' : 'hover:bg-gray-200 text-black'}
-          >
-            Outgoing Calls
-          </Button>
-        </div>
-      </div>
 
       {/* Search */}
       <div className="relative">
