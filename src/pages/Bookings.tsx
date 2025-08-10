@@ -87,12 +87,12 @@ const Bookings = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 to-white">
       {/* background grid moved to main for proper stacking */}
       
       <Navigation />
       
-      <main className={`${isMobile ? 'ml-0' : 'ml-60'} mt-16 p-4 md:p-8 relative animate-fade-in bg-gradient-to-br from-teal-50 to-white`}>
+      <main className={`${isMobile ? 'ml-0' : 'ml-60'} mt-16 p-4 md:p-8 relative animate-fade-in`}>
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-brand-teal">Bookings</h1>
           <div className="h-1 w-20 bg-gradient-to-r from-brand-teal to-brand-teal/60 rounded-full mb-2" />
