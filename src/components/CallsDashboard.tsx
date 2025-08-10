@@ -300,14 +300,14 @@ const CallsDashboard = () => {
   return (
     <div className="space-y-6">
       {/* Navigation Buttons */}
-      <div className="flex justify-center mb-6">
-        <div className="relative flex items-center gap-2 rounded-full border border-border bg-background/80 backdrop-blur-xl shadow-lg px-2 py-1">
+      <div className="flex justify-start mb-6">
+        <div className="relative flex items-center gap-2 rounded-full border border-teal-600/20 bg-background/80 backdrop-blur-xl shadow-lg px-2 py-1">
           <span
             aria-hidden
             className="pointer-events-none absolute inset-0 rounded-full opacity-70 blur-lg"
             style={{
               background:
-                "radial-gradient(120% 80% at 0% 50%, hsl(var(--primary) / .22) 0%, transparent 60%)",
+                "radial-gradient(120% 80% at 0% 50%, hsl(180 100% 40% / .22) 0%, transparent 60%)",
               animation: "liquidPan 6s ease-in-out infinite",
             }}
           />
@@ -315,7 +315,7 @@ const CallsDashboard = () => {
           <Button
             size="sm"
             onClick={() => setView('incoming')}
-            className={`rounded-full px-4 ${view === 'incoming' ? 'bg-primary text-primary-foreground shadow hover:bg-primary/90' : 'bg-background text-foreground hover:bg-primary/10 hover:text-primary border border-border'}`}
+            className={`rounded-full px-4 ${view === 'incoming' ? 'bg-teal-600 text-white shadow hover:bg-teal-700' : 'bg-background text-foreground hover:bg-teal-600/10 hover:text-teal-600 border border-teal-600/20'}`}
           >
             <PhoneIncoming className="mr-2 h-4 w-4" /> Incoming
           </Button>
@@ -323,7 +323,7 @@ const CallsDashboard = () => {
           <Button
             size="sm"
             onClick={() => setView('campaigns')}
-            className={`rounded-full px-4 ${['campaigns','create-campaign','campaign-details'].includes(view) ? 'bg-primary text-primary-foreground shadow hover:bg-primary/90' : 'bg-background text-foreground hover:bg-primary/10 hover:text-primary border border-border'}`}
+            className={`rounded-full px-4 ${['campaigns','create-campaign','campaign-details'].includes(view) ? 'bg-teal-600 text-white shadow hover:bg-teal-700' : 'bg-background text-foreground hover:bg-teal-600/10 hover:text-teal-600 border border-teal-600/20'}`}
           >
             <PhoneOutgoing className="mr-2 h-4 w-4" /> Outgoing
           </Button>
