@@ -306,7 +306,7 @@ const CallsDashboard = () => {
             variant={view === 'incoming' ? 'default' : 'ghost'}
             size="sm"
             onClick={() => setView('incoming')}
-            className={view === 'incoming' ? 'bg-brand-teal hover:bg-brand-teal/90 text-white' : 'hover:bg-brand-teal/10 hover:text-brand-teal'}
+            className={view === 'incoming' ? 'bg-black hover:bg-black/90 text-white' : 'hover:bg-gray-200 text-black'}
           >
             Incoming Calls
           </Button>
@@ -314,7 +314,7 @@ const CallsDashboard = () => {
             variant={['campaigns', 'create-campaign', 'campaign-details'].includes(view) ? 'default' : 'ghost'}
             size="sm"
             onClick={() => setView('campaigns')}
-            className={['campaigns', 'create-campaign', 'campaign-details'].includes(view) ? 'bg-brand-teal hover:bg-brand-teal/90 text-white' : 'hover:bg-brand-teal/10 hover:text-brand-teal'}
+            className={['campaigns', 'create-campaign', 'campaign-details'].includes(view) ? 'bg-black hover:bg-black/90 text-white' : 'hover:bg-gray-200 text-black'}
           >
             Outgoing Calls
           </Button>
