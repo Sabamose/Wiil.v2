@@ -387,21 +387,21 @@ const CallsDashboard = () => {
       <div 
         className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50"
         style={{
-          background: 'rgba(255, 255, 255, 0.15)',
+          background: 'rgba(13, 148, 136, 0.15)',
           backdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
+          border: '1px solid rgba(13, 148, 136, 0.3)',
           borderRadius: '50px',
           padding: '8px',
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+          boxShadow: '0 8px 32px rgba(13, 148, 136, 0.2)',
           position: 'relative',
           overflow: 'hidden'
         }}
       >
         {/* Animated liquid highlight */}
         <div 
-          className="absolute inset-0 opacity-30"
+          className="absolute inset-0 opacity-40"
           style={{
-            background: 'radial-gradient(circle at 30% 50%, rgba(13, 148, 136, 0.4) 0%, transparent 70%)',
+            background: 'radial-gradient(circle at 30% 50%, rgba(13, 148, 136, 0.6) 0%, transparent 70%)',
             borderRadius: '50px',
             animation: 'liquidMove 4s ease-in-out infinite'
           }}
@@ -413,7 +413,7 @@ const CallsDashboard = () => {
             className={`flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all duration-300 ${
               view === 'incoming' 
                 ? 'bg-teal-600 text-white shadow-lg transform scale-105' 
-                : 'bg-white/20 text-gray-800 hover:bg-white/30 hover:transform hover:scale-105'
+                : 'bg-teal-600/20 text-teal-800 hover:bg-teal-600/30 hover:transform hover:scale-105 border border-teal-600/30'
             }`}
             style={{ minWidth: '140px', justifyContent: 'center' }}
           >
@@ -426,7 +426,7 @@ const CallsDashboard = () => {
             className={`flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all duration-300 ${
               ['campaigns', 'create-campaign', 'campaign-details'].includes(view)
                 ? 'bg-teal-600 text-white shadow-lg transform scale-105' 
-                : 'bg-white/20 text-gray-800 hover:bg-white/30 hover:transform hover:scale-105'
+                : 'bg-teal-600/20 text-teal-800 hover:bg-teal-600/30 hover:transform hover:scale-105 border border-teal-600/30'
             }`}
             style={{ minWidth: '140px', justifyContent: 'center' }}
           >
