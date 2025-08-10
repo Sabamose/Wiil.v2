@@ -92,7 +92,7 @@ const Bookings = () => {
       
       <Navigation />
       
-      <main className={`${isMobile ? 'ml-0' : 'ml-60'} mt-16 p-4 md:p-8 relative animate-fade-in bg-[linear-gradient(to_bottom,rgba(0,0,0,0)_23px,rgba(0,0,0,0)_23px),linear-gradient(to_right,hsl(var(--brand-teal)/0.06)_1px,transparent_1px)] bg-[size:100%_24px,24px_100%]`}>
+      <main className={`${isMobile ? 'ml-0' : 'ml-60'} mt-16 p-4 md:p-8 relative animate-fade-in bg-gradient-to-br from-teal-50 to-white`}>
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-brand-teal">Bookings</h1>
           <div className="h-1 w-20 bg-gradient-to-r from-brand-teal to-brand-teal/60 rounded-full mb-2" />
