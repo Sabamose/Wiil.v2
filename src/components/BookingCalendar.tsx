@@ -335,6 +335,27 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
           border-bottom: 1px solid hsl(var(--border)) !important;
         }
         
+        /* Time labels on Y axis */
+        .rbc-calendar-clean .rbc-time-slot {
+          color: hsl(var(--muted-foreground)) !important;
+          font-size: 12px !important;
+        }
+        
+        .rbc-calendar-clean .rbc-label {
+          color: hsl(var(--muted-foreground)) !important;
+          font-size: 12px !important;
+          padding: 4px 8px !important;
+        }
+        
+        .rbc-calendar-clean .rbc-time-gutter {
+          background: hsl(var(--background)) !important;
+          border-right: 1px solid hsl(var(--border)) !important;
+        }
+        
+        .rbc-calendar-clean .rbc-time-gutter .rbc-timeslot-group {
+          border-bottom: 1px solid hsl(var(--border)) !important;
+        }
+        
         /* Agenda view */
         .rbc-calendar-clean .rbc-agenda-table {
           border: none !important;
