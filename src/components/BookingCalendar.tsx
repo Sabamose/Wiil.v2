@@ -209,7 +209,12 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
             onSelectEvent={(event) => onBookingSelect(event.resource)}
             className="rbc-calendar-clean"
             views={['month', 'week', 'day', 'agenda']}
-            popup={false} // Disable popup to avoid conflicts
+            popup={false}
+            min={new Date(2024, 0, 1, 8, 0, 0)} // Start at 8 AM
+            max={new Date(2024, 0, 1, 22, 0, 0)} // End at 10 PM
+            step={30} // 30-minute intervals
+            timeslots={2} // Show 30-minute slots
+            showMultiDayTimes={true}
           />
         </div>
       </Card>
