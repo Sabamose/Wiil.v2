@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Loader2, Play, ArrowLeft, ArrowRight, Volume2, PhoneIncoming, PhoneOutgoing, User, MessageSquare, Brain, Upload, Phone, TestTube, Zap, Save, AlertTriangle, Settings, Calendar, PhoneForwarded, Check, Lightbulb, CheckCircle, Sparkles, Target } from 'lucide-react';
+import { Loader2, Play, ArrowLeft, ArrowRight, Volume2, PhoneIncoming, PhoneOutgoing, User, MessageSquare, Brain, Upload, Phone, TestTube, Zap, Save, AlertTriangle, Settings, Calendar, PhoneForwarded, Check, Lightbulb, CheckCircle, Sparkles, Target, Globe } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import KnowledgeUpload from './KnowledgeUpload';
 import PhoneNumberPurchaseModal from './PhoneNumberPurchaseModal';
@@ -1056,7 +1056,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                       </div>
                     )}
                     <div className="text-center space-y-3">
-                      <PhoneOutgoing className="w-16 h-16 mx-auto text-primary" />
+                      <Globe className="w-16 h-16 mx-auto text-primary" />
                       <h3 className="text-lg font-semibold">
                         Website Assistant
                       </h3>
