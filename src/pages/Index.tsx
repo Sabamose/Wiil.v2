@@ -16,7 +16,6 @@ const Index = () => {
   const [isCreationFlowOpen, setIsCreationFlowOpen] = useState(false);
   const [selectedAssistant, setSelectedAssistant] = useState<any>(null);
   const [currentView, setCurrentView] = useState<"list" | "settings">("list");
-  const [selectedWorkspace, setSelectedWorkspace] = useState<string | null>(null);
   const { assistants, loading, fetchAssistants } = useAssistants();
   const { isMobile } = useResponsive();
   const { isCollapsed, isHome } = useNavigationState();
@@ -45,19 +44,20 @@ const Index = () => {
     };
   }, [assistants]);
 
+  const handleAssistantCreated = (assistant: BaseAssistant) => {
+    setIsCreationFlowOpen(false);
+    fetchAssistants();
+  };
+
+  const handleAssistantSelect = (assistant: StoredAssistant) => {
+    setSelectedAssistant(assistant);
+    setCurrentView("settings");
+  };
+
   const handleBackToList = () => {
     setCurrentView("list");
     setSelectedAssistant(null);
   };
-
-  const handleWorkspaceSelect = (workspaceId: string) => {
-    setSelectedWorkspace(workspaceId);
-  };
-
-  // Show workspace selection if no workspace is selected
-  if (!selectedWorkspace) {
-    return <WorkspaceSelection onWorkspaceSelect={handleWorkspaceSelect} />;
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-white">

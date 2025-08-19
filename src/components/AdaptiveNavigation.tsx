@@ -105,8 +105,8 @@ const AdaptiveNavigation = () => {
 
   const NavigationContent = () => (
     <div className="flex flex-col h-full">
-      {/* Collapse Toggle - Only show on non-home, non-mobile */}
-      {!isHome && !isMobile && (
+      {/* Collapse Toggle - Show on all non-mobile pages */}
+      {!isMobile && (
         <div className="pb-4 border-b border-border/50">
           <Button
             variant="ghost"

@@ -17,19 +17,19 @@ export const useNavigationState = () => {
   const isHome = location.pathname === '/';
 
   const [isCollapsed, setIsCollapsed] = useState(() => {
-    if (isMobile || isHome) return false;
+    if (isMobile) return false;
     try {
       return localStorage.getItem(STORAGE_KEY) === 'true';
     } catch {
-      return true; // Default to collapsed on non-home pages
+      return false; // Default to expanded
     }
   });
 
-  // Calculate if navigation should be collapsed (no longer uses hover)
-  const shouldBeCollapsed = !isMobile && !isHome && isCollapsed;
+  // Calculate if navigation should be collapsed
+  const shouldBeCollapsed = !isMobile && isCollapsed;
 
   const toggleCollapse = useCallback(() => {
-    if (isMobile || isHome) return; // Can't collapse on mobile or home
+    if (isMobile) return; // Can't collapse on mobile
     
     const newCollapsed = !isCollapsed;
     setIsCollapsed(newCollapsed);
@@ -38,14 +38,14 @@ export const useNavigationState = () => {
     } catch {
       // Ignore storage errors
     }
-  }, [isCollapsed, isMobile, isHome]);
+  }, [isCollapsed, isMobile]);
 
-  // Reset collapse state when route changes to/from home
+  // Reset collapse state when going to mobile
   useEffect(() => {
-    if (isHome || isMobile) {
+    if (isMobile) {
       setIsCollapsed(false);
     }
-  }, [location.pathname, isHome, isMobile]);
+  }, [isMobile]);
 
   const navigationState: NavigationState = {
     isCollapsed: shouldBeCollapsed,
