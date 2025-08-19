@@ -15,7 +15,7 @@ const HorizontalChatPanel: React.FC = () => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed left-0 top-0 h-full w-96 bg-gradient-to-t from-teal-600/20 via-transparent to-white/95 border-r border-border z-[60] flex flex-col animate-slide-in-right">
+    <div className="fixed left-0 top-0 h-full w-96 bg-gradient-to-t from-teal-600/20 via-transparent to-white/95 border-r border-border z-[60] flex flex-col animate-slide-in-right overflow-hidden">
       {/* Close Button Only */}
       <div className="absolute top-4 right-4 z-[70]">
         <button
@@ -28,8 +28,26 @@ const HorizontalChatPanel: React.FC = () => {
         </button>
       </div>
 
+      <style>
+        {`
+          .messages-area::-webkit-scrollbar {
+            width: 6px;
+          }
+          .messages-area::-webkit-scrollbar-track {
+            background: transparent;
+          }
+          .messages-area::-webkit-scrollbar-thumb {
+            background: rgba(13, 148, 136, 0.3);
+            border-radius: 3px;
+          }
+          .messages-area::-webkit-scrollbar-thumb:hover {
+            background: rgba(13, 148, 136, 0.5);
+          }
+        `}
+      </style>
+      
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-4 pt-16 pb-2 space-y-4">
+      <div className="flex-1 overflow-y-auto p-4 pt-16 pb-2 space-y-4 h-0 scroll-smooth messages-area">
         {messages.length === 0 && (
           <div className="text-center py-8">
             <div className="w-12 h-12 rounded-full bg-brand-teal/10 flex items-center justify-center mx-auto mb-3">
