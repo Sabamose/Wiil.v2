@@ -5,6 +5,7 @@ import AssistantCreationFlow from "@/components/AssistantCreationFlow";
 import RefinedAssistantCreationFlow from "@/components/RefinedAssistantCreationFlow";
 import AssistantSettings from "@/components/AssistantSettings";
 import WorkspaceSelection from "@/components/WorkspaceSelection";
+import ChatInterface from "@/components/ChatInterface";
 import { BaseAssistant } from "@/types/assistant";
 import { useAssistants, StoredAssistant } from "@/hooks/useAssistants";
 import { useResponsive } from "@/hooks/use-responsive";
@@ -80,10 +81,19 @@ const Index = () => {
                 + Create Assistant
               </button>
             </div>
-            <section className="rounded-xl border border-brand-teal/20 bg-background shadow-sm hover:bg-teal-50 transition-colors">
+            <section className="rounded-xl border border-brand-teal/20 bg-background shadow-sm hover:bg-teal-50 transition-colors mb-8">
               <div className="p-2 md:p-4">
                 <ExistingAssistantsSection assistants={assistants} loading={loading} onRefresh={fetchAssistants} />
               </div>
+            </section>
+
+            {/* Chat Interface Section */}
+            <section className="mb-8">
+              <div className="text-center mb-6">
+                <h2 className="text-xl font-semibold text-brand-teal mb-2">Try Our AI Assistant</h2>
+                <p className="text-gray-600">Ask anything about creating and managing AI assistants</p>
+              </div>
+              <ChatInterface />
             </section>
           </main>
         ) : (
