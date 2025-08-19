@@ -1,5 +1,5 @@
 import React from "react";
-import Navigation from "@/components/Navigation";
+import AdaptiveNavigation from "@/components/AdaptiveNavigation";
 import PricingPlans from "@/components/PricingPlans";
 import { useResponsive } from "@/hooks/use-responsive";
 
@@ -13,9 +13,9 @@ const Billing = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-white">
-      <Navigation />
+      <AdaptiveNavigation />
       
-      <main className={`${isMobile ? 'ml-0' : 'ml-60'} mt-16 p-4 md:p-8 animate-fade-in`}>
+      <main className="ml-0 mt-16 p-4 md:p-8 animate-fade-in">
         <header className="mb-8 text-center">
           <h1 className="text-2xl md:text-3xl font-semibold text-brand-teal mb-2">Pricing Plans</h1>
           <p className="text-gray-600 max-w-2xl mx-auto">Choose the perfect plan for your AI assistant needs. Adjust the sliders to estimate your monthly costs.</p>

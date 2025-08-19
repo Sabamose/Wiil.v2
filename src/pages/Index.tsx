@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Navigation from "@/components/Navigation";
+import AdaptiveNavigation from "@/components/AdaptiveNavigation";
 import ExistingAssistantsSection from "@/components/ExistingAssistantsSection";
 import AssistantCreationFlow from "@/components/AssistantCreationFlow";
 import RefinedAssistantCreationFlow from "@/components/RefinedAssistantCreationFlow";
@@ -9,6 +9,7 @@ import { BaseAssistant } from "@/types/assistant";
 import { useAssistants, StoredAssistant } from "@/hooks/useAssistants";
 import { useResponsive } from "@/hooks/use-responsive";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useLocation } from "react-router-dom";
 
 const Index = () => {
   const [isCreationFlowOpen, setIsCreationFlowOpen] = useState(false);
@@ -17,6 +18,8 @@ const Index = () => {
   const [selectedWorkspace, setSelectedWorkspace] = useState<string | null>(null);
   const { assistants, loading, fetchAssistants } = useAssistants();
   const { isMobile } = useResponsive();
+  const location = useLocation();
+  const isHome = location.pathname === '/';
 
   useEffect(() => {
     const handleCreateAssistant = () => {
@@ -57,11 +60,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-white">
-        {currentView === "list" && <Navigation />}
+        <AdaptiveNavigation />
         
         {/* Main Content */}
         {currentView === "list" ? (
-          <main className={`${isMobile ? 'ml-0' : 'ml-60'} mt-16 p-4 md:p-8 relative animate-fade-in bg-[linear-gradient(to_right,rgba(13,148,136,0.06)_1px,transparent_1px)] bg-[size:24px_100%]`}>
+          <main className={`${isMobile ? 'ml-0' : isHome ? 'ml-60' : 'ml-0'} mt-16 p-4 md:p-8 relative animate-fade-in bg-[linear-gradient(to_right,rgba(13,148,136,0.06)_1px,transparent_1px)] bg-[size:24px_100%]`}>
             <header className="mb-6 md:mb-8">
               <h1 className="text-2xl font-semibold text-brand-teal">My Assistants</h1>
               <div className="h-0.5 w-24 bg-brand-teal/30 rounded-full mt-2" />

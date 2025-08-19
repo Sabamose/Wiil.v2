@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Navigation from "@/components/Navigation";
+import AdaptiveNavigation from "@/components/AdaptiveNavigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { useResponsive } from "@/hooks/use-responsive";
@@ -36,8 +36,8 @@ export default function AnalyticsDemo() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-white">
-      <Navigation />
-      <main className={`${isMobile ? 'ml-0' : 'ml-60'} mt-16 p-4 md:p-8 animate-fade-in`}>
+      <AdaptiveNavigation />
+      <main className="ml-0 mt-16 p-4 md:p-8 animate-fade-in">
         <header className="mb-6">
           <h1 className="text-2xl font-semibold text-brand-teal">Analytics (Demo)</h1>
           <p className="text-sm text-muted-foreground mt-1">Static, UI-only example to feel the experience.</p>

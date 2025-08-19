@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import Navigation from "./Navigation";
+import AdaptiveNavigation from "./AdaptiveNavigation";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -547,7 +547,7 @@ export default function HomePageTealV2() {
 
   return (
     <>
-      <Navigation />
+      <AdaptiveNavigation />
       <main className={`min-h-screen relative ${isMobile ? 'ml-0' : 'ml-60'} mt-16`}>
         {/* Lovable-style teal sunrise background - subtle with edge blending */}
         <div className="absolute inset-0 bg-gradient-to-t from-teal-600/40 via-teal-200/20 to-white"></div>

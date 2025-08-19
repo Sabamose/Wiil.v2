@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { MoreHorizontal, Plus } from "lucide-react";
-import Navigation from "@/components/Navigation";
+import AdaptiveNavigation from "@/components/AdaptiveNavigation";
 import PhoneNumberPurchaseModal from "@/components/PhoneNumberPurchaseModal";
 import AssignAssistantModal from "@/components/AssignAssistantModal";
 import { PhoneNumber } from "@/types/phoneNumber";
@@ -129,8 +129,8 @@ const PhoneNumbers = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-white">
-      <Navigation />
-      <div className={`${isMobile ? 'ml-0' : 'ml-60'} pt-16 min-h-screen bg-[linear-gradient(to_right,rgba(13,148,136,0.06)_1px,transparent_1px)] bg-[size:24px_100%]`}>
+      <AdaptiveNavigation />
+      <div className="ml-0 pt-16 min-h-screen bg-[linear-gradient(to_right,rgba(13,148,136,0.06)_1px,transparent_1px)] bg-[size:24px_100%]">
         <div className="p-4 md:p-8">
           <header className="mb-4 md:mb-6">
             <h1 className="text-2xl font-semibold text-brand-teal">Phone Numbers</h1>

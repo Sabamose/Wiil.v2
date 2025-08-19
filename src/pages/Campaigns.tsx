@@ -1,4 +1,4 @@
-import Navigation from "@/components/Navigation";
+import AdaptiveNavigation from "@/components/AdaptiveNavigation";
 import { useResponsive } from "@/hooks/use-responsive";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -103,8 +103,8 @@ const Campaigns = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-white">
-      <Navigation />
-      <main className={`${isMobile ? 'ml-0' : 'ml-60'} mt-16 p-4 md:p-6 space-y-6`}>
+      <AdaptiveNavigation />
+      <main className="ml-0 mt-16 p-4 md:p-6 space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
