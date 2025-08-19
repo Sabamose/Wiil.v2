@@ -1,4 +1,4 @@
-import { Home, MessageCircle, Bot, Phone, Calendar, CreditCard, Menu, Pin, PinOff, Moon } from "lucide-react";
+import { Home, MessageCircle, Bot, Phone, Calendar, CreditCard, Menu, ChevronLeft, ChevronRight, Moon } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -49,14 +49,9 @@ const navigationItems = [
 const AdaptiveNavigation = () => {
   const {
     isCollapsed,
-    isPinned,
     isMobile,
     isHome,
-    togglePin,
-    handleMouseEnter,
-    handleMouseLeave,
-    handleFocus,
-    handleBlur,
+    toggleCollapse,
   } = useNavigationState();
 
   const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -110,9 +105,32 @@ const AdaptiveNavigation = () => {
 
   const NavigationContent = () => (
     <div className="flex flex-col h-full">
+      {/* Collapse Toggle - Only show on non-home, non-mobile */}
+      {!isHome && !isMobile && (
+        <div className="pb-4 border-b border-border/50">
+          <Button
+            variant="ghost"
+            size={isCollapsed ? "icon" : "default"}
+            onClick={toggleCollapse}
+            className={`${isCollapsed ? 'w-12 h-8 mx-auto' : 'w-full justify-start h-8'} transition-colors ${
+              reducedMotion ? '' : 'duration-200'
+            } hover:bg-accent`}
+            aria-label={isCollapsed ? "Expand Navigation" : "Collapse Navigation"}
+          >
+            {isCollapsed ? (
+              <ChevronRight className="w-4 h-4" />
+            ) : (
+              <>
+                <ChevronLeft className="w-4 h-4" />
+                <span className="ml-2">Collapse</span>
+              </>
+            )}
+          </Button>
+        </div>
+      )}
+
       {/* Main Navigation Items */}
-      <div className="flex-1 space-y-1">
-        {navigationItems.slice(0, 4).map((item) => (
+      <div className="flex-1 space-y-1 pt-4">{navigationItems.slice(0, 4).map((item) => (
           <NavigationTooltip
             key={item.path}
             content={item.label}
@@ -122,8 +140,6 @@ const AdaptiveNavigation = () => {
               to={item.href}
               className={getNavItemClass(item.path)}
               onClick={() => setIsSheetOpen(false)}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
               aria-label={item.label}
             >
               <item.icon className="w-5 h-5 flex-shrink-0" />
@@ -145,8 +161,6 @@ const AdaptiveNavigation = () => {
             to="/phone-numbers"
             className={getNavItemClass("/phone-numbers")}
             onClick={() => setIsSheetOpen(false)}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
             aria-label="Phone Numbers"
           >
             <Phone className="w-5 h-5 flex-shrink-0" />
@@ -157,29 +171,6 @@ const AdaptiveNavigation = () => {
 
       {/* Bottom Section */}
       <div className="space-y-1 mt-auto pt-4">
-        {/* Pin Control - Only show on non-home, non-mobile */}
-        {!isHome && !isMobile && (
-          <NavigationTooltip
-            content={isPinned ? "Unpin Navigation" : "Pin Navigation"}
-            show={isCollapsed}
-          >
-            <Button
-              variant="ghost"
-              size={isCollapsed ? "icon" : "default"}
-              onClick={togglePin}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-              className={`${isCollapsed ? 'w-12 h-12' : 'w-full justify-start'} transition-colors ${
-                reducedMotion ? '' : 'duration-200'
-              }`}
-              aria-label={isPinned ? "Unpin Navigation" : "Pin Navigation"}
-            >
-              {isPinned ? <PinOff className="w-5 h-5" /> : <Pin className="w-5 h-5" />}
-              {!isCollapsed && <span className="ml-3">{isPinned ? "Unpin" : "Pin"}</span>}
-            </Button>
-          </NavigationTooltip>
-        )}
-
         {/* Billing */}
         <NavigationTooltip
           content="Billing"
@@ -189,8 +180,6 @@ const AdaptiveNavigation = () => {
             to="/billing"
             className={getNavItemClass("/billing")}
             onClick={() => setIsSheetOpen(false)}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
             aria-label="Billing"
           >
             <CreditCard className="w-5 h-5 flex-shrink-0" />
@@ -258,8 +247,6 @@ const AdaptiveNavigation = () => {
           } ${
             isHome ? '' : (isCollapsed ? 'shadow-lg' : 'shadow-lg')
           }`}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
           role="navigation"
           aria-label="Main navigation"
         >

@@ -6,108 +6,56 @@ interface NavigationState {
   isCollapsed: boolean;
   isPinned: boolean;
   isMobile: boolean;
-  isHovered: boolean;
   isHome: boolean;
 }
 
-const STORAGE_KEY = 'navigation-pinned';
-const HOVER_DELAY = 300;
+const STORAGE_KEY = 'navigation-collapsed';
 
 export const useNavigationState = () => {
   const location = useLocation();
   const { isMobile } = useResponsive();
   const isHome = location.pathname === '/';
 
-  const [isPinned, setIsPinned] = useState(() => {
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    if (isMobile || isHome) return false;
     try {
       return localStorage.getItem(STORAGE_KEY) === 'true';
     } catch {
-      return false;
+      return true; // Default to collapsed on non-home pages
     }
   });
 
-  const [isHovered, setIsHovered] = useState(false);
-  const [hoverTimeoutId, setHoverTimeoutId] = useState<NodeJS.Timeout | null>(null);
+  // Calculate if navigation should be collapsed (no longer uses hover)
+  const shouldBeCollapsed = !isMobile && !isHome && isCollapsed;
 
-  // Calculate if navigation should be collapsed
-  const isCollapsed = !isMobile && !isHome && !isPinned && !isHovered;
-
-  const togglePin = useCallback(() => {
-    const newPinned = !isPinned;
-    setIsPinned(newPinned);
+  const toggleCollapse = useCallback(() => {
+    if (isMobile || isHome) return; // Can't collapse on mobile or home
+    
+    const newCollapsed = !isCollapsed;
+    setIsCollapsed(newCollapsed);
     try {
-      localStorage.setItem(STORAGE_KEY, newPinned.toString());
+      localStorage.setItem(STORAGE_KEY, newCollapsed.toString());
     } catch {
       // Ignore storage errors
     }
-  }, [isPinned]);
+  }, [isCollapsed, isMobile, isHome]);
 
-  const handleMouseEnter = useCallback(() => {
-    if (hoverTimeoutId) {
-      clearTimeout(hoverTimeoutId);
-      setHoverTimeoutId(null);
-    }
-    setIsHovered(true);
-  }, [hoverTimeoutId]);
-
-  const handleMouseLeave = useCallback(() => {
-    if (hoverTimeoutId) {
-      clearTimeout(hoverTimeoutId);
-    }
-    
-    const timeoutId = setTimeout(() => {
-      setIsHovered(false);
-      setHoverTimeoutId(null);
-    }, HOVER_DELAY);
-    
-    setHoverTimeoutId(timeoutId);
-  }, [hoverTimeoutId]);
-
-  const handleFocus = useCallback(() => {
-    setIsHovered(true);
-  }, []);
-
-  const handleBlur = useCallback(() => {
-    // Small delay to allow focus to move between nav items
-    setTimeout(() => {
-      const activeElement = document.activeElement;
-      const navElement = document.querySelector('[data-navigation]');
-      if (!navElement?.contains(activeElement)) {
-        setIsHovered(false);
-      }
-    }, 100);
-  }, []);
-
-  // Cleanup timeout on unmount
+  // Reset collapse state when route changes to/from home
   useEffect(() => {
-    return () => {
-      if (hoverTimeoutId) {
-        clearTimeout(hoverTimeoutId);
-      }
-    };
-  }, [hoverTimeoutId]);
-
-  // Reset hover state when route changes (except on home)
-  useEffect(() => {
-    if (!isHome) {
-      setIsHovered(false);
+    if (isHome || isMobile) {
+      setIsCollapsed(false);
     }
-  }, [location.pathname, isHome]);
+  }, [location.pathname, isHome, isMobile]);
 
   const navigationState: NavigationState = {
-    isCollapsed,
-    isPinned,
+    isCollapsed: shouldBeCollapsed,
+    isPinned: false, // No longer needed since we use explicit toggle
     isMobile,
-    isHovered,
     isHome,
   };
 
   return {
     ...navigationState,
-    togglePin,
-    handleMouseEnter,
-    handleMouseLeave,
-    handleFocus,
-    handleBlur,
+    toggleCollapse,
   };
 };
