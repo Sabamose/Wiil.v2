@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 
 /**
  * PricingPlans – $0.09/min, US numbers $1.25/mo, extra assistant $5/mo
- * Plans: Free / Starter / Pro / Business
+ * Plans: Starter / Pro / Business
  * - Live estimator: minutes, numbers, assistants
  * - Highlights the cheapest plan
  * - No external dependencies; inline styles only
@@ -16,7 +16,6 @@ export default function PricingPlans({
   onSelect?: (planId: string, estimate: any) => void;
 }) {
   const PLANS = [
-    { id: "free",     name: "Free",     price: 0,   mins: 10,   assistants: 1,  numbers: 0 },
     { id: "starter",  name: "Starter",  price: 29,  mins: 300,  assistants: 3,  numbers: 1 },
     { id: "pro",      name: "Pro",      price: 149, mins: 1600, assistants: 10, numbers: 3 },
     { id: "business", name: "Business", price: 399, mins: 4300, assistants: 25, numbers: 10 },
@@ -136,9 +135,9 @@ export default function PricingPlans({
                 ...(p.id === bestId ? s.btnPrimary : s.btnSecondary),
               }}
               aria-label={`Choose ${p.name}`}
-            >
-              {p.id === "free" ? "Get started" : `Choose ${p.name}`}
-            </button>
+              >
+                Choose {p.name}
+              </button>
           </div>
         ))}
       </div>
