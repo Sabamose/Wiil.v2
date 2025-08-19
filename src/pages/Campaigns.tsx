@@ -1,5 +1,6 @@
 import AdaptiveNavigation from "@/components/AdaptiveNavigation";
 import { useResponsive } from "@/hooks/use-responsive";
+import { useNavigationState } from "@/hooks/useNavigationState";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,6 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 
 const Campaigns = () => {
   const { isMobile } = useResponsive();
+  const { isCollapsed, isHome } = useNavigationState();
   const { assistants } = useAssistants();
   const { toast } = useToast();
   const [isCreating, setIsCreating] = useState(false);
@@ -104,7 +106,9 @@ const Campaigns = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-white">
       <AdaptiveNavigation />
-      <main className="ml-0 mt-16 p-4 md:p-6 space-y-6">
+      <main className={`transition-all duration-200 ease-in-out ${
+        isMobile ? 'ml-0' : (isHome ? 'ml-60' : (isCollapsed ? 'ml-20' : 'ml-60'))
+      } mt-16 p-4 md:p-6 space-y-6`}>
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">

@@ -3,6 +3,7 @@ import AdaptiveNavigation from "@/components/AdaptiveNavigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { useResponsive } from "@/hooks/use-responsive";
+import { useNavigationState } from "@/hooks/useNavigationState";
 
 const series = Array.from({ length: 14 }).map((_, i) => ({
   day: `Day ${i + 1}`,
@@ -33,11 +34,14 @@ export default function AnalyticsDemo() {
   }, []);
 
   const { isMobile } = useResponsive();
+  const { isCollapsed, isHome } = useNavigationState();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-white">
       <AdaptiveNavigation />
-      <main className="ml-0 mt-16 p-4 md:p-8 animate-fade-in">
+      <main className={`transition-all duration-200 ease-in-out ${
+        isMobile ? 'ml-0' : (isHome ? 'ml-60' : (isCollapsed ? 'ml-20' : 'ml-60'))
+      } mt-16 p-4 md:p-8 animate-fade-in`}>
         <header className="mb-6">
           <h1 className="text-2xl font-semibold text-brand-teal">Analytics (Demo)</h1>
           <p className="text-sm text-muted-foreground mt-1">Static, UI-only example to feel the experience.</p>

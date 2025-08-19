@@ -8,6 +8,7 @@ import WorkspaceSelection from "@/components/WorkspaceSelection";
 import { BaseAssistant } from "@/types/assistant";
 import { useAssistants, StoredAssistant } from "@/hooks/useAssistants";
 import { useResponsive } from "@/hooks/use-responsive";
+import { useNavigationState } from "@/hooks/useNavigationState";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLocation } from "react-router-dom";
 
@@ -18,8 +19,8 @@ const Index = () => {
   const [selectedWorkspace, setSelectedWorkspace] = useState<string | null>(null);
   const { assistants, loading, fetchAssistants } = useAssistants();
   const { isMobile } = useResponsive();
+  const { isCollapsed, isHome } = useNavigationState();
   const location = useLocation();
-  const isHome = location.pathname === '/';
 
   useEffect(() => {
     const handleCreateAssistant = () => {
@@ -64,7 +65,9 @@ const Index = () => {
         
         {/* Main Content */}
         {currentView === "list" ? (
-          <main className={`${isMobile ? 'ml-0' : isHome ? 'ml-60' : 'ml-0'} mt-16 p-4 md:p-8 relative animate-fade-in bg-[linear-gradient(to_right,rgba(13,148,136,0.06)_1px,transparent_1px)] bg-[size:24px_100%]`}>
+          <main className={`transition-all duration-200 ease-in-out ${
+            isMobile ? 'ml-0' : (isHome ? 'ml-60' : (isCollapsed ? 'ml-20' : 'ml-60'))
+          } mt-16 p-4 md:p-8 relative animate-fade-in bg-[linear-gradient(to_right,rgba(13,148,136,0.06)_1px,transparent_1px)] bg-[size:24px_100%]`}>
             <header className="mb-6 md:mb-8">
               <h1 className="text-2xl font-semibold text-brand-teal">My Assistants</h1>
               <div className="h-0.5 w-24 bg-brand-teal/30 rounded-full mt-2" />

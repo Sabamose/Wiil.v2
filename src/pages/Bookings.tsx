@@ -8,6 +8,7 @@ import { BookingDetailsModal } from '@/components/BookingDetailsModal';
 import { useBookings } from '@/hooks/useBookings';
 import { useAssistants } from '@/hooks/useAssistants';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useNavigationState } from '@/hooks/useNavigationState';
 import { useToast } from '@/hooks/use-toast';
 import { Booking } from '@/types/booking';
 import { generateSimulatedBookings, clearSimulatedBookings } from '@/lib/bookingSimulation';
@@ -20,6 +21,7 @@ const Bookings = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isClearing, setIsClearing] = useState(false);
   const isMobile = useIsMobile();
+  const { isCollapsed, isHome } = useNavigationState();
   const { toast } = useToast();
   const handleBookingSelect = (booking: Booking) => {
     setSelectedBooking(booking);
@@ -92,7 +94,9 @@ const Bookings = () => {
       
       <AdaptiveNavigation />
       
-      <main className="ml-0 mt-16 p-4 md:p-8 relative animate-fade-in bg-[linear-gradient(to_right,rgba(13,148,136,0.06)_1px,transparent_1px)] bg-[size:24px_100%]">
+      <main className={`transition-all duration-200 ease-in-out ${
+        isMobile ? 'ml-0' : (isHome ? 'ml-60' : (isCollapsed ? 'ml-20' : 'ml-60'))
+      } mt-16 p-4 md:p-8 relative animate-fade-in bg-[linear-gradient(to_right,rgba(13,148,136,0.06)_1px,transparent_1px)] bg-[size:24px_100%]`}>
         <div className="mb-8">
           <h1 className="text-2xl font-semibold text-brand-teal">Bookings</h1>
           <div className="h-1 w-20 bg-gradient-to-r from-brand-teal to-brand-teal/60 rounded-full mb-2" />

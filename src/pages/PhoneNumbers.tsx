@@ -6,6 +6,7 @@ import AssignAssistantModal from "@/components/AssignAssistantModal";
 import { PhoneNumber } from "@/types/phoneNumber";
 import { Button } from "@/components/ui/button";
 import { useResponsive } from "@/hooks/use-responsive";
+import { useNavigationState } from "@/hooks/useNavigationState";
 import { useToast } from "@/hooks/use-toast";
 import {
   Table,
@@ -27,6 +28,7 @@ const PhoneNumbers = () => {
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [selectedPhoneNumber, setSelectedPhoneNumber] = useState<PhoneNumber | null>(null);
   const { isMobile } = useResponsive();
+  const { isCollapsed, isHome } = useNavigationState();
   const { toast } = useToast();
   const [phoneNumbers, setPhoneNumbers] = useState<PhoneNumber[]>([
     {
@@ -130,7 +132,9 @@ const PhoneNumbers = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-white">
       <AdaptiveNavigation />
-      <div className="ml-0 pt-16 min-h-screen bg-[linear-gradient(to_right,rgba(13,148,136,0.06)_1px,transparent_1px)] bg-[size:24px_100%]">
+      <div className={`transition-all duration-200 ease-in-out ${
+        isMobile ? 'ml-0' : (isHome ? 'ml-60' : (isCollapsed ? 'ml-20' : 'ml-60'))
+      } pt-16 min-h-screen bg-[linear-gradient(to_right,rgba(13,148,136,0.06)_1px,transparent_1px)] bg-[size:24px_100%]`}>
         <div className="p-4 md:p-8">
           <header className="mb-4 md:mb-6">
             <h1 className="text-2xl font-semibold text-brand-teal">Phone Numbers</h1>
