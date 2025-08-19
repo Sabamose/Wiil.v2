@@ -82,9 +82,16 @@ const WorkspaceSelection: React.FC<WorkspaceSelectionProps> = ({ onWorkspaceSele
                   <h3 className="text-lg font-semibold text-foreground mb-1">
                     {workspace.title}
                   </h3>
-                  <p className="text-sm text-muted-foreground mb-4">
+                  <p className="text-sm text-muted-foreground mb-1">
                     {workspace.tagline}
                   </p>
+                  
+                  {/* Ideal for emphasis */}
+                  <div className="mb-4 px-3 py-2 bg-brand-teal/5 border border-brand-teal/20 rounded-lg">
+                    <p className="text-xs font-medium text-brand-teal">
+                      Ideal for: {workspace.primaryFeature}
+                    </p>
+                  </div>
 
                   <div className="mb-6 space-y-2">
                     {workspace.features.map((feature, index) => (
