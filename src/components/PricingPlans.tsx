@@ -33,18 +33,16 @@ export default function PricingPlans({
   // Estimate cost for each plan
   const estimates = useMemo(() => {
     return PLANS.map((p) => {
-      if (p.id === "paygo") {
-        // Pay as you go: no base fee, higher per-minute rate
-        const cost = expectedMins * (OVERAGE_PER_MIN * 1.5) + 
-                     neededNumbers * EXTRA_NUMBER_PM + 
-                     neededAssistants * EXTRA_ASSISTANT_PM;
-        return {
-          ...p,
-          overageMins: expectedMins,
-          extraNumbers: neededNumbers,
-          extraAssist: neededAssistants,
-          cost,
-        };
+       if (p.id === "paygo") {
+         // Pay as you go: prepaid credit system - users load money first
+         const cost = 0; // No monthly cost - users load credits
+         return {
+           ...p,
+           overageMins: 0,
+           extraNumbers: 0,
+           extraAssist: 0,
+           cost,
+         };
       } else {
         // Regular plans with included minutes
         const overageMins = Math.max(0, expectedMins - p.mins);
@@ -128,18 +126,18 @@ export default function PricingPlans({
             <ul style={s.features}>
               {p.id === "paygo" ? (
                 <>
-                  <li style={s.featureItem}>
-                    <span style={s.featureValue}>No monthly fee</span>
-                  </li>
-                  <li style={s.featureItem}>
-                    <span style={s.featureValue}>Unlimited</span> assistants
-                  </li>
-                  <li style={s.featureItem}>
-                    <span style={s.featureValue}>Unlimited</span> phone numbers
-                  </li>
-                  <li style={s.featureItem}>
-                    ${(OVERAGE_PER_MIN * 1.5).toFixed(2)}/min usage
-                  </li>
+                   <li style={s.featureItem}>
+                     <span style={s.featureValue}>Load credits first</span>
+                   </li>
+                   <li style={s.featureItem}>
+                     <span style={s.featureValue}>$0.09</span> per minute usage
+                   </li>
+                   <li style={s.featureItem}>
+                     <span style={s.featureValue}>No monthly fees</span>
+                   </li>
+                   <li style={s.featureItem}>
+                     Pay only for what you use
+                   </li>
                 </>
               ) : (
                 <>
