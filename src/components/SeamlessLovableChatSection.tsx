@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Paperclip } from "lucide-react";
 
 /**
  * SeamlessLovableChatSection
@@ -229,6 +229,18 @@ export default function SeamlessLovableChatSection({
       overflow: "hidden",
       backdropFilter: "blur(10px)"
     },
+    attachBtn: {
+      padding: "8px", 
+      borderRadius: "50%", 
+      background: "rgba(15, 118, 110, 0.1)", 
+      border: "none", 
+      cursor: "pointer", 
+      display: "flex", 
+      alignItems: "center", 
+      justifyContent: "center",
+      color: "#0f766e",
+      transition: "all 0.2s ease"
+    },
   };
 
   return (
@@ -256,6 +268,19 @@ export default function SeamlessLovableChatSection({
       {/* Chat bar */}
       <div style={{position: 'relative'}}>
         <div style={{...styles.bar, position: 'relative', zIndex: 1}} role="form" aria-label="Ask Will">
+        <button 
+          style={styles.attachBtn}
+          onClick={() => {/* File attachment logic here */}}
+          aria-label="Attach file"
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = "rgba(15, 118, 110, 0.15)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = "rgba(15, 118, 110, 0.1)";
+          }}
+        >
+          <Paperclip size={16} />
+        </button>
         <input
           style={styles.inputText}
           value={userInput}
