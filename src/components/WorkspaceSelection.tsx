@@ -75,7 +75,7 @@ const WorkspaceSelection: React.FC<WorkspaceSelectionProps> = ({ onWorkspaceSele
                 className="group transition-all duration-200 hover:shadow-md border border-border bg-white rounded-xl"
               >
                 <CardContent className="p-6 text-center">
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-lg bg-brand-teal/10 flex items-center justify-center">
+                  <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                     <IconComponent className="h-8 w-8 text-brand-teal" />
                   </div>
                   
