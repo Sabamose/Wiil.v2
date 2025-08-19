@@ -72,7 +72,6 @@ export default function SeamlessLovableChatSection({
       const s = document.createElement("style");
       s.id = id;
       s.textContent = `
-        @keyframes caretBlink { 0%,49%{opacity:1} 50%,100%{opacity:0} }
         @keyframes btnPulse { 0%,100%{ transform: translateY(0); box-shadow: 0 8px 20px rgba(13,148,136,.15)} 50%{ transform: translateY(-2px); box-shadow: 0 16px 32px rgba(13,148,136,.22)} }
         @keyframes shine { 0%{ transform: translateX(-120%) rotate(12deg)} 100%{ transform: translateX(120%) rotate(12deg)} }
         @keyframes gradientShift { 0%{ background-position: 0% 50% } 50%{ background-position: 100% 50% } 100%{ background-position: 0% 50% } }
@@ -187,7 +186,7 @@ export default function SeamlessLovableChatSection({
       minWidth: "700px",
     },
     inputText: { width: "100%", color: "#0f766e", fontSize: 16, lineHeight: "22px", minHeight: 40, background: "transparent", border: "none", outline: "none", textAlign: "left", paddingLeft: 0, resize: "none" },
-    caret: { display: "inline-block", width: 1.5, height: 18, background: "#0f766e", marginLeft: 2, animation: "caretBlink 1s step-end infinite" },
+    caret: { display: "inline-block", width: 1.5, height: 18, background: "#0f766e", marginLeft: 2 },
     sendBtn: {
       position: "relative", padding: "10px 14px", borderRadius: 18, color: "#fff", fontWeight: 600,
       background: `linear-gradient(180deg, ${lighten(accent, .1)} 0%, ${accent} 100%)`,
@@ -286,9 +285,6 @@ export default function SeamlessLovableChatSection({
             aria-label="Message"
             rows={1}
           />
-          {!isUserTyping && !userInput && (
-            <span style={styles.caret} />
-          )}
           
           <div style={styles.bottomRow}>
             <button 
