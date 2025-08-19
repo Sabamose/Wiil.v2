@@ -13,16 +13,16 @@ interface WorkspaceOption {
 
 const workspaceOptions: WorkspaceOption[] = [
   {
-    id: 'enterprise',
-    title: 'Enterprise',
-    tagline: 'Scale your business',
+    id: 'business',
+    title: 'Business',
+    tagline: 'For growing companies',
     icon: Building2,
     primaryFeature: 'Team collaboration & analytics'
   },
   {
     id: 'developer',
     title: 'Developer',
-    tagline: 'Build & customize',
+    tagline: 'For individual & more complex projects',
     icon: Code2,
     primaryFeature: 'Full API access & tools'
   }
