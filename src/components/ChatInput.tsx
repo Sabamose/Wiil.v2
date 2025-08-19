@@ -35,7 +35,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Ask Will anything..."
-            className="w-full resize-none rounded-2xl border border-input/30 bg-white/20 backdrop-blur-sm px-2 py-4 pr-20 pb-4 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-brand-teal/30 focus:border-brand-teal transition-all"
+            className="w-full resize-none rounded-2xl border border-teal-600/60 bg-white/20 backdrop-blur-sm px-2 py-4 pr-20 pb-4 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-brand-teal/30 focus:border-brand-teal transition-all"
             rows={4}
             style={{ minHeight: '120px', maxHeight: '200px' }}
           />
