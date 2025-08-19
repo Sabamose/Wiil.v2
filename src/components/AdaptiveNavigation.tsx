@@ -9,16 +9,10 @@ import { NavigationTooltip } from "@/components/NavigationTooltip";
 
 const navigationItems = [
   {
-    href: "/",
-    path: "/",
-    icon: Bot,
-    label: "Workspace"
-  },
-  {
     href: "/home",
     path: "/home",
     icon: Home,
-    label: "Demo"
+    label: "Home"
   },
   {
     href: "/conversations", 
@@ -27,8 +21,14 @@ const navigationItems = [
     label: "Conversations"
   },
   {
+    href: "/",
+    path: "/",
+    icon: Bot,
+    label: "My Assistants"
+  },
+  {
     href: "/bookings",
-    path: "/bookings",
+    path: "/bookings", 
     icon: Calendar,
     label: "Bookings"
   },
