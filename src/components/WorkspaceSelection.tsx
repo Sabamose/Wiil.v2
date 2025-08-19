@@ -6,38 +6,25 @@ import { Building2, Code2 } from 'lucide-react';
 interface WorkspaceOption {
   id: string;
   title: string;
-  description: string;
+  tagline: string;
   icon: React.ElementType;
-  features: string[];
+  primaryFeature: string;
 }
 
 const workspaceOptions: WorkspaceOption[] = [
   {
     id: 'enterprise',
     title: 'Enterprise',
-    description: 'Designed for teams and growing businesses',
+    tagline: 'Scale your business',
     icon: Building2,
-    features: [
-      'Advanced analytics',
-      'Team collaboration',
-      'Multi-channel deployment',
-      'Business integrations',
-      'Campaign management'
-    ]
+    primaryFeature: 'Team collaboration & analytics'
   },
   {
     id: 'developer',
     title: 'Developer',
-    description: 'Advanced tools for developers and technical teams',
+    tagline: 'Build & customize',
     icon: Code2,
-    features: [
-      'Full API access',
-      'Advanced customization',
-      'Developer tools',
-      'Custom integrations',
-      'Technical documentation',
-      'Project keys management'
-    ]
+    primaryFeature: 'Full API access & tools'
   }
 ];
 
@@ -58,45 +45,35 @@ const WorkspaceSelection: React.FC<WorkspaceSelectionProps> = ({ onWorkspaceSele
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
           {workspaceOptions.map((workspace) => {
             const IconComponent = workspace.icon;
             
             return (
               <Card 
                 key={workspace.id}
-                className="relative overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-brand-teal/10 hover:-translate-y-1 border border-border/50 hover:border-brand-teal/30"
+                className="group relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-brand-teal/5 hover:-translate-y-0.5 border border-border/30 hover:border-brand-teal/20 bg-white/60 backdrop-blur-sm"
               >
-                <CardContent className="p-8">
-                  <div className="text-center mb-6">
-                    <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-brand-teal/10 flex items-center justify-center">
-                      <IconComponent className="h-8 w-8 text-brand-teal" />
-                    </div>
-                    <h3 className="text-2xl font-semibold text-foreground mb-2">
-                      {workspace.title}
-                    </h3>
-                    <p className="text-muted-foreground">
-                      {workspace.description}
-                    </p>
+                <CardContent className="p-8 text-center">
+                  <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-brand-teal/10 to-brand-teal/5 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                    <IconComponent className="h-10 w-10 text-brand-teal" />
                   </div>
-
-                  <div className="mb-8">
-                    <h4 className="font-medium text-foreground mb-4">Key Features:</h4>
-                    <ul className="space-y-2">
-                      {workspace.features.map((feature, index) => (
-                        <li key={index} className="flex items-center text-sm text-muted-foreground">
-                          <div className="w-1.5 h-1.5 rounded-full bg-brand-teal mr-3" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  
+                  <h3 className="text-xl font-semibold text-foreground mb-2">
+                    {workspace.title}
+                  </h3>
+                  <p className="text-sm text-brand-teal font-medium mb-3">
+                    {workspace.tagline}
+                  </p>
+                  <p className="text-sm text-muted-foreground mb-8">
+                    {workspace.primaryFeature}
+                  </p>
 
                   <Button
                     onClick={() => onWorkspaceSelect(workspace.id)}
-                    className="w-full bg-brand-teal hover:bg-brand-teal-hover text-brand-teal-foreground font-medium py-3 transition-all duration-200"
+                    className="w-full bg-brand-teal hover:bg-brand-teal-hover text-brand-teal-foreground font-medium py-2.5 transition-all duration-200 group-hover:shadow-md"
                   >
-                    Choose {workspace.title}
+                    Get Started
                   </Button>
                 </CardContent>
               </Card>
