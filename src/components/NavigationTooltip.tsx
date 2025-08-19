@@ -8,7 +8,6 @@ interface NavigationTooltipProps {
 }
 
 export const NavigationTooltip = ({ children, content, show }: NavigationTooltipProps) => {
-  console.log('NavigationTooltip: Component rendering');
   if (!show) {
     return <>{children}</>;
   }

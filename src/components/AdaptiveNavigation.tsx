@@ -47,7 +47,6 @@ const navigationItems = [
 ];
 
 const AdaptiveNavigation = () => {
-  console.log('AdaptiveNavigation: Component starting to render');
   const {
     isCollapsed,
     isPinned,
