@@ -1,7 +1,8 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Building2, Code2 } from 'lucide-react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Building2, Code2, ChevronDown, Check } from 'lucide-react';
 
 interface WorkspaceOption {
   id: string;
@@ -9,6 +10,7 @@ interface WorkspaceOption {
   tagline: string;
   icon: React.ElementType;
   primaryFeature: string;
+  features: string[];
 }
 
 const workspaceOptions: WorkspaceOption[] = [
@@ -17,14 +19,30 @@ const workspaceOptions: WorkspaceOption[] = [
     title: 'Business',
     tagline: 'For growing companies',
     icon: Building2,
-    primaryFeature: 'Team collaboration & analytics'
+    primaryFeature: 'Team collaboration & analytics',
+    features: [
+      'Multi-user dashboard access',
+      'Advanced analytics & reporting', 
+      'Team management tools',
+      'Priority customer support',
+      'Custom integrations',
+      'Usage monitoring'
+    ]
   },
   {
     id: 'developer',
     title: 'Developer',
     tagline: 'For individual & more complex projects',
     icon: Code2,
-    primaryFeature: 'Full API access & tools'
+    primaryFeature: 'Full API access & tools',
+    features: [
+      'Complete API documentation',
+      'Custom webhook endpoints',
+      'Advanced configuration options',
+      'Development tools & SDKs',
+      'Debugging & testing suite',
+      'Technical community access'
+    ]
   }
 ];
 
@@ -69,9 +87,35 @@ const WorkspaceSelection: React.FC<WorkspaceSelectionProps> = ({ onWorkspaceSele
                   <p className="text-sm text-brand-teal font-medium mb-3">
                     {workspace.tagline}
                   </p>
-                  <p className="text-sm text-muted-foreground mb-8">
+                  <p className="text-sm text-muted-foreground mb-4">
                     {workspace.primaryFeature}
                   </p>
+
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        className="text-sm text-brand-teal hover:text-brand-teal-hover hover:bg-brand-teal/5 mb-4 p-2"
+                      >
+                        View all features
+                        <ChevronDown className="ml-1 h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent 
+                      className="w-80 bg-white/95 backdrop-blur-sm border border-border/30 z-50"
+                      align="center"
+                    >
+                      {workspace.features.map((feature, index) => (
+                        <DropdownMenuItem 
+                          key={index}
+                          className="flex items-center gap-2 py-2 px-3 hover:bg-brand-teal/10"
+                        >
+                          <Check className="h-4 w-4 text-brand-teal" />
+                          <span className="text-sm">{feature}</span>
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
 
                   <Button
                     onClick={() => onWorkspaceSelect(workspace.id)}
