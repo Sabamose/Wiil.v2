@@ -1850,7 +1850,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                         {formData.behavior.mustAsk.map((item, idx) => (
                           <Badge 
                             key={idx} 
-                            className="cursor-pointer bg-blue-100 text-blue-700 border-blue-300 text-sm py-1 px-3" 
+                            className="cursor-pointer bg-teal-100 text-teal-700 border-teal-300 text-sm py-1 px-3" 
                             onClick={() => updateBehavior({ mustAsk: formData.behavior.mustAsk.filter((_,i)=>i!==idx) })}
                           >
                             ❓ {item} <span className="ml-2 opacity-60">×</span>
@@ -1988,7 +1988,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                       
                       <div className="p-4 border rounded-lg">
                         <h4 className="font-medium mb-2 flex items-center gap-2">
-                          <Settings className="h-4 w-4 text-blue-500" />
+                          <Settings className="h-4 w-4 text-teal-600" />
                           Customizable
                         </h4>
                         <p className="text-sm text-muted-foreground">
@@ -1997,9 +1997,9 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                       </div>
                     </div>
 
-                    <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg">
-                      <h4 className="font-medium text-blue-900 mb-2">Integration Instructions:</h4>
-                      <ul className="text-sm text-blue-800 space-y-1 list-disc list-inside">
+                     <div className="bg-teal-50 border border-teal-200 p-4 rounded-lg">
+                       <h4 className="font-medium text-teal-900 mb-2">Integration Instructions:</h4>
+                       <ul className="text-sm text-teal-800 space-y-1 list-disc list-inside">
                         <li><strong>Lovable Projects:</strong> Add to your main HTML file or component</li>
                         <li><strong>Replit:</strong> Paste in your index.html file</li>
                         <li><strong>Website Builders:</strong> Add to custom HTML/code injection section</li>
