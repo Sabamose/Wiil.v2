@@ -117,8 +117,17 @@ export default function PricingPlans({
                 {p.id === bestId && <span style={s.badge}>Most popular</span>}
               </div>
               <div style={s.priceRow}>
-                <span style={s.price}>${p.price}</span>
-                <span style={s.per}>/month</span>
+                {p.id === "paygo" ? (
+                  <>
+                    <span style={s.price}>Load Credits</span>
+                    <span style={s.per}>Prepaid</span>
+                  </>
+                ) : (
+                  <>
+                    <span style={s.price}>${p.price}</span>
+                    <span style={s.per}>/month</span>
+                  </>
+                )}
               </div>
             </div>
 
