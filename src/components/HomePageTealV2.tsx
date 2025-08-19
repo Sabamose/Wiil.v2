@@ -562,10 +562,6 @@ export default function HomePageTealV2() {
         </div>
 
         <div className="relative flex items-center justify-center min-h-[500px]">
-          {/* Main background waves - centered */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <ExtendedWavesTeal running={state === "speaking" || state === "listening"} />
-          </div>
           
 
 
