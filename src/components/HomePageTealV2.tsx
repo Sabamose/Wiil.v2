@@ -593,10 +593,6 @@ export default function HomePageTealV2() {
           </div>
 
 
-          {/* Voice orb - centered */}
-          <div className="relative z-10">
-            <TealVortexRing state={state} energy={energy} onTap={() => setState(state === "idle" ? "listening" : "idle")} />
-          </div>
         </div>
 
         {/* Primary actions */}
