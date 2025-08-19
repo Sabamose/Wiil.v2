@@ -14,6 +14,11 @@ export const useChatLayout = () => {
   const getMainContentMargin = () => {
     let marginLeft = 0;
     
+    // Chat panel margin (only on desktop)
+    if (isChatOpen && !isMobile) {
+      marginLeft += chatPanelWidth;
+    }
+    
     // Navigation margin
     if (!isMobile) {
       if (isHome) {
@@ -23,11 +28,6 @@ export const useChatLayout = () => {
       } else {
         marginLeft += 240; // ml-60 = 15rem = 240px
       }
-    }
-    
-    // Chat panel margin (only on desktop)
-    if (isChatOpen && !isMobile) {
-      marginLeft += chatPanelWidth;
     }
     
     return marginLeft;

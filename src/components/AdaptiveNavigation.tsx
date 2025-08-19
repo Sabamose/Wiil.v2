@@ -6,6 +6,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { useNavigationState } from "@/hooks/useNavigationState";
 import { NavigationTooltip } from "@/components/NavigationTooltip";
+import { useChatContext } from "@/contexts/ChatContext";
 
 const navigationItems = [
   {
@@ -53,6 +54,8 @@ const AdaptiveNavigation = () => {
     isHome,
     toggleCollapse,
   } = useNavigationState();
+  
+  const { isOpen: isChatOpen } = useChatContext();
 
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -237,13 +240,14 @@ const AdaptiveNavigation = () => {
       {!isMobile && (
         <nav
           data-navigation
-          className={`fixed left-0 top-16 h-[calc(100vh-4rem)] bg-gradient-to-b from-teal-600/5 via-background/95 to-background/95 backdrop-blur-sm border-r border-teal-200/20 py-6 px-4 z-40 transition-all ${
+          className={`fixed top-16 h-[calc(100vh-4rem)] bg-gradient-to-b from-teal-600/5 via-background/95 to-background/95 backdrop-blur-sm border-r border-teal-200/20 py-6 px-4 z-40 transition-all ${
             reducedMotion ? '' : 'duration-200 ease-in-out'
           } ${
             isCollapsed ? 'w-20' : 'w-60'
           } ${
             isHome ? '' : (isCollapsed ? 'shadow-lg' : 'shadow-lg')
           }`}
+          style={{ left: isChatOpen ? '384px' : '0px' }}
           role="navigation"
           aria-label="Main navigation"
         >
