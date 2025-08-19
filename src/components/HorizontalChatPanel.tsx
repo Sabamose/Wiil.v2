@@ -17,7 +17,7 @@ const HorizontalChatPanel: React.FC = () => {
   return (
     <div className="fixed left-0 top-0 h-full w-96 bg-background border-r border-border z-40 flex flex-col animate-slide-in-right">
       {/* Chat Header */}
-      <div className="flex items-center justify-between p-4 border-b border-border bg-brand-teal text-brand-teal-foreground">
+      <div className="flex items-center justify-between p-4 border-b border-border bg-brand-teal text-brand-teal-foreground relative">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full bg-brand-teal-foreground/10 flex items-center justify-center">
             <MessageCircle size={16} />
@@ -27,12 +27,15 @@ const HorizontalChatPanel: React.FC = () => {
             <p className="text-xs opacity-80">AI-powered conversation</p>
           </div>
         </div>
+        
+        {/* Close Button - Well positioned and visible */}
         <button
           onClick={closeChat}
-          className="p-2 hover:bg-white/20 rounded-full transition-all hover:scale-110 bg-white/10 text-white border border-white/30"
+          className="flex items-center justify-center w-8 h-8 bg-white/90 hover:bg-white text-brand-teal hover:text-brand-teal-hover rounded-full shadow-sm transition-all hover:scale-105 border border-white/50"
           aria-label="Close chat"
+          title="Close chat"
         >
-          <X size={20} className="font-bold" />
+          <X size={18} strokeWidth={2.5} />
         </button>
       </div>
 
