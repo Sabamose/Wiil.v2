@@ -15,7 +15,7 @@ const HorizontalChatPanel: React.FC = () => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed left-0 top-0 h-full w-96 bg-background border-r border-border z-[60] flex flex-col animate-slide-in-right">
+    <div className="fixed left-0 top-0 h-full w-96 bg-gradient-to-br from-teal-50 to-teal-100/80 border-r border-border z-[60] flex flex-col animate-slide-in-right">
       {/* Chat Header */}
       <div className="flex items-center justify-between p-4 bg-brand-teal text-brand-teal-foreground relative z-[70]">
         <div className="flex items-center gap-3">
@@ -40,7 +40,7 @@ const HorizontalChatPanel: React.FC = () => {
       </div>
 
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-teal-50/50 to-background">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-br from-teal-50 to-teal-100/80">
         {messages.length === 0 && (
           <div className="text-center py-8">
             <div className="w-12 h-12 rounded-full bg-brand-teal/10 flex items-center justify-center mx-auto mb-3">
