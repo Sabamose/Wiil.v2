@@ -20,9 +20,12 @@ const workspaceOptions: WorkspaceOption[] = [
     icon: Building2,
     primaryFeature: 'Team collaboration & analytics',
     features: [
-      'Team collaboration',
-      'Advanced analytics',
-      'Priority support'
+      'Simple Assistant Setup',
+      'Essential Assistant Integrations',
+      'Personal Knowledge Sources',
+      'Monitor Conversations',
+      'Analytics',
+      'Campaign Management'
     ]
   },
   {
