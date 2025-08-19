@@ -548,7 +548,7 @@ export default function HomePageTealV2() {
   return (
     <>
       <Navigation />
-      <main className={`min-h-screen bg-gradient-to-br from-teal-50 to-white text-neutral-900 ${isMobile ? 'ml-0' : 'ml-60'} mt-16 relative`}>        
+      <main className={`min-h-screen bg-gradient-to-t from-teal-600/20 via-teal-300/10 to-white text-neutral-900 ${isMobile ? 'ml-0' : 'ml-60'} mt-16 relative`}>        
         {/* Content wrapper */}
         <div className="relative z-10">
       {/* Topbar */}
