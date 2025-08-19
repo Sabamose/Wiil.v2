@@ -548,11 +548,7 @@ export default function HomePageTealV2() {
   return (
     <>
       <Navigation />
-      <main className={`min-h-screen bg-white text-neutral-900 ${isMobile ? 'ml-0' : 'ml-60'} mt-16 relative overflow-hidden`}>
-        {/* Teal gradient overlay that blends with white background */}
-        <div className="absolute inset-0 bg-gradient-to-b from-teal-600/20 via-teal-500/10 to-transparent"></div>
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-96 bg-gradient-radial from-teal-600/15 via-teal-500/8 to-transparent blur-3xl"></div>
-        
+      <main className={`min-h-screen bg-gradient-to-br from-teal-50 to-white text-neutral-900 ${isMobile ? 'ml-0' : 'ml-60'} mt-16 relative`}>        
         {/* Content wrapper */}
         <div className="relative z-10">
       {/* Topbar */}
