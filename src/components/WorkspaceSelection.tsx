@@ -18,7 +18,7 @@ const workspaceOptions: WorkspaceOption[] = [
     title: 'Business',
     tagline: 'For growing companies',
     icon: Building2,
-    primaryFeature: 'Team collaboration & analytics',
+    primaryFeature: 'Small & Medium Enterprises',
     features: [
       'Simple Assistant Setup',
       'Essential Assistant Integrations',
@@ -32,7 +32,7 @@ const workspaceOptions: WorkspaceOption[] = [
     title: 'Developer',
     tagline: 'For individual & more complex projects',
     icon: Code2,
-    primaryFeature: 'Full API access & tools',
+    primaryFeature: 'Individuals or teams working on more complex automations and use cases',
     features: [
       'Full API access',
       'Custom integrations',
