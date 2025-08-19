@@ -1,8 +1,7 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Building2, Code2, ChevronDown, Check } from 'lucide-react';
+import { Building2, Code2, Check } from 'lucide-react';
 
 interface WorkspaceOption {
   id: string;
@@ -21,12 +20,9 @@ const workspaceOptions: WorkspaceOption[] = [
     icon: Building2,
     primaryFeature: 'Team collaboration & analytics',
     features: [
-      'Multi-user dashboard access',
-      'Advanced analytics & reporting', 
-      'Team management tools',
-      'Priority customer support',
-      'Custom integrations',
-      'Usage monitoring'
+      'Team collaboration',
+      'Advanced analytics',
+      'Priority support'
     ]
   },
   {
@@ -36,12 +32,9 @@ const workspaceOptions: WorkspaceOption[] = [
     icon: Code2,
     primaryFeature: 'Full API access & tools',
     features: [
-      'Complete API documentation',
-      'Custom webhook endpoints',
-      'Advanced configuration options',
-      'Development tools & SDKs',
-      'Debugging & testing suite',
-      'Technical community access'
+      'Full API access',
+      'Custom integrations',
+      'Development tools'
     ]
   }
 ];
@@ -74,51 +67,34 @@ const WorkspaceSelection: React.FC<WorkspaceSelectionProps> = ({ onWorkspaceSele
             return (
               <Card 
                 key={workspace.id}
-                className="group relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-brand-teal/5 hover:-translate-y-0.5 border border-border/30 hover:border-brand-teal/20 bg-white/60 backdrop-blur-sm rounded-3xl"
+                className="group transition-all duration-200 hover:shadow-md border border-border bg-white rounded-xl"
               >
-                <CardContent className="p-8 text-center">
-                  <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-brand-teal/10 to-brand-teal/5 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-                    <IconComponent className="h-10 w-10 text-brand-teal" />
+                <CardContent className="p-6 text-center">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-lg bg-brand-teal/10 flex items-center justify-center">
+                    <IconComponent className="h-8 w-8 text-brand-teal" />
                   </div>
                   
-                  <h3 className="text-xl font-semibold text-foreground mb-2">
+                  <h3 className="text-lg font-semibold text-foreground mb-1">
                     {workspace.title}
                   </h3>
-                  <p className="text-sm text-brand-teal font-medium mb-3">
+                  <p className="text-sm text-muted-foreground mb-4">
                     {workspace.tagline}
                   </p>
 
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        className="text-sm text-brand-teal hover:text-brand-teal-hover hover:bg-brand-teal/5 mb-4 p-2"
-                      >
-                        View all features
-                        <ChevronDown className="ml-1 h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent 
-                      className="w-80 bg-white/95 backdrop-blur-sm border border-border/30 z-50"
-                      align="center"
-                    >
-                      {workspace.features.map((feature, index) => (
-                        <DropdownMenuItem 
-                          key={index}
-                          className="flex items-center gap-2 py-2 px-3 hover:bg-brand-teal/10 rounded-lg"
-                        >
-                          <Check className="h-4 w-4 text-brand-teal" />
-                          <span className="text-sm">{feature}</span>
-                        </DropdownMenuItem>
-                      ))}
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  <div className="mb-6 space-y-2">
+                    {workspace.features.map((feature, index) => (
+                      <div key={index} className="flex items-center gap-2 text-sm text-foreground">
+                        <Check className="h-4 w-4 text-brand-teal flex-shrink-0" />
+                        <span>{feature}</span>
+                      </div>
+                    ))}
+                  </div>
 
                   <Button
                     onClick={() => onWorkspaceSelect(workspace.id)}
-                    className="w-full bg-brand-teal hover:bg-brand-teal-hover text-brand-teal-foreground font-medium py-2.5 transition-all duration-200 group-hover:shadow-md"
+                    className="w-full bg-brand-teal hover:bg-brand-teal-hover text-brand-teal-foreground font-medium"
                   >
-                    Get Started
+                    Choose {workspace.title}
                   </Button>
                 </CardContent>
               </Card>
