@@ -94,7 +94,7 @@ const AdaptiveNavigation = () => {
         reducedMotion ? '' : 'duration-200'
       } ${
         isActive 
-          ? "bg-teal-600 text-white" 
+          ? "text-teal-600 bg-accent border-l-2 border-teal-600" 
           : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
       }`;
     }
@@ -103,7 +103,7 @@ const AdaptiveNavigation = () => {
       reducedMotion ? '' : 'duration-200'
     } ${
       isActive 
-        ? "bg-teal-600 text-white font-medium" 
+        ? "text-teal-600 bg-accent border-l-2 border-teal-600 font-medium" 
         : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
     }`;
   };
