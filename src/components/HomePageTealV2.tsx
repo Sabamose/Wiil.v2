@@ -548,7 +548,14 @@ export default function HomePageTealV2() {
   return (
     <>
       <Navigation />
-      <main className={`min-h-screen bg-gradient-to-t from-teal-600/20 via-teal-300/10 to-white text-neutral-900 ${isMobile ? 'ml-0' : 'ml-60'} mt-16 relative`}>        
+      <main className={`min-h-screen relative ${isMobile ? 'ml-0' : 'ml-60'} mt-16`}>
+        {/* Lovable-style teal sunrise background */}
+        <div className="absolute inset-0 bg-gradient-to-t from-teal-600 via-teal-400 to-white"></div>
+        <div className="absolute inset-0 bg-gradient-radial from-teal-300/60 via-teal-100/40 to-transparent bg-center"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-teal-600/80 via-transparent to-white/90"></div>
+        
+        {/* Content overlay */}
+        <div className="relative z-10 text-neutral-900">
         {/* Content wrapper */}
         <div className="relative z-10">
       {/* Topbar */}
@@ -565,7 +572,6 @@ export default function HomePageTealV2() {
 
         <div className="relative flex items-center justify-center min-h-[500px]">
           
-
 
         </div>
 
@@ -607,8 +613,8 @@ export default function HomePageTealV2() {
       </Dialog>
 
       </div>
-
-    </main>
+        </div>
+      </main>
     </>
   );
 }
