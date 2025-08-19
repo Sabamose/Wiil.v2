@@ -2062,38 +2062,91 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
 
            {/* Step 9: Testing & Deployment */}
            {step === 9 && <Card className="max-w-5xl mx-auto">
-             <CardHeader className="text-center pb-8">
-               <div className="w-16 h-16 bg-gradient-to-br from-[hsl(var(--brand-teal))] to-[hsl(var(--brand-teal-hover))] rounded-full flex items-center justify-center mx-auto mb-4 animate-scale-in">
-                 <TestTube className="h-8 w-8 text-white" />
-               </div>
-               <CardTitle className="text-2xl">Test Your Assistant</CardTitle>
-             </CardHeader>
-             <CardContent className="space-y-8">
-               {/* Primary Actions - Clean & Prominent */}
-               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                 <Button 
-                   variant="brand" 
-                   size="lg"
-                   onClick={() => setIsTestModalOpen(true)}
-                   className="flex-1 sm:flex-none px-8 py-6 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover-scale"
-                 >
-                   <Phone className="h-5 w-5 mr-3" />
-                   Start Test Call
-                 </Button>
-                 <Button 
-                   variant="outline"
-                   size="lg"
-                   onClick={onClose}
-                   className="flex-1 sm:flex-none px-8 py-6 text-base font-semibold bg-white hover:bg-gray-50"
-                 >
-                   <Save className="h-5 w-5 mr-3" />
-                   Save as Draft
-                 </Button>
-               </div>
-
-
-             </CardContent>
-           </Card>}
+              <CardHeader className="text-center pb-8">
+                <div className="w-16 h-16 bg-gradient-to-br from-[hsl(var(--brand-teal))] to-[hsl(var(--brand-teal-hover))] rounded-full flex items-center justify-center mx-auto mb-4 animate-scale-in">
+                  <TestTube className="h-8 w-8 text-white" />
+                </div>
+                <CardTitle className="text-2xl">
+                  {formData.assistantType === 'website' ? 'Test & Deploy Your Assistant' : 'Test Your Assistant'}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-8">
+                {/* Website Assistant Flow */}
+                {formData.assistantType === 'website' ? (
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <Button 
+                      variant="brand" 
+                      size="lg"
+                      onClick={() => setIsTestModalOpen(true)}
+                      className="flex-1 sm:flex-none px-8 py-6 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover-scale"
+                    >
+                      <Globe className="h-5 w-5 mr-3" />
+                      Test Website Assistant
+                    </Button>
+                    <Button 
+                      variant="outline"
+                      size="lg"
+                      onClick={async () => {
+                        setIsCreating(true);
+                        try {
+                          await handleCreateAssistant();
+                          const newAssistant = await createAssistant({
+                            name: formData.name,
+                            type: 'Voice',
+                            industry: formData.industry,
+                            use_case: formData.role,
+                            assistant_type: formData.assistantType as 'inbound' | 'outbound' | 'website',
+                            voice_id: formData.voice_id,
+                            voice_name: formData.voice_name,
+                            language: formData.language,
+                            language_name: formData.language_name,
+                            system_prompt: formData.system_prompt,
+                            initial_message: formData.initial_message,
+                            temperature: formData.temperature,
+                            max_tokens: formData.max_tokens
+                          });
+                          
+                          if (newAssistant) {
+                            setCurrentAssistantId(newAssistant.id);
+                            setShowSuccessDialog(true);
+                          }
+                        } catch (error) {
+                          console.error('Error creating assistant:', error);
+                        } finally {
+                          setIsCreating(false);
+                        }
+                      }}
+                      className="flex-1 sm:flex-none px-8 py-6 text-base font-semibold"
+                    >
+                      <Upload className="h-5 w-5 mr-3" />
+                      Deploy Assistant
+                    </Button>
+                  </div>
+                ) : (
+                  /* Phone Assistant Flow */
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <Button 
+                      variant="brand" 
+                      size="lg"
+                      onClick={() => setIsTestModalOpen(true)}
+                      className="flex-1 sm:flex-none px-8 py-6 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover-scale"
+                    >
+                      <Phone className="h-5 w-5 mr-3" />
+                      Start Test Call
+                    </Button>
+                    <Button 
+                      variant="outline"
+                      size="lg"
+                      onClick={onClose}
+                      className="flex-1 sm:flex-none px-8 py-6 text-base font-semibold bg-white hover:bg-gray-50"
+                    >
+                      <Save className="h-5 w-5 mr-3" />
+                      Save as Draft
+                    </Button>
+                  </div>
+                )}
+              </CardContent>
+            </Card>}
          </div>
 
         {/* Navigation Buttons */}
