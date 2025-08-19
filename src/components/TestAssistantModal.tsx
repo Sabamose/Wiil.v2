@@ -40,20 +40,7 @@ const TestAssistantModal = ({ isOpen, onClose, assistant, onBackToCreation }: Te
 
         {/* Testing Interface Content */}
         <div className="flex-1 overflow-hidden">
-          {assistant ? (
-            <CallTestingInterface assistant={assistant} />
-          ) : (
-            <div className="flex items-center justify-center h-full">
-              <div className="text-center space-y-4">
-                <div className="text-muted-foreground">
-                  Assistant data not available
-                </div>
-                <Button onClick={onClose} variant="outline">
-                  Close
-                </Button>
-              </div>
-            </div>
-          )}
+          <CallTestingInterface assistant={assistant} />
         </div>
       </div>
     </div>

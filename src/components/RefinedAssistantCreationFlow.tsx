@@ -2086,58 +2086,25 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                   </div>
                 ) : (
                   /* Phone Assistant Flow */
-                  <div className="space-y-6">
-                    {/* Test Call Button */}
-                    <div className="flex justify-center">
-                      <Button 
-                        variant="brand" 
-                        size="lg"
-                        onClick={() => setIsTestModalOpen(true)}
-                        className="px-8 py-6 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover-scale"
-                      >
-                        <Phone className="h-5 w-5 mr-3" />
-                        {formData.assistantType === 'inbound' ? 'Test Inbound Calls' : 'Test Outbound Calls'}
-                      </Button>
-                    </div>
-                    
-                    {/* Assistant Info Card */}
-                    <div className="bg-teal-50 border border-teal-200 p-6 rounded-lg max-w-md mx-auto">
-                      <h4 className="font-medium text-teal-900 mb-3 text-center">
-                        {formData.assistantType === 'inbound' ? 'Inbound Assistant Ready' : 'Outbound Assistant Ready'}
-                      </h4>
-                      <div className="space-y-2 text-sm text-teal-800">
-                        <div className="flex justify-between">
-                          <span>Type:</span>
-                          <span className="font-medium capitalize">{formData.assistantType}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Voice:</span>
-                          <span className="font-medium">{formData.voice_name}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Language:</span>
-                          <span className="font-medium">{formData.language_name}</span>
-                        </div>
-                        {formData.phoneNumber && (
-                          <div className="flex justify-between">
-                            <span>Phone:</span>
-                            <span className="font-medium">{formData.phoneNumber}</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                    
-                    {/* Save as Draft Button */}
-                    <div className="text-center">
-                      <Button 
-                        variant="outline"
-                        onClick={onClose}
-                        className="px-6 py-2 text-sm"
-                      >
-                        <Save className="h-4 w-4 mr-2" />
-                        Save as Draft
-                      </Button>
-                    </div>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <Button 
+                      variant="brand" 
+                      size="lg"
+                      onClick={() => setIsTestModalOpen(true)}
+                      className="flex-1 sm:flex-none px-8 py-6 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover-scale"
+                    >
+                      <Phone className="h-5 w-5 mr-3" />
+                      Start Test Call
+                    </Button>
+                    <Button 
+                      variant="outline"
+                      size="lg"
+                      onClick={onClose}
+                      className="flex-1 sm:flex-none px-8 py-6 text-base font-semibold bg-white hover:bg-gray-50"
+                    >
+                      <Save className="h-5 w-5 mr-3" />
+                      Save as Draft
+                    </Button>
                   </div>
                 )}
               </CardContent>
