@@ -41,7 +41,7 @@ const WorkspaceSelection: React.FC<WorkspaceSelectionProps> = ({ onWorkspaceSele
             What Are You Building Today?
           </h1>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Choose your path and start building intelligent assistants that deliver real results
+            Are you building for enterprise teams or need advanced developer tools for complex projects?
           </p>
         </div>
 
