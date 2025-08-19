@@ -7,7 +7,7 @@ export interface CreateAssistantData {
   type: string;
   industry: string;
   use_case: string;
-  assistant_type: 'inbound' | 'outbound';
+  assistant_type: 'inbound' | 'outbound' | 'website';
   voice_id: string;
   voice_name: string;
   language: string;

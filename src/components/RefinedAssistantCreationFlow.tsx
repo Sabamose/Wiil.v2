@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Loader2, Play, ArrowLeft, ArrowRight, Volume2, PhoneIncoming, PhoneOutgoing, User, MessageSquare, Brain, Upload, Phone, TestTube, Zap, Save, AlertTriangle, Settings, Calendar, PhoneForwarded, Check, Lightbulb, CheckCircle, Sparkles, Target, Globe } from 'lucide-react';
+import { Loader2, Play, ArrowLeft, ArrowRight, Volume2, PhoneIncoming, PhoneOutgoing, User, MessageSquare, Brain, Upload, Phone, TestTube, Zap, Save, AlertTriangle, Settings, Calendar, PhoneForwarded, Check, Lightbulb, CheckCircle, Sparkles, Target, Globe, Copy } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import KnowledgeUpload from './KnowledgeUpload';
 import PhoneNumberPurchaseModal from './PhoneNumberPurchaseModal';
@@ -602,7 +602,7 @@ const getRolesByType = (assistantType: string, industry: string) => {
     if (industry === 'technology' && role.id === 'scheduler') return assistantType === 'inbound';
     return true;
   };
-  return assistantType === 'inbound' ? inboundRoles.filter(roleFilter) : outboundRoles.filter(roleFilter);
+  return assistantType === 'inbound' ? inboundRoles.filter(roleFilter) : assistantType === 'website' ? inboundRoles.filter(roleFilter) : outboundRoles.filter(roleFilter);
 };
 
 const getLanguageDisplay = (code: string, name: string) => {
@@ -801,7 +801,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
       type: 'Voice',
       industry: formData.industry,
       use_case: formData.role,
-      assistant_type: formData.assistantType as 'inbound' | 'outbound',
+      assistant_type: formData.assistantType as 'inbound' | 'outbound' | 'website',
       voice_id: formData.voice_id,
       voice_name: formData.voice_name,
       language: formData.language,
@@ -1023,10 +1023,10 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 <p className="text-muted-foreground">Choose the type that best fits your use case.</p>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div
                     onClick={() => handleAssistantTypeSelect('inbound')}
-                    className={`relative p-8 rounded-xl border cursor-pointer transition-all hover:shadow-lg ${formData.assistantType === 'inbound' ? 'border-[hsl(var(--brand-teal))] ring-2 ring-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06]' : 'border-border hover:border-[hsl(var(--brand-teal))] bg-muted/30 hover:bg-muted/50'}`}
+                    className={`relative p-6 rounded-xl border cursor-pointer transition-all hover:shadow-lg ${formData.assistantType === 'inbound' ? 'border-[hsl(var(--brand-teal))] ring-2 ring-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06]' : 'border-border hover:border-[hsl(var(--brand-teal))] bg-muted/30 hover:bg-muted/50'}`}
                   >
                     {formData.assistantType === 'inbound' && (
                       <div className="absolute top-3 right-3">
@@ -1036,7 +1036,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                       </div>
                     )}
                     <div className="text-center space-y-3">
-                      <PhoneIncoming className="w-16 h-16 mx-auto text-primary" strokeWidth={1.5} />
+                      <PhoneIncoming className="w-12 h-12 mx-auto text-primary" strokeWidth={1.5} />
                       <h3 className="text-lg font-semibold">
                         Phone Assistant
                       </h3>
@@ -1045,10 +1045,10 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                   </div>
 
                   <div
-                    onClick={() => handleAssistantTypeSelect('outbound')}
-                    className={`relative p-8 rounded-xl border cursor-pointer transition-all hover:shadow-lg ${formData.assistantType === 'outbound' ? 'border-[hsl(var(--brand-teal))] ring-2 ring-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06]' : 'border-border hover:border-[hsl(var(--brand-teal))] bg-muted/30 hover:bg-muted/50'}`}
+                    onClick={() => handleAssistantTypeSelect('website')}
+                    className={`relative p-6 rounded-xl border cursor-pointer transition-all hover:shadow-lg ${formData.assistantType === 'website' ? 'border-[hsl(var(--brand-teal))] ring-2 ring-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06]' : 'border-border hover:border-[hsl(var(--brand-teal))] bg-muted/30 hover:bg-muted/50'}`}
                   >
-                    {formData.assistantType === 'outbound' && (
+                    {formData.assistantType === 'website' && (
                       <div className="absolute top-3 right-3">
                         <Badge className="gap-1">
                           <Check className="h-3 w-3" /> Selected
@@ -1056,7 +1056,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                       </div>
                     )}
                     <div className="text-center space-y-3">
-                      <Globe className="w-16 h-16 mx-auto text-primary" strokeWidth={1.5} />
+                      <Globe className="w-12 h-12 mx-auto text-primary" strokeWidth={1.5} />
                       <h3 className="text-lg font-semibold">
                         Website Assistant
                       </h3>
@@ -1925,9 +1925,164 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               </CardContent>
             </Card>}
 
-          {/* Step 8: Phone Number Assignment */}
+          {/* Step 8: Phone Number Assignment / Code Integration */}
           {step === 8 && (() => {
-            console.log('Phone step - hasPhoneNumber:', formData.hasPhoneNumber, 'phoneNumber:', formData.phoneNumber);
+            console.log('Step 8 - assistantType:', formData.assistantType, 'hasPhoneNumber:', formData.hasPhoneNumber, 'phoneNumber:', formData.phoneNumber);
+            
+            // Website Assistant Flow - Show Code Snippet
+            if (formData.assistantType === 'website') {
+              const generateCodeSnippet = () => {
+                const assistantId = 'your-assistant-id'; // This would be the actual assistant ID
+                return `<!-- Website Assistant Chat Widget -->
+<script>
+  (function() {
+    // Create chat widget container
+    const chatWidget = document.createElement('div');
+    chatWidget.id = 'lovable-chat-widget';
+    chatWidget.style.cssText = \`
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 350px;
+      height: 500px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+      z-index: 10000;
+      display: none;
+      flex-direction: column;
+      font-family: system-ui, -apple-system, sans-serif;
+    \`;
+    
+    // Create toggle button
+    const toggleButton = document.createElement('button');
+    toggleButton.innerHTML = '💬';
+    toggleButton.style.cssText = \`
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #10b981;
+      color: white;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 10001;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+    \`;
+    
+    // Toggle functionality
+    toggleButton.onclick = function() {
+      chatWidget.style.display = chatWidget.style.display === 'none' ? 'flex' : 'none';
+    };
+    
+    // Chat widget content
+    chatWidget.innerHTML = \`
+      <div style="background: #10b981; color: white; padding: 16px; border-radius: 12px 12px 0 0;">
+        <h3 style="margin: 0; font-size: 16px;">${formData.name || 'Assistant'}</h3>
+        <p style="margin: 4px 0 0; font-size: 14px; opacity: 0.9;">How can I help you?</p>
+      </div>
+      <div style="flex: 1; padding: 16px; overflow-y: auto;">
+        <div style="background: #f3f4f6; padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+          ${formData.initial_message || 'Hello! How can I help you today?'}
+        </div>
+      </div>
+      <div style="padding: 16px; border-top: 1px solid #e5e7eb;">
+        <input type="text" placeholder="Type your message..." style="width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;">
+      </div>
+    \`;
+    
+    document.body.appendChild(chatWidget);
+    document.body.appendChild(toggleButton);
+  })();
+</script>`;
+              };
+
+              const codeSnippet = generateCodeSnippet();
+              const [copied, setCopied] = useState(false);
+              
+              const copyToClipboard = () => {
+                navigator.clipboard.writeText(codeSnippet);
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
+              };
+
+              return <Card className="max-w-5xl mx-auto">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Globe className="h-5 w-5" />
+                    Website Integration Code
+                  </CardTitle>
+                  <p className="text-muted-foreground">
+                    Copy and paste this code snippet into your website to add your assistant
+                  </p>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-6">
+                    <div className="bg-muted/50 p-6 rounded-lg">
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="font-semibold">HTML Integration Code</h3>
+                        <Button 
+                          onClick={copyToClipboard}
+                          variant="outline" 
+                          size="sm"
+                          className="gap-2"
+                        >
+                          <Copy className="h-4 w-4" />
+                          {copied ? 'Copied!' : 'Copy Code'}
+                        </Button>
+                      </div>
+                      <div className="bg-gray-900 text-gray-100 p-4 rounded-md overflow-x-auto">
+                        <pre className="text-sm whitespace-pre-wrap">{codeSnippet}</pre>
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="p-4 border rounded-lg">
+                        <h4 className="font-medium mb-2 flex items-center gap-2">
+                          <Zap className="h-4 w-4 text-amber-500" />
+                          Quick Integration
+                        </h4>
+                        <p className="text-sm text-muted-foreground">
+                          Simply paste the code before the closing <code>&lt;/body&gt;</code> tag of your website
+                        </p>
+                      </div>
+                      
+                      <div className="p-4 border rounded-lg">
+                        <h4 className="font-medium mb-2 flex items-center gap-2">
+                          <Settings className="h-4 w-4 text-blue-500" />
+                          Customizable
+                        </h4>
+                        <p className="text-sm text-muted-foreground">
+                          Modify colors, position, and styling to match your brand
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+                      <h4 className="font-medium text-blue-900 mb-2">Integration Instructions:</h4>
+                      <ul className="text-sm text-blue-800 space-y-1 list-disc list-inside">
+                        <li><strong>Lovable Projects:</strong> Add to your main HTML file or component</li>
+                        <li><strong>Replit:</strong> Paste in your index.html file</li>
+                        <li><strong>Website Builders:</strong> Add to custom HTML/code injection section</li>
+                        <li><strong>Manual HTML:</strong> Insert before the closing <code>&lt;/body&gt;</code> tag</li>
+                      </ul>
+                    </div>
+                    
+                    <div className="text-center">
+                      <Button variant="brand" onClick={handleNext}>
+                        Continue to Testing
+                        <ArrowRight className="h-4 w-4 ml-2" />
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>;
+            }
+            
+            // Phone Assistant Flow - Show Phone Number Purchase
             return <Card className="max-w-5xl mx-auto">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -2066,7 +2221,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                       type: 'Voice',
                       industry: formData.industry,
                       use_case: formData.role,
-                      assistant_type: formData.assistantType as 'inbound' | 'outbound',
+                      assistant_type: formData.assistantType as 'inbound' | 'outbound' | 'website',
                       voice_id: formData.voice_id,
                       voice_name: formData.voice_name,
                       language: formData.language,
@@ -2115,14 +2270,16 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
         </div>
       </DialogContent>
 
-      {/* Phone Number Purchase Modal */}
-      <PhoneNumberPurchaseModal
-        isOpen={isPurchaseModalOpen}
-        onClose={() => setIsPurchaseModalOpen(false)}
-        assistantType={formData.assistantType as 'inbound' | 'outbound'}
-        assistantName={formData.name}
-        onPurchaseComplete={handlePhoneNumberPurchase}
-      />
+      {/* Phone Number Purchase Modal - Only for Phone Assistants */}
+      {formData.assistantType !== 'website' && (
+        <PhoneNumberPurchaseModal
+          isOpen={isPurchaseModalOpen}
+          onClose={() => setIsPurchaseModalOpen(false)}
+          assistantType={formData.assistantType as 'inbound' | 'outbound'}
+          assistantName={formData.name}
+          onPurchaseComplete={handlePhoneNumberPurchase}
+        />
+      )}
 
       {/* Test Assistant Modal */}
       {isTestModalOpen && (
@@ -2140,7 +2297,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
             type: 'Voice',
             industry: formData.industry,
             use_case: formData.role,
-            assistant_type: formData.assistantType as 'inbound' | 'outbound',
+            assistant_type: formData.assistantType as 'inbound' | 'outbound' | 'website',
             phone_number: formData.phoneNumber || '+1 (555) 123-4567',
             voice_id: formData.voice_id,
             voice_name: formData.voice_name,
