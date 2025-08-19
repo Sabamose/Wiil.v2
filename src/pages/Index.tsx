@@ -4,6 +4,7 @@ import ExistingAssistantsSection from "@/components/ExistingAssistantsSection";
 import AssistantCreationFlow from "@/components/AssistantCreationFlow";
 import RefinedAssistantCreationFlow from "@/components/RefinedAssistantCreationFlow";
 import AssistantSettings from "@/components/AssistantSettings";
+import WorkspaceSelection from "@/components/WorkspaceSelection";
 import { BaseAssistant } from "@/types/assistant";
 import { useAssistants, StoredAssistant } from "@/hooks/useAssistants";
 import { useResponsive } from "@/hooks/use-responsive";
@@ -13,6 +14,7 @@ const Index = () => {
   const [isCreationFlowOpen, setIsCreationFlowOpen] = useState(false);
   const [selectedAssistant, setSelectedAssistant] = useState<any>(null);
   const [currentView, setCurrentView] = useState<"list" | "settings">("list");
+  const [selectedWorkspace, setSelectedWorkspace] = useState<string | null>(null);
   const { assistants, loading, fetchAssistants } = useAssistants();
   const { isMobile } = useResponsive();
 
@@ -43,6 +45,15 @@ const Index = () => {
     setCurrentView("list");
     setSelectedAssistant(null);
   };
+
+  const handleWorkspaceSelect = (workspaceId: string) => {
+    setSelectedWorkspace(workspaceId);
+  };
+
+  // Show workspace selection if no workspace is selected
+  if (!selectedWorkspace) {
+    return <WorkspaceSelection onWorkspaceSelect={handleWorkspaceSelect} />;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-white">
