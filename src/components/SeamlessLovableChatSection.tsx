@@ -180,13 +180,13 @@ export default function SeamlessLovableChatSection({
       backdropFilter: "saturate(120%) blur(8px)",
       boxShadow: "0 8px 30px rgba(0,0,0,.06)",
       display: "flex",
-      alignItems: "flex-start",
-      gap: 10,
-      padding: "36px 24px",
+      flexDirection: "column",
+      gap: 8,
+      padding: "20px 24px 16px 24px",
       width: "100%",
       minWidth: "700px",
     },
-    inputText: { flex: 1, color: "#0f766e", fontSize: 16, lineHeight: "22px", minHeight: 22, background: "transparent", border: "none", outline: "none", textAlign: "left", paddingLeft: 0, alignSelf: "flex-start", paddingTop: "4px" },
+    inputText: { width: "100%", color: "#0f766e", fontSize: 16, lineHeight: "22px", minHeight: 40, background: "transparent", border: "none", outline: "none", textAlign: "left", paddingLeft: 0, resize: "none" },
     caret: { display: "inline-block", width: 1.5, height: 18, background: "#0f766e", marginLeft: 2, animation: "caretBlink 1s step-end infinite" },
     sendBtn: {
       position: "relative", padding: "10px 14px", borderRadius: 18, color: "#fff", fontWeight: 600,
@@ -229,9 +229,15 @@ export default function SeamlessLovableChatSection({
       overflow: "hidden",
       backdropFilter: "blur(10px)"
     },
+    bottomRow: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      width: "100%"
+    },
     attachBtn: {
-      padding: "8px 12px", 
-      borderRadius: "16px", 
+      padding: "6px 12px", 
+      borderRadius: "12px", 
       background: "rgba(15, 118, 110, 0.1)", 
       border: "none", 
       cursor: "pointer", 
@@ -240,10 +246,8 @@ export default function SeamlessLovableChatSection({
       justifyContent: "center",
       gap: "6px",
       color: "#0f766e",
-      fontSize: "14px",
+      fontSize: "12px",
       fontWeight: "500",
-      alignSelf: "flex-end",
-      marginBottom: "4px",
       transition: "all 0.2s ease"
     },
   };
@@ -273,35 +277,40 @@ export default function SeamlessLovableChatSection({
       {/* Chat bar */}
       <div style={{position: 'relative'}}>
         <div style={{...styles.bar, position: 'relative', zIndex: 1}} role="form" aria-label="Ask Will">
-        <button 
-          style={styles.attachBtn}
-          onClick={() => {/* File attachment logic here */}}
-          aria-label="Attach file"
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = "rgba(15, 118, 110, 0.15)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = "rgba(15, 118, 110, 0.1)";
-          }}
-        >
-          <Paperclip size={16} />
-          <span>Attach</span>
-        </button>
-        <input
-          style={styles.inputText}
-          value={userInput}
-          onChange={(e) => handleUserInput(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-          placeholder={!isUserTyping && !userInput ? (text || "Ask anything about AI assistants…") : ""}
-          aria-label="Message"
-        />
-        {!isUserTyping && !userInput && (
-          <span style={styles.caret} />
-        )}
-        <button style={styles.sendBtn} onClick={handleSendMessage} aria-label="Send">
-          <span style={styles.shineWrap}><span style={styles.shine} /></span>
-          <ArrowRight size={18} />
-        </button>
+          <textarea
+            style={styles.inputText}
+            value={userInput}
+            onChange={(e) => handleUserInput(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleSendMessage()}
+            placeholder={!isUserTyping && !userInput ? (text || "Ask anything about AI assistants…") : ""}
+            aria-label="Message"
+            rows={1}
+          />
+          {!isUserTyping && !userInput && (
+            <span style={styles.caret} />
+          )}
+          
+          <div style={styles.bottomRow}>
+            <button 
+              style={styles.attachBtn}
+              onClick={() => {/* File attachment logic here */}}
+              aria-label="Attach file"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "rgba(15, 118, 110, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "rgba(15, 118, 110, 0.1)";
+              }}
+            >
+              <Paperclip size={14} />
+              <span>Attach</span>
+            </button>
+            
+            <button style={styles.sendBtn} onClick={handleSendMessage} aria-label="Send">
+              <span style={styles.shineWrap}><span style={styles.shine} /></span>
+              <ArrowRight size={18} />
+            </button>
+          </div>
         </div>
       </div>
 
