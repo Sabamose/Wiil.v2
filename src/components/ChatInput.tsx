@@ -41,7 +41,13 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
           <button
             type="submit"
             disabled={!message.trim()}
-            className="absolute bottom-2 right-2 p-2.5 bg-brand-teal text-brand-teal-foreground rounded-xl hover:bg-brand-teal-hover disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 hover:scale-105 shadow-sm"
+            className="absolute bottom-2 right-2 p-2.5 rounded-full transition-all duration-200 hover:scale-105 shadow-sm"
+            style={{
+              background: 'linear-gradient(180deg, #0ea5a6 0%, #0d9488 100%)',
+              color: '#fff',
+              fontWeight: 600,
+              boxShadow: '0 10px 22px rgba(13,148,136,.18)'
+            }}
             aria-label="Send message"
           >
             <Send size={18} />
