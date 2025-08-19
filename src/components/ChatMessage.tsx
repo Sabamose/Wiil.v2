@@ -21,8 +21,8 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
         {/* Message Content */}
         <div className={`px-4 py-2 rounded-2xl ${
           isUser 
-            ? 'bg-brand-teal text-brand-teal-foreground rounded-br-md' 
-            : 'bg-accent text-accent-foreground rounded-bl-md'
+            ? 'bg-teal-600/20 text-teal-800 rounded-br-md border border-teal-600/30' 
+            : 'bg-white/40 text-gray-700 rounded-bl-md border border-white/50 backdrop-blur-sm'
         }`}>
           <p className="text-sm leading-relaxed">{message.content}</p>
           <p className={`text-xs mt-1 opacity-60 ${
