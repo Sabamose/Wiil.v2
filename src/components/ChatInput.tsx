@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Send, Paperclip } from 'lucide-react';
+import { ArrowRight, Paperclip } from 'lucide-react';
 
 interface ChatInputProps {
   onSendMessage: (message: string) => void;
@@ -25,6 +25,9 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
 
   return (
     <div className="p-6 border-t border-border/50 bg-background">
+      <style>{`
+        @keyframes shine { 0%{ transform: translateX(-120%) rotate(12deg)} 100%{ transform: translateX(120%) rotate(12deg)} }
+      `}</style>
       <form onSubmit={handleSubmit} className="relative">
         <div className="relative">
           <textarea
@@ -37,20 +40,43 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
             style={{ minHeight: '80px', maxHeight: '160px' }}
           />
           
-          {/* Send button integrated inside */}
+          {/* Send button - exact replica from home page */}
           <button
             type="submit"
             disabled={!message.trim()}
-            className="absolute bottom-2 right-2 p-2.5 rounded-full transition-all duration-200 hover:scale-105 shadow-sm"
+            className="absolute bottom-2 right-2"
             style={{
-              background: 'linear-gradient(180deg, #0ea5a6 0%, #0d9488 100%)',
-              color: '#fff',
+              position: "relative", 
+              padding: "10px 14px", 
+              borderRadius: 18, 
+              color: "#fff", 
               fontWeight: 600,
-              boxShadow: '0 10px 22px rgba(13,148,136,.18)'
+              background: "linear-gradient(180deg, #0ea5a6 0%, #0d9488 100%)",
+              border: 0, 
+              cursor: "pointer", 
+              boxShadow: "0 10px 22px rgba(13,148,136,.18)"
             }}
-            aria-label="Send message"
+            aria-label="Send"
           >
-            <Send size={18} />
+            <span style={{ 
+              position: "absolute", 
+              inset: 0, 
+              overflow: "hidden", 
+              borderRadius: 18, 
+              pointerEvents: "none" 
+            }}>
+              <span style={{ 
+                position: "absolute", 
+                top: 0, 
+                left: "-50%", 
+                width: "50%", 
+                height: "100%", 
+                background: "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.35) 50%, rgba(255,255,255,0) 100%)", 
+                filter: "blur(6px)", 
+                animation: "shine 2.6s linear infinite" 
+              }} />
+            </span>
+            <ArrowRight size={18} />
           </button>
           
           {/* Attach button - simplified */}
