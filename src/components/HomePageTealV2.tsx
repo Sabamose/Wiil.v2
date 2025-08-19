@@ -10,6 +10,8 @@ import TealVortexRing from "./TealVortexRing";
 import SeamlessLovableChatSection from "./SeamlessLovableChatSection";
 import { useResponsive } from "@/hooks/use-responsive";
 import { useNavigationState } from "@/hooks/useNavigationState";
+import { useChatContext } from "@/contexts/ChatContext";
+import { useChatLayout } from "@/hooks/useChatLayout";
 
 // Tailwind-first, teal-600 accents. This is a self-contained homepage.
 // NEW: more teal in the widget + subtle "breathing" + energy-reactive waves.
@@ -517,6 +519,8 @@ export default function HomePageTealV2() {
   const navigate = useNavigate();
   const { isMobile } = useResponsive();
   const { isCollapsed, isHome } = useNavigationState();
+  const { openChat } = useChatContext();
+  const { marginLeft } = useChatLayout();
 
   useEffect(() => {
     document.title = "Chat with an AI Assistant – Instant Demo";
@@ -550,9 +554,8 @@ export default function HomePageTealV2() {
   return (
     <>
       <AdaptiveNavigation />
-      <main className={`min-h-screen relative transition-all duration-200 ease-in-out ${
-        isMobile ? 'ml-0' : (isHome ? 'ml-60' : (isCollapsed ? 'ml-20' : 'ml-60'))
-      } mt-16`}>
+      <main className={`min-h-screen relative transition-all duration-200 ease-in-out mt-16`}
+            style={{ marginLeft: `${marginLeft}px` }}>
         {/* Lovable-style teal sunrise background - subtle with edge blending */}
         <div className="absolute inset-0 bg-gradient-to-t from-teal-600/40 via-teal-200/20 to-white"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-white via-transparent to-transparent"></div>
@@ -587,7 +590,7 @@ export default function HomePageTealV2() {
               autoStart={true}
               onSend={(message) => {
                 console.log("Chat message:", message);
-                // Handle chat message here - could integrate with assistant or support
+                openChat(message);
               }}
               onPrimary={() => {
                 navigate("/");

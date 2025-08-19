@@ -15,6 +15,8 @@ import HomePageTealV2 from "./components/HomePageTealV2";
 import AnalyticsDemo from "./pages/AnalyticsDemo";
 import WorkspaceSetup from "./pages/WorkspaceSetup";
 import WorkspaceGuard from "./components/WorkspaceGuard";
+import { ChatProvider } from "./contexts/ChatContext";
+import HorizontalChatPanel from "./components/HorizontalChatPanel";
 
 const queryClient = new QueryClient();
 
@@ -23,26 +25,29 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <AuthWrapper>
-        <BrowserRouter>
-          <WorkspaceGuard>
-            <Routes>
-            <Route path="/home" element={<HomePageTealV2 />} />
-            <Route path="/workspace-setup" element={<WorkspaceSetup />} />
-            <Route path="/" element={<Index />} />
-            <Route path="/bookings" element={<Bookings />} />
-            <Route path="/conversations" element={<Conversations />} />
-            <Route path="/campaigns" element={<Campaigns />} />
-            <Route path="/phone-numbers" element={<PhoneNumbers />} />
-            <Route path="/billing" element={<Billing />} />
-            <Route path="/analytics" element={<AnalyticsDemo />} />
-            
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-            </Routes>
-          </WorkspaceGuard>
-        </BrowserRouter>
-      </AuthWrapper>
+      <ChatProvider>
+        <AuthWrapper>
+          <BrowserRouter>
+            <WorkspaceGuard>
+              <HorizontalChatPanel />
+              <Routes>
+              <Route path="/home" element={<HomePageTealV2 />} />
+              <Route path="/workspace-setup" element={<WorkspaceSetup />} />
+              <Route path="/" element={<Index />} />
+              <Route path="/bookings" element={<Bookings />} />
+              <Route path="/conversations" element={<Conversations />} />
+              <Route path="/campaigns" element={<Campaigns />} />
+              <Route path="/phone-numbers" element={<PhoneNumbers />} />
+              <Route path="/billing" element={<Billing />} />
+              <Route path="/analytics" element={<AnalyticsDemo />} />
+              
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+              </Routes>
+            </WorkspaceGuard>
+          </BrowserRouter>
+        </AuthWrapper>
+      </ChatProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

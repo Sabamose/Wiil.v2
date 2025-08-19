@@ -149,7 +149,7 @@ export default function SeamlessLovableChatSection({
     setText("");
     setIsUserTyping(false);
     
-    // Call original onSend
+    // Call original onSend to trigger chat simulation
     try { onSend && onSend(messageToSend); } catch {}
   };
 
