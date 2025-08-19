@@ -38,10 +38,10 @@ const WorkspaceSelection: React.FC<WorkspaceSelectionProps> = ({ onWorkspaceSele
       <div className="w-full max-w-6xl">
         <div className="text-center mb-12">
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Choose Your Desired Workspace
+            Ready to Transform Your Business with AI?
           </h1>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Select the workspace that best fits your needs and unlock the full potential of our AI platform
+            Choose your path and start building intelligent assistants that deliver real results
           </p>
         </div>
 
