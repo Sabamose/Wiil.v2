@@ -29,10 +29,10 @@ const HorizontalChatPanel: React.FC = () => {
         </div>
         <button
           onClick={closeChat}
-          className="p-2.5 hover:bg-brand-teal-foreground/20 rounded-full transition-all hover:scale-110 bg-brand-teal-foreground/10"
+          className="p-2 hover:bg-white/20 rounded-full transition-all hover:scale-110 bg-white/10 text-white border border-white/30"
           aria-label="Close chat"
         >
-          <X size={20} className="font-semibold" />
+          <X size={20} className="font-bold" />
         </button>
       </div>
 
