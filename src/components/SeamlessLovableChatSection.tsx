@@ -175,7 +175,7 @@ export default function SeamlessLovableChatSection({
     wrap: { maxWidth: 1200, margin: "0 auto", padding: "4px 0" },
     bar: {
       borderRadius: 24,
-      border: "1px solid rgba(0,0,0,.06)",
+      border: "1px solid rgba(13, 148, 136, 0.15)",
       background: "rgba(255,255,255,.85)",
       backdropFilter: "saturate(120%) blur(8px)",
       boxShadow: "0 8px 30px rgba(0,0,0,.06)",
