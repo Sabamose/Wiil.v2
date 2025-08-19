@@ -17,7 +17,7 @@ const HorizontalChatPanel: React.FC = () => {
   return (
     <div className="fixed left-0 top-0 h-full w-96 bg-background border-r border-border z-40 flex flex-col animate-slide-in-right">
       {/* Chat Header */}
-      <div className="flex items-center justify-between p-4 border-b border-border bg-brand-teal text-brand-teal-foreground relative z-50">
+      <div className="flex items-center justify-between p-4 bg-brand-teal text-brand-teal-foreground relative z-50">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full bg-brand-teal-foreground/10 flex items-center justify-center">
             <MessageCircle size={16} />
