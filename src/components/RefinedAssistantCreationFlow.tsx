@@ -1975,27 +1975,6 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                       </div>
                     </div>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="p-4 border rounded-lg">
-                        <h4 className="font-medium mb-2 flex items-center gap-2">
-                          <Zap className="h-4 w-4 text-amber-500" />
-                          Quick Integration
-                        </h4>
-                        <p className="text-sm text-muted-foreground">
-                          Simply paste the code before the closing <code>&lt;/body&gt;</code> tag of your website
-                        </p>
-                      </div>
-                      
-                      <div className="p-4 border rounded-lg">
-                        <h4 className="font-medium mb-2 flex items-center gap-2">
-                          <Settings className="h-4 w-4 text-teal-600" />
-                          Customizable
-                        </h4>
-                        <p className="text-sm text-muted-foreground">
-                          Modify colors, position, and styling to match your brand
-                        </p>
-                      </div>
-                    </div>
 
                      <div className="bg-teal-50 border border-teal-200 p-4 rounded-lg">
                        <h4 className="font-medium text-teal-900 mb-2">Integration Instructions:</h4>
