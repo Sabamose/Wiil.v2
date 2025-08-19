@@ -1933,72 +1933,8 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
             // Website Assistant Flow - Show Code Snippet
             if (formData.assistantType === 'website') {
               const generateCodeSnippet = () => {
-                const assistantId = 'your-assistant-id'; // This would be the actual assistant ID
-                return `<!-- Website Assistant Chat Widget -->
-<script>
-  (function() {
-    // Create chat widget container
-    const chatWidget = document.createElement('div');
-    chatWidget.id = 'lovable-chat-widget';
-    chatWidget.style.cssText = \`
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 350px;
-      height: 500px;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.15);
-      z-index: 10000;
-      display: none;
-      flex-direction: column;
-      font-family: system-ui, -apple-system, sans-serif;
-    \`;
-    
-    // Create toggle button
-    const toggleButton = document.createElement('button');
-    toggleButton.innerHTML = '💬';
-    toggleButton.style.cssText = \`
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: #10b981;
-      color: white;
-      border: none;
-      font-size: 24px;
-      cursor: pointer;
-      z-index: 10001;
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
-    \`;
-    
-    // Toggle functionality
-    toggleButton.onclick = function() {
-      chatWidget.style.display = chatWidget.style.display === 'none' ? 'flex' : 'none';
-    };
-    
-    // Chat widget content
-    chatWidget.innerHTML = \`
-      <div style="background: #10b981; color: white; padding: 16px; border-radius: 12px 12px 0 0;">
-        <h3 style="margin: 0; font-size: 16px;">${formData.name || 'Assistant'}</h3>
-        <p style="margin: 4px 0 0; font-size: 14px; opacity: 0.9;">How can I help you?</p>
-      </div>
-      <div style="flex: 1; padding: 16px; overflow-y: auto;">
-        <div style="background: #f3f4f6; padding: 12px; border-radius: 8px; margin-bottom: 12px;">
-          ${formData.initial_message || 'Hello! How can I help you today?'}
-        </div>
-      </div>
-      <div style="padding: 16px; border-top: 1px solid #e5e7eb;">
-        <input type="text" placeholder="Type your message..." style="width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;">
-      </div>
-    \`;
-    
-    document.body.appendChild(chatWidget);
-    document.body.appendChild(toggleButton);
-  })();
-</script>`;
+                return `<script src="https://widget.lovable.ai/v1/widget.js"></script>
+<script>LovableWidget.init({assistantId: "${currentAssistantId || 'your-assistant-id'}", name: "${formData.name}"});</script>`;
               };
 
               const codeSnippet = generateCodeSnippet();
