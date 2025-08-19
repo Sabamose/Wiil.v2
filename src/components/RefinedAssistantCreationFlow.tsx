@@ -1970,7 +1970,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                           {copied ? 'Copied!' : 'Copy Code'}
                         </Button>
                       </div>
-                      <div className="bg-gray-900 text-gray-100 p-4 rounded-md overflow-x-auto">
+                      <div className="bg-teal-600 text-white p-4 rounded-md overflow-x-auto">
                         <pre className="text-sm whitespace-pre-wrap">{codeSnippet}</pre>
                       </div>
                     </div>
