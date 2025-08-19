@@ -77,46 +77,8 @@ export default function SeamlessLovableChatSection({
         @keyframes shine { 0%{ transform: translateX(-120%) rotate(12deg)} 100%{ transform: translateX(120%) rotate(12deg)} }
         @keyframes gradientShift { 0%{ background-position: 0% 50% } 50%{ background-position: 100% 50% } 100%{ background-position: 0% 50% } }
         @keyframes pulseGlow { 0%{ box-shadow: 0 20px 40px rgba(13,148,136,.4), 0 0 0 1px rgba(13,148,136,.2), inset 0 1px 0 rgba(255,255,255,.3) } 100%{ box-shadow: 0 25px 50px rgba(13,148,136,.5), 0 0 20px rgba(13,148,136,.3), inset 0 1px 0 rgba(255,255,255,.4) } }
-        @keyframes moveParcel { 
-          0% { 
-            top: 0px; 
-            left: 20px; 
-            transform: translateX(0%); 
-          }
-          25% { 
-            top: 0px; 
-            left: calc(100% - 20px); 
-            transform: translateX(-100%); 
-          }
-          50% { 
-            top: calc(100% - 6px); 
-            left: calc(100% - 20px); 
-            transform: translateX(-100%); 
-          }
-          75% { 
-            top: calc(100% - 6px); 
-            left: 20px; 
-            transform: translateX(0%); 
-          }
-          100% { 
-            top: 0px; 
-            left: 20px; 
-            transform: translateX(0%); 
-          }
-        }
         .enhanced-primary:hover { transform: scale(1.05) translateY(-2px) !important; }
         .enhanced-secondary:hover { transform: scale(1.02) !important; background: rgba(13,148,136,0.05) !important; }
-        .moving-parcel { 
-          position: absolute !important; 
-          width: 8px !important;
-          height: 8px !important;
-          background: #0d9488 !important;
-          border-radius: 50% !important;
-          box-shadow: 0 0 12px rgba(13,148,136,0.8), 0 0 6px rgba(13,148,136,1) !important;
-          animation: moveParcel 5s linear infinite !important;
-          z-index: 10 !important;
-          pointer-events: none !important;
-        }
       `;
       document.head.appendChild(s);
     }
@@ -293,7 +255,6 @@ export default function SeamlessLovableChatSection({
       
       {/* Chat bar */}
       <div style={{position: 'relative'}}>
-        <div className="moving-parcel" />
         <div style={{...styles.bar, position: 'relative', zIndex: 1}} role="form" aria-label="Ask Will">
         <input
           style={styles.inputText}
