@@ -119,7 +119,7 @@ export default function PricingPlans({
               <div style={s.priceRow}>
                 {p.id === "paygo" ? (
                   <>
-                    <span style={s.price}>Load Credits</span>
+                    <span style={{...s.price, fontWeight: 400}}>Load Credits</span>
                     <span style={s.per}>Prepaid</span>
                   </>
                 ) : (
