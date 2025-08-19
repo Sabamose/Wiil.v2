@@ -119,8 +119,8 @@ export default function PricingPlans({
               <div style={s.priceRow}>
                 {p.id === "paygo" ? (
                   <>
-                    <span style={{...s.price, fontWeight: 400}}>Pay only for what you use</span>
-                    <span style={s.per}>Prepaid</span>
+                    <span style={s.price}>$0.09</span>
+                    <span style={s.per}>/minute</span>
                   </>
                 ) : (
                   <>
@@ -136,10 +136,13 @@ export default function PricingPlans({
               {p.id === "paygo" ? (
                 <>
                    <li style={s.featureItem}>
-                     <span style={s.featureValue}>$0.09</span> per minute
+                     <span style={s.featureValue}>No monthly commitment</span>
                    </li>
                    <li style={s.featureItem}>
-                     <span style={s.featureValue}>No monthly fees</span>
+                     <span style={s.featureValue}>Pay per usage</span>
+                   </li>
+                   <li style={s.featureItem}>
+                     <span style={s.featureValue}>Load credits anytime</span>
                    </li>
                 </>
               ) : (
