@@ -644,6 +644,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
   const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+  const [copied, setCopied] = useState(false); // Move useState to top level
   // Inputs for quick list additions in Behavior step
   const [doSayInput, setDoSayInput] = useState('');
   const [dontSayInput, setDontSayInput] = useState('');
@@ -2001,7 +2002,6 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               };
 
               const codeSnippet = generateCodeSnippet();
-              const [copied, setCopied] = useState(false);
               
               const copyToClipboard = () => {
                 navigator.clipboard.writeText(codeSnippet);
