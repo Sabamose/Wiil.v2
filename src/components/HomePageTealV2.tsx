@@ -604,6 +604,27 @@ export default function HomePageTealV2() {
               />
             </div>
           )}
+
+          {/* Show just the action buttons when chat panel is open */}
+          {isChatOpen && (
+            <div className="w-full max-w-4xl mx-auto px-4 flex justify-center gap-4">
+              <button
+                onClick={() => {
+                  navigate("/");
+                  setTimeout(() => window.dispatchEvent(new Event("create-assistant")), 75);
+                }}
+                className="px-6 py-3 bg-teal-600 text-white rounded-xl font-medium hover:bg-teal-700 transition-colors shadow-lg"
+              >
+                + Create Assistant
+              </button>
+              <button
+                onClick={() => setAnalyticsOpen(true)}
+                className="px-6 py-3 bg-white text-teal-600 border border-teal-600 rounded-xl font-medium hover:bg-teal-50 transition-colors shadow-lg"
+              >
+                See Analytics
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
