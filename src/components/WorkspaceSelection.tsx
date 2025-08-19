@@ -60,7 +60,7 @@ const WorkspaceSelection: React.FC<WorkspaceSelectionProps> = ({ onWorkspaceSele
       {/* Content overlay */}
       <div className="relative z-10 w-full max-w-6xl">
         <div className="text-center mb-12">
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+          <h1 className="text-3xl md:text-4xl font-medium text-foreground mb-4">
             What best describes your project?
           </h1>
         </div>
