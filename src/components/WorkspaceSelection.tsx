@@ -23,7 +23,6 @@ const workspaceOptions: WorkspaceOption[] = [
       'Simple Assistant Setup',
       'Essential Assistant Integrations',
       'Personal Knowledge Sources',
-      'Monitor Conversations',
       'Analytics',
       'Campaign Management'
     ]
