@@ -2179,13 +2179,13 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                     Creating & Deploying...
                   </>
-                ) : !formData.hasPhoneNumber ? (
+                ) : !formData.hasPhoneNumber && formData.assistantType !== 'website' ? (
                   <>
                     Connect Phone Number to Deploy
                   </>
                 ) : (
                    <>
-                     Deploy Website Assistant
+                     {formData.assistantType === 'website' ? 'Deploy Website Assistant' : 'Deploy Assistant'}
                    </>
                 )}
               </Button>
@@ -2254,6 +2254,8 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               <p className="text-muted-foreground mb-4">
                 {formData.assistantType === 'inbound' ? (
                   <>Your inbound assistant is now live and ready to receive calls! Test it first, then start receiving calls on {formData.phoneNumber ? `your number ${formData.phoneNumber}` : 'your configured number'}.</>
+                ) : formData.assistantType === 'website' ? (
+                  <>Your website assistant is now deployed and ready to engage with visitors! Embed the chat widget on your website to start helping customers 24/7.</>
                 ) : (
                   <>Your outbound assistant is ready to make calls! Test it first, then create campaigns to start reaching your prospects effectively.</>
                 )}
