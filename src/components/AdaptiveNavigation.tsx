@@ -205,7 +205,7 @@ const AdaptiveNavigation = () => {
     <>
       {/* Header */}
       <header 
-        className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border px-4 md:px-6 h-16 flex items-center justify-between"
+        className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-teal-600/10 via-background/95 to-background/95 backdrop-blur-sm border-b border-teal-200/20 px-4 md:px-6 h-16 flex items-center justify-between"
         role="banner"
       >
         <div className="flex items-center gap-2">
@@ -218,7 +218,7 @@ const AdaptiveNavigation = () => {
               </SheetTrigger>
               <SheetContent 
                 side="left" 
-                className="w-60 p-0 bg-background"
+                className="w-60 p-0 bg-gradient-to-b from-teal-600/5 via-background to-background"
                 aria-label="Navigation menu"
               >
                 <div className="py-6 px-4 h-full">
@@ -251,7 +251,7 @@ const AdaptiveNavigation = () => {
       {!isMobile && (
         <nav
           data-navigation
-          className={`fixed left-0 top-16 h-[calc(100vh-4rem)] bg-background/95 backdrop-blur-sm border-r border-border py-6 px-4 z-40 transition-all ${
+          className={`fixed left-0 top-16 h-[calc(100vh-4rem)] bg-gradient-to-b from-teal-600/5 via-background/95 to-background/95 backdrop-blur-sm border-r border-teal-200/20 py-6 px-4 z-40 transition-all ${
             reducedMotion ? '' : 'duration-200 ease-in-out'
           } ${
             isCollapsed ? 'w-20' : 'w-60'
