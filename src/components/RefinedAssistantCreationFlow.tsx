@@ -2184,9 +2184,9 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     Connect Phone Number to Deploy
                   </>
                 ) : (
-                  <>
-                    Create & Deploy Assistant
-                  </>
+                   <>
+                     Deploy Website Assistant
+                   </>
                 )}
               </Button>
             </div>
