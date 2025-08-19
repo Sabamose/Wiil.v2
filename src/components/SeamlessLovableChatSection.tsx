@@ -220,7 +220,7 @@ export default function SeamlessLovableChatSection({
       display: "flex",
       alignItems: "center",
       gap: 10,
-      padding: "32px 24px",
+      padding: "36px 24px",
       width: "100%",
       minWidth: "800px",
     },
