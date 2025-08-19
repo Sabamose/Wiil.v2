@@ -1018,9 +1018,9 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Phone className="h-5 w-5" />
-                  What calls will this assistant handle?
+                  What type of assistant do you need?
                 </CardTitle>
-                <p className="text-muted-foreground">Pick one. You can change this later.</p>
+                <p className="text-muted-foreground">Choose the type that best fits your use case.</p>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -1038,9 +1038,9 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     <div className="text-center space-y-3">
                       <PhoneIncoming className="w-16 h-16 mx-auto text-primary" />
                       <h3 className="text-lg font-semibold">
-                        Answer incoming calls
+                        Phone Assistant
                       </h3>
-                      <p className="text-sm text-muted-foreground">Customers call your number. The assistant answers.</p>
+                      <p className="text-sm text-muted-foreground">Handles phone calls and voice interactions</p>
                     </div>
                   </div>
 
@@ -1058,9 +1058,9 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     <div className="text-center space-y-3">
                       <PhoneOutgoing className="w-16 h-16 mx-auto text-primary" />
                       <h3 className="text-lg font-semibold">
-                        Make outgoing calls
+                        Website Assistant
                       </h3>
-                      <p className="text-sm text-muted-foreground">The assistant calls prospects or customers for you.</p>
+                      <p className="text-sm text-muted-foreground">Provides support through web chat interface</p>
                     </div>
                   </div>
                 </div>
