@@ -34,8 +34,15 @@ interface WorkspaceSelectionProps {
 
 const WorkspaceSelection: React.FC<WorkspaceSelectionProps> = ({ onWorkspaceSelect }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 to-white flex items-center justify-center p-4 bg-[linear-gradient(to_right,rgba(13,148,136,0.06)_1px,transparent_1px)] bg-[size:24px_100%]">
-      <div className="w-full max-w-6xl">
+    <div className="min-h-screen relative flex items-center justify-center p-4">
+      {/* Lovable-style teal sunrise background - subtle with edge blending */}
+      <div className="absolute inset-0 bg-gradient-to-t from-teal-600/40 via-teal-200/20 to-white"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-white via-transparent to-transparent"></div>
+      <div className="absolute inset-0 bg-gradient-radial from-teal-500/30 via-transparent to-transparent" style={{ backgroundPosition: 'center 80%', backgroundSize: '60% 80%' }}></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-teal-600/20 via-transparent to-white/95"></div>
+      
+      {/* Content overlay */}
+      <div className="relative z-10 w-full max-w-6xl">
         <div className="text-center mb-12">
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             What Are You Building Today?
