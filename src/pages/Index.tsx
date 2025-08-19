@@ -5,7 +5,6 @@ import AssistantCreationFlow from "@/components/AssistantCreationFlow";
 import RefinedAssistantCreationFlow from "@/components/RefinedAssistantCreationFlow";
 import AssistantSettings from "@/components/AssistantSettings";
 import WorkspaceSelection from "@/components/WorkspaceSelection";
-import ChatInterface from "@/components/ChatInterface";
 import { BaseAssistant } from "@/types/assistant";
 import { useAssistants, StoredAssistant } from "@/hooks/useAssistants";
 import { useResponsive } from "@/hooks/use-responsive";
@@ -17,7 +16,6 @@ const Index = () => {
   const [isCreationFlowOpen, setIsCreationFlowOpen] = useState(false);
   const [selectedAssistant, setSelectedAssistant] = useState<any>(null);
   const [currentView, setCurrentView] = useState<"list" | "settings">("list");
-  const [isChatOpen, setIsChatOpen] = useState(false);
   const { assistants, loading, fetchAssistants } = useAssistants();
   const { isMobile } = useResponsive();
   const { isCollapsed, isHome } = useNavigationState();
@@ -67,9 +65,9 @@ const Index = () => {
         
         {/* Main Content */}
         {currentView === "list" ? (
-          <main className={`transition-all duration-300 ease-in-out ${
+          <main className={`transition-all duration-200 ease-in-out ${
             isMobile ? 'ml-0' : (isHome ? 'ml-60' : (isCollapsed ? 'ml-20' : 'ml-60'))
-          } ${isChatOpen ? 'ml-96' : ''} mt-16 p-4 md:p-8 relative animate-fade-in bg-[linear-gradient(to_right,rgba(13,148,136,0.06)_1px,transparent_1px)] bg-[size:24px_100%]`}>
+          } mt-16 p-4 md:p-8 relative animate-fade-in bg-[linear-gradient(to_right,rgba(13,148,136,0.06)_1px,transparent_1px)] bg-[size:24px_100%]`}>
             <header className="mb-6 md:mb-8">
               <h1 className="text-2xl font-semibold text-brand-teal">My Assistants</h1>
               <div className="h-0.5 w-24 bg-brand-teal/30 rounded-full mt-2" />
@@ -82,19 +80,10 @@ const Index = () => {
                 + Create Assistant
               </button>
             </div>
-            <section className="rounded-xl border border-brand-teal/20 bg-background shadow-sm hover:bg-teal-50 transition-colors mb-8">
+            <section className="rounded-xl border border-brand-teal/20 bg-background shadow-sm hover:bg-teal-50 transition-colors">
               <div className="p-2 md:p-4">
                 <ExistingAssistantsSection assistants={assistants} loading={loading} onRefresh={fetchAssistants} />
               </div>
-            </section>
-
-            {/* Chat Interface Section */}
-            <section className="mb-8">
-              <div className="text-center mb-6">
-                <h2 className="text-xl font-semibold text-brand-teal mb-2">Try Our AI Assistant</h2>
-                <p className="text-gray-600">Ask anything about creating and managing AI assistants</p>
-              </div>
-              <ChatInterface onChatToggle={setIsChatOpen} />
             </section>
           </main>
         ) : (
