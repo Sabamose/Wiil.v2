@@ -120,10 +120,7 @@ const AdaptiveNavigation = () => {
             {isCollapsed ? (
               <ChevronRight className="w-4 h-4" />
             ) : (
-              <>
-                <ChevronLeft className="w-4 h-4" />
-                <span className="ml-2">Collapse</span>
-              </>
+              <ChevronLeft className="w-4 h-4" />
             )}
           </Button>
         </div>
