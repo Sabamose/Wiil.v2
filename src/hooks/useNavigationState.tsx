@@ -14,6 +14,7 @@ const STORAGE_KEY = 'navigation-pinned';
 const HOVER_DELAY = 300;
 
 export const useNavigationState = () => {
+  console.log('useNavigationState: Hook called');
   const location = useLocation();
   const { isMobile } = useResponsive();
   const isHome = location.pathname === '/';
