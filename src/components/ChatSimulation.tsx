@@ -14,12 +14,14 @@ interface ChatSimulationProps {
   isOpen: boolean;
   onClose: () => void;
   initialMessage?: string;
+  onToggle?: () => void;
 }
 
 const ChatSimulation: React.FC<ChatSimulationProps> = ({ 
   isOpen, 
   onClose, 
-  initialMessage 
+  initialMessage,
+  onToggle 
 }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
@@ -103,14 +105,10 @@ const ChatSimulation: React.FC<ChatSimulationProps> = ({
     }
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 z-50 bg-black/20 backdrop-blur-sm">
-      {/* Chat Panel */}
-      <div className={`fixed left-0 top-0 h-full w-96 bg-white shadow-2xl transform transition-transform duration-300 ease-out ${
-        isOpen ? 'translate-x-0' : '-translate-x-full'
-      }`}>
+    <div className={`fixed left-0 top-0 h-full w-96 bg-white shadow-2xl border-r border-gray-200 transform transition-transform duration-300 ease-out z-40 ${
+      isOpen ? 'translate-x-0' : '-translate-x-full'
+    }`}>
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
           <div className="flex items-center gap-3">
@@ -220,13 +218,6 @@ const ChatSimulation: React.FC<ChatSimulationProps> = ({
           </div>
         </div>
       </div>
-      
-      {/* Backdrop */}
-      <div 
-        className="absolute inset-0 -z-10" 
-        onClick={onClose}
-      />
-    </div>
   );
 };
 

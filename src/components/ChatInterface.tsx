@@ -6,9 +6,10 @@ import ChatSimulation from './ChatSimulation';
 
 interface ChatInterfaceProps {
   className?: string;
+  onChatToggle?: (isOpen: boolean) => void;
 }
 
-const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = '' }) => {
+const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = '', onChatToggle }) => {
   const [inputValue, setInputValue] = useState('');
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [lastSentMessage, setLastSentMessage] = useState('');
@@ -20,6 +21,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = '' }) => {
     setLastSentMessage(message);
     setInputValue('');
     setIsChatOpen(true);
+    onChatToggle?.(true);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -90,7 +92,10 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = '' }) => {
       {/* Chat Simulation Modal */}
       <ChatSimulation
         isOpen={isChatOpen}
-        onClose={() => setIsChatOpen(false)}
+        onClose={() => {
+          setIsChatOpen(false);
+          onChatToggle?.(false);
+        }}
         initialMessage={lastSentMessage}
       />
     </div>
