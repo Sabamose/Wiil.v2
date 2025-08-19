@@ -24,7 +24,6 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
             ? 'bg-brand-teal text-brand-teal-foreground' 
             : 'bg-accent text-accent-foreground'
         }`}>
-          {isUser ? <User size={14} /> : <Bot size={14} />}
         </div>
 
         {/* Message Content */}
