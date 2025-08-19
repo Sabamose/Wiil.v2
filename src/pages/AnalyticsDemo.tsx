@@ -35,7 +35,7 @@ export default function AnalyticsDemo() {
   const { isMobile } = useResponsive();
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 to-white">
       <Navigation />
       <main className={`${isMobile ? 'ml-0' : 'ml-60'} mt-16 p-4 md:p-8 animate-fade-in`}>
         <header className="mb-6">

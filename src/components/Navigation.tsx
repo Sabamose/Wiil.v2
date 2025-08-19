@@ -71,7 +71,7 @@ const Navigation = () => {
     </>;
   return <>
       {/* Header */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-teal-600/10 px-4 md:px-6 h-16 flex items-center justify-between">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-teal-50/95 to-white/95 backdrop-blur-sm border-b border-teal-600/10 px-4 md:px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-2">
           {isMobile && <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
@@ -79,7 +79,7 @@ const Navigation = () => {
                   <Menu className="w-5 h-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-60 p-0 bg-teal-600/4">
+              <SheetContent side="left" className="w-60 p-0 bg-gradient-to-b from-teal-50 to-white">
                 <div className="py-6 h-full flex flex-col">
                   <NavigationContent />
                 </div>
@@ -104,7 +104,7 @@ const Navigation = () => {
       </div>
 
       {/* Desktop Sidebar Navigation */}
-      {!isMobile && <nav className="fixed left-0 top-16 w-60 h-[calc(100vh-4rem)] bg-teal-600/4 border-r border-teal-600/10 py-6 overflow-y-auto flex flex-col">
+      {!isMobile && <nav className="fixed left-0 top-16 w-60 h-[calc(100vh-4rem)] bg-gradient-to-b from-teal-50/80 to-white/80 border-r border-teal-600/10 py-6 overflow-y-auto flex flex-col">
           <NavigationContent />
         </nav>}
     </>;
