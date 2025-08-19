@@ -22,7 +22,6 @@ const Billing = () => {
       } mt-16 p-4 md:p-8 animate-fade-in`}>
         <header className="mb-8 text-center">
           <h1 className="text-2xl md:text-3xl font-semibold text-brand-teal mb-2">Pricing Plans</h1>
-          <p className="text-gray-600 max-w-2xl mx-auto">Choose the perfect plan for your AI assistant needs. Adjust the sliders to estimate your monthly costs.</p>
         </header>
 
         <PricingPlans 
