@@ -24,7 +24,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
   };
 
   return (
-    <div className="px-6 pt-6 pb-0 bg-background">
+    <div className="px-2 pt-6 pb-0 bg-background">
       <style>{`
         @keyframes shine { 0%{ transform: translateX(-120%) rotate(12deg)} 100%{ transform: translateX(120%) rotate(12deg)} }
       `}</style>
@@ -35,7 +35,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Ask Will anything..."
-            className="w-full resize-none rounded-2xl border border-input bg-background/50 px-4 py-4 pr-20 pb-4 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-brand-teal/30 focus:border-brand-teal transition-all"
+            className="w-full resize-none rounded-2xl border border-input bg-background/50 px-2 py-4 pr-20 pb-4 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-brand-teal/30 focus:border-brand-teal transition-all"
             rows={4}
             style={{ minHeight: '120px', maxHeight: '200px' }}
           />
