@@ -136,16 +136,10 @@ export default function PricingPlans({
               {p.id === "paygo" ? (
                 <>
                    <li style={s.featureItem}>
-                     <span style={s.featureValue}>Load credits first</span>
-                   </li>
-                   <li style={s.featureItem}>
-                     <span style={s.featureValue}>$0.09</span> per minute usage
+                     <span style={s.featureValue}>$0.09</span> per minute
                    </li>
                    <li style={s.featureItem}>
                      <span style={s.featureValue}>No monthly fees</span>
-                   </li>
-                   <li style={s.featureItem}>
-                     Pay only for what you use
                    </li>
                 </>
               ) : (
