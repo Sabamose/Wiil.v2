@@ -47,9 +47,6 @@ const WorkspaceSelection: React.FC<WorkspaceSelectionProps> = ({ onWorkspaceSele
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             What Are You Building Today?
           </h1>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Are you building for enterprise teams or need advanced developer tools for complex projects?
-          </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
