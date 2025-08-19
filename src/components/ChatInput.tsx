@@ -35,7 +35,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Ask Will anything..."
-            className="w-full resize-none rounded-2xl border border-input bg-background/50 px-4 py-4 pr-14 pb-12 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-brand-teal/30 focus:border-brand-teal transition-all"
+            className="w-full resize-none rounded-2xl border border-input bg-background/50 px-4 py-4 pr-16 pb-12 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-brand-teal/30 focus:border-brand-teal transition-all"
             rows={3}
             style={{ minHeight: '80px', maxHeight: '160px' }}
           />
@@ -44,17 +44,17 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
           <button
             type="submit"
             disabled={!message.trim()}
-            className="absolute bottom-2 right-2"
+            className="absolute bottom-3 right-3"
             style={{
               position: "relative", 
-              padding: "10px 14px", 
-              borderRadius: 18, 
+              padding: "8px 12px", 
+              borderRadius: 16, 
               color: "#fff", 
               fontWeight: 600,
               background: "linear-gradient(180deg, #0ea5a6 0%, #0d9488 100%)",
               border: 0, 
               cursor: "pointer", 
-              boxShadow: "0 10px 22px rgba(13,148,136,.18)"
+              boxShadow: "0 8px 18px rgba(13,148,136,.15)"
             }}
             aria-label="Send"
           >
@@ -62,7 +62,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
               position: "absolute", 
               inset: 0, 
               overflow: "hidden", 
-              borderRadius: 18, 
+              borderRadius: 16, 
               pointerEvents: "none" 
             }}>
               <span style={{ 
@@ -72,11 +72,11 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
                 width: "50%", 
                 height: "100%", 
                 background: "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.35) 50%, rgba(255,255,255,0) 100%)", 
-                filter: "blur(6px)", 
+                filter: "blur(4px)", 
                 animation: "shine 2.6s linear infinite" 
               }} />
             </span>
-            <ArrowRight size={18} />
+            <ArrowRight size={16} />
           </button>
           
           {/* Attach button - simplified */}
