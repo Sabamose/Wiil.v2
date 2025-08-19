@@ -87,9 +87,6 @@ const WorkspaceSelection: React.FC<WorkspaceSelectionProps> = ({ onWorkspaceSele
                   <p className="text-sm text-brand-teal font-medium mb-3">
                     {workspace.tagline}
                   </p>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    {workspace.primaryFeature}
-                  </p>
 
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
