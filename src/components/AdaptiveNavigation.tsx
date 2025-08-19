@@ -94,7 +94,7 @@ const AdaptiveNavigation = () => {
         reducedMotion ? '' : 'duration-200'
       } ${
         isActive 
-          ? "bg-primary text-primary-foreground" 
+          ? "bg-teal-600 text-white" 
           : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
       }`;
     }
@@ -103,7 +103,7 @@ const AdaptiveNavigation = () => {
       reducedMotion ? '' : 'duration-200'
     } ${
       isActive 
-        ? "bg-primary text-primary-foreground font-medium" 
+        ? "bg-teal-600 text-white font-medium" 
         : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
     }`;
   };
@@ -229,7 +229,7 @@ const AdaptiveNavigation = () => {
           )}
           
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-primary-foreground font-bold text-lg">
+            <div className="w-10 h-10 bg-teal-600 rounded-lg flex items-center justify-center text-white font-bold text-lg">
               W
             </div>
             <div className="flex flex-col">
