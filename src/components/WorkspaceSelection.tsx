@@ -105,7 +105,7 @@ const WorkspaceSelection: React.FC<WorkspaceSelectionProps> = ({ onWorkspaceSele
                       {workspace.features.map((feature, index) => (
                         <DropdownMenuItem 
                           key={index}
-                          className="flex items-center gap-2 py-2 px-3 hover:bg-brand-teal/10"
+                          className="flex items-center gap-2 py-2 px-3 hover:bg-brand-teal/10 rounded-lg"
                         >
                           <Check className="h-4 w-4 text-brand-teal" />
                           <span className="text-sm">{feature}</span>
