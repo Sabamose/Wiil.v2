@@ -59,7 +59,7 @@ const WorkspaceSelection: React.FC<WorkspaceSelectionProps> = ({ onWorkspaceSele
             return (
               <Card 
                 key={workspace.id}
-                className="group relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-brand-teal/5 hover:-translate-y-0.5 border border-border/30 hover:border-brand-teal/20 bg-white/60 backdrop-blur-sm"
+                className="group relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-brand-teal/5 hover:-translate-y-0.5 border border-border/30 hover:border-brand-teal/20 bg-white/60 backdrop-blur-sm rounded-3xl"
               >
                 <CardContent className="p-8 text-center">
                   <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-brand-teal/10 to-brand-teal/5 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
