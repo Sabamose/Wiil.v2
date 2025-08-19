@@ -195,7 +195,7 @@ export default function SeamlessLovableChatSection({
     },
     shineWrap: { position: "absolute", inset: 0, overflow: "hidden", borderRadius: 18, pointerEvents: "none" },
     shine: { position: "absolute", top: 0, left: "-50%", width: "50%", height: "100%", background: "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.35) 50%, rgba(255,255,255,0) 100%)", filter: "blur(6px)", animation: "shine 2.6s linear infinite" },
-    ctaRow: { display: "flex", alignItems: "center", justifyContent: "center", gap: 16, marginTop: 20, flexWrap: "wrap" },
+    ctaRow: { display: "flex", alignItems: "center", justifyContent: "center", gap: 16, marginTop: 40, flexWrap: "wrap" },
     primary: { 
       position: "relative", 
       padding: "16px 32px", 
