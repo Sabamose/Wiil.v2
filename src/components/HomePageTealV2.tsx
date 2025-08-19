@@ -519,7 +519,7 @@ export default function HomePageTealV2() {
   const navigate = useNavigate();
   const { isMobile } = useResponsive();
   const { isCollapsed, isHome } = useNavigationState();
-  const { openChat } = useChatContext();
+  const { openChat, isOpen: isChatOpen } = useChatContext();
   const { marginLeft } = useChatLayout();
 
   useEffect(() => {
@@ -580,27 +580,30 @@ export default function HomePageTealV2() {
 
         <div className="relative flex items-center justify-center min-h-[400px]">
           {/* Centered and wider chat section - Lovable style */}
-          <div className="w-full max-w-4xl mx-auto px-4">
-            <SeamlessLovableChatSection
-              prompts={[
-                "What can I build with Will?",
-                "How is pricing structured?", 
-                "Show me a quick demo."
-              ]}
-              autoStart={true}
-              onSend={(message) => {
-                console.log("Chat message:", message);
-                openChat(message);
-              }}
-              onPrimary={() => {
-                navigate("/");
-                setTimeout(() => window.dispatchEvent(new Event("create-assistant")), 75);
-              }}
-              onSecondary={() => setAnalyticsOpen(true)}
-              primaryText="+ Create Assistant"
-              secondaryText="See Analytics"
-            />
-          </div>
+          {/* Only show the home page chat interface when the horizontal chat panel is closed */}
+          {!isChatOpen && (
+            <div className="w-full max-w-4xl mx-auto px-4">
+              <SeamlessLovableChatSection
+                prompts={[
+                  "What can I build with Will?",
+                  "How is pricing structured?", 
+                  "Show me a quick demo."
+                ]}
+                autoStart={true}
+                onSend={(message) => {
+                  console.log("Chat message:", message);
+                  openChat(message);
+                }}
+                onPrimary={() => {
+                  navigate("/");
+                  setTimeout(() => window.dispatchEvent(new Event("create-assistant")), 75);
+                }}
+                onSecondary={() => setAnalyticsOpen(true)}
+                primaryText="+ Create Assistant"
+                secondaryText="See Analytics"
+              />
+            </div>
+          )}
         </div>
       </section>
 
