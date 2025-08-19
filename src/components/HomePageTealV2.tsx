@@ -548,7 +548,13 @@ export default function HomePageTealV2() {
   return (
     <>
       <Navigation />
-      <main className={`min-h-screen bg-white text-neutral-900 ${isMobile ? 'ml-0' : 'ml-60'} mt-16`}>
+      <main className={`min-h-screen bg-gradient-to-b from-slate-900 via-teal-800 to-teal-600 text-white ${isMobile ? 'ml-0' : 'ml-60'} mt-16 relative overflow-hidden`}>
+        {/* Gradient overlay for smooth blending */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/90 via-teal-700/60 to-teal-600/80"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white via-white/80 to-transparent"></div>
+        
+        {/* Content wrapper */}
+        <div className="relative z-10">
       {/* Topbar */}
       <header className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
         <div className="flex items-center gap-2 text-xl font-semibold"></div>
@@ -603,6 +609,8 @@ export default function HomePageTealV2() {
           <AnalyticsModalContent />
         </DialogContent>
       </Dialog>
+
+      </div>
 
     </main>
     </>
