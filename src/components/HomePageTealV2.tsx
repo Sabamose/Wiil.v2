@@ -549,10 +549,10 @@ export default function HomePageTealV2() {
     <>
       <Navigation />
       <main className={`min-h-screen relative ${isMobile ? 'ml-0' : 'ml-60'} mt-16`}>
-        {/* Lovable-style teal sunrise background */}
-        <div className="absolute inset-0 bg-gradient-to-t from-teal-600 via-teal-400 to-white"></div>
-        <div className="absolute inset-0 bg-gradient-radial from-teal-300/60 via-teal-100/40 to-transparent bg-center"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-teal-600/80 via-transparent to-white/90"></div>
+        {/* Lovable-style teal sunrise background - subtle with edge blending */}
+        <div className="absolute inset-0 bg-gradient-to-t from-teal-600/40 via-teal-200/20 to-white"></div>
+        <div className="absolute inset-0 bg-gradient-radial from-teal-500/30 via-transparent to-transparent" style={{ backgroundPosition: 'center 80%', backgroundSize: '60% 80%' }}></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-teal-600/20 via-transparent to-white/95"></div>
         
         {/* Content overlay */}
         <div className="relative z-10 text-neutral-900">
