@@ -35,18 +35,19 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Ask Will anything..."
-            className="w-full resize-none rounded-2xl border border-input bg-background/50 px-4 py-4 pr-16 pb-12 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-brand-teal/30 focus:border-brand-teal transition-all"
+            className="w-full resize-none rounded-2xl border border-input bg-background/50 px-4 py-4 pr-20 pb-4 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-brand-teal/30 focus:border-brand-teal transition-all"
             rows={3}
             style={{ minHeight: '80px', maxHeight: '160px' }}
           />
           
-          {/* Send button - exact replica from home page */}
+          {/* Send button - positioned inside the textarea */}
           <button
             type="submit"
             disabled={!message.trim()}
-            className="absolute bottom-3 right-3"
             style={{
-              position: "relative", 
+              position: "absolute",
+              bottom: "8px",
+              right: "8px",
               padding: "8px 12px", 
               borderRadius: 16, 
               color: "#fff", 
@@ -54,7 +55,8 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
               background: "linear-gradient(180deg, #0ea5a6 0%, #0d9488 100%)",
               border: 0, 
               cursor: "pointer", 
-              boxShadow: "0 8px 18px rgba(13,148,136,.15)"
+              boxShadow: "0 8px 18px rgba(13,148,136,.15)",
+              zIndex: 10
             }}
             aria-label="Send"
           >
@@ -79,7 +81,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
             <ArrowRight size={16} />
           </button>
           
-          {/* Attach button - simplified */}
+          {/* Attach button - positioned inside the textarea */}
           <button
             type="button"
             className="absolute bottom-2 left-3 p-2 text-muted-foreground/60 hover:text-muted-foreground hover:bg-accent/50 rounded-lg transition-colors"
