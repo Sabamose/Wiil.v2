@@ -567,30 +567,6 @@ export default function HomePageTealV2() {
             <ExtendedWavesTeal running={state === "speaking" || state === "listening"} />
           </div>
           
-          {/* Additional wave nets - centered */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <svg className="pointer-events-none opacity-40" height={180} width={600} viewBox="0 0 600 180">
-              <defs>
-                <linearGradient id="waveNet1" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#5eead4" stopOpacity="0.3" />
-                  <stop offset="50%" stopColor="#14b8a6" stopOpacity="0.6" />
-                  <stop offset="100%" stopColor="#0f766e" stopOpacity="0.3" />
-                </linearGradient>
-              </defs>
-              {Array.from({length: 5}).map((_, i) => (
-                <circle key={i} 
-                  cx={300 + Math.sin(Date.now() * 0.001 + i) * 50} 
-                  cy={90 + Math.cos(Date.now() * 0.0008 + i) * 15} 
-                  r={20 + i * 8} 
-                  fill="none" 
-                  stroke="url(#waveNet1)" 
-                  strokeWidth={1}
-                  className="animate-pulse"
-                  style={{animationDelay: `${i * 0.5}s`}}
-                />
-              ))}
-            </svg>
-          </div>
 
 
         </div>
