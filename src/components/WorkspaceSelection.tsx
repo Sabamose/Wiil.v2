@@ -34,7 +34,7 @@ interface WorkspaceSelectionProps {
 
 const WorkspaceSelection: React.FC<WorkspaceSelectionProps> = ({ onWorkspaceSelect }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 to-white flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 to-white flex items-center justify-center p-4 bg-[linear-gradient(to_right,rgba(13,148,136,0.06)_1px,transparent_1px)] bg-[size:24px_100%]">
       <div className="w-full max-w-6xl">
         <div className="text-center mb-12">
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
