@@ -35,9 +35,9 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Ask Will anything..."
-            className="w-full resize-none rounded-2xl border border-input bg-background/50 px-4 py-4 pr-20 pb-4 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-brand-teal/30 focus:border-brand-teal transition-all mb-6"
-            rows={3}
-            style={{ minHeight: '80px', maxHeight: '160px' }}
+            className="w-full resize-none rounded-2xl border border-input bg-background/50 px-4 py-4 pr-20 pb-4 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-brand-teal/30 focus:border-brand-teal transition-all"
+            rows={4}
+            style={{ minHeight: '120px', maxHeight: '200px' }}
           />
           
           {/* Send button - positioned inside the textarea */}
@@ -46,7 +46,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
             disabled={!message.trim()}
             style={{
               position: "absolute",
-              bottom: "32px",
+              bottom: "8px",
               right: "8px",
               padding: "8px 12px", 
               borderRadius: 16, 
@@ -84,7 +84,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
           {/* Attach button - positioned inside the textarea */}
           <button
             type="button"
-            className="absolute bottom-8 left-3 p-2 text-muted-foreground/60 hover:text-muted-foreground hover:bg-accent/50 rounded-lg transition-colors"
+            className="absolute bottom-2 left-3 p-2 text-muted-foreground/60 hover:text-muted-foreground hover:bg-accent/50 rounded-lg transition-colors"
             aria-label="Attach file"
           >
             <Paperclip size={16} />
