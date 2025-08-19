@@ -230,15 +230,20 @@ export default function SeamlessLovableChatSection({
       backdropFilter: "blur(10px)"
     },
     attachBtn: {
-      padding: "8px", 
-      borderRadius: "50%", 
+      padding: "8px 12px", 
+      borderRadius: "16px", 
       background: "rgba(15, 118, 110, 0.1)", 
       border: "none", 
       cursor: "pointer", 
       display: "flex", 
       alignItems: "center", 
       justifyContent: "center",
+      gap: "6px",
       color: "#0f766e",
+      fontSize: "14px",
+      fontWeight: "500",
+      alignSelf: "flex-end",
+      marginBottom: "4px",
       transition: "all 0.2s ease"
     },
   };
@@ -280,6 +285,7 @@ export default function SeamlessLovableChatSection({
           }}
         >
           <Paperclip size={16} />
+          <span>Attach</span>
         </button>
         <input
           style={styles.inputText}
