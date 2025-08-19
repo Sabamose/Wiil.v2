@@ -13,6 +13,8 @@ import Billing from "./pages/Billing";
 import NotFound from "./pages/NotFound";
 import HomePageTealV2 from "./components/HomePageTealV2";
 import AnalyticsDemo from "./pages/AnalyticsDemo";
+import WorkspaceSetup from "./pages/WorkspaceSetup";
+import WorkspaceGuard from "./components/WorkspaceGuard";
 
 const queryClient = new QueryClient();
 
@@ -23,8 +25,10 @@ const App = () => (
       <Sonner />
       <AuthWrapper>
         <BrowserRouter>
-          <Routes>
+          <WorkspaceGuard>
+            <Routes>
             <Route path="/home" element={<HomePageTealV2 />} />
+            <Route path="/workspace-setup" element={<WorkspaceSetup />} />
             <Route path="/" element={<Index />} />
             <Route path="/bookings" element={<Bookings />} />
             <Route path="/conversations" element={<Conversations />} />
@@ -35,7 +39,8 @@ const App = () => (
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
-          </Routes>
+            </Routes>
+          </WorkspaceGuard>
         </BrowserRouter>
       </AuthWrapper>
     </TooltipProvider>
