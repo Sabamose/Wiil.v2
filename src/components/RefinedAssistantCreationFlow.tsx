@@ -1036,7 +1036,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                       </div>
                     )}
                     <div className="text-center space-y-3">
-                      <PhoneIncoming className="w-16 h-16 mx-auto text-primary" />
+                      <PhoneIncoming className="w-16 h-16 mx-auto text-primary" strokeWidth={1.5} />
                       <h3 className="text-lg font-semibold">
                         Phone Assistant
                       </h3>
@@ -1056,7 +1056,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                       </div>
                     )}
                     <div className="text-center space-y-3">
-                      <Globe className="w-16 h-16 mx-auto text-primary" />
+                      <Globe className="w-16 h-16 mx-auto text-primary" strokeWidth={1.5} />
                       <h3 className="text-lg font-semibold">
                         Website Assistant
                       </h3>
