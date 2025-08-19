@@ -222,7 +222,7 @@ export default function SeamlessLovableChatSection({
       gap: 10,
       padding: "12px 24px",
       width: "100%",
-      minWidth: "800px",
+      minWidth: "1000px",
     },
     inputText: { flex: 1, color: "#0f766e", fontSize: 16, lineHeight: "22px", minHeight: 22, background: "transparent", border: "none", outline: "none" },
     caret: { display: "inline-block", width: 1.5, height: 18, background: "#0f766e", marginLeft: 2, animation: "caretBlink 1s step-end infinite" },
