@@ -29,24 +29,15 @@ const HorizontalChatPanel: React.FC = () => {
         </div>
         <button
           onClick={closeChat}
-          className="p-2 hover:bg-brand-teal-foreground/20 rounded-lg transition-colors bg-brand-teal-foreground/10 border border-brand-teal-foreground/20"
+          className="p-2.5 hover:bg-brand-teal-foreground/20 rounded-full transition-all hover:scale-110 bg-brand-teal-foreground/10"
           aria-label="Close chat"
         >
-          <X size={18} className="font-bold" />
+          <X size={20} className="font-semibold" />
         </button>
       </div>
 
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-teal-50/50 to-background relative">
-        {/* Floating Close Button */}
-        <button
-          onClick={closeChat}
-          className="absolute top-2 right-2 z-10 p-2 bg-background/80 hover:bg-background border border-border rounded-full shadow-sm transition-all hover:scale-105"
-          aria-label="Close chat"
-        >
-          <X size={16} className="text-muted-foreground hover:text-foreground" />
-        </button>
-        
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-teal-50/50 to-background">
         {messages.length === 0 && (
           <div className="text-center py-8">
             <div className="w-12 h-12 rounded-full bg-brand-teal/10 flex items-center justify-center mx-auto mb-3">
@@ -56,7 +47,7 @@ const HorizontalChatPanel: React.FC = () => {
               Start a conversation with Will
             </p>
             <p className="text-xs text-muted-foreground/60 mt-2">
-              Click the × to close this chat
+              Click the × in the header to close this chat
             </p>
           </div>
         )}
