@@ -24,37 +24,38 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
   };
 
   return (
-    <div className="p-4 border-t border-border bg-background">
-      <form onSubmit={handleSubmit} className="flex items-end gap-2">
-        <div className="flex-1 relative">
+    <div className="p-6 border-t border-border/50 bg-background">
+      <form onSubmit={handleSubmit} className="relative">
+        <div className="relative">
           <textarea
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Type your message..."
-            className="w-full resize-none rounded-2xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal focus:border-transparent"
-            rows={1}
-            style={{ minHeight: '44px', maxHeight: '120px' }}
+            placeholder="Ask Will anything..."
+            className="w-full resize-none rounded-2xl border border-input bg-background/50 px-4 py-4 pr-14 pb-12 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-brand-teal/30 focus:border-brand-teal transition-all"
+            rows={3}
+            style={{ minHeight: '80px', maxHeight: '160px' }}
           />
           
-          {/* Attach button */}
+          {/* Send button integrated inside */}
+          <button
+            type="submit"
+            disabled={!message.trim()}
+            className="absolute bottom-2 right-2 p-2.5 bg-brand-teal text-brand-teal-foreground rounded-xl hover:bg-brand-teal-hover disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 hover:scale-105 shadow-sm"
+            aria-label="Send message"
+          >
+            <Send size={18} />
+          </button>
+          
+          {/* Attach button - simplified */}
           <button
             type="button"
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 p-1.5 text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg transition-colors"
+            className="absolute bottom-2 left-3 p-2 text-muted-foreground/60 hover:text-muted-foreground hover:bg-accent/50 rounded-lg transition-colors"
             aria-label="Attach file"
           >
             <Paperclip size={16} />
           </button>
         </div>
-
-        <button
-          type="submit"
-          disabled={!message.trim()}
-          className="p-3 bg-brand-teal text-brand-teal-foreground rounded-2xl hover:bg-brand-teal-hover disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 hover:scale-105"
-          aria-label="Send message"
-        >
-          <Send size={16} />
-        </button>
       </form>
     </div>
   );
