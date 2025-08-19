@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 
 /**
  * PricingPlans – $0.09/min, US numbers $1.25/mo, extra assistant $5/mo
- * Plans: Starter / Pro / Business
+ * Plans: Starter / Pro / Business / Pay as you Go
  * - Live estimator: minutes, numbers, assistants
  * - Highlights the cheapest plan
  * - No external dependencies; inline styles only
@@ -19,6 +19,7 @@ export default function PricingPlans({
     { id: "starter",  name: "Starter",  price: 29,  mins: 300,  assistants: 3,  numbers: 1 },
     { id: "pro",      name: "Pro",      price: 149, mins: 1600, assistants: 10, numbers: 3 },
     { id: "business", name: "Business", price: 399, mins: 4300, assistants: 25, numbers: 10 },
+    { id: "paygo",    name: "Pay as you Go", price: 0, mins: 0, assistants: 0, numbers: 0 },
   ];
   const OVERAGE_PER_MIN = 0.09;
   const EXTRA_NUMBER_PM = 1.25;
@@ -32,22 +33,37 @@ export default function PricingPlans({
   // Estimate cost for each plan
   const estimates = useMemo(() => {
     return PLANS.map((p) => {
-      const overageMins = Math.max(0, expectedMins - p.mins);
-      const extraNumbers = Math.max(0, neededNumbers - p.numbers);
-      const extraAssist  = Math.max(0, neededAssistants - p.assistants);
-      const cost =
-        p.price +
-        overageMins * OVERAGE_PER_MIN +
-        extraNumbers * EXTRA_NUMBER_PM +
-        extraAssist * EXTRA_ASSISTANT_PM;
+      if (p.id === "paygo") {
+        // Pay as you go: no base fee, higher per-minute rate
+        const cost = expectedMins * (OVERAGE_PER_MIN * 1.5) + 
+                     neededNumbers * EXTRA_NUMBER_PM + 
+                     neededAssistants * EXTRA_ASSISTANT_PM;
+        return {
+          ...p,
+          overageMins: expectedMins,
+          extraNumbers: neededNumbers,
+          extraAssist: neededAssistants,
+          cost,
+        };
+      } else {
+        // Regular plans with included minutes
+        const overageMins = Math.max(0, expectedMins - p.mins);
+        const extraNumbers = Math.max(0, neededNumbers - p.numbers);
+        const extraAssist  = Math.max(0, neededAssistants - p.assistants);
+        const cost =
+          p.price +
+          overageMins * OVERAGE_PER_MIN +
+          extraNumbers * EXTRA_NUMBER_PM +
+          extraAssist * EXTRA_ASSISTANT_PM;
 
-      return {
-        ...p,
-        overageMins,
-        extraNumbers,
-        extraAssist,
-        cost,
-      };
+        return {
+          ...p,
+          overageMins,
+          extraNumbers,
+          extraAssist,
+          cost,
+        };
+      }
     });
   }, [expectedMins, neededNumbers, neededAssistants]);
 
@@ -110,18 +126,37 @@ export default function PricingPlans({
 
             {/* Key features - simplified */}
             <ul style={s.features}>
-              <li style={s.featureItem}>
-                <span style={s.featureValue}>{fmt(p.mins)}</span> minutes
-              </li>
-              <li style={s.featureItem}>
-                <span style={s.featureValue}>{p.assistants}</span> {p.assistants === 1 ? 'assistant' : 'assistants'}
-              </li>
-              <li style={s.featureItem}>
-                <span style={s.featureValue}>{p.numbers}</span> {p.numbers === 1 ? 'phone number' : 'phone numbers'}
-              </li>
-              <li style={s.featureItem}>
-                ${OVERAGE_PER_MIN.toFixed(2)}/min overage
-              </li>
+              {p.id === "paygo" ? (
+                <>
+                  <li style={s.featureItem}>
+                    <span style={s.featureValue}>No monthly fee</span>
+                  </li>
+                  <li style={s.featureItem}>
+                    <span style={s.featureValue}>Unlimited</span> assistants
+                  </li>
+                  <li style={s.featureItem}>
+                    <span style={s.featureValue}>Unlimited</span> phone numbers
+                  </li>
+                  <li style={s.featureItem}>
+                    ${(OVERAGE_PER_MIN * 1.5).toFixed(2)}/min usage
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li style={s.featureItem}>
+                    <span style={s.featureValue}>{fmt(p.mins)}</span> minutes
+                  </li>
+                  <li style={s.featureItem}>
+                    <span style={s.featureValue}>{p.assistants}</span> {p.assistants === 1 ? 'assistant' : 'assistants'}
+                  </li>
+                  <li style={s.featureItem}>
+                    <span style={s.featureValue}>{p.numbers}</span> {p.numbers === 1 ? 'phone number' : 'phone numbers'}
+                  </li>
+                  <li style={s.featureItem}>
+                    ${OVERAGE_PER_MIN.toFixed(2)}/min overage
+                  </li>
+                </>
+              )}
             </ul>
 
             {/* CTA Button */}
