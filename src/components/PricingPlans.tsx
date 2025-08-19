@@ -262,8 +262,8 @@ function styles(accent: string) {
       justifyContent: "space-between",
       transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
       cursor: "pointer",
-      border: "1px solid rgba(0,0,0,0.04)",
-      boxShadow: "0 4px 12px rgba(0,0,0,0.02)",
+      border: "2px solid rgba(0,0,0,0.06)",
+      boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
     },
     cardHover: {
       transform: "translateY(-8px) scale(1.02)",
