@@ -571,15 +571,9 @@ export default function HomePageTealV2() {
           <p className="mt-3 text-neutral-600">Create, manage and deploy intelligent AI Assistants</p>
         </div>
 
-        <div className="relative flex items-center justify-center min-h-[500px]">
-          
-
-        </div>
-
-        {/* Primary actions */}
-        <div className="mt-8 flex items-center justify-center gap-3">
-          {/* Seamless Chat Section with CTAs */}
-          <div className="mt-8">
+        <div className="relative flex items-center justify-center min-h-[400px]">
+          {/* Centered and wider chat section - Lovable style */}
+          <div className="w-full max-w-4xl mx-auto px-4">
             <SeamlessLovableChatSection
               prompts={[
                 "What can I build with Will?",
