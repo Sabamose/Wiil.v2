@@ -36,7 +36,10 @@ const workspaceOptions: WorkspaceOption[] = [
     features: [
       'Full API access',
       'Custom integrations',
-      'Development tools'
+      'Development tools',
+      'Advanced Customization',
+      'Project Key Management',
+      'Technical Documentation'
     ]
   }
 ];
