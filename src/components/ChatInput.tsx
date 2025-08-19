@@ -24,7 +24,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
   };
 
   return (
-    <div className="p-6 border-t border-border/50 bg-background">
+    <div className="p-6 bg-background">
       <style>{`
         @keyframes shine { 0%{ transform: translateX(-120%) rotate(12deg)} 100%{ transform: translateX(120%) rotate(12deg)} }
       `}</style>
