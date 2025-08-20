@@ -589,7 +589,7 @@ export default function HomePageTealV2() {
                   "How is pricing structured?", 
                   "Show me a quick demo."
                 ]}
-                autoStart={true}
+                autoStart={false}
                 onSend={(message) => {
                   console.log("Chat message:", message);
                   openChat(message);

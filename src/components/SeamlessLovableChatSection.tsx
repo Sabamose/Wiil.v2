@@ -38,7 +38,7 @@ export default function SeamlessLovableChatSection({
     "What's the difference between inbound and outbound campaigns?",
     "How do I ensure data privacy and compliance with voice AI?"
   ],
-  autoStart = true,
+  autoStart = false,
   accent = "#0d9488", // teal-600
   onSend,
   onPrimary,
