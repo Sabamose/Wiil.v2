@@ -22,7 +22,7 @@ export interface StoredAssistant extends CreateAssistantData {
   id: string;
   user_id: string;
   phone_number?: string;
-  status: 'draft' | 'active' | 'testing';
+  status: 'draft' | 'active' | 'testing' | 'live';
   created_at: string;
   updated_at: string;
 }
@@ -61,7 +61,7 @@ export const useAssistants = () => {
             initial_message: 'Hi! I\'m here to help you schedule appointments. How can I help today?',
             temperature: 0.7,
             max_tokens: 300,
-            status: 'active',
+            status: 'live',
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString(),
             phone_number: '+1 (555) 123-4567'
@@ -82,7 +82,7 @@ export const useAssistants = () => {
             initial_message: 'Hello! I\'m calling to share some exciting opportunities that might interest you.',
             temperature: 0.8,
             max_tokens: 350,
-            status: 'active',
+            status: 'live',
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString(),
             phone_number: '+1 (555) 234-5678'
@@ -103,7 +103,7 @@ export const useAssistants = () => {
             initial_message: 'Thank you for calling! I\'m here to help with any questions or concerns you may have.',
             temperature: 0.6,
             max_tokens: 400,
-            status: 'active',
+            status: 'live',
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString(),
             phone_number: '+1 (555) 345-6789'
@@ -145,7 +145,7 @@ export const useAssistants = () => {
             initial_message: 'Hi! I\'m reaching out about some great property opportunities in your area.',
             temperature: 0.8,
             max_tokens: 350,
-            status: 'active',
+            status: 'live',
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString(),
             phone_number: '+1 (555) 567-8901'
@@ -187,7 +187,7 @@ export const useAssistants = () => {
             initial_message: 'Hello! I\'m here to assist you with your insurance claim. Let\'s get started.',
             temperature: 0.6,
             max_tokens: 350,
-            status: 'active',
+            status: 'live',
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString(),
             phone_number: '+1 (555) 789-0123'
@@ -208,7 +208,7 @@ export const useAssistants = () => {
             initial_message: 'Thank you for shopping with us! How can I help you with your order today?',
             temperature: 0.7,
             max_tokens: 300,
-            status: 'active',
+            status: 'live',
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString(),
             phone_number: '+1 (555) 890-1234'
