@@ -64,7 +64,7 @@ const CallDetails = ({ call, dataVariables, onBack }: CallDetailsProps) => {
             Back to Calls
           </Button>
           <div>
-            <h1 className="text-2xl font-semibold">Conversation with {call.customer.name}</h1>
+            <h1 className="text-2xl font-semibold">CONV-7F3A-B29C-E145</h1>
             <p className="text-sm text-muted-foreground">conv_{call.id.slice(0, 8)}...{call.id.slice(-8)}</p>
           </div>
         </div>
