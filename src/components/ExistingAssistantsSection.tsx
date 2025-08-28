@@ -25,7 +25,6 @@ const ExistingAssistantsSection = ({
   const assistantTypes = [
     { type: 'phone', icon: Phone, label: 'Phone Assistant' },
     { type: 'website', icon: Globe, label: 'Website Assistant' },
-    { type: 'chat', icon: MessageCircle, label: 'Chat Assistant' },
     { type: 'email', icon: Mail, label: 'Email Assistant' }
   ];
 
