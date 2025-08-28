@@ -224,7 +224,7 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
   const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
   const [isTestModalOpen, setIsTestModalOpen] = useState(false);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
-  const [activeTab, setActiveTab] = useState<'Industry' | 'Type' | 'Voice' | 'Role' | 'Actions' | 'Instructions' | 'Knowledge' | 'Phone'>('Industry');
+  const [activeTab, setActiveTab] = useState<'Industry' | 'Type' | 'Voice' | 'Role' | 'Actions' | 'Instructions' | 'Knowledge' | 'Phone' | 'EmailSettings'>('Industry');
   const [showPhoneSuccessModal, setShowPhoneSuccessModal] = useState(false);
   const [connectedPhoneNumber, setConnectedPhoneNumber] = useState<PhoneNumber | null>(null);
   const [isAssistantConnectedToPhone, setIsAssistantConnectedToPhone] = useState(true);
@@ -291,7 +291,11 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
     knowledge: assistant?.knowledge || [],
     // Step 8: Phone Number
     phoneNumber: assistant?.phone_number || null,
-    hasPhoneNumber: !!assistant?.phone_number
+    hasPhoneNumber: !!assistant?.phone_number,
+    // Email-specific properties
+    emailTone: assistant?.emailTone || 'professional',
+    responseLength: assistant?.responseLength || 'detailed',
+    customInstructions: assistant?.customInstructions || ''
   });
 
   // Initialize original data and track changes
@@ -341,7 +345,11 @@ const AssistantSettings: React.FC<AssistantSettingsProps> = ({ assistant, onBack
       knowledge: [] as Array<{ id: string; name: string; type: 'document' | 'url' | 'text'; content?: string }>,
       // Step 8: Phone Number
       phoneNumber: assistant?.phone_number || null,
-      hasPhoneNumber: !!assistant?.phone_number
+      hasPhoneNumber: !!assistant?.phone_number,
+      // Email-specific properties
+      emailTone: assistant?.emailTone || 'professional',
+      responseLength: assistant?.responseLength || 'detailed',
+      customInstructions: assistant?.customInstructions || ''
     };
     
     setOriginalData(initialData);
@@ -577,22 +585,27 @@ IMPORTANT GUIDELINES:
     }
   };
 
+  // Check if this is an email assistant
+  const isEmailAssistant = assistant?.assistant_type === 'email' || formData.assistantType === 'email';
+
   return (
-    <div className="min-h-screen bg-[linear-gradient(to_bottom,rgba(0,0,0,0)_23px,rgba(0,0,0,0)_23px),linear-gradient(to_right,hsl(var(--brand-teal)/0.06)_1px,transparent_1px)] bg-[size:100%_24px,24px_100%]">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="border-b border-brand-teal/20 px-8 py-6 bg-transparent">
+      <div className="border-b border-gray-200 px-8 py-6 bg-white">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <button 
               onClick={onBack}
-              className="p-2 hover:bg-brand-teal/10 rounded-md transition-colors"
+              className="p-2 hover:bg-gray-100 rounded-md transition-colors"
             >
-              <ArrowLeft className="w-5 h-5 text-brand-teal" />
+              <ArrowLeft className="w-5 h-5 text-gray-600" />
             </button>
             <div className="flex items-center gap-2">
-              <span className="text-muted-foreground">Assistants</span>
-              <span className="text-muted-foreground">/</span>
-              <span className="text-2xl font-semibold text-brand-teal">Assistant Settings</span>
+              <span className="text-gray-500">Assistants</span>
+              <span className="text-gray-500">/</span>
+              <span className="text-xl font-semibold text-gray-900">
+                {isEmailAssistant ? 'Email Assistant Settings' : 'Assistant Settings'}
+              </span>
             </div>
           </div>
           
@@ -601,12 +614,11 @@ IMPORTANT GUIDELINES:
               onClick={() => setIsTestModalOpen(true)}
               variant="outline"
               size="sm"
-              className="border-brand-teal text-brand-teal hover:bg-brand-teal/10 hover:text-brand-teal"
+              className="border-gray-300 text-gray-700 hover:bg-gray-50"
             >
               <TestTube className="w-4 h-4 mr-2" />
-              Test Assistant
+              {isEmailAssistant ? 'Test Email Assistant' : 'Test Assistant'}
             </Button>
-            
             
             {hasUnsavedChanges && (
               <div className="text-sm text-amber-600 font-medium">
@@ -617,10 +629,15 @@ IMPORTANT GUIDELINES:
         </div>
       </div>
 
-      {/* Tab Navigation */}
-      <div className="border-b border-brand-teal/20 px-8 bg-transparent">
+      {/* Tab Navigation - Different tabs for email assistants */}
+      <div className="border-b border-gray-200 px-8 bg-white">
         <div className="flex space-x-2">
-          {([
+          {(isEmailAssistant ? [
+            { id: 'Role', icon: User, label: 'Role' },
+            { id: 'Knowledge', icon: FileText, label: 'Knowledge Base' },
+            { id: 'Instructions', icon: MessageSquare, label: 'Tone & Instructions' },
+            { id: 'EmailSettings', icon: Settings, label: 'Email Settings' }
+          ] : [
             { id: 'Industry', icon: User, label: 'Industry' },
             { id: 'Type', icon: PhoneIncoming, label: 'Type' },
             { id: 'Voice', icon: Volume2, label: 'Voice' },
@@ -634,44 +651,235 @@ IMPORTANT GUIDELINES:
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => setActiveTab(tab.id as any)}
                 className={`relative flex items-center gap-2 py-3 px-4 rounded-lg text-sm font-medium transition-all duration-200 ${
                   activeTab === tab.id
-                    ? 'bg-brand-teal text-white shadow-md border-2 border-brand-teal'
-                    : 'bg-background/50 text-muted-foreground hover:text-brand-teal hover:bg-brand-teal/10 border-2 border-transparent hover:border-brand-teal/30'
+                    ? 'bg-[hsl(var(--brand-teal))] text-white shadow-md'
+                    : 'bg-white text-gray-600 hover:text-[hsl(var(--brand-teal))] hover:bg-teal-50'
                 }`}
-                aria-current={activeTab === tab.id ? 'page' : undefined}
               >
-                <Icon className={`w-4 h-4 ${activeTab === tab.id ? 'text-white' : 'text-muted-foreground'}`} />
+                <Icon className={`w-4 h-4 ${activeTab === tab.id ? 'text-white' : 'text-gray-600'}`} />
                 <span>{tab.label}</span>
-                {activeTab === tab.id && (
-                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-brand-teal rounded-full" />
-                )}
               </button>
             );
           })}
         </div>
       </div>
 
-      {/* Phone Number Warning */}
-      {!formData.hasPhoneNumber && (
-        <div className="mx-8 mb-4 p-4 bg-amber-50 border border-amber-200 rounded-lg">
-          <div className="flex items-center gap-2">
-            <AlertTriangle className="w-5 h-5 text-amber-600" />
-            <p className="text-amber-800 font-medium">
-              Phone Number Required for Deployment
-            </p>
-          </div>
-          <p className="text-amber-700 text-sm mt-1">
-            To deploy your assistant and start receiving calls, you need to connect a phone number. 
-            You can save your assistant as a draft and connect a phone number later.
-          </p>
-        </div>
-      )}
-
       {/* Settings Content */}
-      <div className="px-8 py-8 max-w-4xl">
-        <div className="space-y-12 rounded-xl border border-brand-teal/20 bg-background shadow-sm p-6">
+      <div className="px-8 py-8 max-w-4xl">{isEmailAssistant ? (
+        /* Email Assistant Settings */
+        <div className="space-y-8 bg-white rounded-lg border border-gray-200 p-6">
+          
+          {/* Role Selection for Email Assistant */}
+          <section className={activeTab === 'Role' ? '' : 'hidden'}>
+            <div className="mb-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                <User className="h-5 w-5 text-[hsl(var(--brand-teal))]" />
+                Email Assistant Role
+              </h2>
+              <p className="text-gray-600">Choose the specific role for your email assistant</p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[
+                { id: 'customer-support', label: 'Customer Support', emoji: '📧', description: 'Handle customer inquiries via email' },
+                { id: 'sales-support', label: 'Sales Support', emoji: '💼', description: 'Support sales inquiries and follow-ups' },
+                { id: 'technical-support', label: 'Technical Support', emoji: '🔧', description: 'Provide technical assistance via email' },
+                { id: 'account-management', label: 'Account Management', emoji: '👥', description: 'Manage existing customer accounts' },
+                { id: 'lead-nurturing', label: 'Lead Nurturing', emoji: '🌱', description: 'Nurture leads through email campaigns' },
+                { id: 'order-management', label: 'Order Management', emoji: '📦', description: 'Handle order-related inquiries' }
+              ].map(role => (
+                <div
+                  key={role.id}
+                  onClick={() => setFormData({ ...formData, role: role.id })}
+                  className={`p-4 border rounded-lg cursor-pointer transition-all hover:shadow-md ${
+                    formData.role === role.id 
+                      ? 'border-[hsl(var(--brand-teal))] bg-teal-50' 
+                      : 'border-gray-200 hover:border-[hsl(var(--brand-teal))]'
+                  }`}
+                >
+                  <div className="text-center">
+                    <div className="text-2xl mb-2">{role.emoji}</div>
+                    <div className="font-medium mb-1">{role.label}</div>
+                    <div className="text-sm text-gray-600">{role.description}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Knowledge Base for Email Assistant */}
+          <section className={activeTab === 'Knowledge' ? '' : 'hidden'}>
+            <div className="mb-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                <FileText className="h-5 w-5 text-[hsl(var(--brand-teal))]" />
+                Knowledge Base
+              </h2>
+              <p className="text-gray-600">Upload documents and information for your email assistant</p>
+            </div>
+            
+            <KnowledgeUpload 
+              assistantId={assistant?.id || 'temp-id'}
+              onKnowledgeAdded={(knowledge) => {
+                console.log('Knowledge added:', knowledge);
+              }}
+            />
+          </section>
+
+          {/* Tone & Instructions for Email Assistant */}
+          <section className={activeTab === 'Instructions' ? '' : 'hidden'}>
+            <div className="mb-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                <MessageSquare className="h-5 w-5 text-[hsl(var(--brand-teal))]" />
+                Tone & Instructions
+              </h2>
+              <p className="text-gray-600">Configure how your email assistant communicates</p>
+            </div>
+            
+            <div className="space-y-6">
+              {/* Email Tone Selection */}
+              <div>
+                <Label className="text-sm font-medium text-gray-900 mb-3 block">Email Tone</Label>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {[
+                    { value: 'professional', label: 'Professional', desc: 'Formal and business-focused' },
+                    { value: 'friendly', label: 'Friendly', desc: 'Warm and approachable' },
+                    { value: 'empathetic', label: 'Empathetic', desc: 'Understanding and supportive' }
+                  ].map(tone => (
+                    <button
+                      key={tone.value}
+                      onClick={() => setFormData({ ...formData, emailTone: tone.value })}
+                      className={`p-4 border rounded-lg text-left transition-all ${
+                        formData.emailTone === tone.value 
+                          ? 'border-[hsl(var(--brand-teal))] bg-teal-50' 
+                          : 'border-gray-200 hover:border-[hsl(var(--brand-teal))]'
+                      }`}
+                    >
+                      <div className="font-medium">{tone.label}</div>
+                      <div className="text-sm text-gray-600 mt-1">{tone.desc}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Response Length */}
+              <div>
+                <Label className="text-sm font-medium text-gray-900 mb-3 block">Response Length</Label>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {[
+                    { value: 'concise', label: 'Concise', desc: 'Brief and to the point' },
+                    { value: 'detailed', label: 'Detailed', desc: 'Comprehensive responses' },
+                    { value: 'adaptive', label: 'Adaptive', desc: 'Matches inquiry complexity' }
+                  ].map(length => (
+                    <button
+                      key={length.value}
+                      onClick={() => setFormData({ ...formData, responseLength: length.value })}
+                      className={`p-4 border rounded-lg text-left transition-all ${
+                        formData.responseLength === length.value 
+                          ? 'border-[hsl(var(--brand-teal))] bg-teal-50' 
+                          : 'border-gray-200 hover:border-[hsl(var(--brand-teal))]'
+                      }`}
+                    >
+                      <div className="font-medium">{length.label}</div>
+                      <div className="text-sm text-gray-600 mt-1">{length.desc}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Custom Instructions */}
+              <div>
+                <Label htmlFor="custom-instructions" className="text-sm font-medium text-gray-900">
+                  Custom Instructions
+                </Label>
+                <Textarea
+                  id="custom-instructions"
+                  value={formData.customInstructions || ''}
+                  onChange={(e) => setFormData({ ...formData, customInstructions: e.target.value })}
+                  placeholder="Add specific instructions for how your email assistant should behave..."
+                  rows={4}
+                  className="mt-2"
+                />
+              </div>
+            </div>
+          </section>
+
+          {/* Email Settings */}
+          <section className={activeTab === 'EmailSettings' ? '' : 'hidden'}>
+            <div className="mb-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                <Settings className="h-5 w-5 text-[hsl(var(--brand-teal))]" />
+                Email Configuration
+              </h2>
+              <p className="text-gray-600">Configure email provider and automation settings</p>
+            </div>
+            
+            <div className="space-y-6">
+              {/* Email Provider */}
+              <div>
+                <Label className="text-sm font-medium text-gray-900 mb-3 block">Connected Email Provider</Label>
+                <div className="p-4 border border-gray-200 rounded-lg bg-gray-50">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-[hsl(var(--brand-teal))] rounded-full flex items-center justify-center">
+                        <Check className="w-4 h-4 text-white" />
+                      </div>
+                      <div>
+                        <div className="font-medium">Gmail Connected</div>
+                        <div className="text-sm text-gray-600">support@wiil.ai</div>
+                      </div>
+                    </div>
+                    <Button variant="outline" size="sm">
+                      Change Provider
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Auto-reply Settings */}
+              <div>
+                <Label className="text-sm font-medium text-gray-900 mb-3 block">Auto-Reply Settings</Label>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="font-medium">Enable Auto-Reply</div>
+                      <div className="text-sm text-gray-600">Automatically send AI-generated responses</div>
+                    </div>
+                    <Switch />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="font-medium">Human Review Required</div>
+                      <div className="text-sm text-gray-600">Require human approval before sending</div>
+                    </div>
+                    <Switch defaultChecked />
+                  </div>
+                </div>
+              </div>
+
+              {/* Response Time */}
+              <div>
+                <Label className="text-sm font-medium text-gray-900 mb-3 block">Response Time</Label>
+                <Select>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select response time" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="immediate">Immediate</SelectItem>
+                    <SelectItem value="5min">Within 5 minutes</SelectItem>
+                    <SelectItem value="30min">Within 30 minutes</SelectItem>
+                    <SelectItem value="1hour">Within 1 hour</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </section>
+
+        </div>
+      ) : (
+        /* Regular Assistant Settings */
+        <div className="space-y-12 rounded-xl border border-[hsl(var(--brand-teal))]/20 bg-white shadow-sm p-6">
           
           <section className={activeTab === 'Industry' ? '' : 'hidden'}>
             <div className="mb-8">
@@ -1682,6 +1890,7 @@ IMPORTANT GUIDELINES:
           </section>
 
         </div>
+      )}
       </div>
 
       {/* Modals */}
