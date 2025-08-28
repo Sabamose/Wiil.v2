@@ -122,13 +122,6 @@ export const InboxConversationView = ({ conversation }: InboxConversationViewPro
           >
             Edit Draft
           </Button>
-
-          <Button 
-            variant="outline" 
-            className="border-gray-300 text-gray-700 hover:bg-gray-50"
-          >
-            Assign
-          </Button>
         </div>
       </div>
     </>
