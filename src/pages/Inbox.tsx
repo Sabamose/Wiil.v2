@@ -35,6 +35,16 @@ export interface EmailConversation {
     name: string;
     type: string;
   };
+  p1_rationale?: string;
+  p2_verification_report?: {
+    factual: 'OK' | 'FLAGGED' | 'INCONSISTENT';
+    policy: 'OK' | 'FLAGGED' | 'INCONSISTENT';
+    tone: 'OK' | 'FLAGGED' | 'INCONSISTENT';
+    completeness: 'OK' | 'FLAGGED' | 'MISSING';
+  };
+  p2_confidence?: number;
+  orchestration_confidence?: number;
+  final_decision?: 'AUTO-SEND-READY' | 'HUMAN-REVIEW-RECOMMENDED' | 'HUMAN-REVIEW-MANDATORY';
 }
 
 const mockConversations: EmailConversation[] = [
@@ -53,7 +63,17 @@ const mockConversations: EmailConversation[] = [
       { from: 'Alex Thompson', to: 'support@wiil.ai', body: 'Hi there,\n\nI was wondering if you could give me an update on the shipping status for my recent order, #A5821? I placed it two days ago and haven\'t received a tracking number yet.\n\nThanks,\nAlex' }
     ],
     ai_draft: 'Hi Alex,\n\nThanks for reaching out. I\'ve looked up your order #A5821 and I can see that it has been packed and is scheduled for pickup by the courier this afternoon. You should receive an email with the tracking number by the end of the day.\n\nLet me know if there\'s anything else I can help with!\n\nBest,\nThe Wiil Team',
-    ai_source: { name: 'shipping_policy.pdf', type: 'knowledge_base' }
+    ai_source: { name: 'shipping_policy.pdf', type: 'knowledge_base' },
+    p1_rationale: 'Customer asked for order status. Retrieved shipping policy and live order data to confirm packaging completion and scheduled pickup. Response provides specific timeline for tracking number delivery.',
+    p2_verification_report: {
+      factual: 'OK',
+      policy: 'OK',
+      tone: 'OK',
+      completeness: 'OK'
+    },
+    p2_confidence: 95,
+    orchestration_confidence: 92,
+    final_decision: 'AUTO-SEND-READY'
   },
   {
     id: 2,
@@ -68,7 +88,17 @@ const mockConversations: EmailConversation[] = [
       { from: 'Samantha Lee', to: 'support@wiil.ai', body: 'Hello,\n\nI need to reschedule my consultation appointment for this Friday, August 29th. Is that possible? Please let me know what other times are available next week.\n\nThank you,\nSamantha' }
     ],
     ai_draft: 'Hi Samantha,\n\nOf course. I\'ve cancelled your appointment for this Friday. Looking at the calendar, we have the following times available next week:\n\n- Monday, Sep 1st at 2:00 PM\n- Wednesday, Sep 3rd at 11:00 AM\n\nDo either of these times work for you?\n\nBest regards,\nThe Wiil Team',
-    ai_source: { name: 'Calendar / Booking Engine', type: 'integration' }
+    ai_source: { name: 'Calendar / Booking Engine', type: 'integration' },
+    p1_rationale: 'Customer requested appointment reschedule for Friday. Accessed calendar integration to cancel existing appointment and retrieved available slots for next week. Provided specific time options.',
+    p2_verification_report: {
+      factual: 'FLAGGED',
+      policy: 'FLAGGED',
+      tone: 'OK',
+      completeness: 'OK'
+    },
+    p2_confidence: 65,
+    orchestration_confidence: 45,
+    final_decision: 'HUMAN-REVIEW-MANDATORY'
   },
   {
     id: 3,
@@ -84,7 +114,17 @@ const mockConversations: EmailConversation[] = [
     thread: [
       { from: 'support@wiil.ai', to: 'David Chen', body: 'Hi David, here is the summary of our call...' },
       { from: 'David Chen', to: 'support@wiil.ai', body: 'Thanks for the summary, that was really helpful!' }
-    ]
+    ],
+    p1_rationale: 'Follow-up thank you message. No action required as conversation is complete.',
+    p2_verification_report: {
+      factual: 'OK',
+      policy: 'OK',
+      tone: 'OK',
+      completeness: 'OK'
+    },
+    p2_confidence: 88,
+    orchestration_confidence: 75,
+    final_decision: 'HUMAN-REVIEW-RECOMMENDED'
   }
 ];
 

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { EmailConversation } from "@/pages/Inbox";
-import { Send, Edit, Inbox, Save, X } from "lucide-react";
+import { Send, Edit, Inbox, Save, X, AlertTriangle, AlertCircle } from "lucide-react";
 
 interface InboxConversationViewProps {
   conversation: EmailConversation | null;
@@ -127,10 +127,45 @@ export const InboxConversationView = ({ conversation }: InboxConversationViewPro
       {/* Action Bar */}
       <div className="p-6 bg-white/90 backdrop-blur-sm border-t border-gray-200">
         <div className="flex items-center space-x-4">
-          <Button className="bg-gradient-to-r from-teal-600 to-teal-700 text-white hover:from-teal-700 hover:to-teal-800 shadow-lg hover:shadow-xl transition-all duration-200">
-            <Send className="h-4 w-4 mr-2" />
-            Approve & Send
-          </Button>
+          {/* Adaptive Action Button */}
+          {(() => {
+            const decision = conversation.final_decision;
+            
+            switch (decision) {
+              case 'AUTO-SEND-READY':
+                return (
+                  <Button className="bg-gradient-to-r from-green-600 to-green-700 text-white hover:from-green-700 hover:to-green-800 shadow-lg hover:shadow-xl transition-all duration-200">
+                    <Send className="h-4 w-4 mr-2" />
+                    Approve & Send
+                  </Button>
+                );
+              case 'HUMAN-REVIEW-RECOMMENDED':
+                return (
+                  <Button className="bg-gradient-to-r from-amber-500 to-amber-600 text-white hover:from-amber-600 hover:to-amber-700 shadow-lg hover:shadow-xl transition-all duration-200">
+                    <AlertTriangle className="h-4 w-4 mr-2" />
+                    Review & Send
+                  </Button>
+                );
+              case 'HUMAN-REVIEW-MANDATORY':
+                return (
+                  <Button 
+                    disabled
+                    className="bg-gradient-to-r from-red-500 to-red-600 text-white opacity-50 cursor-not-allowed shadow-lg transition-all duration-200"
+                  >
+                    <AlertCircle className="h-4 w-4 mr-2" />
+                    Review & Override Send
+                  </Button>
+                );
+              default:
+                return (
+                  <Button className="bg-gradient-to-r from-teal-600 to-teal-700 text-white hover:from-teal-700 hover:to-teal-800 shadow-lg hover:shadow-xl transition-all duration-200">
+                    <Send className="h-4 w-4 mr-2" />
+                    Approve & Send
+                  </Button>
+                );
+            }
+          })()}
+          
           {!isEditingDraft && conversation.ai_draft && (
             <Button 
               onClick={handleEditDraft}

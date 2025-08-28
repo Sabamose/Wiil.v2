@@ -220,6 +220,19 @@
     animation-delay: 150ms;
   }
 
+  /* Confidence level styles */
+  .confidence-high .bg-primary {
+    @apply bg-green-500;
+  }
+  
+  .confidence-medium .bg-primary {
+    @apply bg-amber-500;
+  }
+  
+  .confidence-low .bg-primary {
+    @apply bg-red-500;
+  }
+
   /* Succession-style modal animations */
   .succession-modal {
     animation: successionEnter 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
