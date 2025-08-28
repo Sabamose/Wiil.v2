@@ -569,6 +569,7 @@ const getRolesByType = (assistantType: string, industry: string) => {
     description: 'Handle order inquiries and processing',
     emoji: '📦'
   }];
+  
   const outboundRoles = [{
     id: 'sales',
     label: 'Sales Representative',
@@ -596,13 +597,52 @@ const getRolesByType = (assistantType: string, industry: string) => {
     emoji: '🔄'
   }];
 
+  const emailRoles = [{
+    id: 'customer-support',
+    label: 'Customer Support',
+    description: 'Handle customer inquiries via email',
+    emoji: '📧'
+  }, {
+    id: 'sales-support',
+    label: 'Sales Support',
+    description: 'Support sales inquiries and follow-ups',
+    emoji: '💼'
+  }, {
+    id: 'technical-support',
+    label: 'Technical Support',
+    description: 'Provide technical assistance via email',
+    emoji: '🔧'
+  }, {
+    id: 'account-management',
+    label: 'Account Management',
+    description: 'Manage existing customer accounts',
+    emoji: '👥'
+  }, {
+    id: 'lead-nurturing',
+    label: 'Lead Nurturing',
+    description: 'Nurture leads through email campaigns',
+    emoji: '🌱'
+  }, {
+    id: 'order-management',
+    label: 'Order Management',
+    description: 'Handle order-related inquiries',
+    emoji: '📦'
+  }];
+
   // Filter roles based on industry relevance
   const roleFilter = (role: any) => {
     if (industry === 'healthcare' && role.id === 'technical-support') return false;
     if (industry === 'technology' && role.id === 'scheduler') return assistantType === 'inbound';
     return true;
   };
-  return assistantType === 'inbound' ? inboundRoles.filter(roleFilter) : assistantType === 'website' ? inboundRoles.filter(roleFilter) : outboundRoles.filter(roleFilter);
+  
+  if (assistantType === 'email') {
+    return emailRoles.filter(roleFilter);
+  } else if (assistantType === 'inbound' || assistantType === 'website') {
+    return inboundRoles.filter(roleFilter);
+  } else {
+    return outboundRoles.filter(roleFilter);
+  }
 };
 
 const getLanguageDisplay = (code: string, name: string) => {
@@ -776,7 +816,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
     });
   };
 
-  const totalSteps = 9;
+  const totalSteps = formData.assistantType === 'email' ? 7 : 9;
   const handleTestVoice = async () => {
     if (!formData.voice_id) return;
     setIsTestingVoice(true);
@@ -883,7 +923,15 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
   };
   const handleNext = () => {
     if (step < totalSteps) {
-      setStep(step + 1);
+      // Email assistants skip voice selection (step 3) and go directly to role selection (step 4)
+      if (step === 2 && formData.assistantType === 'email') {
+        setStep(4);
+      } else if (step === 3 && formData.assistantType === 'website') {
+        // Website assistants skip role selection (step 4) and go directly to actions (step 5)
+        setStep(5);
+      } else {
+        setStep(step + 1);
+      }
     }
   };
   const handlePrevious = () => {
@@ -957,9 +1005,9 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
       case 2:
         return formData.assistantType;
       case 3:
-        return formData.voice_id && formData.language;
+        return formData.assistantType === 'email' || (formData.voice_id && formData.language);
       case 4:
-        return formData.role;
+        return formData.assistantType === 'website' || formData.role;
       case 5:
         return true; // Actions are optional
       case 6:
@@ -1211,8 +1259,8 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               </CardContent>
             </Card>}
 
-          {/* Step 4: Role & Purpose Selection */}
-          {step === 4 && <Card className="max-w-5xl mx-auto">
+          {/* Step 4: Role & Purpose Selection - Show for phone and email assistants */}
+          {step === 4 && (formData.assistantType === 'inbound' || formData.assistantType === 'outbound' || formData.assistantType === 'email') && <Card className="max-w-5xl mx-auto">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <User className="h-5 w-5" />
@@ -1234,6 +1282,12 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 </div>
               </CardContent>
             </Card>}
+
+          {/* Step 4: Skip role selection for website assistants and go directly to step 5 */}
+          {step === 4 && formData.assistantType === 'website' && (() => {
+            setTimeout(() => setStep(5), 0);
+            return null;
+          })()}
 
           {/* Step 5: Actions & Integrations */}
           {step === 5 && <Card className="max-w-5xl mx-auto">
@@ -1934,8 +1988,69 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               </CardContent>
             </Card>}
 
-          {/* Step 7: Knowledge Base Upload (Optional) */}
-          {step === 7 && <Card className="max-w-5xl mx-auto">
+          {/* Step 5: Email Knowledge Base (Required for Email Assistants) */}
+          {step === 5 && formData.assistantType === 'email' && <Card className="max-w-5xl mx-auto">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Upload className="h-5 w-5" />
+                  Add Knowledge Base
+                </CardTitle>
+                <p className="text-muted-foreground">Upload company knowledge for your email assistant to provide accurate responses.</p>
+              </CardHeader>
+              <CardContent>
+                <KnowledgeUpload 
+                  assistantId={currentAssistantId!}
+                  onKnowledgeAdded={(knowledge) => {
+                    console.log('Knowledge added:', knowledge);
+                  }}
+                />
+              </CardContent>
+            </Card>}
+
+          {/* Step 6: Email UI Connection */}
+          {step === 6 && formData.assistantType === 'email' && <Card className="max-w-5xl mx-auto">
+              <CardHeader className="text-center">
+                <CardTitle className="flex items-center justify-center gap-2 text-2xl">
+                  <Mail className="h-6 w-6 text-[hsl(var(--brand-teal))]" />
+                  Connect Your Email Inbox
+                </CardTitle>
+                <p className="text-muted-foreground">Connect your email provider to start using your AI assistant</p>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <button className="p-6 border-2 border-border hover:border-[hsl(var(--brand-teal))] rounded-lg transition-all hover:shadow-md">
+                    <div className="text-center">
+                      <div className="text-3xl mb-3">📧</div>
+                      <div className="font-semibold">Gmail</div>
+                      <div className="text-sm text-muted-foreground mt-1">Connect your Gmail account</div>
+                    </div>
+                  </button>
+                  <button className="p-6 border-2 border-border hover:border-[hsl(var(--brand-teal))] rounded-lg transition-all hover:shadow-md">
+                    <div className="text-center">
+                      <div className="text-3xl mb-3">📮</div>
+                      <div className="font-semibold">Outlook</div>
+                      <div className="text-sm text-muted-foreground mt-1">Connect your Outlook account</div>
+                    </div>
+                  </button>
+                  <button className="p-6 border-2 border-border hover:border-[hsl(var(--brand-teal))] rounded-lg transition-all hover:shadow-md">
+                    <div className="text-center">
+                      <div className="text-3xl mb-3">✉️</div>
+                      <div className="font-semibold">Other</div>
+                      <div className="text-sm text-muted-foreground mt-1">IMAP/SMTP connection</div>
+                    </div>
+                  </button>
+                </div>
+                <div className="text-center">
+                  <Button variant="brand" onClick={handleNext}>
+                    Continue
+                    <ArrowRight className="h-4 w-4 ml-2" />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>}
+
+          {/* Step 7: Knowledge Base Upload (Optional) - For Phone/Website Assistants */}
+          {step === 7 && (formData.assistantType === 'inbound' || formData.assistantType === 'outbound' || formData.assistantType === 'website') && <Card className="max-w-5xl mx-auto">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Upload className="h-5 w-5" />
@@ -2087,8 +2202,8 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               </Card>;
           })()}
 
-           {/* Step 9: Testing & Deployment */}
-           {step === 9 && <Card className="max-w-5xl mx-auto">
+           {/* Step 7 for Email or Step 9 for others: Testing & Deployment */}
+           {((step === 7 && formData.assistantType === 'email') || (step === 9 && formData.assistantType !== 'email')) && <Card className="max-w-5xl mx-auto">
               <CardHeader className="text-center pb-8">
                 <div className="w-16 h-16 bg-gradient-to-br from-[hsl(var(--brand-teal))] to-[hsl(var(--brand-teal-hover))] rounded-full flex items-center justify-center mx-auto mb-4 animate-scale-in">
                   <TestTube className="h-8 w-8 text-white" />
@@ -2097,43 +2212,69 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                   {formData.assistantType === 'website' ? 'Test & Deploy Your Assistant' : 'Test Your Assistant'}
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-8">
-                {/* Website Assistant Flow */}
-                {formData.assistantType === 'website' ? (
-                  <div className="flex justify-center">
-                    <Button 
-                      variant="brand" 
-                      size="lg"
-                      onClick={() => setIsTestModalOpen(true)}
-                      className="px-8 py-6 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover-scale"
-                    >
-                      <Globe className="h-5 w-5 mr-3" />
-                      Test Website Assistant
-                    </Button>
-                  </div>
-                ) : (
-                  /* Phone Assistant Flow */
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <Button 
-                      variant="brand" 
-                      size="lg"
-                      onClick={() => setIsTestModalOpen(true)}
-                      className="flex-1 sm:flex-none px-8 py-6 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover-scale"
-                    >
-                      <Phone className="h-5 w-5 mr-3" />
-                      Start Test Call
-                    </Button>
-                    <Button 
-                      variant="outline"
-                      size="lg"
-                      onClick={onClose}
-                      className="flex-1 sm:flex-none px-8 py-6 text-base font-semibold bg-white hover:bg-gray-50"
-                    >
-                      <Save className="h-5 w-5 mr-3" />
-                      Save as Draft
-                    </Button>
-                  </div>
-                )}
+               <CardContent className="space-y-8">
+                 {/* Website Assistant Flow */}
+                 {formData.assistantType === 'website' ? (
+                   <div className="flex justify-center">
+                     <Button 
+                       variant="brand" 
+                       size="lg"
+                       onClick={() => setIsTestModalOpen(true)}
+                       className="px-8 py-6 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover-scale"
+                     >
+                       <Globe className="h-5 w-5 mr-3" />
+                       Test Website Assistant
+                     </Button>
+                   </div>
+                 ) : formData.assistantType === 'email' ? (
+                   /* Email Assistant Flow */
+                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                     <Button 
+                       variant="brand" 
+                       size="lg"
+                       onClick={() => {
+                         // Navigate to inbox for email assistant
+                         onClose();
+                         window.location.href = '/inbox';
+                       }}
+                       className="flex-1 sm:flex-none px-8 py-6 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover-scale"
+                     >
+                       <Mail className="h-5 w-5 mr-3" />
+                       Go to Email Inbox
+                     </Button>
+                     <Button 
+                       variant="outline"
+                       size="lg"
+                       onClick={onClose}
+                       className="flex-1 sm:flex-none px-8 py-6 text-base font-semibold bg-white hover:bg-gray-50"
+                     >
+                       <Save className="h-5 w-5 mr-3" />
+                       Save as Draft
+                     </Button>
+                   </div>
+                 ) : (
+                   /* Phone Assistant Flow */
+                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                     <Button 
+                       variant="brand" 
+                       size="lg"
+                       onClick={() => setIsTestModalOpen(true)}
+                       className="flex-1 sm:flex-none px-8 py-6 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover-scale"
+                     >
+                       <Phone className="h-5 w-5 mr-3" />
+                       Start Test Call
+                     </Button>
+                     <Button 
+                       variant="outline"
+                       size="lg"
+                       onClick={onClose}
+                       className="flex-1 sm:flex-none px-8 py-6 text-base font-semibold bg-white hover:bg-gray-50"
+                     >
+                       <Save className="h-5 w-5 mr-3" />
+                       Save as Draft
+                     </Button>
+                   </div>
+                 )}
               </CardContent>
             </Card>}
          </div>
@@ -2146,7 +2287,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               <ArrowRight className="h-4 w-4 ml-2" />
             </Button>
           )}
-          {(step === 3 || step === 6 || step === 7) && (
+          {(step === 3 || step === 6 || step === 7 || (step === 4 && formData.assistantType !== 'website') || (step === 5 && formData.assistantType === 'email')) && (
             <Button onClick={handleNext} disabled={!canGoNext()} variant="brand">
               Next
               <ArrowRight className="h-4 w-4 ml-2" />
