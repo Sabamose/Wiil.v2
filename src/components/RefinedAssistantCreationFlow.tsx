@@ -570,6 +570,38 @@ const getRolesByType = (assistantType: string, industry: string) => {
     emoji: '📦'
   }];
   
+  const emailRoles = [{
+    id: 'customer-support',
+    label: 'Customer Support',
+    description: 'Handle customer inquiries and support via email',
+    emoji: '🎧'
+  }, {
+    id: 'sales-support',
+    label: 'Sales Support',
+    description: 'Support sales processes and customer questions',
+    emoji: '💼'
+  }, {
+    id: 'technical-support',
+    label: 'Technical Support',
+    description: 'Provide technical assistance via email',
+    emoji: '🔧'
+  }, {
+    id: 'account-management',
+    label: 'Account Management',
+    description: 'Manage customer accounts and relationships',
+    emoji: '👤'
+  }, {
+    id: 'lead-nurturing',
+    label: 'Lead Nurturing',
+    description: 'Nurture leads through email communications',
+    emoji: '🌱'
+  }, {
+    id: 'order-management',
+    label: 'Order Management',
+    description: 'Handle order-related communications',
+    emoji: '📦'
+  }];
+  
   const outboundRoles = [{
     id: 'sales',
     label: 'Sales Representative',
@@ -597,37 +629,6 @@ const getRolesByType = (assistantType: string, industry: string) => {
     emoji: '🔄'
   }];
 
-  const emailRoles = [{
-    id: 'customer-support',
-    label: 'Customer Support',
-    description: 'Handle customer inquiries via email',
-    emoji: '📧'
-  }, {
-    id: 'sales-support',
-    label: 'Sales Support',
-    description: 'Support sales inquiries and follow-ups',
-    emoji: '💼'
-  }, {
-    id: 'technical-support',
-    label: 'Technical Support',
-    description: 'Provide technical assistance via email',
-    emoji: '🔧'
-  }, {
-    id: 'account-management',
-    label: 'Account Management',
-    description: 'Manage existing customer accounts',
-    emoji: '👥'
-  }, {
-    id: 'lead-nurturing',
-    label: 'Lead Nurturing',
-    description: 'Nurture leads through email campaigns',
-    emoji: '🌱'
-  }, {
-    id: 'order-management',
-    label: 'Order Management',
-    description: 'Handle order-related inquiries',
-    emoji: '📦'
-  }];
 
   // Filter roles based on industry relevance
   const roleFilter = (role: any) => {
@@ -761,7 +762,12 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
     }>,
     // Step 8: Phone Number
     phoneNumber: null,
-    hasPhoneNumber: false
+    hasPhoneNumber: false,
+
+    // Email assistant specific fields
+    emailTone: 'professional',
+    responseLength: 'adaptive',
+    customInstructions: ''
 
     // Step 9: Testing & Deployment
     // (handled in final step)
@@ -917,7 +923,10 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
       },
       knowledge: [],
       phoneNumber: null,
-      hasPhoneNumber: false
+      hasPhoneNumber: false,
+      emailTone: 'professional',
+      responseLength: 'adaptive',
+      customInstructions: ''
     });
     setCurrentAssistantId(null);
   };
@@ -2012,44 +2021,89 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               </CardContent>
             </Card>}
 
-          {/* Step 6: Email UI Connection */}
+          {/* Step 6: Email Tone & Instructions */}
           {step === 6 && formData.assistantType === 'email' && <Card className="max-w-5xl mx-auto">
               <CardHeader className="text-center">
                 <CardTitle className="flex items-center justify-center gap-2 text-2xl">
                   <Mail className="h-6 w-6 text-[hsl(var(--brand-teal))]" />
-                  Connect Your Email Inbox
+                  Email Tone & Instructions
                 </CardTitle>
-                <p className="text-muted-foreground">Connect your email provider to start using your AI assistant</p>
+                <p className="text-muted-foreground">Configure how your email assistant responds to customers</p>
               </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <button className="p-6 border-2 border-border hover:border-[hsl(var(--brand-teal))] rounded-lg transition-all hover:shadow-md">
-                    <div className="text-center">
-                      <div className="text-3xl mb-3">📧</div>
-                      <div className="font-semibold">Gmail</div>
-                      <div className="text-sm text-muted-foreground mt-1">Connect your Gmail account</div>
-                    </div>
-                  </button>
-                  <button className="p-6 border-2 border-border hover:border-[hsl(var(--brand-teal))] rounded-lg transition-all hover:shadow-md">
-                    <div className="text-center">
-                      <div className="text-3xl mb-3">📮</div>
-                      <div className="font-semibold">Outlook</div>
-                      <div className="text-sm text-muted-foreground mt-1">Connect your Outlook account</div>
-                    </div>
-                  </button>
-                  <button className="p-6 border-2 border-border hover:border-[hsl(var(--brand-teal))] rounded-lg transition-all hover:shadow-md">
-                    <div className="text-center">
-                      <div className="text-3xl mb-3">✉️</div>
-                      <div className="font-semibold">Other</div>
-                      <div className="text-sm text-muted-foreground mt-1">IMAP/SMTP connection</div>
-                    </div>
-                  </button>
+              <CardContent className="space-y-8">
+                {/* Email Tone Selection */}
+                <div className="space-y-4">
+                  <h4 className="text-lg font-medium text-foreground flex items-center gap-2">
+                    <Zap className="w-5 h-5 text-[hsl(var(--brand-teal))]" />
+                    Email Tone
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {[
+                      { id: 'professional', label: 'Professional', desc: 'Formal and business-appropriate', emoji: '💼' },
+                      { id: 'friendly', label: 'Friendly', desc: 'Warm and approachable', emoji: '😊' },
+                      { id: 'empathetic', label: 'Empathetic', desc: 'Understanding and supportive', emoji: '🤝' }
+                    ].map((tone) => (
+                      <div 
+                        key={tone.id} 
+                        className={`p-4 border-2 rounded-lg cursor-pointer transition-all hover:shadow-md ${
+                          formData.emailTone === tone.id ? 'border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06]' : 'border-border hover:border-[hsl(var(--brand-teal))]'
+                        }`}
+                        onClick={() => setFormData(prev => ({ ...prev, emailTone: tone.id }))}
+                      >
+                        <div className="text-center">
+                          <div className="text-2xl mb-2">{tone.emoji}</div>
+                          <div className="font-medium text-foreground">{tone.label}</div>
+                          <div className="text-sm text-muted-foreground mt-1">{tone.desc}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="text-center">
-                  <Button variant="brand" onClick={handleNext}>
-                    Continue
-                    <ArrowRight className="h-4 w-4 ml-2" />
-                  </Button>
+
+                {/* Response Length Selection */}
+                <div className="space-y-4">
+                  <h4 className="text-lg font-medium text-foreground flex items-center gap-2">
+                    <Target className="w-5 h-5 text-[hsl(var(--brand-teal))]" />
+                    Response Length
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {[
+                      { id: 'concise', label: 'Concise', desc: 'Brief and to the point', emoji: '⚡' },
+                      { id: 'detailed', label: 'Detailed', desc: 'Comprehensive responses', emoji: '📝' },
+                      { id: 'adaptive', label: 'Adaptive', desc: 'Adjusts based on inquiry', emoji: '🔄' }
+                    ].map((length) => (
+                      <div 
+                        key={length.id} 
+                        className={`p-4 border-2 rounded-lg cursor-pointer transition-all hover:shadow-md ${
+                          formData.responseLength === length.id ? 'border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06]' : 'border-border hover:border-[hsl(var(--brand-teal))]'
+                        }`}
+                        onClick={() => setFormData(prev => ({ ...prev, responseLength: length.id }))}
+                      >
+                        <div className="text-center">
+                          <div className="text-2xl mb-2">{length.emoji}</div>
+                          <div className="font-medium text-foreground">{length.label}</div>
+                          <div className="text-sm text-muted-foreground mt-1">{length.desc}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Custom Instructions */}
+                <div className="space-y-4">
+                  <h4 className="text-lg font-medium text-foreground flex items-center gap-2">
+                    <Settings className="w-5 h-5 text-[hsl(var(--brand-teal))]" />
+                    Custom Instructions
+                  </h4>
+                  <Textarea
+                    placeholder="Add specific instructions for email responses, escalation procedures, or industry-specific guidelines..."
+                    value={formData.customInstructions || ''}
+                    onChange={(e) => setFormData(prev => ({ ...prev, customInstructions: e.target.value }))}
+                    className="h-32"
+                  />
+                  <p className="text-sm text-muted-foreground">
+                    These instructions will guide how your email assistant responds to customer inquiries.
+                  </p>
                 </div>
               </CardContent>
             </Card>}
