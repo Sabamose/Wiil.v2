@@ -1,4 +1,4 @@
-import { MoreHorizontal, TestTube, Settings, Copy, Link, Trash2, Mic, MessageCircle, Repeat, Phone, Globe, MessageSquare, Smartphone, PhoneIncoming, PhoneOutgoing, AlertTriangle } from "lucide-react";
+import { MoreHorizontal, TestTube, Settings, Copy, Link, Trash2, Mic, MessageCircle, Repeat, Phone, Globe, MessageSquare, Smartphone, PhoneIncoming, PhoneOutgoing, AlertTriangle, Mail } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { StoredAssistant, useAssistants } from "@/hooks/useAssistants";
 import TestAssistantModal from "./TestAssistantModal";
@@ -21,25 +21,42 @@ const ExistingAssistantsSection = ({
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // Convert assistants to include channel data with different statuses
-  const assistantsWithChannels = assistants.map((assistant, index) => ({
-    ...assistant,
-    channels: [{
-      name: "Phone",
-      connected: true,
-      type: "phone"
-    }, {
-      name: "Website",
-      connected: true,
-      type: "website"
-    }, {
-      name: "SMS",
-      connected: false,
-      type: "sms"
-    }],
-    // Use existing status or set default
-    status: assistant.status || (index === 1 ? "draft" : "live")
-  }));
+  // Define assistant types with their icons and labels
+  const assistantTypes = [
+    { type: 'phone', icon: Phone, label: 'Phone Assistant' },
+    { type: 'website', icon: Globe, label: 'Website Assistant' },
+    { type: 'chat', icon: MessageCircle, label: 'Chat Assistant' },
+    { type: 'email', icon: Mail, label: 'Email Assistant' }
+  ];
+
+  // Function to get random assistant type based on index for consistency
+  const getAssistantType = (index: number) => {
+    return assistantTypes[index % assistantTypes.length];
+  };
+
+  // Convert assistants to include channel data with different statuses and random types
+  const assistantsWithChannels = assistants.map((assistant, index) => {
+    const randomType = getAssistantType(index);
+    return {
+      ...assistant,
+      displayType: randomType,
+      channels: [{
+        name: "Phone",
+        connected: true,
+        type: "phone"
+      }, {
+        name: "Website",
+        connected: true,
+        type: "website"
+      }, {
+        name: "SMS",
+        connected: false,
+        type: "sms"
+      }],
+      // Use existing status or set default
+      status: assistant.status || (index === 1 ? "draft" : "live")
+    };
+  });
 
   console.log('ExistingAssistantsSection - Received assistants:', assistants);
   console.log('ExistingAssistantsSection - Processed assistantsWithChannels:', assistantsWithChannels);
@@ -130,9 +147,9 @@ const ExistingAssistantsSection = ({
               </td>
               <td className="px-6 py-5">
                 <div className="flex items-center gap-2">
-                  <Phone className="w-4 h-4 text-teal-600" />
+                  <assistant.displayType.icon className="w-4 h-4 text-teal-600" />
                   <span className="text-sm font-medium text-gray-800">
-                    Phone Assistant
+                    {assistant.displayType.label}
                   </span>
                 </div>
               </td>
