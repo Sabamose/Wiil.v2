@@ -28,9 +28,19 @@ const ExistingAssistantsSection = ({
     { type: 'email', icon: Mail, label: 'Email Assistant' }
   ];
 
-  // Function to get specific assistant type for each position
-  const getAssistantType = (index: number) => {
-    return assistantTypes[index % assistantTypes.length];
+  // Function to get assistant type based on stored data
+  const getAssistantType = (assistant: StoredAssistant) => {
+    // Map stored assistant_type to display type
+    switch (assistant.assistant_type) {
+      case 'email':
+        return assistantTypes[2]; // Email Assistant
+      case 'website':
+        return assistantTypes[1]; // Website Assistant
+      case 'inbound':
+      case 'outbound':
+      default:
+        return assistantTypes[0]; // Phone Assistant (default for voice assistants)
+    }
   };
 
   // Create exactly three assistants with specific types
@@ -52,7 +62,7 @@ const ExistingAssistantsSection = ({
 
   // Convert assistants to include channel data with specific types
   const assistantsWithChannels = createThreeAssistants().map((assistant, index) => {
-    const specificType = getAssistantType(index);
+    const specificType = getAssistantType(assistant);
     return {
       ...assistant,
       displayType: specificType,

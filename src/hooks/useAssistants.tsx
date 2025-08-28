@@ -7,7 +7,7 @@ export interface CreateAssistantData {
   type: string;
   industry: string;
   use_case: string;
-  assistant_type: 'inbound' | 'outbound' | 'website';
+  assistant_type: 'inbound' | 'outbound' | 'website' | 'email';
   voice_id: string;
   voice_name: string;
   language: string;
@@ -91,10 +91,10 @@ export const useAssistants = () => {
             id: 'demo-3',
             user_id: 'demo-user',
             name: 'Customer Service AI',
-            type: 'Voice',
+            type: 'Email',
             industry: 'customer-service',
             use_case: 'support',
-            assistant_type: 'inbound',
+            assistant_type: 'email',
             voice_id: 'nova',
             voice_name: 'Nova (Female)',
             language: 'en',
