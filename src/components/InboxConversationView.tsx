@@ -60,10 +60,6 @@ export const InboxConversationView = ({ conversation }: InboxConversationViewPro
             <Edit className="h-4 w-4 mr-2" />
             Edit Draft
           </Button>
-          <Button variant="outline" className="border-teal-200 text-teal-700 hover:bg-teal-50 hover:border-teal-300">
-            <UserPlus className="h-4 w-4 mr-2" />
-            Assign
-          </Button>
         </div>
       </div>
     </>
