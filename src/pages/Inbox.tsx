@@ -128,7 +128,7 @@ const Inbox = () => {
         style={{ marginLeft: `${marginLeft}px` }}
       >
         {/* Header */}
-        <header className="flex items-center justify-between p-4 md:p-8 border-b border-teal-100 bg-white/80 backdrop-blur-sm">
+        <header className="flex items-center justify-between p-4 md:p-8 border-b border-gray-200 bg-white/80 backdrop-blur-sm">
           <div>
             <h1 className="text-2xl font-semibold text-brand-teal mb-2">Inbox</h1>
             <div className="h-1 w-16 bg-brand-teal/30 rounded-full mb-2"></div>
@@ -149,16 +149,16 @@ const Inbox = () => {
         </header>
 
         {/* Three-Pane Layout */}
-        <div className="flex h-[calc(100vh-10rem)] overflow-hidden bg-[linear-gradient(to_right,rgba(13,148,136,0.06)_1px,transparent_1px)] bg-[size:24px_100%]">
+        <div className="flex h-[calc(100vh-10rem)] overflow-hidden bg-[linear-gradient(to_right,rgba(0,0,0,0.08)_1px,transparent_1px)] bg-[size:24px_100%]">
           {/* Pane 1: Conversation List */}
-          <div className="w-1/4 xl:w-1/5 bg-white/90 backdrop-blur-sm border-r border-teal-100 flex flex-col shadow-sm">
-            <div className="p-4 border-b border-teal-50">
+          <div className="w-1/4 xl:w-1/5 bg-white/90 backdrop-blur-sm border-r border-gray-200 flex flex-col shadow-sm">
+            <div className="p-4 border-b border-gray-100">
               <Input
                 type="text"
                 placeholder="Search conversations..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full border-teal-200 focus:border-teal-500 focus:ring-teal-500/20"
+                className="w-full border-gray-200 focus:border-gray-400 focus:ring-gray-400/20"
               />
             </div>
             <div className="flex-1 overflow-y-auto">
@@ -176,7 +176,7 @@ const Inbox = () => {
           </div>
 
           {/* Pane 3: AI Assistant Sidebar */}
-          <div className="w-1/4 xl:w-1/5 bg-white/90 backdrop-blur-sm border-l border-teal-100 flex flex-col shadow-sm">
+          <div className="w-1/4 xl:w-1/5 bg-white/90 backdrop-blur-sm border-l border-gray-200 flex flex-col shadow-sm">
             <InboxMagicSidebar conversation={selectedConversation} />
           </div>
         </div>
