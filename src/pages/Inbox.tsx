@@ -161,26 +161,22 @@ const Inbox = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 to-white">
+    <div className="min-h-screen bg-gray-50">
       <AdaptiveNavigation />
       <main 
         className="transition-all duration-200 ease-in-out mt-16 relative"
         style={{ marginLeft: `${marginLeft}px` }}
       >
-        {/* Header */}
-        <header className="flex items-center justify-between p-4 md:p-8 border-b border-gray-200 bg-white/80 backdrop-blur-sm">
-          <div>
-            <h1 className="text-2xl font-semibold text-brand-teal mb-2">Inbox</h1>
-            <div className="h-1 w-16 bg-brand-teal/30 rounded-full mb-2"></div>
-            <p className="text-sm text-muted-foreground">Unified conversations from support@wiil.ai</p>
-          </div>
-          <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="sm" className="text-brand-teal hover:bg-teal-50">
-              <MessageCircle className="h-4 w-4" />
-            </Button>
+        {/* Clean Header */}
+        <header className="bg-white border-b border-gray-200 px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-xl font-semibold text-gray-900">Inbox</h1>
+              <p className="text-sm text-gray-500 mt-0.5">Unified conversations from support@wiil.ai</p>
+            </div>
             <Button 
               onClick={() => setIsCreateModalOpen(true)}
-              className="bg-gradient-to-r from-teal-600 to-teal-700 text-white hover:from-teal-700 hover:to-teal-800 shadow-lg hover:shadow-xl transition-all duration-200"
+              className="bg-[hsl(var(--brand-teal))] hover:bg-[hsl(var(--brand-teal-hover))] text-white border-0"
             >
               <Plus className="h-4 w-4 mr-2" />
               Create Assistant
@@ -188,17 +184,17 @@ const Inbox = () => {
           </div>
         </header>
 
-        {/* Three-Pane Layout */}
-        <div className="flex h-[calc(100vh-10rem)] overflow-hidden bg-[linear-gradient(to_right,rgba(0,0,0,0.08)_1px,transparent_1px)] bg-[size:24px_100%]">
-          {/* Pane 1: Conversation List */}
-          <div className="w-1/4 xl:w-1/5 bg-white/90 backdrop-blur-sm border-r border-gray-200 flex flex-col shadow-sm">
+        {/* Clean Three-Pane Layout */}
+        <div className="flex h-[calc(100vh-8rem)] bg-white">
+          {/* Conversation List */}
+          <div className="w-80 border-r border-gray-200 flex flex-col bg-white">
             <div className="p-4 border-b border-gray-100">
               <Input
                 type="text"
                 placeholder="Search conversations..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full border-gray-200 focus:border-gray-400 focus:ring-gray-400/20"
+                className="w-full h-9 border-gray-200 focus:border-gray-300 focus:ring-0 text-sm"
               />
             </div>
             <div className="flex-1 overflow-y-auto">
@@ -210,13 +206,13 @@ const Inbox = () => {
             </div>
           </div>
 
-          {/* Pane 2: Conversation Thread */}
-          <div className="w-1/2 xl:w-3/5 bg-white/60 backdrop-blur-sm flex flex-col">
+          {/* Main Conversation View */}
+          <div className="flex-1 flex flex-col bg-white">
             <InboxConversationView conversation={selectedConversation} />
           </div>
 
-          {/* Pane 3: AI Assistant Sidebar */}
-          <div className="w-1/4 xl:w-1/5 bg-white/90 backdrop-blur-sm border-l border-gray-200 flex flex-col shadow-sm">
+          {/* AI Assistant Sidebar */}
+          <div className="w-80 border-l border-gray-200 flex flex-col bg-white">
             <InboxMagicSidebar conversation={selectedConversation} />
           </div>
         </div>

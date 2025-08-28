@@ -27,20 +27,22 @@ export const InboxConversationList = ({
       {conversations.map((conversation) => (
         <div
           key={conversation.id}
-          className={`p-4 border-b border-slate-200 cursor-pointer hover:bg-slate-50 relative transition-all duration-200 ${
+          className={`p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 relative transition-colors ${
             selectedConversation?.id === conversation.id 
-              ? 'bg-slate-100 border-r-2 border-r-slate-400 shadow-sm' 
+              ? 'bg-blue-50 border-r-2 border-r-blue-500' 
               : ''
           }`}
           onClick={() => onSelectConversation(conversation)}
         >
           {getStatusIndicator(conversation.status)}
-          <div className="flex justify-between items-baseline mb-2">
-            <h3 className="font-semibold text-sm truncate text-slate-700">{conversation.customer}</h3>
-            <span className="text-xs text-slate-400 font-medium">{conversation.timestamp}</span>
+          <div className="mb-2">
+            <div className="flex justify-between items-baseline">
+              <h3 className="font-medium text-gray-900 text-sm">{conversation.customer}</h3>
+              <span className="text-xs text-gray-500">{conversation.timestamp}</span>
+            </div>
+            <p className="text-sm text-gray-900 font-normal mt-1 truncate">{conversation.subject}</p>
           </div>
-          <p className="text-sm font-medium text-slate-700 truncate mb-1">{conversation.subject}</p>
-          <p className="text-sm text-slate-500 truncate leading-relaxed">{conversation.preview}</p>
+          <p className="text-sm text-gray-600 truncate leading-relaxed">{conversation.preview}</p>
         </div>
       ))}
     </div>
