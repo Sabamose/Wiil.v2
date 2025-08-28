@@ -1,12 +1,36 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { EmailConversation } from "@/pages/Inbox";
-import { Send, Edit, UserPlus, Inbox } from "lucide-react";
+import { Send, Edit, Inbox, Save, X } from "lucide-react";
 
 interface InboxConversationViewProps {
   conversation: EmailConversation | null;
 }
 
 export const InboxConversationView = ({ conversation }: InboxConversationViewProps) => {
+  const [isEditingDraft, setIsEditingDraft] = useState(false);
+  const [draftContent, setDraftContent] = useState("");
+
+  // Initialize draft content when conversation changes or edit mode starts
+  const handleEditDraft = () => {
+    if (conversation?.ai_draft) {
+      setDraftContent(conversation.ai_draft);
+      setIsEditingDraft(true);
+    }
+  };
+
+  const handleSaveDraft = () => {
+    // In a real app, this would save to backend
+    setIsEditingDraft(false);
+    // For simulation, we could update the conversation object
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditingDraft(false);
+    setDraftContent(conversation?.ai_draft || "");
+  };
+
   if (!conversation) {
     return (
       <div className="flex-1 flex items-center justify-center">
@@ -49,6 +73,57 @@ export const InboxConversationView = ({ conversation }: InboxConversationViewPro
         ))}
       </div>
 
+      {/* AI Draft Section */}
+      {conversation.ai_draft && (
+        <div className="bg-blue-50 border-t border-gray-200">
+          <div className="p-4">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-semibold text-blue-800">AI Generated Draft</h3>
+              {conversation.ai_source && (
+                <span className="text-xs text-blue-600 bg-blue-100 px-2 py-1 rounded">
+                  Source: {conversation.ai_source.name}
+                </span>
+              )}
+            </div>
+            
+            {isEditingDraft ? (
+              <div className="space-y-4">
+                <Textarea
+                  value={draftContent}
+                  onChange={(e) => setDraftContent(e.target.value)}
+                  rows={8}
+                  className="w-full border-blue-200 focus:border-blue-400 focus:ring-blue-400/20"
+                  placeholder="Edit your draft here..."
+                />
+                <div className="flex items-center space-x-2">
+                  <Button 
+                    onClick={handleSaveDraft}
+                    size="sm"
+                    className="bg-blue-600 text-white hover:bg-blue-700"
+                  >
+                    <Save className="h-4 w-4 mr-2" />
+                    Save Changes
+                  </Button>
+                  <Button 
+                    onClick={handleCancelEdit}
+                    variant="outline" 
+                    size="sm"
+                    className="border-gray-300 text-gray-700 hover:bg-gray-50"
+                  >
+                    <X className="h-4 w-4 mr-2" />
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div className="prose prose-sm max-w-none text-slate-700 whitespace-pre-wrap leading-relaxed bg-white p-4 rounded border border-blue-200">
+                {conversation.ai_draft}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Action Bar */}
       <div className="p-6 bg-white/90 backdrop-blur-sm border-t border-gray-200">
         <div className="flex items-center space-x-4">
@@ -56,10 +131,16 @@ export const InboxConversationView = ({ conversation }: InboxConversationViewPro
             <Send className="h-4 w-4 mr-2" />
             Approve & Send
           </Button>
-          <Button variant="outline" className="border-teal-200 text-teal-700 hover:bg-teal-50 hover:border-teal-300">
-            <Edit className="h-4 w-4 mr-2" />
-            Edit Draft
-          </Button>
+          {!isEditingDraft && conversation.ai_draft && (
+            <Button 
+              onClick={handleEditDraft}
+              variant="outline" 
+              className="border-teal-200 text-teal-700 hover:bg-teal-50 hover:border-teal-300"
+            >
+              <Edit className="h-4 w-4 mr-2" />
+              Edit Draft
+            </Button>
+          )}
         </div>
       </div>
     </>
