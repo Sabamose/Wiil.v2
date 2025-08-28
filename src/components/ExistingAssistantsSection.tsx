@@ -28,23 +28,40 @@ const ExistingAssistantsSection = ({
     { type: 'email', icon: Mail, label: 'Email Assistant' }
   ];
 
-  // Function to get random assistant type based on index for consistency
+  // Function to get specific assistant type for each position
   const getAssistantType = (index: number) => {
     return assistantTypes[index % assistantTypes.length];
   };
 
-  // Convert assistants to include channel data with different statuses and random types
-  const assistantsWithChannels = assistants.map((assistant, index) => {
-    const randomType = getAssistantType(index);
+  // Create exactly three assistants with specific types
+  const createThreeAssistants = () => {
+    const baseAssistants = assistants.slice(0, 3);
+    
+    // If we don't have enough assistants, create mock ones
+    while (baseAssistants.length < 3) {
+      baseAssistants.push({
+        id: `mock-${baseAssistants.length}`,
+        name: `Assistant ${baseAssistants.length + 1}`,
+        assistant_type: 'inbound',
+        status: 'live'
+      } as StoredAssistant);
+    }
+    
+    return baseAssistants;
+  };
+
+  // Convert assistants to include channel data with specific types
+  const assistantsWithChannels = createThreeAssistants().map((assistant, index) => {
+    const specificType = getAssistantType(index);
     return {
       ...assistant,
-      displayType: randomType,
+      displayType: specificType,
       channels: [{
         name: "Phone",
         connected: true,
         type: "phone"
       }, {
-        name: "Website",
+        name: "Website", 
         connected: true,
         type: "website"
       }, {
