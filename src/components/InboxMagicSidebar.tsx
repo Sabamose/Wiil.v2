@@ -1,11 +1,21 @@
 import { EmailConversation } from "@/pages/Inbox";
 import { Phone, FileText, Star } from "lucide-react";
+import { CustomerHistoryModal } from "./CustomerHistoryModal";
+import { useState } from "react";
 
 interface InboxMagicSidebarProps {
   conversation: EmailConversation | null;
 }
 
 export const InboxMagicSidebar = ({ conversation }: InboxMagicSidebarProps) => {
+  const [selectedHistory, setSelectedHistory] = useState<any>(null);
+  const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
+
+  const handleHistoryClick = (historyItem: any) => {
+    setSelectedHistory(historyItem);
+    setIsHistoryModalOpen(true);
+  };
+
   if (!conversation) {
     return (
       <div className="flex-1 flex items-center justify-center">
@@ -65,17 +75,29 @@ export const InboxMagicSidebar = ({ conversation }: InboxMagicSidebarProps) => {
               Customer History
             </h4>
             {conversation.history.map((item, index) => (
-              <div key={index} className="flex items-start space-x-3 bg-gradient-to-br from-orange-25 to-white border border-orange-100 p-3 rounded-lg shadow-sm">
+              <div 
+                key={index} 
+                className="flex items-start space-x-3 bg-gradient-to-br from-orange-25 to-white border border-orange-100 p-3 rounded-lg shadow-sm cursor-pointer hover:shadow-md hover:border-orange-200 transition-all duration-200"
+                onClick={() => handleHistoryClick(item)}
+              >
                 <Phone className="h-5 w-5 text-orange-500 shrink-0 mt-1" />
-                <div>
+                <div className="flex-1">
                   <p className="text-sm text-slate-700 leading-relaxed">{item.summary}</p>
                   <p className="text-xs text-orange-400 font-medium mt-1">{item.timestamp}</p>
+                  <p className="text-xs text-slate-500 mt-1">Click to view transcript</p>
                 </div>
               </div>
             ))}
           </div>
         )}
       </div>
+
+      {/* Customer History Modal */}
+      <CustomerHistoryModal
+        historyItem={selectedHistory}
+        isOpen={isHistoryModalOpen}
+        onClose={() => setIsHistoryModalOpen(false)}
+      />
     </>
   );
 };
