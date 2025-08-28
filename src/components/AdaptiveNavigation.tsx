@@ -159,6 +159,7 @@ const AdaptiveNavigation = () => {
           <div className="border-t border-border my-4"></div>
         )}
         
+        {/* Phone Numbers - Hidden: Can be managed from phone assistant settings
         <NavigationTooltip
           content="Phone Numbers"
           show={isCollapsed && !isMobile}
@@ -173,6 +174,7 @@ const AdaptiveNavigation = () => {
             {(!isCollapsed || isMobile) && <span>Phone Numbers</span>}
           </Link>
         </NavigationTooltip>
+        */}
       </div>
 
       {/* Bottom Section */}
