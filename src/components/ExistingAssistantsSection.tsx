@@ -130,9 +130,9 @@ const ExistingAssistantsSection = ({
               </td>
               <td className="px-6 py-5">
                 <div className="flex items-center gap-2">
-                  {assistant.assistant_type === 'inbound' ? <PhoneIncoming className="w-4 h-4 text-teal-600" /> : <PhoneOutgoing className="w-4 h-4 text-teal-600" />}
+                  <Phone className="w-4 h-4 text-teal-600" />
                   <span className="text-sm font-medium text-gray-800">
-                    {assistant.assistant_type === 'inbound' ? 'Incoming Call Assistant' : 'Outgoing Calls'}
+                    Phone Assistant
                   </span>
                 </div>
               </td>
