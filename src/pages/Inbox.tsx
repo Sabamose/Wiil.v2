@@ -99,25 +99,26 @@ const Inbox = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted/30">
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 to-white">
       <AdaptiveNavigation />
       <main 
         className="transition-all duration-200 ease-in-out mt-16 relative"
         style={{ marginLeft: `${marginLeft}px` }}
       >
         {/* Header */}
-        <header className="flex items-center justify-between p-4 border-b border-border bg-background">
+        <header className="flex items-center justify-between p-4 md:p-8 border-b border-teal-100 bg-white/80 backdrop-blur-sm">
           <div>
-            <h1 className="text-xl font-bold text-foreground">Inbox</h1>
+            <h1 className="text-2xl font-semibold text-brand-teal mb-2">Inbox</h1>
+            <div className="h-1 w-16 bg-brand-teal/30 rounded-full mb-2"></div>
             <p className="text-sm text-muted-foreground">Unified conversations from support@wiil.ai</p>
           </div>
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost" size="sm" className="text-brand-teal hover:bg-teal-50">
               <MessageCircle className="h-4 w-4" />
             </Button>
             <Button 
               onClick={() => setIsCreateModalOpen(true)}
-              className="bg-primary text-primary-foreground hover:bg-primary/90"
+              className="bg-gradient-to-r from-teal-600 to-teal-700 text-white hover:from-teal-700 hover:to-teal-800 shadow-lg hover:shadow-xl transition-all duration-200"
             >
               <Plus className="h-4 w-4 mr-2" />
               Create Assistant
@@ -126,16 +127,16 @@ const Inbox = () => {
         </header>
 
         {/* Three-Pane Layout */}
-        <div className="flex h-[calc(100vh-8rem)] overflow-hidden">
+        <div className="flex h-[calc(100vh-10rem)] overflow-hidden bg-[linear-gradient(to_right,rgba(13,148,136,0.06)_1px,transparent_1px)] bg-[size:24px_100%]">
           {/* Pane 1: Conversation List */}
-          <div className="w-1/4 xl:w-1/5 bg-background border-r border-border flex flex-col">
-            <div className="p-4 border-b border-border">
+          <div className="w-1/4 xl:w-1/5 bg-white/90 backdrop-blur-sm border-r border-teal-100 flex flex-col shadow-sm">
+            <div className="p-4 border-b border-teal-50">
               <Input
                 type="text"
                 placeholder="Search conversations..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full"
+                className="w-full border-teal-200 focus:border-teal-500 focus:ring-teal-500/20"
               />
             </div>
             <div className="flex-1 overflow-y-auto">
@@ -148,12 +149,12 @@ const Inbox = () => {
           </div>
 
           {/* Pane 2: Conversation Thread */}
-          <div className="w-1/2 xl:w-3/5 bg-muted/30 flex flex-col">
+          <div className="w-1/2 xl:w-3/5 bg-white/60 backdrop-blur-sm flex flex-col">
             <InboxConversationView conversation={selectedConversation} />
           </div>
 
           {/* Pane 3: AI Assistant Sidebar */}
-          <div className="w-1/4 xl:w-1/5 bg-background border-l border-border flex flex-col">
+          <div className="w-1/4 xl:w-1/5 bg-white/90 backdrop-blur-sm border-l border-teal-100 flex flex-col shadow-sm">
             <InboxMagicSidebar conversation={selectedConversation} />
           </div>
         </div>

@@ -9,9 +9,10 @@ export const InboxMagicSidebar = ({ conversation }: InboxMagicSidebarProps) => {
   if (!conversation) {
     return (
       <div className="flex-1 flex items-center justify-center">
-        <div className="text-center text-muted-foreground p-4">
-          <Star className="h-12 w-12 mx-auto mb-2 opacity-50" />
-          <p>AI Assistant details will appear here</p>
+        <div className="text-center text-teal-300 p-6">
+          <Star className="h-16 w-16 mx-auto mb-4 opacity-60" />
+          <p className="text-lg font-medium text-slate-400">AI Assistant</p>
+          <p className="text-sm text-slate-400 mt-1">Select a conversation to see AI insights</p>
         </div>
       </div>
     );
@@ -20,44 +21,55 @@ export const InboxMagicSidebar = ({ conversation }: InboxMagicSidebarProps) => {
   return (
     <>
       {/* Header */}
-      <div className="p-4 border-b border-border">
-        <h3 className="font-bold text-foreground">AI Assistant</h3>
+      <div className="p-6 border-b border-teal-100 bg-white/90 backdrop-blur-sm">
+        <h3 className="font-bold text-brand-teal flex items-center">
+          <Star className="h-5 w-5 mr-2 text-teal-500" />
+          AI Assistant
+        </h3>
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-6">
+      <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-white/80 backdrop-blur-sm">
         {/* AI Suggested Reply */}
         {conversation.ai_draft ? (
-          <div>
-            <h4 className="font-semibold text-sm text-foreground mb-2">AI Suggested Reply</h4>
-            <div className="bg-muted border border-border rounded-md p-3 text-sm text-foreground whitespace-pre-wrap">
+          <div className="space-y-3">
+            <h4 className="font-semibold text-sm text-brand-teal mb-3 flex items-center">
+              <span className="w-2 h-2 bg-gradient-to-r from-teal-500 to-teal-600 rounded-full mr-2"></span>
+              AI Suggested Reply
+            </h4>
+            <div className="bg-gradient-to-br from-teal-25 to-white border border-teal-100 rounded-lg p-4 text-sm text-slate-700 whitespace-pre-wrap shadow-sm">
               {conversation.ai_draft}
             </div>
             {conversation.ai_source && (
-              <div className="mt-2 text-xs text-muted-foreground flex items-center">
-                <FileText className="h-3 w-3 mr-1" />
+              <div className="mt-3 text-xs text-teal-600 flex items-center bg-teal-50 p-2 rounded-md">
+                <FileText className="h-3 w-3 mr-2" />
                 <span>
-                  Source: <strong>{conversation.ai_source.name}</strong> ({conversation.ai_source.type})
+                  Source: <strong className="text-teal-700">{conversation.ai_source.name}</strong> 
+                  <span className="text-teal-500 ml-1">({conversation.ai_source.type})</span>
                 </span>
               </div>
             )}
           </div>
         ) : (
-          <div className="text-sm text-muted-foreground text-center p-4 bg-muted rounded-md">
+          <div className="text-sm text-slate-400 text-center p-6 bg-gradient-to-br from-teal-25 to-white border border-teal-100 rounded-lg">
+            <Star className="h-8 w-8 mx-auto mb-2 text-teal-300" />
             No AI suggestion for this message.
           </div>
         )}
 
         {/* Customer History */}
         {conversation.history.length > 0 && (
-          <div>
-            <h4 className="font-semibold text-sm text-foreground mb-2">Customer History</h4>
+          <div className="space-y-3">
+            <h4 className="font-semibold text-sm text-brand-teal mb-3 flex items-center">
+              <span className="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full mr-2"></span>
+              Customer History
+            </h4>
             {conversation.history.map((item, index) => (
-              <div key={index} className="flex items-start space-x-3 bg-muted p-2 rounded-md mb-2">
-                <Phone className="h-5 w-5 text-muted-foreground shrink-0 mt-1" />
+              <div key={index} className="flex items-start space-x-3 bg-gradient-to-br from-orange-25 to-white border border-orange-100 p-3 rounded-lg shadow-sm">
+                <Phone className="h-5 w-5 text-orange-500 shrink-0 mt-1" />
                 <div>
-                  <p className="text-sm text-foreground">{item.summary}</p>
-                  <p className="text-xs text-muted-foreground">{item.timestamp}</p>
+                  <p className="text-sm text-slate-700 leading-relaxed">{item.summary}</p>
+                  <p className="text-xs text-orange-400 font-medium mt-1">{item.timestamp}</p>
                 </div>
               </div>
             ))}
