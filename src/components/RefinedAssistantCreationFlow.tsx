@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Loader2, Play, ArrowLeft, ArrowRight, Volume2, PhoneIncoming, PhoneOutgoing, User, MessageSquare, Brain, Upload, Phone, TestTube, Zap, Save, AlertTriangle, Settings, Calendar, PhoneForwarded, Check, Lightbulb, CheckCircle, Sparkles, Target, Globe, Copy } from 'lucide-react';
+import { Loader2, Play, ArrowLeft, ArrowRight, Volume2, PhoneIncoming, PhoneOutgoing, User, MessageSquare, Brain, Upload, Phone, TestTube, Zap, Save, AlertTriangle, Settings, Calendar, PhoneForwarded, Check, Lightbulb, CheckCircle, Sparkles, Target, Globe, Copy, Mail } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import KnowledgeUpload from './KnowledgeUpload';
 import PhoneNumberPurchaseModal from './PhoneNumberPurchaseModal';
@@ -900,6 +900,13 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
     setTimeout(() => setStep(2), 300);
   };
   const handleAssistantTypeSelect = (assistantType: string) => {
+    if (assistantType === 'email') {
+      // Navigate to inbox page for email assistant
+      navigate('/inbox');
+      onClose();
+      return;
+    }
+    
     setFormData({
       ...formData,
       assistantType,
@@ -1024,7 +1031,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 <p className="text-muted-foreground">Choose the type that best fits your use case.</p>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div
                     onClick={() => handleAssistantTypeSelect('inbound')}
                     className={`relative p-6 rounded-xl border cursor-pointer transition-all hover:shadow-lg ${formData.assistantType === 'inbound' ? 'border-[hsl(var(--brand-teal))] ring-2 ring-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06]' : 'border-border hover:border-[hsl(var(--brand-teal))] bg-muted/30 hover:bg-muted/50'}`}
@@ -1062,8 +1069,28 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                         Website Assistant
                       </h3>
                       <p className="text-sm text-muted-foreground">Provides support through web chat interface</p>
+                  </div>
+
+                  <div
+                    onClick={() => handleAssistantTypeSelect('email')}
+                    className={`relative p-6 rounded-xl border cursor-pointer transition-all hover:shadow-lg ${formData.assistantType === 'email' ? 'border-[hsl(var(--brand-teal))] ring-2 ring-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06]' : 'border-border hover:border-[hsl(var(--brand-teal))] bg-muted/30 hover:bg-muted/50'}`}
+                  >
+                    {formData.assistantType === 'email' && (
+                      <div className="absolute top-3 right-3">
+                        <Badge className="gap-1">
+                          <Check className="h-3 w-3" /> Selected
+                        </Badge>
+                      </div>
+                    )}
+                    <div className="text-center space-y-3">
+                      <Mail className="w-12 h-12 mx-auto text-primary" strokeWidth={1.5} />
+                      <h3 className="text-lg font-semibold">
+                        Email Assistant
+                      </h3>
+                      <p className="text-sm text-muted-foreground">Manages email communications and responses</p>
                     </div>
                   </div>
+                </div>
                 </div>
               </CardContent>
             </Card>}
