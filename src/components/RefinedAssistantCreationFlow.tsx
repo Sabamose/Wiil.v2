@@ -923,13 +923,22 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
   };
   const handleNext = () => {
     if (step < totalSteps) {
-      // Email assistants skip voice selection (step 3) and go directly to role selection (step 4)
-      if (step === 2 && formData.assistantType === 'email') {
-        setStep(4);
-      } else if (step === 3 && formData.assistantType === 'website') {
-        // Website assistants skip role selection (step 4) and go directly to actions (step 5)
-        setStep(5);
+      if (formData.assistantType === 'email') {
+        // Email assistant flow: Industry(1) -> Type(2) -> Role(4) -> Knowledge(5) -> UI(6) -> Testing(7)
+        if (step === 2) {
+          setStep(4); // Skip voice selection, go to role
+        } else {
+          setStep(step + 1);
+        }
+      } else if (formData.assistantType === 'website') {
+        // Website assistant flow skips role selection
+        if (step === 3) {
+          setStep(5); // Skip role selection, go to actions
+        } else {
+          setStep(step + 1);
+        }
       } else {
+        // Phone assistant flow (normal flow)
         setStep(step + 1);
       }
     }
@@ -1009,15 +1018,11 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
       case 4:
         return formData.assistantType === 'website' || formData.role;
       case 5:
-        return true; // Actions are optional
+        return true; // Actions are optional for phone/website; knowledge base step for email
       case 6:
-        return formData.name && formData.initial_message && formData.system_prompt; // Allow creation if form is valid
+        return formData.assistantType === 'email' || (formData.name && formData.initial_message && formData.system_prompt);
       case 7:
-        return true;
-      // Knowledge base is optional
-      case 8:
-        return true;
-      // Phone number can be skipped
+        return true; // Knowledge base is optional for phone/website; testing step for email
       case 9:
         return true;
       default:
@@ -1524,8 +1529,8 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               </CardContent>
             </Card>}
 
-          {/* Step 6: Teach Your Assistant */}
-          {step === 6 && <Card className="max-w-4xl mx-auto">
+          {/* Step 6: Teach Your Assistant - For non-email assistants */}
+          {step === 6 && formData.assistantType !== 'email' && <Card className="max-w-4xl mx-auto">
               <CardHeader className="text-center">
                 <CardTitle className="flex items-center justify-center gap-2 text-2xl">
                   <Brain className="h-6 w-6 text-[hsl(var(--brand-teal))]" />
@@ -2281,13 +2286,14 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
 
         {/* Navigation Buttons */}
         <div className="flex justify-end pt-6">
-          {step === 5 && (
-            <Button onClick={handleNext} disabled={!canGoNext()} variant="brand">
-              Next
-              <ArrowRight className="h-4 w-4 ml-2" />
-            </Button>
-          )}
-          {(step === 3 || step === 6 || step === 7 || (step === 4 && formData.assistantType !== 'website') || (step === 5 && formData.assistantType === 'email')) && (
+          {/* Show Next button for specific steps */}
+          {(
+            step === 3 || 
+            step === 5 || 
+            step === 6 || 
+            step === 7 || 
+            (step === 4 && formData.assistantType !== 'website')
+          ) && (
             <Button onClick={handleNext} disabled={!canGoNext()} variant="brand">
               Next
               <ArrowRight className="h-4 w-4 ml-2" />
