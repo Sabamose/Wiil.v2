@@ -1069,6 +1069,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                         Website Assistant
                       </h3>
                       <p className="text-sm text-muted-foreground">Provides support through web chat interface</p>
+                    </div>
                   </div>
 
                   <div
@@ -1090,7 +1091,6 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                       <p className="text-sm text-muted-foreground">Manages email communications and responses</p>
                     </div>
                   </div>
-                </div>
                 </div>
               </CardContent>
             </Card>}
