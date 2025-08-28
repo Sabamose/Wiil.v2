@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import AdaptiveNavigation from "@/components/AdaptiveNavigation";
 import { InboxConversationList } from "@/components/InboxConversationList";
 import { InboxConversationView } from "@/components/InboxConversationView";
 import { InboxMagicSidebar } from "@/components/InboxMagicSidebar";
 import { CreateAssistantModal } from "@/components/CreateAssistantModal";
+import { EmailProviderConnectionModal } from "@/components/EmailProviderConnectionModal";
 import { useResponsive } from "@/hooks/use-responsive";
 import { useChatLayout } from "@/hooks/useChatLayout";
 import { Button } from "@/components/ui/button";
@@ -89,9 +91,29 @@ const mockConversations: EmailConversation[] = [
 const Inbox = () => {
   const { isMobile } = useResponsive();
   const { marginLeft } = useChatLayout();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedConversation, setSelectedConversation] = useState<EmailConversation | null>(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isEmailConnectionModalOpen, setIsEmailConnectionModalOpen] = useState(false);
+
+  // Check if user came from email assistant selection
+  useEffect(() => {
+    const fromEmailAssistant = searchParams.get('from') === 'email-assistant';
+    const hasConnectedEmail = localStorage.getItem('email-provider-connected');
+    
+    if (fromEmailAssistant && !hasConnectedEmail) {
+      setIsEmailConnectionModalOpen(true);
+      // Clean up URL params
+      setSearchParams({});
+    }
+  }, [searchParams, setSearchParams]);
+
+  const handleEmailConnectionComplete = () => {
+    // Mark email as connected in localStorage
+    localStorage.setItem('email-provider-connected', 'true');
+    setIsEmailConnectionModalOpen(false);
+  };
 
   const filteredConversations = mockConversations.filter(convo =>
     convo.customer.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -162,6 +184,12 @@ const Inbox = () => {
         <CreateAssistantModal
           isOpen={isCreateModalOpen}
           onClose={() => setIsCreateModalOpen(false)}
+        />
+
+        <EmailProviderConnectionModal
+          isOpen={isEmailConnectionModalOpen}
+          onClose={() => setIsEmailConnectionModalOpen(false)}
+          onComplete={handleEmailConnectionComplete}
         />
       </main>
     </div>

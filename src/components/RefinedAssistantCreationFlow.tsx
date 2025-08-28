@@ -901,8 +901,8 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
   };
   const handleAssistantTypeSelect = (assistantType: string) => {
     if (assistantType === 'email') {
-      // Navigate to inbox page for email assistant
-      navigate('/inbox');
+      // Navigate to inbox page for email assistant with URL parameter
+      navigate('/inbox?from=email-assistant');
       onClose();
       return;
     }
