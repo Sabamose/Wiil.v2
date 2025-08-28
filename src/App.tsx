@@ -10,6 +10,7 @@ import Bookings from "./pages/Bookings";
 import Conversations from "./pages/Conversations";
 import Campaigns from "./pages/Campaigns";
 import Billing from "./pages/Billing";
+import Inbox from "./pages/Inbox";
 import NotFound from "./pages/NotFound";
 import HomePageTealV2 from "./components/HomePageTealV2";
 import AnalyticsDemo from "./pages/AnalyticsDemo";
@@ -36,6 +37,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/bookings" element={<Bookings />} />
               <Route path="/conversations" element={<Conversations />} />
+              <Route path="/inbox" element={<Inbox />} />
               <Route path="/campaigns" element={<Campaigns />} />
               <Route path="/phone-numbers" element={<PhoneNumbers />} />
               <Route path="/billing" element={<Billing />} />

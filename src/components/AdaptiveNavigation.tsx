@@ -1,4 +1,4 @@
-import { Home, MessageCircle, Bot, Phone, Calendar, CreditCard, Menu, ChevronLeft, ChevronRight, Moon } from "lucide-react";
+import { Home, MessageCircle, Bot, Phone, Calendar, CreditCard, Menu, ChevronLeft, ChevronRight, Moon, Inbox } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -20,6 +20,12 @@ const navigationItems = [
     path: "/conversations",
     icon: MessageCircle,
     label: "Conversations"
+  },
+  {
+    href: "/inbox",
+    path: "/inbox", 
+    icon: Inbox,
+    label: "Inbox"
   },
   {
     href: "/",
@@ -130,7 +136,7 @@ const AdaptiveNavigation = () => {
       )}
 
       {/* Main Navigation Items */}
-      <div className="flex-1 space-y-1 pt-4">{navigationItems.slice(0, 4).map((item) => (
+      <div className="flex-1 space-y-1 pt-4">{navigationItems.slice(0, 5).map((item) => (
           <NavigationTooltip
             key={item.path}
             content={item.label}
