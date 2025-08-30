@@ -612,9 +612,9 @@ IMPORTANT GUIDELINES:
           <div className="flex items-center gap-3">
             <Button
               onClick={() => setIsTestModalOpen(true)}
-              variant="outline"
+              variant="default"
               size="sm"
-              className="border-2 border-primary text-primary hover:bg-primary hover:text-white bg-white shadow-md font-medium"
+              className="bg-brand-teal hover:bg-brand-teal/90 text-white border-0 shadow-md font-medium"
             >
               <TestTube className="w-4 h-4 mr-2" />
               {isEmailAssistant ? 'Test Email Assistant' : 'Test Assistant'}
