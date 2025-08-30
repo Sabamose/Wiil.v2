@@ -21,7 +21,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
         {/* Small logo icon for assistant messages */}
         {!isUser && (
           <div className="absolute -top-1 -left-1 w-6 h-6 bg-brand-teal rounded-full flex items-center justify-center z-10 shadow-sm">
-            <Bot className="w-3 h-3 text-white" />
+            <User className="w-3 h-3 text-white" />
           </div>
         )}
         
