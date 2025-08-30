@@ -20,8 +20,11 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
       <div className={`max-w-[80%] relative`}>
         {/* Small logo icon for assistant messages */}
         {!isUser && (
-          <div className="absolute -top-1 -left-1 w-6 h-6 bg-brand-teal rounded-full flex items-center justify-center z-10 shadow-sm">
-            <User className="w-3 h-3 text-white" />
+          <div className="absolute -top-1 -left-1 flex items-center gap-1 z-10">
+            <div className="w-6 h-6 rounded-full flex items-center justify-center shadow-sm overflow-hidden">
+              <img src="/lovable-uploads/4193c744-eea1-483c-8ffa-ae648bbabc98.png" alt="Will" className="w-full h-full object-cover" />
+            </div>
+            <span className="text-xs font-medium text-brand-teal bg-white/90 px-1.5 py-0.5 rounded-full shadow-sm">Will</span>
           </div>
         )}
         
