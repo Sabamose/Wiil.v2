@@ -17,14 +17,14 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
 
   return (
     <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-4`}>
-      <div className={`max-w-[80%] relative`}>
-        {/* Small logo icon for assistant messages */}
+      <div className={`max-w-[80%]`}>
+        {/* Logo and name for assistant messages */}
         {!isUser && (
-          <div className="absolute -top-1 -left-1 flex items-center gap-1 z-10">
-            <div className="w-6 h-6 rounded-full flex items-center justify-center shadow-sm overflow-hidden">
+          <div className="flex items-center gap-2 mb-1">
+            <div className="w-5 h-5 rounded-full flex items-center justify-center overflow-hidden">
               <img src="/lovable-uploads/4193c744-eea1-483c-8ffa-ae648bbabc98.png" alt="Will" className="w-full h-full object-cover" />
             </div>
-            <span className="text-xs font-medium text-brand-teal bg-white/90 px-1.5 py-0.5 rounded-full shadow-sm">Will</span>
+            <span className="text-xs font-medium text-gray-600">Will</span>
           </div>
         )}
         
