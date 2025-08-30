@@ -614,7 +614,7 @@ IMPORTANT GUIDELINES:
               onClick={() => setIsTestModalOpen(true)}
               variant="outline"
               size="sm"
-              className="border-gray-300 text-gray-700 hover:bg-gray-50"
+              className="border-2 border-primary text-primary hover:bg-primary hover:text-white bg-white shadow-md font-medium"
             >
               <TestTube className="w-4 h-4 mr-2" />
               {isEmailAssistant ? 'Test Email Assistant' : 'Test Assistant'}
