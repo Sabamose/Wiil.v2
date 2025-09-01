@@ -1099,7 +1099,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 <p className="text-muted-foreground">Choose the type that best fits your use case.</p>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="space-y-6">
                   <div
                     onClick={() => handleAssistantTypeSelect('inbound')}
                     className={`relative p-6 rounded-xl border cursor-pointer transition-all hover:shadow-lg ${formData.assistantType === 'inbound' ? 'border-[hsl(var(--brand-teal))] ring-2 ring-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06]' : 'border-border hover:border-[hsl(var(--brand-teal))] bg-muted/30 hover:bg-muted/50'}`}
@@ -1291,7 +1291,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 </p>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-4">
                   {getRolesByType(formData.assistantType, formData.industry).map(role => <div key={role.id} onClick={() => handleRoleSelect(role.id)} className={`p-4 border rounded-lg cursor-pointer transition-all hover:shadow-md ${formData.role === role.id ? 'border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06]' : 'border-border hover:border-[hsl(var(--brand-teal))]'}`}>
                       <div className="text-center">
                         <div className="text-2xl mb-2">{role.emoji}</div>
@@ -1633,7 +1633,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                   <div className="text-center space-y-6">
                     <h3 className="text-xl font-semibold text-[hsl(var(--brand-teal))]">How should your assistant sound on calls?</h3>
                     <p className="text-muted-foreground">Choose the personality that fits your brand</p>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
+                    <div className="space-y-4 max-w-3xl mx-auto">
                       {[
                         { value: 'Friendly', icon: '😊', desc: 'Warm, welcoming, and approachable' },
                         { value: 'Professional', icon: '💼', desc: 'Polite, formal, and business-focused' },
@@ -2043,7 +2043,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     <Zap className="w-5 h-5 text-[hsl(var(--brand-teal))]" />
                     Email Tone
                   </h4>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="space-y-4">
                     {[
                       { id: 'professional', label: 'Professional', desc: 'Formal and business-appropriate', emoji: '💼' },
                       { id: 'friendly', label: 'Friendly', desc: 'Warm and approachable', emoji: '😊' },
@@ -2072,7 +2072,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     <Target className="w-5 h-5 text-[hsl(var(--brand-teal))]" />
                     Response Length
                   </h4>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="space-y-4">
                     {[
                       { id: 'concise', label: 'Concise', desc: 'Brief and to the point', emoji: '⚡' },
                       { id: 'detailed', label: 'Detailed', desc: 'Comprehensive responses', emoji: '📝' },
@@ -2170,7 +2170,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 </div>
 
                 {/* Appearance Options */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="space-y-6">
                   {/* Website Chat */}
                   <div
                     className={`group bg-white rounded-xl border-2 overflow-hidden cursor-pointer transition-all duration-200 hover:transform hover:scale-[1.02] hover:shadow-lg ${
