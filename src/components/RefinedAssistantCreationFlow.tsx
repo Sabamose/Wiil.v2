@@ -1074,9 +1074,9 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <User className="h-5 w-5" />
-                  What's your business?
+                  What industry is your business in?
                 </CardTitle>
-                <p className="text-muted-foreground">Pick what type of business you have so we can help better</p>
+                <p className="text-muted-foreground">Select the industry that best describes your business</p>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -1094,9 +1094,9 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Phone className="h-5 w-5" />
-                  How will customers use your assistant?
+                  What type of assistant do you need?
                 </CardTitle>
-                <p className="text-muted-foreground">Pick how customers will talk to your assistant</p>
+                <p className="text-muted-foreground">Choose the type that best fits your use case.</p>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -1113,10 +1113,10 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     )}
                     <div className="text-center space-y-3">
                       <PhoneIncoming className="w-12 h-12 mx-auto text-primary" strokeWidth={1.5} />
-                       <h3 className="text-lg font-semibold">
-                         Phone Calls
-                       </h3>
-                       <p className="text-sm text-muted-foreground">Customers call your business and talk to the assistant</p>
+                      <h3 className="text-lg font-semibold">
+                        Phone Assistant
+                      </h3>
+                      <p className="text-sm text-muted-foreground">Handles phone calls and voice interactions</p>
                     </div>
                   </div>
 
@@ -1133,10 +1133,10 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     )}
                     <div className="text-center space-y-3">
                       <Globe className="w-12 h-12 mx-auto text-primary" strokeWidth={1.5} />
-                       <h3 className="text-lg font-semibold">
-                         Website Chat
-                       </h3>
-                       <p className="text-sm text-muted-foreground">Customers chat with the assistant on your website</p>
+                      <h3 className="text-lg font-semibold">
+                        Website Assistant
+                      </h3>
+                      <p className="text-sm text-muted-foreground">Provides support through web chat interface</p>
                     </div>
                   </div>
 
@@ -1153,10 +1153,10 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     )}
                     <div className="text-center space-y-3">
                       <Mail className="w-12 h-12 mx-auto text-primary" strokeWidth={1.5} />
-                       <h3 className="text-lg font-semibold">
-                         Email Helper
-                       </h3>
-                       <p className="text-sm text-muted-foreground">Automatically answers customer emails</p>
+                      <h3 className="text-lg font-semibold">
+                        Email Assistant
+                      </h3>
+                      <p className="text-sm text-muted-foreground">Manages email communications and responses</p>
                     </div>
                   </div>
                 </div>
@@ -1168,15 +1168,15 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Volume2 className="h-5 w-5" />
-                  How should your assistant sound?
+                  Voice & Language Settings
                 </CardTitle>
-                <p className="text-muted-foreground">Pick a voice and language for your assistant</p>
+                <p className="text-muted-foreground">Choose how your assistant will sound</p>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="space-y-6">
                   <div>
-                     <Label htmlFor="language" className="text-base font-medium">What language should it speak?</Label>
-                     <p className="text-sm text-muted-foreground mt-1">Most common languages</p>
+                    <Label htmlFor="language" className="text-base font-medium">Choose a language</Label>
+                    <p className="text-sm text-muted-foreground mt-1">Popular languages</p>
                   </div>
 
                   {/* Quick picks - popular languages with improved visual design */}
@@ -1250,7 +1250,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 </div>
 
                 <div>
-                  <Label className="text-base font-medium">Pick a voice you like</Label>
+                  <Label className="text-base font-medium">Select Voice</Label>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
                     {Object.entries(voices).map(([id, voice]) => <div key={id} className={`p-4 border rounded-lg cursor-pointer transition-colors ${formData.voice_id === id ? 'border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06]' : 'border-border hover:border-[hsl(var(--brand-teal))]'}`} onClick={() => setFormData({
                   ...formData,
@@ -1284,11 +1284,11 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <User className="h-5 w-5" />
-                  What should your assistant help with?
+                  Choose the assistant's role
                 </CardTitle>
-                 <p className="text-muted-foreground">
-                   Choose the main job your assistant will do
-                 </p>
+                <p className="text-muted-foreground">
+                  What specific role will your {formData.assistantType} assistant perform?
+                </p>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1314,9 +1314,9 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Settings className="h-5 w-5" />
-                  What special features do you want?
+                  Choose what your assistant can do
                 </CardTitle>
-                <p className="text-muted-foreground">Turn on extra features to make your assistant more helpful</p>
+                <p className="text-muted-foreground">Turn on the actions your assistant can do during calls.</p>
               </CardHeader>
               <CardContent className="space-y-8">
                 {/* Real-Time Booking */}
@@ -1325,8 +1325,8 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     <div className="flex items-start gap-3">
                       <Calendar className={`h-6 w-6 mt-1 ${formData.actions.realTimeBooking.enabled ? 'text-[hsl(var(--brand-teal))]' : 'text-foreground'}`} />
                       <div>
-                         <h3 className="font-semibold text-lg">Book Appointments</h3>
-                         <p className="text-sm text-[hsl(var(--brand-teal))]">Let customers schedule appointments while talking to your assistant</p>
+                        <h3 className="font-semibold text-lg">Real-Time Booking</h3>
+                        <p className="text-sm text-[hsl(var(--brand-teal))]">Allow customers to book appointments directly through the call</p>
                       </div>
                     </div>
                     <Switch 
@@ -1549,7 +1549,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               <CardHeader className="text-center">
                 <CardTitle className="flex items-center justify-center gap-2 text-2xl">
                   <Brain className="h-6 w-6 text-[hsl(var(--brand-teal))]" />
-                  Set Up Your Assistant
+                  Teach Your Assistant How to Talk to Customers
                 </CardTitle>
                 
               </CardHeader>
@@ -1558,7 +1558,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 {/* Assistant Name */}
                 <Card className="p-6 border-2 border-[hsl(var(--brand-teal))]/20 bg-[hsl(var(--brand-teal))]/5">
                   <div className="text-center space-y-4">
-                    <h3 className="text-xl font-semibold text-[hsl(var(--brand-teal))]">What should we call your assistant?</h3>
+                    <h3 className="text-xl font-semibold text-[hsl(var(--brand-teal))]">First, what should we call your assistant?</h3>
                     <Input 
                       value={formData.name} 
                       onChange={e => {
@@ -1583,7 +1583,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 {/* Question 1: Main Focus */}
                 <Card className="p-6">
                   <div className="text-center space-y-6">
-                    <h3 className="text-xl font-semibold text-[hsl(var(--brand-teal))]">What's the main thing your assistant should do?</h3>
+                    <h3 className="text-xl font-semibold text-[hsl(var(--brand-teal))]">What should your assistant focus on during calls?</h3>
                     
                     <div className="flex flex-wrap gap-3 justify-center max-w-2xl mx-auto">
                       {[
@@ -1659,7 +1659,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     {/* Sub-choices for conversation style */}
                     <div className="space-y-8 max-w-xl mx-auto mt-8">
                       <div className="text-center space-y-4">
-                        <p className="font-semibold text-lg">How much should your assistant talk?</p>
+                        <p className="font-semibold text-lg">Response Length</p>
                         <div className="flex gap-3 justify-center">
                           {[
                             { value: 'Short', desc: 'Brief' },
@@ -1684,7 +1684,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                       </div>
                       
                       <div className="text-center space-y-4">
-                        <p className="font-semibold text-lg">How should your assistant talk?</p>
+                        <p className="font-semibold text-lg">Language Style</p>
                         <div className="flex gap-3 justify-center">
                           {[
                             { value: 'Simple', desc: 'Easy language' },
@@ -1713,14 +1713,14 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 {/* Question 4: What TO Say */}
                 <Card className="p-6">
                   <div className="text-center space-y-6">
-                    <h3 className="text-xl font-semibold text-[hsl(var(--brand-teal))]">What important things should your assistant always tell customers?</h3>
+                    <h3 className="text-xl font-semibold text-[hsl(var(--brand-teal))]">What should your assistant always mention?</h3>
                     
                     
                     {/* Input section */}
                     <div className="max-w-lg mx-auto">
                       <div className="flex gap-2">
                         <Input 
-                          placeholder="Type something important to always mention" 
+                          placeholder="Type your own or pick from examples below" 
                           value={doSayInput} 
                           onChange={e => setDoSayInput(e.target.value)} 
                           onKeyDown={e => { 
@@ -2253,6 +2253,208 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                   </div>
                 </div>
 
+                {/* Preview Section */}
+                <div className="bg-white border border-gray-200 rounded-xl p-6">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="text-sm font-medium text-gray-700">Preview</div>
+                    <div className="text-xs text-gray-500">Layout mock only</div>
+                  </div>
+                  <div className="relative rounded-lg overflow-hidden border border-gray-200 bg-gray-50">
+                    <div className="flex items-center gap-2 px-3 py-2 bg-white border-b border-gray-200 text-gray-500">
+                      <div className="flex gap-1">
+                        <span className="h-2.5 w-2.5 rounded-full bg-red-400/80"></span>
+                        <span className="h-2.5 w-2.5 rounded-full bg-amber-400/80"></span>
+                        <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/80"></span>
+                      </div>
+                      <div className="flex-1 text-xs px-3">
+                        {formData.websiteUrl || 'about:blank'}
+                      </div>
+                    </div>
+                    <div className="relative h-96 bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center overflow-hidden">
+                      {/* Elegant background with subtle pattern */}
+                      <div className="absolute inset-0 opacity-50" style={{backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f1f5f9' fill-opacity='0.4'%3E%3Ccircle cx='7' cy='7' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")"}}></div>
+                      
+                      {/* Website mockup background */}
+                      <div className="absolute inset-4 bg-white rounded-lg shadow-sm border border-slate-200 flex flex-col">
+                        {/* Browser chrome */}
+                        <div className="h-8 bg-slate-100 rounded-t-lg flex items-center px-3 gap-2 border-b border-slate-200">
+                          <div className="flex gap-1.5">
+                            <div className="w-2.5 h-2.5 bg-red-400 rounded-full"></div>
+                            <div className="w-2.5 h-2.5 bg-yellow-400 rounded-full"></div>
+                            <div className="w-2.5 h-2.5 bg-green-400 rounded-full"></div>
+                          </div>
+                          <div className="flex-1 bg-white rounded-sm mx-4 h-4 flex items-center px-2 text-xs text-slate-400">
+                            {formData.websiteUrl || 'yourwebsite.com'}
+                          </div>
+                        </div>
+                        
+                        {/* Website content area */}
+                        <div className="flex-1 bg-white relative">
+                          <div className="absolute inset-0 flex items-center justify-center text-slate-300 text-sm">
+                            Your website preview
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Enhanced Widget Preview positioned bottom-right */}
+                      <div className="absolute bottom-6 right-6 w-80 max-w-[88vw] z-10">
+                        {formData.appearanceType === 'text' && (
+                          <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden animate-fade-in">
+                            {/* Chat header */}
+                            <div className="bg-gradient-to-r from-brand-teal to-brand-teal/90 text-white px-4 py-3 flex items-center gap-3">
+                              <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                                <MessageCircle className="w-4 h-4" />
+                              </div>
+                              <div>
+                                <div className="font-semibold text-sm">{formData.name || 'Assistant'}</div>
+                                <div className="text-xs text-white/80">Online now</div>
+                              </div>
+                              <div className="ml-auto w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                            </div>
+                            
+                            {/* Chat messages */}
+                            <div className="p-4 space-y-3 max-h-60 bg-slate-50/50">
+                              <div className="flex gap-2">
+                                <div className="w-6 h-6 bg-brand-teal rounded-full flex items-center justify-center flex-shrink-0">
+                                  <Bot className="w-3 h-3 text-white" />
+                                </div>
+                                <div className="bg-white rounded-xl px-3 py-2 shadow-sm border border-slate-100 text-sm text-slate-700 max-w-64">
+                                  Hi! I'm {formData.name || 'your assistant'}. How can I help you today?
+                                </div>
+                              </div>
+                              <div className="flex justify-end">
+                                <div className="bg-brand-teal text-white rounded-xl px-3 py-2 text-sm max-w-48">
+                                  Hello! I need some help...
+                                </div>
+                              </div>
+                              <div className="flex gap-2">
+                                <div className="w-6 h-6 bg-brand-teal rounded-full flex items-center justify-center flex-shrink-0">
+                                  <Bot className="w-3 h-3 text-white" />
+                                </div>
+                                <div className="bg-white rounded-xl px-3 py-2 shadow-sm border border-slate-100 text-sm text-slate-700 max-w-64">
+                                  <div className="flex items-center gap-1">
+                                    <div className="animate-pulse">●</div>
+                                    <div className="animate-pulse" style={{animationDelay: '0.2s'}}>●</div>
+                                    <div className="animate-pulse" style={{animationDelay: '0.4s'}}>●</div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            {/* Chat input */}
+                            <div className="p-3 bg-white border-t border-slate-100">
+                              <div className="flex gap-2 items-center">
+                                <input 
+                                  className="flex-1 border border-slate-200 rounded-full px-4 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal" 
+                                  placeholder="Type your message..."
+                                  readOnly
+                                />
+                                <button className="w-8 h-8 bg-brand-teal rounded-full flex items-center justify-center text-white hover:bg-brand-teal/90 transition-colors">
+                                  <Send className="w-4 h-4" />
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                        
+                        {formData.appearanceType === 'voice' && (
+                          <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 p-6 animate-fade-in">
+                            {/* Voice header */}
+                            <div className="text-center mb-6">
+                              <div className="text-lg font-semibold text-slate-800 mb-1">{formData.name || 'Voice Assistant'}</div>
+                              <div className="text-sm text-slate-500">Press and hold to speak</div>
+                            </div>
+                            
+                            {/* Voice orb */}
+                            <div className="relative h-32 flex items-center justify-center mb-6">
+                              <div className="absolute inset-0 bg-gradient-to-br from-brand-teal/10 to-brand-teal/20 rounded-full animate-pulse"></div>
+                              <div className="relative z-10 w-20 h-20 bg-gradient-to-br from-brand-teal to-brand-teal/80 rounded-full flex items-center justify-center shadow-lg">
+                                <Mic className="w-8 h-8 text-white" />
+                              </div>
+                              {/* Sound waves */}
+                              <div className="absolute inset-0 flex items-center justify-center">
+                                <div className="w-24 h-24 border-2 border-brand-teal/30 rounded-full animate-ping"></div>
+                              </div>
+                              <div className="absolute inset-0 flex items-center justify-center">
+                                <div className="w-32 h-32 border border-brand-teal/20 rounded-full animate-ping" style={{animationDelay: '0.5s'}}></div>
+                              </div>
+                            </div>
+                            
+                            {/* Voice status */}
+                            <div className="text-center mb-4">
+                              <div className="inline-flex items-center gap-2 bg-slate-50 rounded-full px-3 py-1 text-sm">
+                                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                                <span className="text-slate-600">Ready to listen</span>
+                              </div>
+                            </div>
+                            
+                            {/* Language selector */}
+                            <div className="flex items-center justify-between text-sm text-slate-500 mb-4">
+                              <span>Language:</span>
+                              <div className="flex items-center gap-1">
+                                <span>English</span>
+                                <ChevronDown className="w-3 h-3" />
+                              </div>
+                            </div>
+                            
+                            {/* Talk button */}
+                            <button className="w-full bg-gradient-to-r from-slate-800 to-slate-700 text-white py-3 rounded-xl font-medium hover:from-slate-700 hover:to-slate-600 transition-all duration-200 shadow-lg">
+                              Tap to talk
+                            </button>
+                          </div>
+                        )}
+                        
+                        {formData.appearanceType === 'unified' && (
+                          <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden animate-fade-in">
+                            {/* Unified header */}
+                            <div className="bg-gradient-to-r from-brand-teal to-brand-teal/90 text-white px-4 py-3 flex items-center gap-3">
+                              <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                                <Zap className="w-4 h-4" />
+                              </div>
+                              <div>
+                                <div className="font-semibold text-sm">{formData.name || 'Assistant'}</div>
+                                <div className="text-xs text-white/80">Chat or Voice • Your choice</div>
+                              </div>
+                            </div>
+                            
+                            {/* Unified content */}
+                            <div className="p-4">
+                              {/* Quick message */}
+                              <div className="bg-slate-50 rounded-xl p-3 mb-4 text-center">
+                                <div className="text-sm text-slate-600 mb-2">Choose how you'd like to interact:</div>
+                                <div className="flex gap-2 justify-center">
+                                  <div className="flex items-center gap-1 bg-white rounded-lg px-3 py-1 text-xs text-slate-600 border border-slate-200">
+                                    <MessageCircle className="w-3 h-3" />
+                                    <span>Type</span>
+                                  </div>
+                                  <div className="flex items-center gap-1 bg-white rounded-lg px-3 py-1 text-xs text-slate-600 border border-slate-200">
+                                    <Mic className="w-3 h-3" />
+                                    <span>Speak</span>
+                                  </div>
+                                </div>
+                              </div>
+                              
+                              {/* Unified input */}
+                              <div className="flex gap-2 items-center">
+                                <input 
+                                  className="flex-1 border border-slate-200 rounded-full px-4 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal" 
+                                  placeholder="Type or use voice..."
+                                  readOnly
+                                />
+                                <button className="w-9 h-9 bg-slate-100 rounded-full flex items-center justify-center text-slate-600 hover:bg-slate-200 transition-colors">
+                                  <Mic className="w-4 h-4" />
+                                </button>
+                                <button className="w-9 h-9 bg-brand-teal rounded-full flex items-center justify-center text-white hover:bg-brand-teal/90 transition-colors">
+                                  <Send className="w-4 h-4" />
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           )}
