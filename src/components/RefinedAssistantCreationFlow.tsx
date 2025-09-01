@@ -2181,17 +2181,11 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     onClick={() => setFormData(prev => ({ ...prev, appearanceType: 'text' }))}
                   >
                     <div className="relative h-56 bg-gray-50 border-b border-gray-200 flex items-center justify-center">
-                      <div className="w-4/5 h-4/5 bg-white rounded-lg shadow-sm border border-gray-200 p-3 flex flex-col">
-                        <div className="bg-brand-teal text-white px-3 py-1 rounded text-xs font-medium mb-2">
-                          {formData.name || 'Assistant'}
-                        </div>
-                        <div className="text-xs text-gray-600 mb-2">Hi! How can I help today?</div>
-                        <div className="mt-auto">
-                          <div className="bg-gray-100 rounded px-2 py-1 text-xs text-gray-500">
-                            Type a message...
-                          </div>
-                        </div>
-                      </div>
+                      <img 
+                        src="/lovable-uploads/ae1c9d54-e734-4e43-aae3-b9b7308fa277.png" 
+                        alt="Website chat interface preview" 
+                        className="w-full h-full object-contain"
+                      />
                       {formData.appearanceType === 'text' && (
                         <div className="absolute top-3 right-3 h-7 w-7 rounded-full bg-white/90 border border-gray-200 flex items-center justify-center text-brand-teal">
                           <Check className="h-4 w-4" />
@@ -2214,20 +2208,11 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     onClick={() => setFormData(prev => ({ ...prev, appearanceType: 'voice' }))}
                   >
                     <div className="relative h-56 bg-gray-50 border-b border-gray-200 flex items-center justify-center">
-                      <div className="w-4/5 h-4/5 bg-white rounded-lg shadow-sm border border-gray-200 p-3 flex flex-col">
-                        <div className="flex items-center justify-between mb-3">
-                          <div className="font-medium text-gray-800 text-sm">{formData.name || 'Assistant'}</div>
-                          <div className="text-xs text-gray-500">English ▾</div>
-                        </div>
-                        <div className="flex-1 bg-brand-teal/10 rounded-lg flex items-center justify-center">
-                          <div className="h-12 w-12 rounded-full bg-brand-teal/30 flex items-center justify-center">
-                            <Volume2 className="h-6 w-6 text-brand-teal" />
-                          </div>
-                        </div>
-                        <Button size="sm" className="mt-3 bg-gray-900 text-white text-xs">
-                          Tap to talk
-                        </Button>
-                      </div>
+                      <img 
+                        src="/lovable-uploads/d4564cde-4b4a-4a29-9941-53b30f99d7c2.png" 
+                        alt="Website voice call interface preview" 
+                        className="w-full h-full object-contain"
+                      />
                       {formData.appearanceType === 'voice' && (
                         <div className="absolute top-3 right-3 h-7 w-7 rounded-full bg-white/90 border border-gray-200 flex items-center justify-center text-brand-teal">
                           <Check className="h-4 w-4" />
@@ -2250,18 +2235,11 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     onClick={() => setFormData(prev => ({ ...prev, appearanceType: 'unified' }))}
                   >
                     <div className="relative h-56 bg-brand-teal/5 border-b border-brand-teal/20 flex items-center justify-center">
-                      <div className="w-4/5 h-4/5 bg-white rounded-lg shadow-sm border border-gray-200 p-3 flex flex-col">
-                        <div className="bg-brand-teal text-white px-3 py-1 rounded text-xs font-medium mb-2">
-                          {formData.name || 'Assistant'} — Unified
-                        </div>
-                        <div className="text-xs text-gray-600 mb-2">Talk or type. Your choice.</div>
-                        <div className="mt-auto flex gap-1">
-                          <div className="flex-1 bg-gray-100 rounded px-2 py-1 text-xs text-gray-500">
-                            Type a message...
-                          </div>
-                          <div className="bg-gray-100 rounded px-2 py-1 text-xs">🎙️</div>
-                        </div>
-                      </div>
+                      <img 
+                        src="/lovable-uploads/5f9c2e29-6bf0-4ea2-9ee0-328ca62d5175.png" 
+                        alt="Unified assistant interface preview" 
+                        className="w-full h-full object-contain"
+                      />
                       {formData.appearanceType === 'unified' && (
                         <div className="absolute top-3 right-3 h-7 w-7 rounded-full bg-white/90 border border-gray-200 flex items-center justify-center text-brand-teal">
                           <Check className="h-4 w-4" />
