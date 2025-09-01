@@ -767,7 +767,11 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
     // Email assistant specific fields
     emailTone: 'professional',
     responseLength: 'adaptive',
-    customInstructions: ''
+    customInstructions: '',
+
+    // Website assistant specific fields
+    websiteUrl: '',
+    appearanceType: 'unified' as 'text' | 'voice' | 'unified'
 
     // Step 9: Testing & Deployment
     // (handled in final step)
@@ -822,7 +826,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
     });
   };
 
-  const totalSteps = formData.assistantType === 'email' ? 7 : 9;
+  const totalSteps = formData.assistantType === 'email' ? 7 : formData.assistantType === 'website' ? 10 : 9;
   const handleTestVoice = async () => {
     if (!formData.voice_id) return;
     setIsTestingVoice(true);
@@ -926,7 +930,9 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
       hasPhoneNumber: false,
       emailTone: 'professional',
       responseLength: 'adaptive',
-      customInstructions: ''
+      customInstructions: '',
+      websiteUrl: '',
+      appearanceType: 'unified' as 'text' | 'voice' | 'unified'
     });
     setCurrentAssistantId(null);
   };
@@ -2127,9 +2133,227 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               </CardContent>
             </Card>}
 
-          {/* Step 8: Phone Number Assignment / Code Integration */}
-          {step === 8 && (() => {
-            console.log('Step 8 - assistantType:', formData.assistantType, 'hasPhoneNumber:', formData.hasPhoneNumber, 'phoneNumber:', formData.phoneNumber);
+          {/* Step 8: Website Appearance (For Website Assistants Only) */}
+          {step === 8 && formData.assistantType === 'website' && (
+            <Card className="max-w-5xl mx-auto">
+              <CardHeader className="text-center">
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <Globe className="h-6 w-6 text-brand-teal" />
+                  <CardTitle className="text-2xl">Choose Appearance</CardTitle>
+                </div>
+                <p className="text-muted-foreground max-w-2xl mx-auto">
+                  Select how your website visitors will interact with your assistant
+                </p>
+              </CardHeader>
+              <CardContent className="space-y-8">
+                {/* Website URL Input */}
+                <div className="bg-white rounded-xl border border-gray-200 p-6">
+                  <div className="flex flex-col md:flex-row md:items-end gap-4">
+                    <div className="flex-1">
+                      <Label htmlFor="websiteUrl" className="text-sm font-medium text-gray-700">
+                        Website URL <span className="text-red-500">*</span>
+                      </Label>
+                      <Input
+                        id="websiteUrl"
+                        type="url"
+                        placeholder="https://example.com"
+                        value={formData.websiteUrl || ''}
+                        onChange={(e) => setFormData(prev => ({ ...prev, websiteUrl: e.target.value }))}
+                        className="mt-1"
+                      />
+                      <p className="mt-2 text-xs text-gray-500">Used only for the preview below.</p>
+                    </div>
+                    <Button variant="outline" size="sm">
+                      Preview site
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Appearance Options */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  {/* Website Chat */}
+                  <div
+                    className={`group bg-white rounded-xl border-2 overflow-hidden cursor-pointer transition-all duration-200 hover:transform hover:scale-[1.02] hover:shadow-lg ${
+                      formData.appearanceType === 'text' 
+                        ? 'border-brand-teal bg-brand-teal/5' 
+                        : 'border-gray-200 hover:border-brand-teal/50'
+                    }`}
+                    onClick={() => setFormData(prev => ({ ...prev, appearanceType: 'text' }))}
+                  >
+                    <div className="relative h-56 bg-gray-50 border-b border-gray-200 flex items-center justify-center">
+                      <div className="w-4/5 h-4/5 bg-white rounded-lg shadow-sm border border-gray-200 p-3 flex flex-col">
+                        <div className="bg-brand-teal text-white px-3 py-1 rounded text-xs font-medium mb-2">
+                          {formData.name || 'Assistant'}
+                        </div>
+                        <div className="text-xs text-gray-600 mb-2">Hi! How can I help today?</div>
+                        <div className="mt-auto">
+                          <div className="bg-gray-100 rounded px-2 py-1 text-xs text-gray-500">
+                            Type a message...
+                          </div>
+                        </div>
+                      </div>
+                      {formData.appearanceType === 'text' && (
+                        <div className="absolute top-3 right-3 h-7 w-7 rounded-full bg-white/90 border border-gray-200 flex items-center justify-center text-brand-teal">
+                          <Check className="h-4 w-4" />
+                        </div>
+                      )}
+                    </div>
+                    <div className="p-5">
+                      <h3 className="text-lg font-semibold text-gray-800">Website Chat</h3>
+                      <p className="text-sm text-gray-600 mt-1">Text-based chat interface</p>
+                    </div>
+                  </div>
+
+                  {/* Website Call */}
+                  <div
+                    className={`group bg-white rounded-xl border-2 overflow-hidden cursor-pointer transition-all duration-200 hover:transform hover:scale-[1.02] hover:shadow-lg ${
+                      formData.appearanceType === 'voice' 
+                        ? 'border-brand-teal bg-brand-teal/5' 
+                        : 'border-gray-200 hover:border-brand-teal/50'
+                    }`}
+                    onClick={() => setFormData(prev => ({ ...prev, appearanceType: 'voice' }))}
+                  >
+                    <div className="relative h-56 bg-gray-50 border-b border-gray-200 flex items-center justify-center">
+                      <div className="w-4/5 h-4/5 bg-white rounded-lg shadow-sm border border-gray-200 p-3 flex flex-col">
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="font-medium text-gray-800 text-sm">{formData.name || 'Assistant'}</div>
+                          <div className="text-xs text-gray-500">English ▾</div>
+                        </div>
+                        <div className="flex-1 bg-brand-teal/10 rounded-lg flex items-center justify-center">
+                          <div className="h-12 w-12 rounded-full bg-brand-teal/30 flex items-center justify-center">
+                            <Volume2 className="h-6 w-6 text-brand-teal" />
+                          </div>
+                        </div>
+                        <Button size="sm" className="mt-3 bg-gray-900 text-white text-xs">
+                          Tap to talk
+                        </Button>
+                      </div>
+                      {formData.appearanceType === 'voice' && (
+                        <div className="absolute top-3 right-3 h-7 w-7 rounded-full bg-white/90 border border-gray-200 flex items-center justify-center text-brand-teal">
+                          <Check className="h-4 w-4" />
+                        </div>
+                      )}
+                    </div>
+                    <div className="p-5">
+                      <h3 className="text-lg font-semibold text-gray-800">Website Call</h3>
+                      <p className="text-sm text-gray-600 mt-1">Voice-based conversation</p>
+                    </div>
+                  </div>
+
+                  {/* Unified */}
+                  <div
+                    className={`group bg-white rounded-xl border-2 overflow-hidden cursor-pointer transition-all duration-200 hover:transform hover:scale-[1.02] hover:shadow-lg ${
+                      formData.appearanceType === 'unified' 
+                        ? 'border-brand-teal bg-brand-teal/5' 
+                        : 'border-gray-200 hover:border-brand-teal/50'
+                    }`}
+                    onClick={() => setFormData(prev => ({ ...prev, appearanceType: 'unified' }))}
+                  >
+                    <div className="relative h-56 bg-brand-teal/5 border-b border-brand-teal/20 flex items-center justify-center">
+                      <div className="w-4/5 h-4/5 bg-white rounded-lg shadow-sm border border-gray-200 p-3 flex flex-col">
+                        <div className="bg-brand-teal text-white px-3 py-1 rounded text-xs font-medium mb-2">
+                          {formData.name || 'Assistant'} — Unified
+                        </div>
+                        <div className="text-xs text-gray-600 mb-2">Talk or type. Your choice.</div>
+                        <div className="mt-auto flex gap-1">
+                          <div className="flex-1 bg-gray-100 rounded px-2 py-1 text-xs text-gray-500">
+                            Type a message...
+                          </div>
+                          <div className="bg-gray-100 rounded px-2 py-1 text-xs">🎙️</div>
+                        </div>
+                      </div>
+                      {formData.appearanceType === 'unified' && (
+                        <div className="absolute top-3 right-3 h-7 w-7 rounded-full bg-white/90 border border-gray-200 flex items-center justify-center text-brand-teal">
+                          <Check className="h-4 w-4" />
+                        </div>
+                      )}
+                    </div>
+                    <div className="p-5">
+                      <h3 className="text-lg font-semibold text-gray-800">Unified Assistant</h3>
+                      <p className="text-sm text-gray-600 mt-1">Chat and voice in one interface</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Preview Section */}
+                <div className="bg-white border border-gray-200 rounded-xl p-6">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="text-sm font-medium text-gray-700">Preview</div>
+                    <div className="text-xs text-gray-500">Layout mock only</div>
+                  </div>
+                  <div className="relative rounded-lg overflow-hidden border border-gray-200 bg-gray-50">
+                    <div className="flex items-center gap-2 px-3 py-2 bg-white border-b border-gray-200 text-gray-500">
+                      <div className="flex gap-1">
+                        <span className="h-2.5 w-2.5 rounded-full bg-red-400/80"></span>
+                        <span className="h-2.5 w-2.5 rounded-full bg-amber-400/80"></span>
+                        <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/80"></span>
+                      </div>
+                      <div className="flex-1 text-xs px-3">
+                        {formData.websiteUrl || 'about:blank'}
+                      </div>
+                    </div>
+                    <div className="relative h-96 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                      <div className="text-gray-400 text-sm">Your site preview will appear here</div>
+                      {/* Widget Preview positioned bottom-right */}
+                      <div className="absolute bottom-4 right-4 w-80 max-w-[88vw]">
+                        {formData.appearanceType === 'text' && (
+                          <div className="bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden">
+                            <div className="bg-brand-teal text-white px-4 py-2 font-semibold">
+                              {formData.name || 'Assistant'}
+                            </div>
+                            <div className="p-3 text-sm text-gray-700">Hi! How can I help today?</div>
+                            <div className="p-3 pt-0">
+                              <input 
+                                className="w-full border rounded-lg px-3 py-2 text-sm" 
+                                placeholder="Type a message…"
+                                readOnly
+                              />
+                            </div>
+                          </div>
+                        )}
+                        {formData.appearanceType === 'voice' && (
+                          <div className="bg-white rounded-xl shadow-xl border border-gray-200 p-4">
+                            <div className="flex items-center justify-between">
+                              <div className="font-semibold text-gray-800">{formData.name || 'Assistant'}</div>
+                              <div className="text-xs text-gray-500">English ▾</div>
+                            </div>
+                            <div className="mt-4 h-28 rounded-lg bg-brand-teal/15 flex items-center justify-center">
+                              <div className="h-16 w-16 rounded-full bg-brand-teal/30 flex items-center justify-center">
+                                <Volume2 className="h-6 w-6 text-brand-teal" />
+                              </div>
+                            </div>
+                            <Button className="mt-4 w-full bg-gray-900 text-white text-sm">
+                              Tap to talk
+                            </Button>
+                          </div>
+                        )}
+                        {formData.appearanceType === 'unified' && (
+                          <div className="bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden">
+                            <div className="bg-brand-teal text-white px-4 py-2 font-semibold">
+                              {formData.name || 'Assistant'} — Unified
+                            </div>
+                            <div className="p-3 text-sm text-gray-700">Talk or type. Your choice.</div>
+                            <div className="p-3 pt-0 flex gap-2">
+                              <input 
+                                className="flex-1 border rounded-lg px-3 py-2 text-sm" 
+                                placeholder="Type a message…"
+                                readOnly
+                              />
+                              <Button size="sm" variant="outline" className="px-3">🎙️</Button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Step 9: Phone Number Assignment / Code Integration */}
+          {step === 9 && (() => {
+            console.log('Step 9 - assistantType:', formData.assistantType, 'hasPhoneNumber:', formData.hasPhoneNumber, 'phoneNumber:', formData.phoneNumber);
             
             // Website Assistant Flow - Show Code Snippet
             if (formData.assistantType === 'website') {
@@ -2261,8 +2485,8 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               </Card>;
           })()}
 
-           {/* Step 7 for Email or Step 9 for others: Testing & Deployment */}
-           {((step === 7 && formData.assistantType === 'email') || (step === 9 && formData.assistantType !== 'email')) && <Card className="max-w-5xl mx-auto">
+           {/* Step 7 for Email, Step 9 for Phone, or Step 10 for Website: Testing & Deployment */}
+           {((step === 7 && formData.assistantType === 'email') || (step === 9 && formData.assistantType !== 'email' && formData.assistantType !== 'website') || (step === 10 && formData.assistantType === 'website')) && <Card className="max-w-5xl mx-auto">
               <CardHeader className="text-center pb-8">
                 <div className="w-16 h-16 bg-gradient-to-br from-[hsl(var(--brand-teal))] to-[hsl(var(--brand-teal-hover))] rounded-full flex items-center justify-center mx-auto mb-4 animate-scale-in">
                   <TestTube className="h-8 w-8 text-white" />
