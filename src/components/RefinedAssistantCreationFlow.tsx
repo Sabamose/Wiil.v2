@@ -1074,9 +1074,9 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <User className="h-5 w-5" />
-                  What industry is your business in?
+                  What's your business?
                 </CardTitle>
-                <p className="text-muted-foreground">Select the industry that best describes your business</p>
+                <p className="text-muted-foreground">Pick what type of business you have so we can help better</p>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -1094,9 +1094,9 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Phone className="h-5 w-5" />
-                  What type of assistant do you need?
+                  How will customers use your assistant?
                 </CardTitle>
-                <p className="text-muted-foreground">Choose the type that best fits your use case.</p>
+                <p className="text-muted-foreground">Pick how customers will talk to your assistant</p>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -1113,10 +1113,10 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     )}
                     <div className="text-center space-y-3">
                       <PhoneIncoming className="w-12 h-12 mx-auto text-primary" strokeWidth={1.5} />
-                      <h3 className="text-lg font-semibold">
-                        Phone Assistant
-                      </h3>
-                      <p className="text-sm text-muted-foreground">Handles phone calls and voice interactions</p>
+                       <h3 className="text-lg font-semibold">
+                         Phone Calls
+                       </h3>
+                       <p className="text-sm text-muted-foreground">Customers call your business and talk to the assistant</p>
                     </div>
                   </div>
 
@@ -1133,10 +1133,10 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     )}
                     <div className="text-center space-y-3">
                       <Globe className="w-12 h-12 mx-auto text-primary" strokeWidth={1.5} />
-                      <h3 className="text-lg font-semibold">
-                        Website Assistant
-                      </h3>
-                      <p className="text-sm text-muted-foreground">Provides support through web chat interface</p>
+                       <h3 className="text-lg font-semibold">
+                         Website Chat
+                       </h3>
+                       <p className="text-sm text-muted-foreground">Customers chat with the assistant on your website</p>
                     </div>
                   </div>
 
@@ -1153,10 +1153,10 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     )}
                     <div className="text-center space-y-3">
                       <Mail className="w-12 h-12 mx-auto text-primary" strokeWidth={1.5} />
-                      <h3 className="text-lg font-semibold">
-                        Email Assistant
-                      </h3>
-                      <p className="text-sm text-muted-foreground">Manages email communications and responses</p>
+                       <h3 className="text-lg font-semibold">
+                         Email Helper
+                       </h3>
+                       <p className="text-sm text-muted-foreground">Automatically answers customer emails</p>
                     </div>
                   </div>
                 </div>
@@ -1168,15 +1168,15 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Volume2 className="h-5 w-5" />
-                  Voice & Language Settings
+                  How should your assistant sound?
                 </CardTitle>
-                <p className="text-muted-foreground">Choose how your assistant will sound</p>
+                <p className="text-muted-foreground">Pick a voice and language for your assistant</p>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="space-y-6">
                   <div>
-                    <Label htmlFor="language" className="text-base font-medium">Choose a language</Label>
-                    <p className="text-sm text-muted-foreground mt-1">Popular languages</p>
+                     <Label htmlFor="language" className="text-base font-medium">What language should it speak?</Label>
+                     <p className="text-sm text-muted-foreground mt-1">Most common languages</p>
                   </div>
 
                   {/* Quick picks - popular languages with improved visual design */}
@@ -1250,7 +1250,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 </div>
 
                 <div>
-                  <Label className="text-base font-medium">Select Voice</Label>
+                  <Label className="text-base font-medium">Pick a voice you like</Label>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
                     {Object.entries(voices).map(([id, voice]) => <div key={id} className={`p-4 border rounded-lg cursor-pointer transition-colors ${formData.voice_id === id ? 'border-[hsl(var(--brand-teal))] bg-[hsl(var(--brand-teal))/0.06]' : 'border-border hover:border-[hsl(var(--brand-teal))]'}`} onClick={() => setFormData({
                   ...formData,
@@ -1284,11 +1284,11 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <User className="h-5 w-5" />
-                  Choose the assistant's role
+                  What should your assistant help with?
                 </CardTitle>
-                <p className="text-muted-foreground">
-                  What specific role will your {formData.assistantType} assistant perform?
-                </p>
+                 <p className="text-muted-foreground">
+                   Choose the main job your assistant will do
+                 </p>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1314,9 +1314,9 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Settings className="h-5 w-5" />
-                  Choose what your assistant can do
+                  What special features do you want?
                 </CardTitle>
-                <p className="text-muted-foreground">Turn on the actions your assistant can do during calls.</p>
+                <p className="text-muted-foreground">Turn on extra features to make your assistant more helpful</p>
               </CardHeader>
               <CardContent className="space-y-8">
                 {/* Real-Time Booking */}
@@ -1325,8 +1325,8 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     <div className="flex items-start gap-3">
                       <Calendar className={`h-6 w-6 mt-1 ${formData.actions.realTimeBooking.enabled ? 'text-[hsl(var(--brand-teal))]' : 'text-foreground'}`} />
                       <div>
-                        <h3 className="font-semibold text-lg">Real-Time Booking</h3>
-                        <p className="text-sm text-[hsl(var(--brand-teal))]">Allow customers to book appointments directly through the call</p>
+                         <h3 className="font-semibold text-lg">Book Appointments</h3>
+                         <p className="text-sm text-[hsl(var(--brand-teal))]">Let customers schedule appointments while talking to your assistant</p>
                       </div>
                     </div>
                     <Switch 
@@ -1549,7 +1549,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
               <CardHeader className="text-center">
                 <CardTitle className="flex items-center justify-center gap-2 text-2xl">
                   <Brain className="h-6 w-6 text-[hsl(var(--brand-teal))]" />
-                  Teach Your Assistant How to Talk to Customers
+                  Set Up Your Assistant
                 </CardTitle>
                 
               </CardHeader>
@@ -1558,7 +1558,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 {/* Assistant Name */}
                 <Card className="p-6 border-2 border-[hsl(var(--brand-teal))]/20 bg-[hsl(var(--brand-teal))]/5">
                   <div className="text-center space-y-4">
-                    <h3 className="text-xl font-semibold text-[hsl(var(--brand-teal))]">First, what should we call your assistant?</h3>
+                    <h3 className="text-xl font-semibold text-[hsl(var(--brand-teal))]">What should we call your assistant?</h3>
                     <Input 
                       value={formData.name} 
                       onChange={e => {
@@ -1583,7 +1583,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 {/* Question 1: Main Focus */}
                 <Card className="p-6">
                   <div className="text-center space-y-6">
-                    <h3 className="text-xl font-semibold text-[hsl(var(--brand-teal))]">What should your assistant focus on during calls?</h3>
+                    <h3 className="text-xl font-semibold text-[hsl(var(--brand-teal))]">What's the main thing your assistant should do?</h3>
                     
                     <div className="flex flex-wrap gap-3 justify-center max-w-2xl mx-auto">
                       {[
@@ -1659,7 +1659,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                     {/* Sub-choices for conversation style */}
                     <div className="space-y-8 max-w-xl mx-auto mt-8">
                       <div className="text-center space-y-4">
-                        <p className="font-semibold text-lg">Response Length</p>
+                        <p className="font-semibold text-lg">How much should your assistant talk?</p>
                         <div className="flex gap-3 justify-center">
                           {[
                             { value: 'Short', desc: 'Brief' },
@@ -1684,7 +1684,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                       </div>
                       
                       <div className="text-center space-y-4">
-                        <p className="font-semibold text-lg">Language Style</p>
+                        <p className="font-semibold text-lg">How should your assistant talk?</p>
                         <div className="flex gap-3 justify-center">
                           {[
                             { value: 'Simple', desc: 'Easy language' },
@@ -1713,14 +1713,14 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                 {/* Question 4: What TO Say */}
                 <Card className="p-6">
                   <div className="text-center space-y-6">
-                    <h3 className="text-xl font-semibold text-[hsl(var(--brand-teal))]">What should your assistant always mention?</h3>
+                    <h3 className="text-xl font-semibold text-[hsl(var(--brand-teal))]">What important things should your assistant always tell customers?</h3>
                     
                     
                     {/* Input section */}
                     <div className="max-w-lg mx-auto">
                       <div className="flex gap-2">
                         <Input 
-                          placeholder="Type your own or pick from examples below" 
+                          placeholder="Type something important to always mention" 
                           value={doSayInput} 
                           onChange={e => setDoSayInput(e.target.value)} 
                           onKeyDown={e => { 
