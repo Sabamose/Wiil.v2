@@ -2184,7 +2184,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                       <img 
                         src="/lovable-uploads/ae1c9d54-e734-4e43-aae3-b9b7308fa277.png" 
                         alt="Website chat interface preview" 
-                        className="w-full h-full object-contain"
+                        className="w-full h-full object-cover scale-110"
                       />
                       {formData.appearanceType === 'text' && (
                         <div className="absolute top-3 right-3 h-7 w-7 rounded-full bg-white/90 border border-gray-200 flex items-center justify-center text-brand-teal">
@@ -2211,7 +2211,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                       <img 
                         src="/lovable-uploads/d4564cde-4b4a-4a29-9941-53b30f99d7c2.png" 
                         alt="Website voice call interface preview" 
-                        className="w-full h-full object-contain"
+                        className="w-full h-full object-cover scale-110"
                       />
                       {formData.appearanceType === 'voice' && (
                         <div className="absolute top-3 right-3 h-7 w-7 rounded-full bg-white/90 border border-gray-200 flex items-center justify-center text-brand-teal">
@@ -2238,7 +2238,7 @@ const RefinedAssistantCreationFlow: React.FC<RefinedAssistantCreationFlowProps> 
                       <img 
                         src="/lovable-uploads/5f9c2e29-6bf0-4ea2-9ee0-328ca62d5175.png" 
                         alt="Unified assistant interface preview" 
-                        className="w-full h-full object-contain"
+                        className="w-full h-full object-cover scale-110"
                       />
                       {formData.appearanceType === 'unified' && (
                         <div className="absolute top-3 right-3 h-7 w-7 rounded-full bg-white/90 border border-gray-200 flex items-center justify-center text-brand-teal">
