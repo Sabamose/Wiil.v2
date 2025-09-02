@@ -1724,6 +1724,9 @@ IMPORTANT GUIDELINES:
                 <Phone className="h-6 w-6 text-brand-teal" />
                 Phone Settings for "{formData.name || assistant?.name}"
               </h2>
+              <p className="text-gray-600">
+                Manage the phone number connection for your {formData.assistantType} assistant
+              </p>
             </div>
             
             <div className="space-y-6">
