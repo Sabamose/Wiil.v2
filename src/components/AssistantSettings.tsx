@@ -1734,7 +1734,6 @@ IMPORTANT GUIDELINES:
                 <Card className="max-w-2xl">
                   <CardHeader className="pb-4">
                     <CardTitle className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
                         <div className="w-8 h-8 bg-teal-100 rounded-full flex items-center justify-center">
                           <Phone className="w-4 h-4 text-teal-600" />
                         </div>
@@ -1744,7 +1743,6 @@ IMPORTANT GUIDELINES:
                             This phone number is assigned to <span className="font-medium text-teal-600">"{formData.name || assistant?.name}"</span>
                           </div>
                         </div>
-                      </div>
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-6">
