@@ -1732,19 +1732,6 @@ IMPORTANT GUIDELINES:
             <div className="space-y-6">
               {formData.hasPhoneNumber ? (
                 <Card className="max-w-2xl">
-                  <CardHeader className="pb-4">
-                    <CardTitle className="flex items-center justify-between">
-                        <div className="w-8 h-8 bg-teal-100 rounded-full flex items-center justify-center">
-                          <Phone className="w-4 h-4 text-teal-600" />
-                        </div>
-                        <div>
-                          <div className="text-lg font-semibold">Connected Phone Number</div>
-                          <div className="text-sm text-gray-600 font-normal">
-                            This phone number is assigned to <span className="font-medium text-teal-600">"{formData.name || assistant?.name}"</span>
-                          </div>
-                        </div>
-                    </CardTitle>
-                  </CardHeader>
                   <CardContent className="space-y-6">
                     {/* Phone Number Display */}
                     <div className="flex items-center justify-between p-4 bg-teal-50 border border-teal-200 rounded-lg">
