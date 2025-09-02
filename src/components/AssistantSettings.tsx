@@ -1737,13 +1737,10 @@ IMPORTANT GUIDELINES:
                           <Phone className="w-5 h-5 text-teal-600" />
                         </div>
                         <div>
-                          <p className="font-semibold text-teal-800">{formData.phoneNumber}</p>
-                          <p className="text-sm text-teal-600">
-                            {isAssistantConnectedToPhone 
-                              ? `Connected to "${formData.name || assistant?.name}" • Ready to receive calls`
-                              : "Available • Not connected to any assistant"
-                            }
+                          <p className="font-semibold text-teal-800">
+                            {formData.phoneNumber} phone number connected to {formData.assistantType || 'Healthcare'} assistant
                           </p>
+                          <p className="text-sm text-teal-600">Ready to receive calls</p>
                         </div>
                       </div>
                       <div className={`w-3 h-3 rounded-full ${
