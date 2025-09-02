@@ -1722,20 +1722,29 @@ IMPORTANT GUIDELINES:
             <div className="mb-8">
               <h2 className="text-2xl font-semibold text-brand-teal mb-2 flex items-center gap-2">
                 <Phone className="h-6 w-6 text-brand-teal" />
-                Phone Number Connection
+                Phone Settings for "{formData.name || assistant?.name}"
               </h2>
-              
+              <p className="text-gray-600">
+                Manage the phone number connection for your {formData.assistantType} assistant
+              </p>
             </div>
             
             <div className="space-y-6">
               {formData.hasPhoneNumber ? (
                 <Card className="max-w-2xl">
                   <CardHeader className="pb-4">
-                    <CardTitle className="flex items-center gap-2 text-lg">
-                      <div className="w-8 h-8 bg-teal-100 rounded-full flex items-center justify-center">
-                        <Phone className="w-4 h-4 text-teal-600" />
+                    <CardTitle className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 bg-teal-100 rounded-full flex items-center justify-center">
+                          <Phone className="w-4 h-4 text-teal-600" />
+                        </div>
+                        <div>
+                          <div className="text-lg font-semibold">Connected Phone Number</div>
+                          <div className="text-sm text-gray-600 font-normal">
+                            This phone number is assigned to <span className="font-medium text-teal-600">"{formData.name || assistant?.name}"</span>
+                          </div>
+                        </div>
                       </div>
-                      Connected Phone Number
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-6">
@@ -1749,8 +1758,8 @@ IMPORTANT GUIDELINES:
                           <p className="font-semibold text-teal-800">{formData.phoneNumber}</p>
                           <p className="text-sm text-teal-600">
                             {isAssistantConnectedToPhone 
-                              ? "Connected • Ready to receive calls"
-                              : "Available • Not connected to assistant"
+                              ? `Connected to "${formData.name || assistant?.name}" • Ready to receive calls`
+                              : "Available • Not connected to any assistant"
                             }
                           </p>
                         </div>
@@ -1852,7 +1861,12 @@ IMPORTANT GUIDELINES:
                       <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
                         <Phone className="w-4 h-4 text-gray-600" />
                       </div>
-                      No Phone Number Connected
+                      <div>
+                        <div>No Phone Number Connected</div>
+                        <div className="text-sm text-gray-600 font-normal">
+                          <span className="font-medium text-gray-800">"{formData.name || assistant?.name}"</span> needs a phone number to receive calls
+                        </div>
+                      </div>
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-6">
