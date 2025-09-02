@@ -1733,6 +1733,30 @@ IMPORTANT GUIDELINES:
               {formData.hasPhoneNumber ? (
                 <Card className="max-w-2xl">
                   <CardContent className="space-y-6">
+                    {/* Phone Number Display */}
+                    <div className="flex items-center justify-between p-4 bg-teal-50 border border-teal-200 rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center">
+                          <Phone className="w-5 h-5 text-teal-600" />
+                        </div>
+                        <div>
+                          <p className="font-semibold text-teal-800">{formData.phoneNumber}</p>
+                          <p className="text-sm text-teal-600">
+                            {isAssistantConnectedToPhone 
+                              ? `Connected to "${formData.name || assistant?.name}" • Ready to receive calls`
+                              : "Available • Not connected to any assistant"
+                            }
+                          </p>
+                        </div>
+                      </div>
+                      <div className={`w-3 h-3 rounded-full ${
+                        isAssistantConnectedToPhone 
+                          ? "bg-teal-500 animate-pulse" 
+                          : "bg-gray-400"
+                      }`}></div>
+                    </div>
+
+
                     {/* Management Actions */}
                     <div className="border-t pt-6">
                       <p className="text-sm font-medium text-gray-900 mb-4">Phone Number Management</p>
