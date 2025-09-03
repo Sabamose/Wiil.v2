@@ -1738,7 +1738,7 @@ IMPORTANT GUIDELINES:
                         </div>
                         <div>
                           <p className="font-semibold text-teal-800">
-                            {formData.phoneNumber} phone number connected to {formData.assistantType || 'Healthcare'} assistant
+                            + 1 (555) 123-4567 phone number connected to Healthcare Assistant
                           </p>
                           <p className="text-sm text-teal-600">Ready to receive calls</p>
                         </div>
