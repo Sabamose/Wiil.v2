@@ -45,10 +45,10 @@ const Bookings = () => {
   // Check if this is first visit and should show setup
   React.useEffect(() => {
     const hasSeenSetup = localStorage.getItem('providerConfiguration');
-    if (!hasSeenSetup && providers.length > 0) {
+    if (!hasSeenSetup) {
       setShowProviderSetup(true);
     }
-  }, [providers]);
+  }, []); // Run only on mount (page load/refresh)
 
   const handleBookingSelect = (booking: Booking) => {
     setSelectedBooking(booking);
