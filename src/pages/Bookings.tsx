@@ -89,15 +89,15 @@ const Bookings = () => {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex min-h-screen">
       <AdaptiveNavigation />
       
       {/* Main Content */}
-      <main className={`flex-1 flex flex-col bg-gray-50 overflow-hidden transition-all duration-200 ease-in-out ${
+      <main className={`flex-1 flex flex-col bg-gray-50 transition-all duration-200 ease-in-out ${
         isMobile ? 'ml-0' : (isHome ? 'ml-60' : (isCollapsed ? 'ml-20' : 'ml-60'))
       }`}>
         {/* Header */}
-        <header className="flex-shrink-0 bg-white border-b border-gray-200 p-4 flex items-center justify-between">
+        <header className="sticky top-0 z-10 bg-white border-b border-gray-200 p-4 flex items-center justify-between shadow-sm">
           <div>
             <h1 className="text-xl font-semibold text-gray-800">Appointments Made By AI Assistants</h1>
             <p className="text-sm text-gray-500">Monitor appointments scheduled by your phone and website assistants.</p>
@@ -125,7 +125,7 @@ const Bookings = () => {
         </header>
 
         {/* Dashboard Content */}
-        <div className="flex-1 p-6 overflow-y-auto">
+        <div className="flex-1 p-6 overflow-y-auto max-h-screen">
           {/* Metrics */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <div className="bg-white p-4 rounded-lg border border-gray-200">
