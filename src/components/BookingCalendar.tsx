@@ -267,9 +267,13 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
             popup={false}
             min={new Date(2024, 0, 1, 8, 0, 0)} // Start at 8 AM
             max={new Date(2024, 0, 1, 22, 0, 0)} // End at 10 PM
-            step={30} // 30-minute intervals
-            timeslots={2} // Show 30-minute slots
+            step={60} // 60-minute intervals for cleaner display
+            timeslots={1} // Show 1-hour slots
             showMultiDayTimes={true}
+            formats={{
+              timeGutterFormat: (date, culture, localizer) => localizer?.format(date, 'h A', culture) || '',
+              agendaTimeFormat: (date, culture, localizer) => localizer?.format(date, 'h:mm A', culture) || '',
+            }}
           />
         </div>
       </Card>
@@ -395,25 +399,38 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
           border-bottom: 1px solid hsl(var(--border)) !important;
         }
         
-        /* Time labels on Y axis */
+        /* Time labels on Y axis - Make them visible */
         .rbc-calendar-clean .rbc-time-slot {
           color: hsl(var(--muted-foreground)) !important;
           font-size: 12px !important;
+          font-weight: 500 !important;
         }
         
         .rbc-calendar-clean .rbc-label {
-          color: hsl(var(--muted-foreground)) !important;
-          font-size: 12px !important;
+          color: hsl(var(--foreground)) !important;
+          font-size: 13px !important;
+          font-weight: 600 !important;
           padding: 4px 8px !important;
+          text-align: right !important;
+          border-bottom: 1px solid hsl(var(--border)) !important;
+          background: hsl(var(--background)) !important;
         }
         
         .rbc-calendar-clean .rbc-time-gutter {
           background: hsl(var(--background)) !important;
           border-right: 1px solid hsl(var(--border)) !important;
+          width: 70px !important;
+          flex-shrink: 0 !important;
         }
         
         .rbc-calendar-clean .rbc-time-gutter .rbc-timeslot-group {
           border-bottom: 1px solid hsl(var(--border)) !important;
+          min-height: 40px !important;
+        }
+
+        .rbc-calendar-clean .rbc-time-gutter .rbc-label {
+          display: block !important;
+          visibility: visible !important;
         }
         
         /* Agenda view */
