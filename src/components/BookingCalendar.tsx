@@ -127,59 +127,31 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
                     <div
                       key={booking.id}
                       onClick={() => onBookingSelect(booking)}
-                      className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md hover:border-gray-300 transition-all cursor-pointer"
+                      className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-sm hover:border-gray-300 transition-all cursor-pointer"
                     >
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <div className="flex items-center space-x-3 mb-2">
-                            <h3 className="font-semibold text-gray-900">{booking.title}</h3>
-                            <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                              statusColor === 'amber' ? 'bg-amber-100 text-amber-800' :
-                              statusColor === 'green' ? 'bg-green-100 text-green-800' :
-                              statusColor === 'blue' ? 'bg-blue-100 text-blue-800' :
-                              'bg-gray-100 text-gray-800'
-                            }`}>
-                              {booking.status === 'pending' ? 'Needs Confirmation' :
-                               booking.status === 'confirmed' ? 'Confirmed' :
-                               booking.status === 'completed' ? 'Completed' : 'Cancelled'}
-                            </span>
-                          </div>
-                          
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                            <div className="flex items-center space-x-2">
-                              <span className="text-gray-400">👤</span>
-                              <div>
-                                <div className="font-medium text-gray-900">{booking.customer_name}</div>
-                                <div className="text-gray-500">{booking.customer_email}</div>
-                              </div>
-                            </div>
-                            
-                            <div className="flex items-center space-x-2">
-                              <span className="text-gray-400">🕐</span>
-                              <div className="font-medium text-gray-900">
-                                {new Date(booking.start_time).toLocaleTimeString([], {
-                                  hour: '2-digit',
-                                  minute: '2-digit'
-                                })}
-                              </div>
-                            </div>
-                            
-                            <div className="flex items-center space-x-2">
-                              <span className="text-gray-400">
-                                {booking.source === 'website' ? '💻' : '📞'}
-                              </span>
-                              <div className="text-gray-600">
-                                {booking.source === 'website' ? 'Website Assistant' : 'Phone Assistant'}
-                              </div>
-                            </div>
-                          </div>
+                      <div className="flex items-center justify-between mb-3">
+                        <h3 className="font-medium text-gray-900">{booking.title}</h3>
+                        <span className={`px-2 py-0.5 text-xs font-medium rounded ${
+                          statusColor === 'amber' ? 'bg-amber-100 text-amber-700' :
+                          statusColor === 'green' ? 'bg-green-100 text-green-700' :
+                          statusColor === 'blue' ? 'bg-blue-100 text-blue-700' :
+                          'bg-gray-100 text-gray-700'
+                        }`}>
+                          {booking.status}
+                        </span>
+                      </div>
+                      
+                      <div className="flex items-center justify-between text-sm text-gray-600">
+                        <div className="flex items-center space-x-4">
+                          <span className="font-medium">{booking.customer_name}</span>
+                          <span>
+                            {new Date(booking.start_time).toLocaleTimeString([], {
+                              hour: '2-digit',
+                              minute: '2-digit'
+                            })}
+                          </span>
                         </div>
-                        
-                        <div className="ml-4">
-                          <Button variant="ghost" size="sm" className="text-sky-600 hover:text-sky-700">
-                            View Details →
-                          </Button>
-                        </div>
+                        <span className="text-xs text-gray-500 capitalize">{booking.source}</span>
                       </div>
                     </div>
                   );
