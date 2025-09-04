@@ -280,6 +280,8 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
       weekDays.push({ date, bookings: dayBookings });
     }
 
+    const hours = Array.from({ length: 16 }, (_, i) => i + 6); // 6 AM to 10 PM
+
     return (
       <div>
         <div className="flex items-center justify-between mb-4">
@@ -319,10 +321,24 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
           </div>
         </div>
         
-        <div className="grid grid-cols-7 gap-px bg-gray-200 rounded-lg overflow-hidden">
+        <div className="grid grid-cols-[60px_repeat(7,1fr)] bg-gray-200 rounded-lg overflow-hidden">
+          {/* Time axis */}
+          <div className="bg-gray-50">
+            <div className="h-16 border-b border-gray-200"></div>
+            {hours.map(hour => (
+              <div key={hour} className="h-20 border-b border-gray-200 flex items-start justify-end pr-2 pt-1">
+                <span className="text-xs text-gray-500">
+                  {hour === 0 ? '12 AM' : hour <= 12 ? `${hour} AM` : `${hour - 12} PM`}
+                </span>
+              </div>
+            ))}
+          </div>
+          
+          {/* Week days */}
           {weekDays.map((day, index) => (
-            <div key={index} className="bg-white">
-              <div className="p-2 border-b border-gray-200 text-center">
+            <div key={index} className="bg-white border-r border-gray-200 last:border-r-0">
+              {/* Day header */}
+              <div className="h-16 p-2 border-b border-gray-200 text-center">
                 <div className="text-xs font-semibold text-gray-500">
                   {day.date.toLocaleDateString('en-US', { weekday: 'short' })}
                 </div>
@@ -330,22 +346,34 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
                   {day.date.getDate()}
                 </div>
               </div>
-              <div className="p-2 min-h-[300px] space-y-1">
-                {day.bookings.map(booking => (
-                  <div
-                    key={booking.id}
-                    onClick={() => onBookingSelect(booking)}
-                    className={`text-xs p-2 rounded cursor-pointer ${
-                      booking.status === 'pending' ? 'bg-amber-100 text-amber-800' : 'bg-teal-100 text-teal-800'
-                    }`}
-                  >
-                    <div className="font-medium truncate">{booking.title}</div>
-                    <div className="text-xs opacity-75">{booking.customer_name}</div>
-                    <div className="text-xs opacity-75">
-                      {new Date(booking.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                    </div>
-                  </div>
+              
+              {/* Time grid */}
+              <div className="relative">
+                {hours.map(hour => (
+                  <div key={hour} className="h-20 border-b border-gray-200"></div>
                 ))}
+                
+                {/* Positioned bookings */}
+                {day.bookings.map(booking => {
+                  const startTime = new Date(booking.start_time);
+                  const hour = startTime.getHours();
+                  const minute = startTime.getMinutes();
+                  const top = ((hour - 6) * 80) + (minute * 80 / 60);
+                  
+                  return (
+                    <div
+                      key={booking.id}
+                      onClick={() => onBookingSelect(booking)}
+                      className={`absolute left-1 right-1 p-1 rounded cursor-pointer text-xs ${
+                        booking.status === 'pending' ? 'bg-amber-100 text-amber-800 border-amber-300' : 'bg-teal-100 text-teal-800 border-teal-300'
+                      } border-l-2`}
+                      style={{ top: `${top}px`, minHeight: '40px' }}
+                    >
+                      <div className="font-medium truncate">{booking.title}</div>
+                      <div className="opacity-75 truncate">{booking.customer_name}</div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           ))}
