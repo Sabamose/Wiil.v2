@@ -52,94 +52,142 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
 
   const renderListView = () => {
     const sortedBookings = [...filteredBookings].sort((a, b) => 
-      new Date(b.start_time).getTime() - new Date(a.start_time).getTime()
+      new Date(a.start_time).getTime() - new Date(b.start_time).getTime()
     );
 
+    // Group bookings by date
+    const groupedBookings = sortedBookings.reduce((groups, booking) => {
+      const dateKey = new Date(booking.start_time).toDateString();
+      if (!groups[dateKey]) {
+        groups[dateKey] = [];
+      }
+      groups[dateKey].push(booking);
+      return groups;
+    }, {} as Record<string, typeof sortedBookings>);
+
+    const sortedDateKeys = Object.keys(groupedBookings).sort((a, b) => 
+      new Date(a).getTime() - new Date(b).getTime()
+    );
+
+    if (sortedDateKeys.length === 0) {
+      return (
+        <div className="text-center py-12">
+          <div className="text-gray-500 text-lg">No appointments found</div>
+          <div className="text-gray-400 text-sm mt-2">Try adjusting your filters or search terms</div>
+        </div>
+      );
+    }
+
     return (
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Date & Time
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Customer
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Service
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Source
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Status
-              </th>
-              <th className="relative px-6 py-3">
-                <span className="sr-only">Details</span>
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {sortedBookings.map((booking) => {
-              const statusHTML = booking.status === 'pending' ? (
-                <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-100 text-amber-800">
-                  Needs Confirmation
-                </span>
-              ) : (
-                <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                  Confirmed
-                </span>
-              );
+      <div className="space-y-6">
+        {sortedDateKeys.map((dateKey) => {
+          const date = new Date(dateKey);
+          const bookingsForDate = groupedBookings[dateKey];
+          const isToday = dateKey === new Date().toDateString();
+          const isPast = date < new Date() && !isToday;
+          
+          return (
+            <div key={dateKey} className="space-y-3">
+              {/* Date Header */}
+              <div className={`flex items-center justify-between py-3 px-4 rounded-lg border-l-4 ${
+                isToday ? 'bg-sky-50 border-sky-400' : isPast ? 'bg-gray-50 border-gray-300' : 'bg-teal-50 border-teal-400'
+              }`}>
+                <div className="flex items-center space-x-3">
+                  <div className={`text-lg font-semibold ${
+                    isToday ? 'text-sky-700' : isPast ? 'text-gray-600' : 'text-teal-700'
+                  }`}>
+                    {isToday ? 'Today' : date.toLocaleDateString('en-US', { 
+                      weekday: 'long', 
+                      month: 'long', 
+                      day: 'numeric',
+                      year: date.getFullYear() !== new Date().getFullYear() ? 'numeric' : undefined
+                    })}
+                  </div>
+                  {isToday && (
+                    <span className="px-2 py-1 bg-sky-100 text-sky-700 text-xs font-medium rounded-full">
+                      Today
+                    </span>
+                  )}
+                </div>
+                <div className={`text-sm font-medium ${
+                  isToday ? 'text-sky-600' : isPast ? 'text-gray-500' : 'text-teal-600'
+                }`}>
+                  {bookingsForDate.length} appointment{bookingsForDate.length !== 1 ? 's' : ''}
+                </div>
+              </div>
 
-              const sourceHTML = booking.source === 'website' ? (
-                <span>💬 Website</span>
-              ) : (
-                <span>📞 Phone/SMS</span>
-              );
-
-              return (
-                <tr
-                  key={booking.id}
-                  className="hover:bg-gray-50 cursor-pointer"
-                  onClick={() => onBookingSelect(booking)}
-                >
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">
-                      {new Date(booking.start_time).toLocaleDateString()}
+              {/* Appointments for this date */}
+              <div className="space-y-2">
+                {bookingsForDate.map((booking) => {
+                  const statusColor = booking.status === 'pending' ? 'amber' : 
+                                    booking.status === 'confirmed' ? 'green' : 
+                                    booking.status === 'completed' ? 'blue' : 'gray';
+                  
+                  return (
+                    <div
+                      key={booking.id}
+                      onClick={() => onBookingSelect(booking)}
+                      className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md hover:border-gray-300 transition-all cursor-pointer"
+                    >
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <div className="flex items-center space-x-3 mb-2">
+                            <h3 className="font-semibold text-gray-900">{booking.title}</h3>
+                            <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                              statusColor === 'amber' ? 'bg-amber-100 text-amber-800' :
+                              statusColor === 'green' ? 'bg-green-100 text-green-800' :
+                              statusColor === 'blue' ? 'bg-blue-100 text-blue-800' :
+                              'bg-gray-100 text-gray-800'
+                            }`}>
+                              {booking.status === 'pending' ? 'Needs Confirmation' :
+                               booking.status === 'confirmed' ? 'Confirmed' :
+                               booking.status === 'completed' ? 'Completed' : 'Cancelled'}
+                            </span>
+                          </div>
+                          
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                            <div className="flex items-center space-x-2">
+                              <span className="text-gray-400">👤</span>
+                              <div>
+                                <div className="font-medium text-gray-900">{booking.customer_name}</div>
+                                <div className="text-gray-500">{booking.customer_email}</div>
+                              </div>
+                            </div>
+                            
+                            <div className="flex items-center space-x-2">
+                              <span className="text-gray-400">🕐</span>
+                              <div className="font-medium text-gray-900">
+                                {new Date(booking.start_time).toLocaleTimeString([], {
+                                  hour: '2-digit',
+                                  minute: '2-digit'
+                                })}
+                              </div>
+                            </div>
+                            
+                            <div className="flex items-center space-x-2">
+                              <span className="text-gray-400">
+                                {booking.source === 'website' ? '💻' : '📞'}
+                              </span>
+                              <div className="text-gray-600">
+                                {booking.source === 'website' ? 'Website Assistant' : 'Phone Assistant'}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div className="ml-4">
+                          <Button variant="ghost" size="sm" className="text-sky-600 hover:text-sky-700">
+                            View Details →
+                          </Button>
+                        </div>
+                      </div>
                     </div>
-                    <div className="text-sm text-gray-500">
-                      {new Date(booking.start_time).toLocaleTimeString([], {
-                        hour: '2-digit',
-                        minute: '2-digit'
-                      })}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">
-                      {booking.customer_name}
-                    </div>
-                    <div className="text-sm text-gray-500">
-                      {booking.customer_email}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                     {booking.title}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {sourceHTML}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {statusHTML}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <span className="text-sky-600 hover:text-sky-900">View</span>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
       </div>
     );
   };
