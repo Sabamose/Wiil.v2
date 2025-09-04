@@ -5,24 +5,51 @@ import { Calendar, Users, Plus, Phone, Database, Trash2 } from 'lucide-react';
 import AdaptiveNavigation from '@/components/AdaptiveNavigation';
 import { BookingCalendar } from '@/components/BookingCalendar';
 import { BookingDetailsModal } from '@/components/BookingDetailsModal';
+import ProviderSetupModal from '@/components/ProviderSetupModal';
 import { useBookings } from '@/hooks/useBookings';
+import { useProviders } from '@/hooks/useProviders';
 import { useAssistants } from '@/hooks/useAssistants';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useNavigationState } from '@/hooks/useNavigationState';
 import { useToast } from '@/hooks/use-toast';
 import { Booking } from '@/types/booking';
+import { ProviderConfiguration } from '@/types/provider';
 import { generateSimulatedBookings, clearSimulatedBookings } from '@/lib/bookingSimulation';
 
 const Bookings = () => {
   const { bookings, isLoading, updateBooking } = useBookings();
+  const { providers } = useProviders();
   const { assistants } = useAssistants();
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [isClearing, setIsClearing] = useState(false);
+  const [showProviderSetup, setShowProviderSetup] = useState(false);
   const isMobile = useIsMobile();
   const { isCollapsed, isHome } = useNavigationState();
   const { toast } = useToast();
+  const handleProviderSetup = (config: ProviderConfiguration) => {
+    // Store configuration (in real app, would save to backend)
+    localStorage.setItem('providerConfiguration', JSON.stringify(config));
+    
+    toast({
+      title: "Setup complete",
+      description: "Your booking system has been configured successfully.",
+    });
+  };
+
+  const handleAddProvider = () => {
+    setShowProviderSetup(true);
+  };
+
+  // Check if this is first visit and should show setup
+  React.useEffect(() => {
+    const hasSeenSetup = localStorage.getItem('providerConfiguration');
+    if (!hasSeenSetup && providers.length > 0) {
+      setShowProviderSetup(true);
+    }
+  }, [providers]);
+
   const handleBookingSelect = (booking: Booking) => {
     setSelectedBooking(booking);
     setIsModalOpen(true);
@@ -164,11 +191,20 @@ const Bookings = () => {
             <BookingCalendar
               bookings={bookings}
               assistants={assistants.map(a => ({ id: a.id, name: a.name }))}
+              providers={providers.map(p => ({ id: p.id, name: p.name }))}
               onBookingSelect={handleBookingSelect}
+              onAddProvider={handleAddProvider}
             />
           )}
         </div>
       </main>
+
+      {/* Provider Setup Modal */}
+      <ProviderSetupModal
+        isOpen={showProviderSetup}
+        onClose={() => setShowProviderSetup(false)}
+        onComplete={handleProviderSetup}
+      />
 
       {/* Booking Details Modal */}
       <BookingDetailsModal

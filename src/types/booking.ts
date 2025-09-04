@@ -13,6 +13,7 @@ export interface Booking {
   timezone: string;
   notes?: string;
   user_id: string;
+  provider_id?: string;
   created_at: string;
   updated_at: string;
 }

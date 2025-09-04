@@ -82,23 +82,24 @@ export const useBookings = () => {
           const startTime = generateRandomDateTime(daysOffset);
           const endTime = new Date(startTime.getTime() + appointmentType.duration * 60000);
 
-          demoBookings.push({
-            id: `demo-booking-${i + 1}`,
-            user_id: 'demo-user',
-            assistant_id: `demo-${Math.floor(Math.random() * 3) + 1}`,
-            title: appointmentType.title,
-            customer_name: customer.name,
-            customer_email: customer.email,
-            customer_phone: customer.phone,
-            start_time: startTime.toISOString(),
-            end_time: endTime.toISOString(),
-            status: getRandomStatus(),
-            source: sources[Math.floor(Math.random() * sources.length)],
-            notes: appointmentType.notes,
-            timezone: 'UTC',
-            created_at: now.toISOString(),
-            updated_at: now.toISOString(),
-          });
+            demoBookings.push({
+              id: `demo-booking-${i + 1}`,
+              user_id: 'demo-user',
+              assistant_id: `demo-${Math.floor(Math.random() * 3) + 1}`,
+              provider_id: i % 4 === 0 ? null : `demo-provider-${Math.floor(Math.random() * 3) + 1}`, // Some unassigned
+              title: appointmentType.title,
+              customer_name: customer.name,
+              customer_email: customer.email,
+              customer_phone: customer.phone,
+              start_time: startTime.toISOString(),
+              end_time: endTime.toISOString(),
+              status: getRandomStatus(),
+              source: sources[Math.floor(Math.random() * sources.length)],
+              notes: appointmentType.notes,
+              timezone: 'UTC',
+              created_at: now.toISOString(),
+              updated_at: now.toISOString(),
+            });
         }
         
         // Add extra bookings for current week to ensure good coverage
@@ -117,6 +118,7 @@ export const useBookings = () => {
               id: `demo-current-week-${dayOffset}-${j}`,
               user_id: 'demo-user',
               assistant_id: `demo-${Math.floor(Math.random() * 3) + 1}`,
+              provider_id: Math.random() > 0.3 ? `demo-provider-${Math.floor(Math.random() * 3) + 1}` : null,
               title: appointmentType.title,
               customer_name: customer.name,
               customer_email: customer.email,

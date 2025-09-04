@@ -1,22 +1,28 @@
 import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Booking } from '@/types/booking';
-import { Search, Phone, Globe } from 'lucide-react';
+import { Search, Phone, Globe, Users, Plus } from 'lucide-react';
 
 interface BookingCalendarProps {
   bookings: Booking[];
   assistants: { id: string; name: string }[];
+  providers: Array<{ id: string; name: string }>;
   onBookingSelect: (booking: Booking) => void;
+  onAddProvider?: () => void;
 }
 
 export const BookingCalendar: React.FC<BookingCalendarProps> = ({
   bookings,
+  providers,
   onBookingSelect,
+  onAddProvider,
 }) => {
   const [currentView, setCurrentView] = useState<'month' | 'week' | 'day' | 'list'>('list');
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedProvider, setSelectedProvider] = useState<string>('all');
 
   const filteredBookings = useMemo(() => {
     let filtered = bookings;
@@ -39,8 +45,17 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
       );
     }
 
+    // Apply provider filter
+    if (selectedProvider !== 'all') {
+      if (selectedProvider === 'unassigned') {
+        filtered = filtered.filter(booking => !booking.provider_id);
+      } else {
+        filtered = filtered.filter(booking => booking.provider_id === selectedProvider);
+      }
+    }
+
     return filtered;
-  }, [bookings, activeFilters, searchQuery]);
+  }, [bookings, activeFilters, searchQuery, selectedProvider]);
 
   const toggleFilter = (filter: string) => {
     setActiveFilters(prev =>
@@ -155,13 +170,21 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
                             })}
                           </span>
                         </div>
-                        <div className="flex items-center space-x-1">
-                          {(() => {
-                            const SourceIcon = getSourceIcon(booking.source);
-                            return <SourceIcon className="w-3 h-3 text-gray-500" />;
-                          })()}
-                          <span className="text-xs text-gray-500 capitalize">{booking.source}</span>
-                        </div>
+                         <div className="flex items-center space-x-1">
+                           {(() => {
+                             const SourceIcon = getSourceIcon(booking.source);
+                             return <SourceIcon className="w-3 h-3 text-gray-500" />;
+                           })()}
+                           <span className="text-xs text-gray-500 capitalize">{booking.source}</span>
+                           {booking.provider_id && (
+                             <>
+                               <span className="text-xs text-gray-400">•</span>
+                               <span className="text-xs text-brand-teal font-medium">
+                                 {providers.find(p => p.id === booking.provider_id)?.name || 'Unknown Provider'}
+                               </span>
+                             </>
+                           )}
+                         </div>
                       </div>
                     </div>
                   );
@@ -517,6 +540,37 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-4">
       <div className="flex flex-wrap items-center justify-between mb-4 gap-4">
+        {/* Provider Selection */}
+        <div className="flex items-center space-x-3">
+          <Select value={selectedProvider} onValueChange={setSelectedProvider}>
+            <SelectTrigger className="w-[200px]">
+              <Users className="w-4 h-4 mr-2" />
+              <SelectValue placeholder="Select provider" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Providers</SelectItem>
+              <SelectItem value="unassigned">Unassigned</SelectItem>
+              {providers.map((provider) => (
+                <SelectItem key={provider.id} value={provider.id}>
+                  {provider.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          
+          {onAddProvider && (
+            <Button
+              onClick={onAddProvider}
+              variant="outline"
+              size="sm"
+              className="border-brand-teal text-brand-teal hover:bg-brand-teal hover:text-white"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Add Provider
+            </Button>
+          )}
+        </div>
+
         {/* Filters */}
         <div className="flex items-center space-x-2 flex-wrap gap-2">
           <Button

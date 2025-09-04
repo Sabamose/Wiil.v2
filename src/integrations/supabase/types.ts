@@ -7,7 +7,7 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "12.2.12 (cd3cf9e)"
@@ -154,7 +154,10 @@ export type Database = {
       bookings: {
         Row: {
           assistant_id: string
+          booking_context: Json | null
           cal_event_id: string | null
+          campaign_id: string | null
+          conversation_id: string | null
           created_at: string
           customer_email: string | null
           customer_name: string | null
@@ -162,6 +165,7 @@ export type Database = {
           end_time: string
           id: string
           notes: string | null
+          provider_id: string | null
           source: string | null
           start_time: string
           status: string
@@ -172,7 +176,10 @@ export type Database = {
         }
         Insert: {
           assistant_id: string
+          booking_context?: Json | null
           cal_event_id?: string | null
+          campaign_id?: string | null
+          conversation_id?: string | null
           created_at?: string
           customer_email?: string | null
           customer_name?: string | null
@@ -180,6 +187,7 @@ export type Database = {
           end_time: string
           id?: string
           notes?: string | null
+          provider_id?: string | null
           source?: string | null
           start_time: string
           status?: string
@@ -190,7 +198,10 @@ export type Database = {
         }
         Update: {
           assistant_id?: string
+          booking_context?: Json | null
           cal_event_id?: string | null
+          campaign_id?: string | null
+          conversation_id?: string | null
           created_at?: string
           customer_email?: string | null
           customer_name?: string | null
@@ -198,6 +209,7 @@ export type Database = {
           end_time?: string
           id?: string
           notes?: string | null
+          provider_id?: string | null
           source?: string | null
           start_time?: string
           status?: string
@@ -212,6 +224,13 @@ export type Database = {
             columns: ["assistant_id"]
             isOneToOne: false
             referencedRelation: "assistants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "service_providers"
             referencedColumns: ["id"]
           },
         ]
@@ -449,6 +468,48 @@ export type Database = {
         }
         Relationships: []
       }
+      service_providers: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          email: string | null
+          id: string
+          is_active: boolean
+          name: string
+          phone: string | null
+          specialization: string | null
+          updated_at: string
+          user_id: string
+          working_hours: Json | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          phone?: string | null
+          specialization?: string | null
+          updated_at?: string
+          user_id: string
+          working_hours?: Json | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          phone?: string | null
+          specialization?: string | null
+          updated_at?: string
+          user_id?: string
+          working_hours?: Json | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -517,17 +578,17 @@ export type Database = {
       search_knowledge_chunks: {
         Args: {
           assistant_id: string
-          query_embedding: string
-          match_threshold?: number
           match_count?: number
+          match_threshold?: number
+          query_embedding: string
         }
         Returns: {
-          id: string
-          content: string
           chunk_index: number
-          similarity: number
+          content: string
+          id: string
           knowledge_source_name: string
           knowledge_source_type: string
+          similarity: number
         }[]
       }
       sparsevec_out: {
