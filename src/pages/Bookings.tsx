@@ -79,6 +79,21 @@ const Bookings = () => {
     }
   }, []); // Run only on mount (page load/refresh)
 
+  // Get setup configuration
+  const getSetupConfig = () => {
+    const stored = localStorage.getItem('providerConfiguration');
+    if (stored) {
+      try {
+        return JSON.parse(stored) as ProviderConfiguration;
+      } catch (e) {
+        return null;
+      }
+    }
+    return null;
+  };
+
+  const setupConfig = getSetupConfig();
+
   const handleBookingSelect = (booking: Booking) => {
     setSelectedBooking(booking);
     setIsModalOpen(true);
@@ -223,6 +238,7 @@ const Bookings = () => {
               providers={providers.map(p => ({ id: p.id, name: p.name }))}
               onBookingSelect={handleBookingSelect}
               onAddProvider={handleAddProvider}
+              setupType={setupConfig?.setupType || 'individuals'}
             />
           )}
         </div>

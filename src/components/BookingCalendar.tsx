@@ -11,6 +11,7 @@ interface BookingCalendarProps {
   providers: Array<{ id: string; name: string }>;
   onBookingSelect: (booking: Booking) => void;
   onAddProvider?: () => void;
+  setupType?: 'business' | 'individuals';
 }
 
 export const BookingCalendar: React.FC<BookingCalendarProps> = ({
@@ -18,6 +19,7 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
   providers,
   onBookingSelect,
   onAddProvider,
+  setupType = 'individuals', // Default to individuals for backward compatibility
 }) => {
   const [currentView, setCurrentView] = useState<'month' | 'week' | 'day' | 'list'>('list');
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
@@ -45,8 +47,8 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
       );
     }
 
-    // Apply provider filter
-    if (selectedProvider !== 'all') {
+    // Apply provider filter only if setupType is 'individuals'
+    if (setupType === 'individuals' && selectedProvider !== 'all') {
       if (selectedProvider === 'unassigned') {
         filtered = filtered.filter(booking => !booking.provider_id);
       } else {
@@ -55,7 +57,7 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
     }
 
     return filtered;
-  }, [bookings, activeFilters, searchQuery, selectedProvider]);
+  }, [bookings, activeFilters, searchQuery, selectedProvider, setupType]);
 
   const toggleFilter = (filter: string) => {
     setActiveFilters(prev =>
@@ -176,7 +178,7 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
                              return <SourceIcon className="w-3 h-3 text-gray-500" />;
                            })()}
                            <span className="text-xs text-gray-500 capitalize">{booking.source}</span>
-                           {booking.provider_id && (
+                           {setupType === 'individuals' && booking.provider_id && (
                              <>
                                <span className="text-xs text-gray-400">•</span>
                                <span className="text-xs text-brand-teal font-medium">
@@ -540,36 +542,53 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-4">
       <div className="flex flex-wrap items-center justify-between mb-4 gap-4">
-        {/* Provider Selection */}
-        <div className="flex items-center space-x-3">
-          <Select value={selectedProvider} onValueChange={setSelectedProvider}>
-            <SelectTrigger className="w-[200px]">
-              <Users className="w-4 h-4 mr-2" />
-              <SelectValue placeholder="Select provider" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Providers</SelectItem>
-              <SelectItem value="unassigned">Unassigned</SelectItem>
-              {providers.map((provider) => (
-                <SelectItem key={provider.id} value={provider.id}>
-                  {provider.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          
-          {onAddProvider && (
+        {/* Provider Selection - Only show for individuals setup */}
+        {setupType === 'individuals' && (
+          <div className="flex items-center space-x-3">
+            <Select value={selectedProvider} onValueChange={setSelectedProvider}>
+              <SelectTrigger className="w-[200px]">
+                <Users className="w-4 h-4 mr-2" />
+                <SelectValue placeholder="Select provider" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Providers</SelectItem>
+                <SelectItem value="unassigned">Unassigned</SelectItem>
+                {providers.map((provider) => (
+                  <SelectItem key={provider.id} value={provider.id}>
+                    {provider.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            
+            {onAddProvider && (
+              <Button
+                onClick={onAddProvider}
+                variant="outline"
+                size="sm"
+                className="border-brand-teal text-brand-teal hover:bg-brand-teal hover:text-white"
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Add Provider
+              </Button>
+            )}
+          </div>
+        )}
+
+        {/* Small Provider button for business setup */}
+        {setupType === 'business' && onAddProvider && (
+          <div className="flex items-center">
             <Button
               onClick={onAddProvider}
               variant="outline"
               size="sm"
-              className="border-brand-teal text-brand-teal hover:bg-brand-teal hover:text-white"
+              className="border-brand-teal text-brand-teal hover:bg-brand-teal hover:text-white text-xs px-2 py-1"
             >
-              <Plus className="w-4 h-4 mr-2" />
-              Add Provider
+              <Plus className="w-3 h-3 mr-1" />
+              Provider
             </Button>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Filters */}
         <div className="flex items-center space-x-2 flex-wrap gap-2">
