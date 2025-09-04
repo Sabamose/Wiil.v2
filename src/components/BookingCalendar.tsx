@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Booking } from '@/types/booking';
-import { Search } from 'lucide-react';
+import { Search, Phone, Globe } from 'lucide-react';
 
 interface BookingCalendarProps {
   bookings: Booking[];
@@ -48,6 +48,14 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
         ? prev.filter(f => f !== filter)
         : [...prev, filter]
     );
+  };
+
+  const getSourceIcon = (source: string) => {
+    // Randomize source for demo purposes if not set
+    const actualSource = source === 'phone' || source === 'website' ? source : 
+                         Math.random() > 0.5 ? 'phone' : 'website';
+    
+    return actualSource === 'phone' ? Phone : Globe;
   };
 
   const renderListView = () => {
@@ -151,7 +159,13 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
                             })}
                           </span>
                         </div>
-                        <span className="text-xs text-gray-500 capitalize">{booking.source}</span>
+                        <div className="flex items-center space-x-1">
+                          {(() => {
+                            const SourceIcon = getSourceIcon(booking.source);
+                            return <SourceIcon className="w-3 h-3 text-gray-500" />;
+                          })()}
+                          <span className="text-xs text-gray-500 capitalize">{booking.source}</span>
+                        </div>
                       </div>
                     </div>
                   );
@@ -240,22 +254,26 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
               <div className={`text-sm font-medium mb-1 ${day.isToday ? 'text-sky-600' : ''}`}>
                 {day.date.getDate()}
               </div>
-              <div className="space-y-1">
-                {day.bookings.slice(0, 3).map(booking => (
-                  <div
-                    key={booking.id}
-                    onClick={() => onBookingSelect(booking)}
-                    className={`text-xs p-1 rounded cursor-pointer truncate ${
-                      booking.status === 'pending' ? 'bg-amber-100 text-amber-800' : 'bg-teal-100 text-teal-800'
-                    }`}
-                  >
-                    {booking.title}
-                  </div>
-                ))}
-                {day.bookings.length > 3 && (
-                  <div className="text-xs text-gray-500">+{day.bookings.length - 3} more</div>
-                )}
-              </div>
+                <div className="space-y-1">
+                  {day.bookings.slice(0, 3).map(booking => {
+                    const SourceIcon = getSourceIcon(booking.source);
+                    return (
+                      <div
+                        key={booking.id}
+                        onClick={() => onBookingSelect(booking)}
+                        className={`text-xs p-1 rounded cursor-pointer truncate flex items-center space-x-1 ${
+                          booking.status === 'pending' ? 'bg-amber-100 text-amber-800' : 'bg-teal-100 text-teal-800'
+                        }`}
+                      >
+                        <SourceIcon className="w-2.5 h-2.5 flex-shrink-0" />
+                        <span className="truncate">{booking.title}</span>
+                      </div>
+                    );
+                  })}
+                  {day.bookings.length > 3 && (
+                    <div className="text-xs text-gray-500">+{day.bookings.length - 3} more</div>
+                  )}
+                </div>
             </div>
           ))}
         </div>
@@ -359,6 +377,7 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
                   const hour = startTime.getHours();
                   const minute = startTime.getMinutes();
                   const top = ((hour - 6) * 80) + (minute * 80 / 60);
+                  const SourceIcon = getSourceIcon(booking.source);
                   
                   return (
                     <div
@@ -369,8 +388,10 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
                       } border-l-2`}
                       style={{ top: `${top}px`, minHeight: '40px' }}
                     >
-                      <div className="font-medium truncate">{booking.title}</div>
-                      <div className="opacity-75 truncate">{booking.customer_name}</div>
+                      <div className="flex items-center space-x-1">
+                        <SourceIcon className="w-2.5 h-2.5 flex-shrink-0" />
+                        <span className="font-medium truncate">{booking.title}</span>
+                      </div>
                     </div>
                   );
                 })}
@@ -450,6 +471,7 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
               const hour = startTime.getHours();
               const minute = startTime.getMinutes();
               const top = ((hour - 6) * 80) + (minute * 80 / 60);
+              const SourceIcon = getSourceIcon(booking.source);
               
               return (
                 <div
@@ -460,7 +482,10 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
                   } border-l-4`}
                   style={{ top: `${top}px`, minHeight: '60px' }}
                 >
-                  <div className="font-medium text-sm">{booking.title}</div>
+                  <div className="flex items-center space-x-1 mb-1">
+                    <SourceIcon className="w-3 h-3 flex-shrink-0" />
+                    <span className="font-medium text-sm">{booking.title}</span>
+                  </div>
                   <div className="text-xs">{booking.customer_name}</div>
                   <div className="text-xs opacity-75">
                     {startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
