@@ -35,7 +35,7 @@ export const BookingDetailsModal: React.FC<BookingDetailsModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[500px]" aria-describedby="booking-details-description">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Calendar className="h-5 w-5 text-teal-600" />
@@ -43,7 +43,7 @@ export const BookingDetailsModal: React.FC<BookingDetailsModalProps> = ({
           </DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-6">
+        <div className="space-y-6" id="booking-details-description">
           {/* AI Assistant Source */}
           <div className="bg-brand-teal/10 border border-brand-teal/20 rounded-lg p-4">
             <div className="flex items-center gap-2 mb-2">

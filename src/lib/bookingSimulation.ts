@@ -124,20 +124,28 @@ export const generateSimulatedBookings = async (assistants: Array<{ id: string; 
     const startTime = generateRandomDateTime(daysOffset);
     const endTime = new Date(startTime.getTime() + scenario.duration * 60000);
 
-    // Determine source based on assistant type - Phone assistants create phone bookings
-    let bookingSource = sources[Math.floor(Math.random() * sources.length)];
+    // Force a balanced distribution of phone vs website bookings
+    let bookingSource: string;
     
-    // If assistant name or type suggests it's a phone assistant, bias towards phone bookings
-    if (assistant.name.toLowerCase().includes('phone') || 
-        assistant.type?.toLowerCase().includes('voice') ||
-        assistant.type?.toLowerCase().includes('phone')) {
-      bookingSource = Math.random() < 0.8 ? 'phone' : 'website'; // 80% phone, 20% website
+    // Create alternating pattern with bias based on index
+    if (i % 2 === 0) {
+      bookingSource = 'phone'; // Every even booking is phone
+    } else {
+      bookingSource = 'website'; // Every odd booking is website  
     }
-    // If assistant suggests website/chat, bias towards website
-    else if (assistant.name.toLowerCase().includes('website') || 
-             assistant.name.toLowerCase().includes('chat') ||
-             assistant.type?.toLowerCase().includes('chat')) {
-      bookingSource = Math.random() < 0.8 ? 'website' : 'phone'; // 80% website, 20% phone
+    
+    // Add some randomness but maintain balance
+    if (Math.random() < 0.3) {
+      bookingSource = bookingSource === 'phone' ? 'website' : 'phone';
+    }
+    
+    // If assistant name suggests specific type, still use some bias
+    if (assistant.name.toLowerCase().includes('phone') || 
+        assistant.type?.toLowerCase().includes('voice')) {
+      bookingSource = Math.random() < 0.7 ? 'phone' : bookingSource;
+    } else if (assistant.name.toLowerCase().includes('website') || 
+               assistant.name.toLowerCase().includes('chat')) {
+      bookingSource = Math.random() < 0.7 ? 'website' : bookingSource;
     }
 
     bookings.push({
