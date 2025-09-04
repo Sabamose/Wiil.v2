@@ -165,17 +165,6 @@ export const BookingDetailsModal: React.FC<BookingDetailsModalProps> = ({
             )}
           </div>
 
-          {/* Source and Timezone */}
-          <div className="grid grid-cols-2 gap-4 text-sm">
-            <div>
-              <span className="text-muted-foreground">Source:</span>
-              <div className="font-medium capitalize">{booking.source}</div>
-            </div>
-            <div>
-              <span className="text-muted-foreground">Timezone:</span>
-              <div className="font-medium">{booking.timezone}</div>
-            </div>
-          </div>
 
           {/* Business Action Buttons */}
           <div className="space-y-3 pt-4 border-t">
