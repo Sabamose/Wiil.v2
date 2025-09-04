@@ -118,12 +118,14 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
     const sourceIcon = booking.source === 'phone' ? '📞' : '💻';
     
     return (
-      <div className="p-2 text-xs hover:bg-white/20 hover:scale-105 transition-all duration-200 rounded cursor-pointer">
-        <div className="font-semibold truncate text-white">{booking.title}</div>
-        <div className="truncate opacity-90 text-white/90 mt-1">{booking.customer_name}</div>
-        <div className="flex items-center gap-1 mt-1 text-white/80">
+      <div className="p-2 text-xs hover:bg-white/20 hover:scale-105 transition-all duration-200 rounded cursor-pointer h-full flex flex-col justify-between">
+        <div>
+          <div className="font-semibold truncate text-white leading-tight">{booking.title}</div>
+          <div className="truncate opacity-90 text-white/90 mt-1 leading-tight">{booking.customer_name}</div>
+        </div>
+        <div className="flex items-center gap-1 mt-2 text-white/80 bg-black/20 rounded px-1 py-0.5">
           <span>{sourceIcon}</span>
-          <span className="truncate text-[10px]">{assistantName}</span>
+          <span className="truncate text-[10px] font-medium">{assistantName}</span>
         </div>
       </div>
     );
