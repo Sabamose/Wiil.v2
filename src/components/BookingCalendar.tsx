@@ -524,18 +524,6 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
         {/* Filters */}
         <div className="flex items-center space-x-2 flex-wrap gap-2">
           <Button
-            onClick={() => toggleFilter('needs-confirmation')}
-            className={`px-3 py-1.5 text-sm font-medium rounded-full flex items-center space-x-1.5 ${
-              activeFilters.includes('needs-confirmation')
-                ? 'bg-sky-100 text-sky-800 border-sky-300'
-                : 'text-amber-800 bg-amber-100 border-amber-200'
-            } border`}
-            variant="outline"
-          >
-            <span className="w-2 h-2 bg-amber-500 rounded-full"></span>
-            <span>Needs Follow-up</span>
-          </Button>
-          <Button
             onClick={() => toggleFilter('phone')}
             className={`px-3 py-1.5 text-sm font-medium rounded-full ${
               activeFilters.includes('phone')
