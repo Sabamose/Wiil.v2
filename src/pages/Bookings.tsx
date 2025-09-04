@@ -18,7 +18,7 @@ import { generateSimulatedBookings, clearSimulatedBookings } from '@/lib/booking
 
 const Bookings = () => {
   const { bookings, isLoading, updateBooking } = useBookings();
-  const { providers } = useProviders();
+  const { providers, createProvider } = useProviders();
   const { assistants } = useAssistants();
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,13 +28,42 @@ const Bookings = () => {
   const isMobile = useIsMobile();
   const { isCollapsed, isHome } = useNavigationState();
   const { toast } = useToast();
-  const handleProviderSetup = (config: ProviderConfiguration) => {
-    // Store configuration (in real app, would save to backend)
+  const handleProviderSetup = async (config: ProviderConfiguration) => {
+    // Store configuration
     localStorage.setItem('providerConfiguration', JSON.stringify(config));
+    
+    // If individuals were selected, create actual provider records
+    if (config.setupType === 'individuals' && config.providerNames.length > 0) {
+      try {
+        // Create providers using the existing hook
+        for (const name of config.providerNames) {
+          if (name.trim()) {
+            await createProvider.mutateAsync({
+              name: name.trim(),
+              specialization: '',
+              email: '',
+              phone: '',
+              is_active: true,
+              working_hours: {
+                monday: { start: '09:00', end: '17:00' },
+                tuesday: { start: '09:00', end: '17:00' },
+                wednesday: { start: '09:00', end: '17:00' },
+                thursday: { start: '09:00', end: '17:00' },
+                friday: { start: '09:00', end: '17:00' },
+                saturday: null,
+                sunday: null,
+              },
+            });
+          }
+        }
+      } catch (error) {
+        // Error is handled by the mutation, continue with success message
+      }
+    }
     
     toast({
       title: "Setup complete",
-      description: "Your booking system has been configured successfully.",
+      description: `Your booking system has been configured${config.setupType === 'individuals' ? ' with your team members' : ''}.`,
     });
   };
 

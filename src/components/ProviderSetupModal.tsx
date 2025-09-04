@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { Users, Calendar, Settings } from 'lucide-react';
+import { Users, Building2, Calendar, User } from 'lucide-react';
 import { ProviderConfiguration } from '@/types/provider';
 
 interface ProviderSetupModalProps {
@@ -21,17 +20,22 @@ const ProviderSetupModal: React.FC<ProviderSetupModalProps> = ({
 }) => {
   const [step, setStep] = useState(1);
   const [config, setConfig] = useState<ProviderConfiguration>({
+    setupType: 'business',
     providerCount: 1,
-    businessType: 'healthcare',
-    clientsRequestSpecific: false,
-    allowPreferences: false,
+    providerNames: [''],
   });
 
   const handleNext = () => {
-    if (step < 3) {
+    if (step < 2) {
       setStep(step + 1);
     } else {
-      onComplete(config);
+      // Filter out empty names
+      const filteredNames = config.providerNames.filter(name => name.trim() !== '');
+      onComplete({
+        ...config,
+        providerNames: filteredNames,
+        providerCount: filteredNames.length,
+      });
       onClose();
     }
   };
@@ -42,23 +46,38 @@ const ProviderSetupModal: React.FC<ProviderSetupModalProps> = ({
     }
   };
 
-  const businessTypes = [
-    { value: 'healthcare', label: 'Healthcare (Doctors, Dentists, Therapists)' },
-    { value: 'legal', label: 'Legal Services (Lawyers, Consultants)' },
-    { value: 'fitness', label: 'Fitness & Wellness (Trainers, Coaches)' },
-    { value: 'beauty', label: 'Beauty & Personal Care (Stylists, Spa)' },
-    { value: 'automotive', label: 'Automotive Services' },
-    { value: 'consulting', label: 'Professional Consulting' },
-    { value: 'education', label: 'Education & Training' },
-    { value: 'other', label: 'Other Services' },
-  ];
+  const handleSetupTypeChange = (type: 'business' | 'individuals') => {
+    setConfig(prev => ({ 
+      ...prev, 
+      setupType: type,
+      providerCount: type === 'business' ? 1 : 2,
+      providerNames: type === 'business' ? [''] : ['', ''],
+    }));
+  };
 
-  const providerCounts = [
-    { value: 1, label: 'Just me (single provider)', description: 'I\'m the only service provider' },
-    { value: 2, label: '2-5 providers', description: 'Small team of professionals' },
-    { value: 6, label: '6-10 providers', description: 'Medium-sized practice' },
-    { value: 11, label: '10+ providers', description: 'Large organization' },
-  ];
+  const handleProviderCountChange = (count: number) => {
+    const newNames = Array(count).fill('').map((_, index) => 
+      config.providerNames[index] || ''
+    );
+    
+    setConfig(prev => ({
+      ...prev,
+      providerCount: count,
+      providerNames: newNames,
+    }));
+  };
+
+  const handleNameChange = (index: number, name: string) => {
+    const newNames = [...config.providerNames];
+    newNames[index] = name;
+    setConfig(prev => ({ ...prev, providerNames: newNames }));
+  };
+
+  const canProceed = () => {
+    if (step === 1) return true;
+    if (config.setupType === 'business') return config.providerNames[0]?.trim() !== '';
+    return config.providerNames.every(name => name.trim() !== '');
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -69,14 +88,14 @@ const ProviderSetupModal: React.FC<ProviderSetupModalProps> = ({
             Setup Your Booking System
           </DialogTitle>
           <DialogDescription>
-            Let's configure your appointment booking system to match your business needs.
+            Let's configure who provides services in your business.
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-6">
           {/* Progress indicator */}
           <div className="flex items-center justify-center space-x-2">
-            {[1, 2, 3].map((i) => (
+            {[1, 2].map((i) => (
               <div
                 key={i}
                 className={`w-3 h-3 rounded-full ${
@@ -86,136 +105,149 @@ const ProviderSetupModal: React.FC<ProviderSetupModalProps> = ({
             ))}
           </div>
 
-          {/* Step 1: Provider Count */}
+          {/* Step 1: Who provides the service? */}
           {step === 1 && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Users className="h-5 w-5" />
-                  How many service providers does your business have?
-                </CardTitle>
-                <CardDescription>
-                  This helps us customize the booking interface for your team size.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <RadioGroup
-                  value={config.providerCount.toString()}
-                  onValueChange={(value) => setConfig(prev => ({ ...prev, providerCount: parseInt(value) }))}
-                  className="space-y-4"
+            <div className="space-y-4">
+              <div className="text-center mb-6">
+                <h3 className="text-lg font-semibold mb-2">Who provides the service?</h3>
+                <p className="text-sm text-muted-foreground">
+                  Choose how your business is structured for appointments
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 gap-4">
+                {/* Business Option */}
+                <Card 
+                  className={`cursor-pointer transition-all hover:shadow-md ${
+                    config.setupType === 'business' 
+                      ? 'ring-2 ring-brand-teal bg-brand-teal/5' 
+                      : 'hover:border-gray-300'
+                  }`}
+                  onClick={() => handleSetupTypeChange('business')}
                 >
-                  {providerCounts.map((option) => (
-                    <div key={option.value} className="flex items-start space-x-3">
-                      <RadioGroupItem value={option.value.toString()} id={`count-${option.value}`} className="mt-1" />
-                      <div className="grid gap-1.5 leading-none">
-                        <Label htmlFor={`count-${option.value}`} className="font-medium">
-                          {option.label}
-                        </Label>
-                        <p className="text-sm text-muted-foreground">
-                          {option.description}
-                        </p>
+                  <CardHeader className="pb-3">
+                    <CardTitle className="flex items-center gap-3 text-base">
+                      <div className={`p-2 rounded-lg ${
+                        config.setupType === 'business' ? 'bg-brand-teal text-white' : 'bg-gray-100'
+                      }`}>
+                        <Building2 className="h-5 w-5" />
+                      </div>
+                      Just the business
+                    </CardTitle>
+                    <CardDescription>
+                      Appointments are booked with your business, not specific individuals
+                    </CardDescription>
+                  </CardHeader>
+                </Card>
+
+                {/* Individual Providers Option */}
+                <Card 
+                  className={`cursor-pointer transition-all hover:shadow-md ${
+                    config.setupType === 'individuals' 
+                      ? 'ring-2 ring-brand-teal bg-brand-teal/5' 
+                      : 'hover:border-gray-300'
+                  }`}
+                  onClick={() => handleSetupTypeChange('individuals')}
+                >
+                  <CardHeader className="pb-3">
+                    <CardTitle className="flex items-center gap-3 text-base">
+                      <div className={`p-2 rounded-lg ${
+                        config.setupType === 'individuals' ? 'bg-brand-teal text-white' : 'bg-gray-100'
+                      }`}>
+                        <Users className="h-5 w-5" />
+                      </div>
+                      Different people in the business
+                    </CardTitle>
+                    <CardDescription>
+                      Customers can book with specific team members or providers
+                    </CardDescription>
+                  </CardHeader>
+                </Card>
+              </div>
+            </div>
+          )}
+
+          {/* Step 2: Provider Details */}
+          {step === 2 && (
+            <div className="space-y-6">
+              {config.setupType === 'business' ? (
+                /* Business Name Input */
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Building2 className="h-5 w-5" />
+                      Business Information
+                    </CardTitle>
+                    <CardDescription>
+                      Enter your business name as it will appear in bookings
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2">
+                      <Label htmlFor="business-name">Business Name</Label>
+                      <Input
+                        id="business-name"
+                        value={config.providerNames[0] || ''}
+                        onChange={(e) => handleNameChange(0, e.target.value)}
+                        placeholder="e.g., Johnson Family Clinic, Smith Law Firm"
+                        className="w-full"
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
+              ) : (
+                /* Individual Providers Setup */
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Users className="h-5 w-5" />
+                      Team Members
+                    </CardTitle>
+                    <CardDescription>
+                      First, choose how many people provide services
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    {/* Provider Count Selection */}
+                    <div className="space-y-3">
+                      <Label>Number of service providers</Label>
+                      <div className="grid grid-cols-4 gap-2">
+                        {[1, 2, 3, 4].map((count) => (
+                          <Button
+                            key={count}
+                            variant={config.providerCount === count ? "default" : "outline"}
+                            className={`h-12 ${config.providerCount === count ? 'bg-brand-teal hover:bg-brand-teal-dark' : ''}`}
+                            onClick={() => handleProviderCountChange(count)}
+                          >
+                            {count}
+                          </Button>
+                        ))}
                       </div>
                     </div>
-                  ))}
-                </RadioGroup>
-              </CardContent>
-            </Card>
-          )}
 
-          {/* Step 2: Business Type */}
-          {step === 2 && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Settings className="h-5 w-5" />
-                  What type of services do you provide?
-                </CardTitle>
-                <CardDescription>
-                  This helps us generate relevant demo data and booking scenarios.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <RadioGroup
-                  value={config.businessType}
-                  onValueChange={(value) => setConfig(prev => ({ ...prev, businessType: value }))}
-                  className="space-y-3"
-                >
-                  {businessTypes.map((type) => (
-                    <div key={type.value} className="flex items-center space-x-2">
-                      <RadioGroupItem value={type.value} id={type.value} />
-                      <Label htmlFor={type.value}>{type.label}</Label>
+                    {/* Provider Names Input */}
+                    <div className="space-y-4">
+                      <Label>Enter the names of your service providers</Label>
+                      <div className="space-y-3">
+                        {config.providerNames.slice(0, config.providerCount).map((name, index) => (
+                          <div key={index} className="flex items-center gap-3">
+                            <div className="flex items-center justify-center w-8 h-8 bg-brand-teal/10 text-brand-teal rounded-full text-sm font-medium">
+                              {index + 1}
+                            </div>
+                            <Input
+                              value={name}
+                              onChange={(e) => handleNameChange(index, e.target.value)}
+                              placeholder={`e.g., Dr. Sarah Johnson, John Smith`}
+                              className="flex-1"
+                            />
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  ))}
-                </RadioGroup>
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Step 3: Booking Preferences */}
-          {step === 3 && config.providerCount > 1 && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Booking Preferences</CardTitle>
-                <CardDescription>
-                  Configure how clients can book with your team.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <Label htmlFor="request-specific">Do clients need to book with specific providers?</Label>
-                    <p className="text-sm text-muted-foreground">
-                      Enable this if clients have preferred providers or need specialized services.
-                    </p>
-                  </div>
-                  <Switch
-                    id="request-specific"
-                    checked={config.clientsRequestSpecific}
-                    onCheckedChange={(checked) => 
-                      setConfig(prev => ({ ...prev, clientsRequestSpecific: checked }))
-                    }
-                  />
-                </div>
-
-                {config.clientsRequestSpecific && (
-                  <div className="flex items-center justify-between pl-4 border-l-2 border-brand-teal/20">
-                    <div className="space-y-0.5">
-                      <Label htmlFor="allow-preferences">Allow clients to request preferred providers?</Label>
-                      <p className="text-sm text-muted-foreground">
-                        Clients can request a specific provider but accept alternatives if unavailable.
-                      </p>
-                    </div>
-                    <Switch
-                      id="allow-preferences"
-                      checked={config.allowPreferences}
-                      onCheckedChange={(checked) => 
-                        setConfig(prev => ({ ...prev, allowPreferences: checked }))
-                      }
-                    />
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Step 3: Single Provider Confirmation */}
-          {step === 3 && config.providerCount === 1 && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Single Provider Setup</CardTitle>
-                <CardDescription>
-                  Perfect! We'll set up a streamlined booking system for your solo practice.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="p-4 bg-brand-teal/5 rounded-lg border border-brand-teal/20">
-                  <p className="text-sm">
-                    Your booking calendar will show all appointments assigned to you. 
-                    You can always add team members later if your business grows.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
           )}
 
           {/* Navigation */}
@@ -227,8 +259,12 @@ const ProviderSetupModal: React.FC<ProviderSetupModalProps> = ({
             >
               Back
             </Button>
-            <Button onClick={handleNext} className="bg-brand-teal hover:bg-brand-teal-dark">
-              {step === 3 ? 'Complete Setup' : 'Next'}
+            <Button 
+              onClick={handleNext} 
+              disabled={!canProceed()}
+              className="bg-brand-teal hover:bg-brand-teal-dark"
+            >
+              {step === 2 ? 'Complete Setup' : 'Next'}
             </Button>
           </div>
         </div>

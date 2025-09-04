@@ -23,8 +23,7 @@ export interface WorkingHours {
 }
 
 export interface ProviderConfiguration {
+  setupType: 'business' | 'individuals';
   providerCount: number;
-  businessType: string;
-  clientsRequestSpecific: boolean;
-  allowPreferences: boolean;
+  providerNames: string[];
 }
