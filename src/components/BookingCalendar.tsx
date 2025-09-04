@@ -71,21 +71,43 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
   }, [filteredBookings]);
 
   const eventStyleGetter = (event: CalendarEvent) => {
-    const status = event.resource.status;
-    let bgColor = 'hsl(var(--brand-teal))';
+    const booking = event.resource;
+    const status = booking.status;
+    const source = booking.source;
     
-    if (status === 'cancelled') bgColor = 'hsl(var(--destructive))';
-    else if (status === 'pending') bgColor = 'hsl(var(--amber-500) / 0.9)';
-    else if (status === 'completed') bgColor = 'hsl(var(--success))';
+    // Base colors that match the action buttons
+    let bgColor = 'hsl(var(--brand-teal))'; // default
+    
+    // Source-based colors to match filter buttons
+    if (source === 'phone') {
+      bgColor = '#3b82f6'; // Blue to match phone button (text-blue-700)
+    } else if (source === 'website') {
+      bgColor = '#7c3aed'; // Purple to match website button (text-purple-700)
+    }
+    
+    // Status modifications
+    let opacity = 1;
+    if (status === 'cancelled') {
+      opacity = 0.4;
+      bgColor = '#6b7280'; // Gray for cancelled
+    } else if (status === 'pending') {
+      // Keep source color but add yellow tint for pending
+      if (source === 'phone') bgColor = '#2563eb'; // Darker blue
+      else if (source === 'website') bgColor = '#6d28d9'; // Darker purple
+      else bgColor = '#d97706'; // Amber for other pending
+    } else if (status === 'completed') {
+      bgColor = '#059669'; // Green for completed
+    }
     
     return {
       style: {
         backgroundColor: bgColor,
-        borderRadius: '4px',
-        opacity: status === 'cancelled' ? 0.6 : 1,
+        borderRadius: '6px',
+        opacity: opacity,
         color: 'white',
         border: 'none',
         fontSize: '12px',
+        fontWeight: '500',
       },
     };
   };
