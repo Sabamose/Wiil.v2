@@ -70,13 +70,15 @@ export const useBookings = () => {
 
         const demoBookings: Booking[] = [];
         
-        // Generate 25-30 bookings across past 2 weeks, current week, and next 3 weeks
-        for (let i = 0; i < 28; i++) {
+        // Generate 60-80 bookings across past 4 weeks, current week, and next 8 weeks for better coverage
+        const totalBookings = Math.floor(Math.random() * 20) + 60; // 60-80 bookings
+        
+        for (let i = 0; i < totalBookings; i++) {
           const customer = customerData[Math.floor(Math.random() * customerData.length)];
           const appointmentType = appointmentTypes[Math.floor(Math.random() * appointmentTypes.length)];
           
-          // Generate bookings across past 2 weeks, current week, and next 3 weeks
-          const daysOffset = Math.floor(Math.random() * 42) - 14; // -14 to +28 days
+          // Generate bookings across past 4 weeks, current week, and next 8 weeks (13 weeks total)
+          const daysOffset = Math.floor(Math.random() * 91) - 28; // -28 to +63 days
           const startTime = generateRandomDateTime(daysOffset);
           const endTime = new Date(startTime.getTime() + appointmentType.duration * 60000);
 
@@ -97,6 +99,38 @@ export const useBookings = () => {
             created_at: now.toISOString(),
             updated_at: now.toISOString(),
           });
+        }
+        
+        // Add extra bookings for current week to ensure good coverage
+        for (let dayOffset = 0; dayOffset < 7; dayOffset++) {
+          // Add 2-4 bookings per day for current week
+          const bookingsPerDay = Math.floor(Math.random() * 3) + 2;
+          
+          for (let j = 0; j < bookingsPerDay; j++) {
+            const customer = customerData[Math.floor(Math.random() * customerData.length)];
+            const appointmentType = appointmentTypes[Math.floor(Math.random() * appointmentTypes.length)];
+            
+            const startTime = generateRandomDateTime(dayOffset);
+            const endTime = new Date(startTime.getTime() + appointmentType.duration * 60000);
+
+            demoBookings.push({
+              id: `demo-current-week-${dayOffset}-${j}`,
+              user_id: 'demo-user',
+              assistant_id: `demo-${Math.floor(Math.random() * 3) + 1}`,
+              title: appointmentType.title,
+              customer_name: customer.name,
+              customer_email: customer.email,
+              customer_phone: customer.phone,
+              start_time: startTime.toISOString(),
+              end_time: endTime.toISOString(),
+              status: getRandomStatus(),
+              source: sources[Math.floor(Math.random() * sources.length)],
+              notes: appointmentType.notes,
+              timezone: 'UTC',
+              created_at: now.toISOString(),
+              updated_at: now.toISOString(),
+            });
+          }
         }
         
         return demoBookings.sort((a, b) => new Date(a.start_time).getTime() - new Date(b.start_time).getTime());
