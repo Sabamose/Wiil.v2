@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Booking } from '@/types/booking';
-import { Search, Phone, Globe } from 'lucide-react';
+import { Search } from 'lucide-react';
 
 interface BookingCalendarProps {
   bookings: Booking[];
@@ -339,13 +339,10 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
                       booking.status === 'pending' ? 'bg-amber-100 text-amber-800' : 'bg-teal-100 text-teal-800'
                     }`}
                   >
-                    <div className="flex items-center gap-1 font-medium truncate">
-                      {booking.source === 'phone' ? (
-                        <Phone className="h-3 w-3 flex-shrink-0" />
-                      ) : (
-                        <Globe className="h-3 w-3 flex-shrink-0" />
-                      )}
-                      <span className="truncate">{booking.title}</span>
+                    <div className="font-medium truncate">{booking.title}</div>
+                    <div className="text-xs opacity-75">{booking.customer_name}</div>
+                    <div className="text-xs opacity-75">
+                      {new Date(booking.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </div>
                   </div>
                 ))}
@@ -435,13 +432,10 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
                   } border-l-4`}
                   style={{ top: `${top}px`, minHeight: '60px' }}
                 >
-                  <div className="flex items-center gap-2 font-medium text-sm">
-                    {booking.source === 'phone' ? (
-                      <Phone className="h-4 w-4 flex-shrink-0" />
-                    ) : (
-                      <Globe className="h-4 w-4 flex-shrink-0" />
-                    )}
-                    <span className="truncate">{booking.title}</span>
+                  <div className="font-medium text-sm">{booking.title}</div>
+                  <div className="text-xs">{booking.customer_name}</div>
+                  <div className="text-xs opacity-75">
+                    {startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </div>
                 </div>
               );
