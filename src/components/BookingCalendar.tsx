@@ -51,11 +51,7 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
   };
 
   const getSourceIcon = (source: string) => {
-    // Randomize source for demo purposes if not set
-    const actualSource = source === 'phone' || source === 'website' ? source : 
-                         Math.random() > 0.5 ? 'phone' : 'website';
-    
-    return actualSource === 'phone' ? Phone : Globe;
+    return source === 'phone' ? Phone : Globe;
   };
 
   const renderListView = () => {

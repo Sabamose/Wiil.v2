@@ -45,7 +45,7 @@ export const useBookings = () => {
           { title: "Strategy Meeting", duration: 90, notes: "Comprehensive strategy development session" }
         ];
 
-        const sources = ["Phone Call", "Website", "Referral", "Email", "Social Media", "Cal.com"];
+        const sources = ["phone", "website", "phone", "website", "phone", "website"]; // Match calendar expectations
         const statuses: Array<'confirmed' | 'pending' | 'cancelled' | 'completed'> = ['confirmed', 'pending', 'cancelled', 'completed'];
         
         const getRandomStatus = () => {
