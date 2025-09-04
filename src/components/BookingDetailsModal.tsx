@@ -125,18 +125,45 @@ export const BookingDetailsModal: React.FC<BookingDetailsModalProps> = ({
             </div>
           )}
 
-          {/* Notes */}
-          {booking.notes && (
-            <div className="space-y-2">
-              <h4 className="font-medium flex items-center gap-2">
-                <FileText className="h-4 w-4" />
-                Notes
-              </h4>
-              <p className="text-sm text-muted-foreground bg-muted p-3 rounded-md">
-                {booking.notes}
-              </p>
+          {/* Conversation Context */}
+          <div className="space-y-4">
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                💬
+              </div>
+              <div className="flex-1">
+                <h4 className="font-medium text-gray-900 mb-2">Conversation Context</h4>
+                <div className="bg-gray-50 border rounded-lg p-4 space-y-3">
+                  <div className="text-sm text-gray-600">
+                    Source: {booking.source === 'phone' ? 'Phone/SMS' : 'Website'} • Ref ID: conv_{booking.source}_{booking.id.slice(-4)}
+                  </div>
+                  <div className="text-sm text-gray-900">
+                    Received {booking.source === 'phone' ? 'SMS' : 'message'} to book a follow-up.
+                  </div>
+                  <button className="text-blue-600 text-sm font-medium hover:text-blue-700">
+                    View full transcript →
+                  </button>
+                </div>
+              </div>
             </div>
-          )}
+
+            {/* Confirmation */}
+            {booking.status === 'confirmed' && (
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                  ✓
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-medium text-gray-900 mb-2">Confirmation</h4>
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                    <div className="text-sm text-green-800 font-medium">
+                      Customer confirmed via {booking.source === 'phone' ? 'SMS' : 'website'}.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
 
           {/* Source and Timezone */}
           <div className="grid grid-cols-2 gap-4 text-sm">
