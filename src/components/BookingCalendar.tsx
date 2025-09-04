@@ -50,7 +50,15 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
 
   const filteredBookings = useMemo(() => {
     return bookings.filter((booking) => {
-      const matchesAssistant = selectedAssistant === 'all' || booking.assistant_id === selectedAssistant;
+      // Filter by assistant type (phone vs website) instead of specific assistant
+      let matchesAssistant = true;
+      if (selectedAssistant === 'phone') {
+        matchesAssistant = booking.source === 'phone';
+      } else if (selectedAssistant === 'website') {
+        matchesAssistant = booking.source === 'website';
+      }
+      // 'all' shows everything
+      
       const matchesStatus = selectedStatus === 'all' || booking.status === selectedStatus;
       const matchesSearch = searchTerm === '' || 
         booking.customer_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -178,15 +186,12 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
             <Select value={selectedAssistant} onValueChange={setSelectedAssistant}>
               <SelectTrigger className="w-full sm:w-[200px]">
                 <span className="mr-2">🤖</span>
-                <SelectValue placeholder="Which Assistant?" />
+                <SelectValue placeholder="Which Assistant Type?" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All AI Assistants</SelectItem>
-                {assistants.map((assistant) => (
-                  <SelectItem key={assistant.id} value={assistant.id}>
-                    {assistant.name}
-                  </SelectItem>
-                ))}
+                <SelectItem value="phone">📞 Phone Assistants</SelectItem>
+                <SelectItem value="website">💻 Website Assistants</SelectItem>
               </SelectContent>
             </Select>
 
