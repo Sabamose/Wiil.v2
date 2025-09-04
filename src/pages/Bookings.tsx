@@ -89,136 +89,94 @@ const Bookings = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 to-white">
-      {/* background grid moved to main for proper stacking */}
-      
+    <div className="flex h-screen overflow-hidden">
       <AdaptiveNavigation />
       
-      <main className={`transition-all duration-200 ease-in-out ${
+      {/* Main Content */}
+      <main className={`flex-1 flex flex-col bg-gray-50 overflow-hidden transition-all duration-200 ease-in-out ${
         isMobile ? 'ml-0' : (isHome ? 'ml-60' : (isCollapsed ? 'ml-20' : 'ml-60'))
-      } mt-16 p-4 md:p-8 relative animate-fade-in bg-[linear-gradient(to_right,rgba(13,148,136,0.06)_1px,transparent_1px)] bg-[size:24px_100%]`}>
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-brand-teal">Appointments Made by AI Assistants</h1>
-          <div className="h-1 w-24 bg-gradient-to-r from-brand-teal to-brand-teal/60 rounded-full mb-3" />
-          <p className="text-lg text-muted-foreground">Monitor appointments scheduled by your phone and website assistants</p>
-        </div>
+      }`}>
+        {/* Header */}
+        <header className="flex-shrink-0 bg-white border-b border-gray-200 p-4 flex items-center justify-between">
+          <div>
+            <h1 className="text-xl font-semibold text-gray-800">Appointments Made By AI Assistants</h1>
+            <p className="text-sm text-gray-500">Monitor appointments scheduled by your phone and website assistants.</p>
+          </div>
+          <div className="flex items-center space-x-4">
+            <Button
+              onClick={handleGenerateBookings}
+              disabled={isGenerating}
+              className="p-2 text-gray-500 hover:bg-gray-100 rounded-full"
+              variant="ghost"
+              size="sm"
+            >
+              <Database className="h-6 w-6" />
+            </Button>
+            <Button
+              onClick={handleClearBookings}
+              disabled={isClearing}
+              className="p-2 text-gray-500 hover:bg-gray-100 rounded-full"
+              variant="ghost"
+              size="sm"
+            >
+              <Trash2 className="h-6 w-6" />
+            </Button>
+          </div>
+        </header>
 
-        {/* Context Cards */}
-        <div className="mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-brand-teal/10 border border-brand-teal/20 rounded-lg p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-2 h-2 bg-brand-teal rounded-full animate-pulse"></div>
-              <span className="text-sm font-medium text-brand-teal">Your assistants booked {bookings.filter(b => {
-                const today = new Date().toDateString();
-                const bookingDate = new Date(b.start_time).toDateString();
-                return today === bookingDate;
-              }).length} appointments today</span>
+        {/* Dashboard Content */}
+        <div className="flex-1 p-6 overflow-y-auto">
+          {/* Metrics */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <div className="bg-white p-4 rounded-lg border border-gray-200">
+              <h3 className="text-sm font-medium text-gray-500">Total Appointments</h3>
+              <p className="text-3xl font-semibold text-gray-800">{bookings.length}</p>
+              <p className="text-xs text-gray-400">All time bookings</p>
+            </div>
+            <div className="bg-white p-4 rounded-lg border border-gray-200">
+              <h3 className="text-sm font-medium text-gray-500">Confirmed & Ready</h3>
+              <p className="text-3xl font-semibold text-green-600">{confirmedBookings.length}</p>
+              <p className="text-xs text-gray-400">Customers are all set</p>
+            </div>
+            <div className="bg-white p-4 rounded-lg border-2 border-amber-400 shadow-sm">
+              <h3 className="text-sm font-medium text-amber-600">Needs Confirmation</h3>
+              <p className="text-3xl font-semibold text-amber-500">{bookings.filter(b => b.status === 'pending').length}</p>
+              <p className="text-xs text-amber-500">Action needed</p>
+            </div>
+            <div className="bg-white p-4 rounded-lg border border-gray-200">
+              <h3 className="text-sm font-medium text-gray-500">Booked Today</h3>
+              <p className="text-3xl font-semibold text-gray-800">{todaysBookings.length}</p>
+              <p className="text-xs text-gray-400">By AI assistants</p>
             </div>
           </div>
-          
-          <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-2 h-2 bg-amber-500 rounded-full"></div>
-              <span className="text-sm font-medium text-amber-700">{bookings.filter(b => b.status === 'pending').length} customers waiting for confirmation</span>
-            </div>
-          </div>
-          
-          <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-              <span className="text-sm font-medium text-emerald-700">{confirmedBookings.length} appointments confirmed & ready</span>
-            </div>
-          </div>
-        </div>
 
-        {/* Enhanced Summary Cards */}
-        <div className="flex justify-center mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl">
-            <Card className="border-border/50 hover:shadow-lg transition-all duration-300 hover:border-brand-teal/20">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Today's Appointments</CardTitle>
-                <Calendar className="h-5 w-5 text-brand-teal" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold text-brand-teal">{todaysBookings.length}</div>
-                <p className="text-xs text-muted-foreground">Booked by AI assistants today</p>
-                {todaysBookings.length > 0 && (
-                  <div className="mt-2 text-xs text-emerald-600 font-medium">↑ Active day</div>
-                )}
-              </CardContent>
-            </Card>
-            
-            <Card className="border-border/50 hover:shadow-lg transition-all duration-300 hover:border-brand-teal/20">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Total Appointments</CardTitle>
-                <Users className="h-5 w-5 text-brand-teal" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold text-brand-teal">{bookings.length}</div>
-                <p className="text-xs text-muted-foreground">All time bookings</p>
-                <div className="mt-2 flex gap-2 text-xs">
-                  <span className="text-blue-600">📞 {bookings.filter(b => b.source === 'phone').length}</span>
-                  <span className="text-purple-600">💻 {bookings.filter(b => b.source === 'website').length}</span>
+          {/* Calendar Component */}
+          {isLoading ? (
+            <div className="bg-white rounded-lg border border-gray-200 p-4">
+              <div className="flex items-center justify-center py-12">
+                <div className="text-center">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-teal mx-auto mb-4"></div>
+                  <p className="text-muted-foreground">Loading calendar...</p>
                 </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-border/50 hover:shadow-lg transition-all duration-300 hover:border-brand-teal/20">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Customer Confirmed</CardTitle>
-                <Phone className="h-5 w-5 text-emerald-600" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold text-emerald-600">{confirmedBookings.length}</div>
-                <p className="text-xs text-muted-foreground">Ready to go</p>
-                {confirmedBookings.length > 0 && (
-                  <div className="mt-2 text-xs text-emerald-600 font-medium">✓ All set</div>
-                )}
-              </CardContent>
-            </Card>
-
-            <Card className="border-border/50 hover:shadow-lg transition-all duration-300 hover:border-amber-200">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Needs Follow-up</CardTitle>
-                <div className="h-5 w-5 text-amber-600">⏰</div>
-              </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold text-amber-600">{bookings.filter(b => b.status === 'pending').length}</div>
-                <p className="text-xs text-muted-foreground">Waiting for confirmation</p>
-                {bookings.filter(b => b.status === 'pending').length > 0 && (
-                  <div className="mt-2 text-xs text-amber-600 font-medium">⚡ Action needed</div>
-                )}
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-
-        {/* Calendar Component */}
-        {isLoading ? (
-          <Card>
-            <CardContent className="flex items-center justify-center py-12">
-              <div className="text-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-teal mx-auto mb-4"></div>
-                <p className="text-muted-foreground">Loading calendar...</p>
               </div>
-            </CardContent>
-          </Card>
-        ) : (
-          <BookingCalendar
-            bookings={bookings}
-            assistants={assistants.map(a => ({ id: a.id, name: a.name }))}
-            onBookingSelect={handleBookingSelect}
-          />
-        )}
-
-        {/* Booking Details Modal */}
-        <BookingDetailsModal
-          booking={selectedBooking}
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          onStatusChange={handleStatusChange}
-        />
+            </div>
+          ) : (
+            <BookingCalendar
+              bookings={bookings}
+              assistants={assistants.map(a => ({ id: a.id, name: a.name }))}
+              onBookingSelect={handleBookingSelect}
+            />
+          )}
+        </div>
       </main>
+
+      {/* Booking Details Modal */}
+      <BookingDetailsModal
+        booking={selectedBooking}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onStatusChange={handleStatusChange}
+      />
     </div>
   );
 };
