@@ -61,7 +61,8 @@ const bookingScenarios = {
   ]
 };
 
-const sources = ["Phone Call", "Website", "Referral", "Email", "Social Media", "Cal.com"];
+// Sources that match what the UI expects
+const sources = ["phone", "website", "phone", "website", "phone", "website"]; // Weight phone and website heavily
 const statuses: Array<'confirmed' | 'pending' | 'cancelled' | 'completed'> = ['confirmed', 'pending', 'cancelled', 'completed'];
 
 // Weight statuses for realistic distribution
@@ -123,6 +124,22 @@ export const generateSimulatedBookings = async (assistants: Array<{ id: string; 
     const startTime = generateRandomDateTime(daysOffset);
     const endTime = new Date(startTime.getTime() + scenario.duration * 60000);
 
+    // Determine source based on assistant type - Phone assistants create phone bookings
+    let bookingSource = sources[Math.floor(Math.random() * sources.length)];
+    
+    // If assistant name or type suggests it's a phone assistant, bias towards phone bookings
+    if (assistant.name.toLowerCase().includes('phone') || 
+        assistant.type?.toLowerCase().includes('voice') ||
+        assistant.type?.toLowerCase().includes('phone')) {
+      bookingSource = Math.random() < 0.8 ? 'phone' : 'website'; // 80% phone, 20% website
+    }
+    // If assistant suggests website/chat, bias towards website
+    else if (assistant.name.toLowerCase().includes('website') || 
+             assistant.name.toLowerCase().includes('chat') ||
+             assistant.type?.toLowerCase().includes('chat')) {
+      bookingSource = Math.random() < 0.8 ? 'website' : 'phone'; // 80% website, 20% phone
+    }
+
     bookings.push({
       assistant_id: assistant.id,
       title: scenario.title,
@@ -132,7 +149,7 @@ export const generateSimulatedBookings = async (assistants: Array<{ id: string; 
       customer_phone: customer.phone,
       customer_email: customer.email,
       status: getRandomStatus(),
-      source: sources[Math.floor(Math.random() * sources.length)],
+      source: bookingSource,
       timezone: 'UTC',
       notes: scenario.notes
     });
@@ -173,7 +190,7 @@ export const clearSimulatedBookings = async () => {
     .from('bookings')
     .delete()
     .eq('user_id', user.user.id)
-    .in('source', sources); // Only delete simulated bookings by source
+    .in('source', ['phone', 'website']); // Only delete simulated bookings by source
 
   if (error) throw error;
 };
