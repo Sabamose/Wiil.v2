@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Input } from '@/components/ui/input';
 import { Search, Filter, Phone, Mail } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { format } from 'date-fns';
 
 const localizer = momentLocalizer(moment);
 
@@ -267,6 +268,35 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
                   {label}
                 </div>
               ),
+              agenda: {
+                event: ({ event }) => {
+                  const booking = event.resource;
+                  const assistantName = assistants.find(a => a.id === booking.assistant_id)?.name || 'Assistant';
+                  const sourceIcon = booking.source === 'phone' ? '📞' : '💻';
+                  const statusIcon = booking.status === 'confirmed' ? '✅' : booking.status === 'pending' ? '⏰' : booking.status === 'completed' ? '🎉' : '❌';
+                  
+                  return (
+                    <div className="flex items-center justify-between p-3 hover:bg-muted/50 cursor-pointer border-b border-border/50" onClick={() => onBookingSelect(booking)}>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="font-semibold text-foreground">{booking.title}</span>
+                          <span className="text-xs">{statusIcon}</span>
+                        </div>
+                        <div className="text-sm text-muted-foreground">{booking.customer_name}</div>
+                      </div>
+                      <div className="text-right">
+                        <div className="flex items-center gap-1 text-xs text-muted-foreground mb-1">
+                          <span>{sourceIcon}</span>
+                          <span>{assistantName}</span>
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          {format(new Date(booking.start_time), 'h:mm a')}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+              }
             }}
             onSelectEvent={(event) => onBookingSelect(event.resource)}
             className="rbc-calendar-clean"
