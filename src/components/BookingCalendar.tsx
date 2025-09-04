@@ -450,51 +450,70 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
           </div>
         </div>
         
-        <div className="grid grid-cols-[60px_1fr] bg-white border border-gray-200 rounded-lg overflow-hidden">
-          <div className="bg-gray-50">
-            {hours.map(hour => (
-              <div key={hour} className="h-20 border-b border-gray-200 flex items-start justify-end pr-2 pt-1">
-                <span className="text-xs text-gray-500">
-                  {hour === 0 ? '12 AM' : hour <= 12 ? `${hour} AM` : `${hour - 12} PM`}
-                </span>
-              </div>
-            ))}
+        {dayBookings.length === 0 ? (
+          <div className="text-center py-12 bg-gray-50 rounded-lg">
+            <div className="text-gray-500 text-lg">No appointments on this day</div>
+            <div className="text-gray-400 text-sm mt-2">Try selecting a different day or check your filters</div>
           </div>
-          
-          <div className="relative">
-            {hours.map(hour => (
-              <div key={hour} className="h-20 border-b border-gray-200"></div>
-            ))}
-            
-            {dayBookings.map(booking => {
-              const startTime = new Date(booking.start_time);
-              const hour = startTime.getHours();
-              const minute = startTime.getMinutes();
-              const top = ((hour - 6) * 80) + (minute * 80 / 60);
-              const SourceIcon = getSourceIcon(booking.source);
-              
-              return (
-                <div
-                  key={booking.id}
-                  onClick={() => onBookingSelect(booking)}
-                  className={`absolute left-1 right-1 p-2 rounded cursor-pointer ${
-                    booking.status === 'pending' ? 'bg-amber-100 text-amber-800 border-amber-300' : 'bg-teal-100 text-teal-800 border-teal-300'
-                  } border-l-4`}
-                  style={{ top: `${top}px`, minHeight: '60px' }}
-                >
-                  <div className="flex items-center space-x-1 mb-1">
-                    <SourceIcon className="w-3 h-3 flex-shrink-0" />
-                    <span className="font-medium text-sm">{booking.title}</span>
-                  </div>
-                  <div className="text-xs">{booking.customer_name}</div>
-                  <div className="text-xs opacity-75">
-                    {startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </div>
+        ) : (
+          <div className="grid grid-cols-[60px_1fr] bg-white border border-gray-200 rounded-lg overflow-hidden">
+            <div className="bg-gray-50">
+              {hours.map(hour => (
+                <div key={hour} className="h-20 border-b border-gray-200 flex items-start justify-end pr-2 pt-1">
+                  <span className="text-xs text-gray-500">
+                    {hour === 0 ? '12 AM' : hour <= 12 ? `${hour} AM` : `${hour - 12} PM`}
+                  </span>
                 </div>
-              );
-            })}
+              ))}
+            </div>
+            
+            <div className="relative">
+              {hours.map(hour => (
+                <div key={hour} className="h-20 border-b border-gray-200"></div>
+              ))}
+              
+              {dayBookings.map(booking => {
+                const startTime = new Date(booking.start_time);
+                const hour = startTime.getHours();
+                const minute = startTime.getMinutes();
+                
+                // Adjust positioning to handle bookings outside 6-22 hour range
+                let top = 0;
+                if (hour >= 6 && hour < 22) {
+                  top = ((hour - 6) * 80) + (minute * 80 / 60);
+                } else if (hour < 6) {
+                  // Show early bookings at the top
+                  top = 0;
+                } else {
+                  // Show late bookings at the bottom
+                  top = 15 * 80; // Near bottom of the calendar
+                }
+                
+                const SourceIcon = getSourceIcon(booking.source);
+                
+                return (
+                  <div
+                    key={booking.id}
+                    onClick={() => onBookingSelect(booking)}
+                    className={`absolute left-1 right-1 p-2 rounded cursor-pointer ${
+                      booking.status === 'pending' ? 'bg-amber-100 text-amber-800 border-amber-300' : 'bg-teal-100 text-teal-800 border-teal-300'
+                    } border-l-4`}
+                    style={{ top: `${top}px`, minHeight: '60px' }}
+                  >
+                    <div className="flex items-center space-x-1 mb-1">
+                      <SourceIcon className="w-3 h-3 flex-shrink-0" />
+                      <span className="font-medium text-sm">{booking.title}</span>
+                    </div>
+                    <div className="text-xs">{booking.customer_name}</div>
+                    <div className="text-xs opacity-75">
+                      {startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     );
   };
