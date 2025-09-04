@@ -98,44 +98,96 @@ const Bookings = () => {
         isMobile ? 'ml-0' : (isHome ? 'ml-60' : (isCollapsed ? 'ml-20' : 'ml-60'))
       } mt-16 p-4 md:p-8 relative animate-fade-in bg-[linear-gradient(to_right,rgba(13,148,136,0.06)_1px,transparent_1px)] bg-[size:24px_100%]`}>
         <div className="mb-8">
-          <h1 className="text-2xl font-semibold text-brand-teal">Bookings</h1>
-          <div className="h-1 w-20 bg-gradient-to-r from-brand-teal to-brand-teal/60 rounded-full mb-2" />
-          <p className="text-muted-foreground">Manage bookings made by AI assistants</p>
+          <h1 className="text-3xl font-bold text-brand-teal">Appointments Made by AI Assistants</h1>
+          <div className="h-1 w-24 bg-gradient-to-r from-brand-teal to-brand-teal/60 rounded-full mb-3" />
+          <p className="text-lg text-muted-foreground">Monitor appointments scheduled by your phone and website assistants</p>
         </div>
 
-        {/* Summary Cards */}
+        {/* Context Cards */}
+        <div className="mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-brand-teal/10 border border-brand-teal/20 rounded-lg p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-2 h-2 bg-brand-teal rounded-full animate-pulse"></div>
+              <span className="text-sm font-medium text-brand-teal">Your assistants booked {bookings.filter(b => {
+                const today = new Date().toDateString();
+                const bookingDate = new Date(b.start_time).toDateString();
+                return today === bookingDate;
+              }).length} appointments today</span>
+            </div>
+          </div>
+          
+          <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-2 h-2 bg-amber-500 rounded-full"></div>
+              <span className="text-sm font-medium text-amber-700">{bookings.filter(b => b.status === 'pending').length} customers waiting for confirmation</span>
+            </div>
+          </div>
+          
+          <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+              <span className="text-sm font-medium text-emerald-700">{confirmedBookings.length} appointments confirmed & ready</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Enhanced Summary Cards */}
         <div className="flex justify-center mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl">
             <Card className="border-border/50 hover:shadow-lg transition-all duration-300 hover:border-brand-teal/20">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Today's Bookings</CardTitle>
-                <Calendar className="h-4 w-4 text-brand-teal" />
+                <CardTitle className="text-sm font-medium">Today's Appointments</CardTitle>
+                <Calendar className="h-5 w-5 text-brand-teal" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{todaysBookings.length}</div>
-                <p className="text-xs text-muted-foreground">Scheduled for today</p>
+                <div className="text-3xl font-bold text-brand-teal">{todaysBookings.length}</div>
+                <p className="text-xs text-muted-foreground">Booked by AI assistants today</p>
+                {todaysBookings.length > 0 && (
+                  <div className="mt-2 text-xs text-emerald-600 font-medium">↑ Active day</div>
+                )}
               </CardContent>
             </Card>
             
             <Card className="border-border/50 hover:shadow-lg transition-all duration-300 hover:border-brand-teal/20">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Total Bookings</CardTitle>
-                <Users className="h-4 w-4 text-brand-teal" />
+                <CardTitle className="text-sm font-medium">Total Appointments</CardTitle>
+                <Users className="h-5 w-5 text-brand-teal" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{bookings.length}</div>
-                <p className="text-xs text-muted-foreground">All appointments</p>
+                <div className="text-3xl font-bold text-brand-teal">{bookings.length}</div>
+                <p className="text-xs text-muted-foreground">All time bookings</p>
+                <div className="mt-2 flex gap-2 text-xs">
+                  <span className="text-blue-600">📞 {bookings.filter(b => b.source === 'phone').length}</span>
+                  <span className="text-purple-600">💻 {bookings.filter(b => b.source === 'website').length}</span>
+                </div>
               </CardContent>
             </Card>
 
             <Card className="border-border/50 hover:shadow-lg transition-all duration-300 hover:border-brand-teal/20">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Confirmed</CardTitle>
-                <Phone className="h-4 w-4 text-brand-teal" />
+                <CardTitle className="text-sm font-medium">Customer Confirmed</CardTitle>
+                <Phone className="h-5 w-5 text-emerald-600" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{confirmedBookings.length}</div>
+                <div className="text-3xl font-bold text-emerald-600">{confirmedBookings.length}</div>
                 <p className="text-xs text-muted-foreground">Ready to go</p>
+                {confirmedBookings.length > 0 && (
+                  <div className="mt-2 text-xs text-emerald-600 font-medium">✓ All set</div>
+                )}
+              </CardContent>
+            </Card>
+
+            <Card className="border-border/50 hover:shadow-lg transition-all duration-300 hover:border-amber-200">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Needs Follow-up</CardTitle>
+                <div className="h-5 w-5 text-amber-600">⏰</div>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-amber-600">{bookings.filter(b => b.status === 'pending').length}</div>
+                <p className="text-xs text-muted-foreground">Waiting for confirmation</p>
+                {bookings.filter(b => b.status === 'pending').length > 0 && (
+                  <div className="mt-2 text-xs text-amber-600 font-medium">⚡ Action needed</div>
+                )}
               </CardContent>
             </Card>
           </div>

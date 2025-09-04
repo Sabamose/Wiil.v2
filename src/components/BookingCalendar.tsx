@@ -92,26 +92,59 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
 
   const EventComponent = ({ event }: { event: CalendarEvent }) => {
     const booking = event.resource;
+    const assistantName = assistants.find(a => a.id === booking.assistant_id)?.name || 'Assistant';
+    const sourceIcon = booking.source === 'phone' ? '📞' : '💻';
+    
     return (
-      <div className="p-1 text-xs hover:bg-white/20 hover:scale-105 transition-all duration-200 rounded cursor-pointer">
-        <div className="font-medium truncate">{booking.title}</div>
-        {booking.customer_name && (
-          <div className="truncate opacity-90 hover:opacity-100 transition-opacity duration-200">{booking.customer_name}</div>
-        )}
+      <div className="p-2 text-xs hover:bg-white/20 hover:scale-105 transition-all duration-200 rounded cursor-pointer">
+        <div className="font-semibold truncate text-white">{booking.title}</div>
+        <div className="truncate opacity-90 text-white/90 mt-1">{booking.customer_name}</div>
+        <div className="flex items-center gap-1 mt-1 text-white/80">
+          <span>{sourceIcon}</span>
+          <span className="truncate text-[10px]">{assistantName}</span>
+        </div>
       </div>
     );
   };
 
   return (
     <div className="space-y-6">
-      {/* Filters */}
+      {/* Business-Friendly Filters */}
       <Card className="p-4 bg-gradient-to-r from-background to-muted/10 border-border/50">
         <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
-          <div className="flex flex-col sm:flex-row gap-3 flex-1">
+          {/* Quick Filter Buttons */}
+          <div className="flex flex-wrap gap-2">
+            <Button
+              variant={selectedStatus === 'pending' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setSelectedStatus(selectedStatus === 'pending' ? 'all' : 'pending')}
+              className="bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100"
+            >
+              ⚡ Needs Follow-up
+            </Button>
+            <Button
+              variant={searchTerm.includes('phone') ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setSearchTerm(searchTerm.includes('phone') ? '' : 'phone')}
+              className="bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100"
+            >
+              📞 Phone Bookings
+            </Button>
+            <Button
+              variant={searchTerm.includes('website') ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setSearchTerm(searchTerm.includes('website') ? '' : 'website')}
+              className="bg-purple-50 text-purple-700 border-purple-200 hover:bg-purple-100"
+            >
+              💻 Website Bookings
+            </Button>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-3 flex-1 max-w-2xl">
             <div className="relative flex-1 max-w-sm">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
               <Input
-                placeholder="Search bookings..."
+                placeholder="Search customer names or appointments..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-9"
@@ -119,12 +152,12 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
             </div>
             
             <Select value={selectedAssistant} onValueChange={setSelectedAssistant}>
-              <SelectTrigger className="w-full sm:w-[180px]">
-                <Filter className="h-4 w-4 mr-2" />
-                <SelectValue placeholder="Assistant" />
+              <SelectTrigger className="w-full sm:w-[200px]">
+                <span className="mr-2">🤖</span>
+                <SelectValue placeholder="Which Assistant?" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Assistants</SelectItem>
+                <SelectItem value="all">All AI Assistants</SelectItem>
                 {assistants.map((assistant) => (
                   <SelectItem key={assistant.id} value={assistant.id}>
                     {assistant.name}
@@ -134,15 +167,15 @@ export const BookingCalendar: React.FC<BookingCalendarProps> = ({
             </Select>
 
             <Select value={selectedStatus} onValueChange={setSelectedStatus}>
-              <SelectTrigger className="w-full sm:w-[140px]">
-                <SelectValue placeholder="Status" />
+              <SelectTrigger className="w-full sm:w-[160px]">
+                <SelectValue placeholder="Appointment Status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="confirmed">Confirmed</SelectItem>
-                <SelectItem value="pending">Pending</SelectItem>
-                <SelectItem value="completed">Completed</SelectItem>
-                <SelectItem value="cancelled">Cancelled</SelectItem>
+                <SelectItem value="all">All Statuses</SelectItem>
+                <SelectItem value="confirmed">✅ Customer Confirmed</SelectItem>
+                <SelectItem value="pending">⏰ Needs Confirmation</SelectItem>
+                <SelectItem value="completed">🎉 Appointment Done</SelectItem>
+                <SelectItem value="cancelled">❌ Cancelled</SelectItem>
               </SelectContent>
             </Select>
           </div>
